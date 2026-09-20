@@ -29,6 +29,7 @@ import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.AnswerDetails
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 
 import com.squareup.moshi.Json
 
@@ -153,7 +154,9 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
          @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus");
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -217,18 +220,19 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * Successful prompt-execution responses with truncated content (max 10,000 chars). Pass &#x60;query&#x60; for case-insensitive full-text search inside response texts: &#x60;total&#x60; becomes the exact count of matching responses and each item returns &#x60;snippet&#x60; + &#x60;match_count&#x60; instead of &#x60;response&#x60;/&#x60;response_truncated&#x60;.
      * @param projectId Project ID
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
      * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param query Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
+     * @param noResult Filter sentinel non-answers (provider returned nothing after retries; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag. (optional)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -237,8 +241,8 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAnswers(projectId: kotlin.Int, model: ModelListAnswers? = null, collectionId: kotlin.Int? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, mentionFilter: MentionFilterListAnswers? = null, citationFilter: CitationFilterListAnswers? = null, competitors: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, query: kotlin.String? = null) : Unit {
-        val localVarResponse = listAnswersWithHttpInfo(projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, from = from, to = to, page = page, perPage = perPage, query = query)
+    fun listAnswers(projectId: kotlin.Int, model: ModelListAnswers? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, mentionFilter: MentionFilterListAnswers? = null, citationFilter: CitationFilterListAnswers? = null, competitors: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, query: kotlin.String? = null, noResult: kotlin.Boolean? = null) : Unit {
+        val localVarResponse = listAnswersWithHttpInfo(projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, from = from, to = to, page = page, perPage = perPage, query = query, noResult = noResult)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -261,25 +265,26 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * Successful prompt-execution responses with truncated content (max 10,000 chars). Pass &#x60;query&#x60; for case-insensitive full-text search inside response texts: &#x60;total&#x60; becomes the exact count of matching responses and each item returns &#x60;snippet&#x60; + &#x60;match_count&#x60; instead of &#x60;response&#x60;/&#x60;response_truncated&#x60;.
      * @param projectId Project ID
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
      * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param query Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
+     * @param noResult Filter sentinel non-answers (provider returned nothing after retries; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag. (optional)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAnswersWithHttpInfo(projectId: kotlin.Int, model: ModelListAnswers?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, mentionFilter: MentionFilterListAnswers?, citationFilter: CitationFilterListAnswers?, competitors: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?, query: kotlin.String?) : ApiResponse<Unit?> {
-        val localVariableConfig = listAnswersRequestConfig(projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, from = from, to = to, page = page, perPage = perPage, query = query)
+    fun listAnswersWithHttpInfo(projectId: kotlin.Int, model: ModelListAnswers?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, mentionFilter: MentionFilterListAnswers?, citationFilter: CitationFilterListAnswers?, competitors: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?, query: kotlin.String?, noResult: kotlin.Boolean?) : ApiResponse<Unit?> {
+        val localVariableConfig = listAnswersRequestConfig(projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, from = from, to = to, page = page, perPage = perPage, query = query, noResult = noResult)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -291,21 +296,22 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      *
      * @param projectId Project ID
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
      * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param query Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
+     * @param noResult Filter sentinel non-answers (provider returned nothing after retries; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag. (optional)
      * @return RequestConfig
      */
-    fun listAnswersRequestConfig(projectId: kotlin.Int, model: ModelListAnswers?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, mentionFilter: MentionFilterListAnswers?, citationFilter: CitationFilterListAnswers?, competitors: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?, query: kotlin.String?) : RequestConfig<Unit> {
+    fun listAnswersRequestConfig(projectId: kotlin.Int, model: ModelListAnswers?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, mentionFilter: MentionFilterListAnswers?, citationFilter: CitationFilterListAnswers?, competitors: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?, query: kotlin.String?, noResult: kotlin.Boolean?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -314,7 +320,6 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
-                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -348,6 +353,9 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                 }
                 if (query != null) {
                     put("query", listOf(query.toString()))
+                }
+                if (noResult != null) {
+                    put("no_result", listOf(noResult.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

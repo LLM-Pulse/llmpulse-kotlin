@@ -22,6 +22,8 @@
 | **estimatedTime** | **kotlin.String** |  |  [optional] |
 | **createdAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **processedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
+| **manuallyEditedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) | When the content was last edited by hand; null while the output is as generated |  [optional] |
+| **editedByUserId** | **kotlin.Int** | User behind the last manual edit; null for an unedited task or an edit made from an embedded portal |  [optional] |
 | **requestId** | **kotlin.String** |  |  [optional] |
 
 

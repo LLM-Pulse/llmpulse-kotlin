@@ -28,7 +28,7 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
-import ai.llmpulse.sdk.models.CreateTechnicalGeoReportsRequest
+import ai.llmpulse.sdk.models.GetAccount200Response
 
 import com.squareup.moshi.Json
 
@@ -46,7 +46,7 @@ import ai.llmpulse.sdk.infrastructure.ResponseType
 import ai.llmpulse.sdk.infrastructure.Success
 import ai.llmpulse.sdk.infrastructure.toMultiValue
 
-open class ReportsApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
+open class AccountApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -55,23 +55,23 @@ open class ReportsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
     }
 
     /**
-     * POST /technical_geo_reports
-     * Run technical GEO analysis
-     * Launches the full technical GEO analysis bundle (crawlability, schema, content readiness, discoverability, site structure, robots.txt, llms.txt, AI visibility) for a URL + country. Each report runs in a background job. Requires a &#x60;read_write&#x60; scope API key.
-     * @param createTechnicalGeoReportsRequest 
-     * @return void
+     * GET /account
+     * Account plan, quota usage and rate limits
+     * Returns the account plan, tracking cadence, subscription window, how much of each quota is used (prompts, projects, competitors per project, monthly GEO Writer tasks, team members) and the published API rate limits. Limits resolve through the account owner, so a team member sees the capacity that applies to them. An unlimited quota returns limit and remaining as null with unlimited set to true, since Infinity is not representable in JSON. The subscription block is only present for callers who can access Billing and Plans in the app (the account owner, or a team member with billing access); everyone else gets the same response without that key. requests_per_minute is the ceiling of the key used for the call, not a fixed number.
+     * @return GetAccount200Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createTechnicalGeoReports(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest) : Unit {
-        val localVarResponse = createTechnicalGeoReportsWithHttpInfo(createTechnicalGeoReportsRequest = createTechnicalGeoReportsRequest)
+    fun getAccount() : GetAccount200Response {
+        val localVarResponse = getAccountWithHttpInfo()
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as GetAccount200Response
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -86,39 +86,37 @@ open class ReportsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
     }
 
     /**
-     * POST /technical_geo_reports
-     * Run technical GEO analysis
-     * Launches the full technical GEO analysis bundle (crawlability, schema, content readiness, discoverability, site structure, robots.txt, llms.txt, AI visibility) for a URL + country. Each report runs in a background job. Requires a &#x60;read_write&#x60; scope API key.
-     * @param createTechnicalGeoReportsRequest 
-     * @return ApiResponse<Unit?>
+     * GET /account
+     * Account plan, quota usage and rate limits
+     * Returns the account plan, tracking cadence, subscription window, how much of each quota is used (prompts, projects, competitors per project, monthly GEO Writer tasks, team members) and the published API rate limits. Limits resolve through the account owner, so a team member sees the capacity that applies to them. An unlimited quota returns limit and remaining as null with unlimited set to true, since Infinity is not representable in JSON. The subscription block is only present for callers who can access Billing and Plans in the app (the account owner, or a team member with billing access); everyone else gets the same response without that key. requests_per_minute is the ceiling of the key used for the call, not a fixed number.
+     * @return ApiResponse<GetAccount200Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createTechnicalGeoReportsWithHttpInfo(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest) : ApiResponse<Unit?> {
-        val localVariableConfig = createTechnicalGeoReportsRequestConfig(createTechnicalGeoReportsRequest = createTechnicalGeoReportsRequest)
+    fun getAccountWithHttpInfo() : ApiResponse<GetAccount200Response?> {
+        val localVariableConfig = getAccountRequestConfig()
 
-        return request<CreateTechnicalGeoReportsRequest, Unit>(
+        return request<Unit, GetAccount200Response>(
             localVariableConfig
         )
     }
 
     /**
-     * To obtain the request config of the operation createTechnicalGeoReports
+     * To obtain the request config of the operation getAccount
      *
-     * @param createTechnicalGeoReportsRequest 
      * @return RequestConfig
      */
-    fun createTechnicalGeoReportsRequestConfig(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest) : RequestConfig<CreateTechnicalGeoReportsRequest> {
-        val localVariableBody = createTechnicalGeoReportsRequest
+    fun getAccountRequestConfig() : RequestConfig<Unit> {
+        val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
-            method = RequestMethod.POST,
-            path = "/technical_geo_reports",
+            method = RequestMethod.GET,
+            path = "/account",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

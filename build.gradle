@@ -1,5 +1,5 @@
 group 'ai.llmpulse'
-version '1.22.0'
+version '1.46.0'
 
 wrapper {
     gradleVersion = '8.14.3'
@@ -70,7 +70,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'ai.llmpulse'
             artifactId = 'llmpulse-kotlin'
-            version = '1.22.0'
+            version = '1.46.0'
             from components.java
         }
     }

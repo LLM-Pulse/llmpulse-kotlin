@@ -58,7 +58,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * POST /annotations
      * Create a timeline annotation
-     * Marks a date in the project timeseries with a title + description. Requires the **Growth** plan or above. Requires a &#x60;read_write&#x60; scope API key.
+     * Marks a date in the project timeseries with a title + description. Available on every plan. Requires a &#x60;read_write&#x60; scope API key.
      * @param createAnnotationRequest 
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
@@ -89,7 +89,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * POST /annotations
      * Create a timeline annotation
-     * Marks a date in the project timeseries with a title + description. Requires the **Growth** plan or above. Requires a &#x60;read_write&#x60; scope API key.
+     * Marks a date in the project timeseries with a title + description. Available on every plan. Requires a &#x60;read_write&#x60; scope API key.
      * @param createAnnotationRequest 
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -130,7 +130,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * DELETE /annotations/{id}
      * Delete a timeline annotation
-     * Deletes an annotation. Same ownership rule as PATCH. Requires the **Growth** plan or above and a &#x60;read_write&#x60; scope API key.
+     * Deletes an annotation. Same ownership rule as PATCH. Available on every plan and requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param projectId Project ID
      * @return void
@@ -162,7 +162,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * DELETE /annotations/{id}
      * Delete a timeline annotation
-     * Deletes an annotation. Same ownership rule as PATCH. Requires the **Growth** plan or above and a &#x60;read_write&#x60; scope API key.
+     * Deletes an annotation. Same ownership rule as PATCH. Available on every plan and requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param projectId Project ID
      * @return ApiResponse<Unit?>
@@ -207,7 +207,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * GET /annotations
      * List timeline annotations
-     * Lists the project timeline annotations (user-created + system), newest first. The category field tells them apart; editable says whether the requesting user may modify the row. Requires the **Growth** plan or above.
+     * Lists project timeline annotations, newest first. Rows can come from manual notes, project automations, GEO tests, or platform events. The origin field distinguishes them; editable says whether the requesting user may modify the row. Available on every plan.
      * @param projectId Project ID
      * @param from  (optional)
      * @param to  (optional)
@@ -243,7 +243,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * GET /annotations
      * List timeline annotations
-     * Lists the project timeline annotations (user-created + system), newest first. The category field tells them apart; editable says whether the requesting user may modify the row. Requires the **Growth** plan or above.
+     * Lists project timeline annotations, newest first. Rows can come from manual notes, project automations, GEO tests, or platform events. The origin field distinguishes them; editable says whether the requesting user may modify the row. Available on every plan.
      * @param projectId Project ID
      * @param from  (optional)
      * @param to  (optional)
@@ -311,7 +311,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * PATCH /annotations/{id}
      * Update a timeline annotation
-     * Updates title, description, annotation_date, color and/or annotation_category_id. Only user-created annotations belonging to the requesting user can be updated (system annotations never). Requires the **Growth** plan or above and a &#x60;read_write&#x60; scope API key.
+     * Updates title, description, annotation_date, color and/or annotation_category_id. Only user-created annotations belonging to the requesting user can be updated (system annotations never). Available on every plan and requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateAnnotationRequest 
      * @return void
@@ -343,7 +343,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * PATCH /annotations/{id}
      * Update a timeline annotation
-     * Updates title, description, annotation_date, color and/or annotation_category_id. Only user-created annotations belonging to the requesting user can be updated (system annotations never). Requires the **Growth** plan or above and a &#x60;read_write&#x60; scope API key.
+     * Updates title, description, annotation_date, color and/or annotation_category_id. Only user-created annotations belonging to the requesting user can be updated (system annotations never). Available on every plan and requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateAnnotationRequest 
      * @return ApiResponse<Unit?>

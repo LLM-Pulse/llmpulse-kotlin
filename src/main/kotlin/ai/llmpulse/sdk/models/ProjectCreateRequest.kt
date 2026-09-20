@@ -39,6 +39,12 @@ import com.squareup.moshi.JsonClass
  * @param brandName 
  * @param description 
  * @param industry 
+ * @param businessModel Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected
+ * @param businessModelOther Free-text business model, only accepted when business_model is OTHER; rejected against any other key
+ * @param targetAudience Who the brand sells to. Context for Recommendations and GEO Writer (Brand Book)
+ * @param brandVoice Tone of voice guidance for generated content (Brand Book)
+ * @param goals What the brand wants to achieve. Context for GEO Writer and prompt suggestions
+ * @param primaryProducts Main products or services
  * @param matchingNames 
  * @param prompts 
  * @param competitors 
@@ -73,6 +79,30 @@ data class ProjectCreateRequest (
 
     @Json(name = "industry")
     val industry: kotlin.collections.List<kotlin.String>? = null,
+
+    /* Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected */
+    @Json(name = "business_model")
+    val businessModel: kotlin.String? = null,
+
+    /* Free-text business model, only accepted when business_model is OTHER; rejected against any other key */
+    @Json(name = "business_model_other")
+    val businessModelOther: kotlin.String? = null,
+
+    /* Who the brand sells to. Context for Recommendations and GEO Writer (Brand Book) */
+    @Json(name = "target_audience")
+    val targetAudience: kotlin.String? = null,
+
+    /* Tone of voice guidance for generated content (Brand Book) */
+    @Json(name = "brand_voice")
+    val brandVoice: kotlin.String? = null,
+
+    /* What the brand wants to achieve. Context for GEO Writer and prompt suggestions */
+    @Json(name = "goals")
+    val goals: kotlin.String? = null,
+
+    /* Main products or services */
+    @Json(name = "primary_products")
+    val primaryProducts: kotlin.collections.List<kotlin.String>? = null,
 
     @Json(name = "matching_names")
     val matchingNames: kotlin.collections.List<kotlin.String>? = null,

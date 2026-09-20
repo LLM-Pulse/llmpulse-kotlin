@@ -206,7 +206,7 @@ try {
 ```
 
 ### Parameters
-| **eventType** | **kotlin.String**|  | [enum: mention.created, competitor_mention.created, citation.created, prompt_execution.completed, sentiment.negative_detected, recommendation.completed, intelligence_task.completed] |
+| **eventType** | **kotlin.String**|  | [enum: mention.created, competitor_mention.created, citation.created, prompt_execution.completed, sentiment.negative_detected, recommendation.completed, intelligence_task.completed, intelligence_task.updated] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **projectId** | **kotlin.Int**|  | |

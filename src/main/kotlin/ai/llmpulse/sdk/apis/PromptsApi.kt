@@ -28,7 +28,7 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
-import ai.llmpulse.sdk.models.AssignPromptTagsRequest
+import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 import ai.llmpulse.sdk.models.PromptsCreateRequest
 import ai.llmpulse.sdk.models.PromptsCreateResponse
 
@@ -54,78 +54,6 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "https://api.llmpulse.ai/api/v1")
         }
-    }
-
-    /**
-     * POST /prompts/assign_tags
-     * Bulk-attach tags to prompts
-     * Idempotent bulk assignment of tags (Collections) to existing prompts. Tags can be resolved by id or by name (case-insensitive). Use &#x60;create_missing: true&#x60; to auto-create unknown tag names. Requires a &#x60;read_write&#x60; scope API key.
-     * @param assignPromptTagsRequest 
-     * @return void
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     * @throws UnsupportedOperationException If the API returns an informational or redirection response
-     * @throws ClientException If the API returns a client error response
-     * @throws ServerException If the API returns a server error response
-     */
-    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun assignPromptTags(assignPromptTagsRequest: AssignPromptTagsRequest) : Unit {
-        val localVarResponse = assignPromptTagsWithHttpInfo(assignPromptTagsRequest = assignPromptTagsRequest)
-
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
-            }
-        }
-    }
-
-    /**
-     * POST /prompts/assign_tags
-     * Bulk-attach tags to prompts
-     * Idempotent bulk assignment of tags (Collections) to existing prompts. Tags can be resolved by id or by name (case-insensitive). Use &#x60;create_missing: true&#x60; to auto-create unknown tag names. Requires a &#x60;read_write&#x60; scope API key.
-     * @param assignPromptTagsRequest 
-     * @return ApiResponse<Unit?>
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     */
-    @Throws(IllegalStateException::class, IOException::class)
-    fun assignPromptTagsWithHttpInfo(assignPromptTagsRequest: AssignPromptTagsRequest) : ApiResponse<Unit?> {
-        val localVariableConfig = assignPromptTagsRequestConfig(assignPromptTagsRequest = assignPromptTagsRequest)
-
-        return request<AssignPromptTagsRequest, Unit>(
-            localVariableConfig
-        )
-    }
-
-    /**
-     * To obtain the request config of the operation assignPromptTags
-     *
-     * @param assignPromptTagsRequest 
-     * @return RequestConfig
-     */
-    fun assignPromptTagsRequestConfig(assignPromptTagsRequest: AssignPromptTagsRequest) : RequestConfig<AssignPromptTagsRequest> {
-        val localVariableBody = assignPromptTagsRequest
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Content-Type"] = "application/json"
-        localVariableHeaders["Accept"] = "application/json"
-
-        return RequestConfig(
-            method = RequestMethod.POST,
-            path = "/prompts/assign_tags",
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            requiresAuthentication = true,
-            body = localVariableBody
-        )
     }
 
     /**
@@ -272,6 +200,741 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/prompts/{id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter model
+     */
+     enum class ModelListPromptExecutions(val value: kotlin.String) {
+         @Json(name = "chatgpt") chatgpt("chatgpt"),
+         @Json(name = "perplexity") perplexity("perplexity"),
+         @Json(name = "gemini") gemini("gemini"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "claude") claude("claude"),
+         @Json(name = "grok") grok("grok"),
+         @Json(name = "deepseek") deepseek("deepseek"),
+         @Json(name = "meta_ai") meta_ai("meta_ai"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter mentionFilter
+     */
+     enum class MentionFilterListPromptExecutions(val value: kotlin.String) {
+         @Json(name = "mentions_you") mentions_you("mentions_you"),
+         @Json(name = "not_mentions_you") not_mentions_you("not_mentions_you"),
+         @Json(name = "mentions_competitor") mentions_competitor("mentions_competitor"),
+         @Json(name = "not_mentions_competitor") not_mentions_competitor("not_mentions_competitor"),
+         @Json(name = "you_and_competitor") you_and_competitor("you_and_competitor"),
+         @Json(name = "competitor_not_you") competitor_not_you("competitor_not_you"),
+         @Json(name = "you_not_competitor") you_not_competitor("you_not_competitor"),
+         @Json(name = "no_brands") no_brands("no_brands");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter citationFilter
+     */
+     enum class CitationFilterListPromptExecutions(val value: kotlin.String) {
+         @Json(name = "cites_you") cites_you("cites_you"),
+         @Json(name = "not_cites_you") not_cites_you("not_cites_you"),
+         @Json(name = "cites_competitor") cites_competitor("cites_competitor"),
+         @Json(name = "not_cites_competitor") not_cites_competitor("not_cites_competitor"),
+         @Json(name = "you_and_competitor") you_and_competitor("you_and_competitor"),
+         @Json(name = "competitor_not_you") competitor_not_you("competitor_not_you"),
+         @Json(name = "you_not_competitor") you_not_competitor("you_not_competitor"),
+         @Json(name = "cites_no_brands") cites_no_brands("cites_no_brands");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputListPromptExecutions(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /dimensions/prompt_executions
+     * List prompt executions
+     * 
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
+     * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
+     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listPromptExecutions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPromptExecutions? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, mentionFilter: MentionFilterListPromptExecutions? = null, citationFilter: CitationFilterListPromptExecutions? = null, competitors: kotlin.String? = null, output: OutputListPromptExecutions? = null) : Unit {
+        val localVarResponse = listPromptExecutionsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /dimensions/prompt_executions
+     * List prompt executions
+     * 
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
+     * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
+     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listPromptExecutionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?) : ApiResponse<Unit?> {
+        val localVariableConfig = listPromptExecutionsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, output = output)
+
+        return request<Unit, Unit>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listPromptExecutions
+     *
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
+     * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
+     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun listPromptExecutionsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (model != null) {
+                    put("model", listOf(model.value))
+                }
+                if (collectionId != null) {
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (prompt != null) {
+                    put("prompt", listOf(prompt.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+                if (mentionFilter != null) {
+                    put("mention_filter", listOf(mentionFilter.value))
+                }
+                if (citationFilter != null) {
+                    put("citation_filter", listOf(citationFilter.value))
+                }
+                if (competitors != null) {
+                    put("competitors", listOf(competitors.toString()))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/dimensions/prompt_executions",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter model
+     */
+     enum class ModelListPrompts(val value: kotlin.String) {
+         @Json(name = "chatgpt") chatgpt("chatgpt"),
+         @Json(name = "perplexity") perplexity("perplexity"),
+         @Json(name = "gemini") gemini("gemini"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "claude") claude("claude"),
+         @Json(name = "grok") grok("grok"),
+         @Json(name = "deepseek") deepseek("deepseek"),
+         @Json(name = "meta_ai") meta_ai("meta_ai"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListPrompts(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputListPrompts(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /dimensions/prompts
+     * List prompts
+     * 
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listPrompts(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPrompts? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListPrompts? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListPrompts? = null) : Unit {
+        val localVarResponse = listPromptsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, from = from, to = to, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /dimensions/prompts
+     * List prompts
+     * 
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listPromptsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : ApiResponse<Unit?> {
+        val localVariableConfig = listPromptsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, from = from, to = to, output = output)
+
+        return request<Unit, Unit>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listPrompts
+     *
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun listPromptsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (model != null) {
+                    put("model", listOf(model.value))
+                }
+                if (collectionId != null) {
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/dimensions/prompts",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter view
+     */
+     enum class ViewListQueryFanOuts(val value: kotlin.String) {
+         @Json(name = "query") query("query"),
+         @Json(name = "prompt") prompt("prompt");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter order
+     */
+     enum class OrderListQueryFanOuts(val value: kotlin.String) {
+         @Json(name = "count") count("count"),
+         @Json(name = "share") share("share"),
+         @Json(name = "query_text") query_text("query_text"),
+         @Json(name = "total_count") total_count("total_count"),
+         @Json(name = "variations_count") variations_count("variations_count"),
+         @Json(name = "prompt_text") prompt_text("prompt_text");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter direction
+     */
+     enum class DirectionListQueryFanOuts(val value: kotlin.String) {
+         @Json(name = "asc") asc("asc"),
+         @Json(name = "desc") desc("desc");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter model
+     */
+     enum class ModelListQueryFanOuts(val value: kotlin.String) {
+         @Json(name = "chatgpt") chatgpt("chatgpt"),
+         @Json(name = "perplexity") perplexity("perplexity"),
+         @Json(name = "gemini") gemini("gemini"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "claude") claude("claude"),
+         @Json(name = "grok") grok("grok"),
+         @Json(name = "deepseek") deepseek("deepseek"),
+         @Json(name = "meta_ai") meta_ai("meta_ai"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListQueryFanOuts(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputListQueryFanOuts(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /dimensions/query_fan_outs
+     * List query fan-out
+     * The sub-queries a model actually issued when answering your tracked prompts. view&#x3D;query (default) returns one row per distinct sub-query with count and share of all occurrences; view&#x3D;prompt returns one row per prompt with how many distinct sub-queries it produced. Fan-out is reported mainly by ChatGPT, so an empty result usually means the models in scope do not expose it. The API returns the aggregation only: for a period-over-period delta, call it twice with explicit from/to.
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param view Row shape: one per distinct sub-query, or one per prompt (optional, default to View.query)
+     * @param order Sort field; the allowed set depends on view (optional)
+     * @param direction  (optional, default to Direction.desc)
+     * @param query Case-insensitive substring filter on the sub-query text (optional)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listQueryFanOuts(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListQueryFanOuts? = ViewListQueryFanOuts.query, order: OrderListQueryFanOuts? = null, direction: DirectionListQueryFanOuts? = DirectionListQueryFanOuts.desc, query: kotlin.String? = null, model: ModelListQueryFanOuts? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListQueryFanOuts? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListQueryFanOuts? = null) : Unit {
+        val localVarResponse = listQueryFanOutsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, view = view, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /dimensions/query_fan_outs
+     * List query fan-out
+     * The sub-queries a model actually issued when answering your tracked prompts. view&#x3D;query (default) returns one row per distinct sub-query with count and share of all occurrences; view&#x3D;prompt returns one row per prompt with how many distinct sub-queries it produced. Fan-out is reported mainly by ChatGPT, so an empty result usually means the models in scope do not expose it. The API returns the aggregation only: for a period-over-period delta, call it twice with explicit from/to.
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param view Row shape: one per distinct sub-query, or one per prompt (optional, default to View.query)
+     * @param order Sort field; the allowed set depends on view (optional)
+     * @param direction  (optional, default to Direction.desc)
+     * @param query Case-insensitive substring filter on the sub-query text (optional)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listQueryFanOutsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListQueryFanOuts?, order: OrderListQueryFanOuts?, direction: DirectionListQueryFanOuts?, query: kotlin.String?, model: ModelListQueryFanOuts?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListQueryFanOuts?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListQueryFanOuts?) : ApiResponse<Unit?> {
+        val localVariableConfig = listQueryFanOutsRequestConfig(projectId = projectId, page = page, perPage = perPage, view = view, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
+
+        return request<Unit, Unit>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listQueryFanOuts
+     *
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param view Row shape: one per distinct sub-query, or one per prompt (optional, default to View.query)
+     * @param order Sort field; the allowed set depends on view (optional)
+     * @param direction  (optional, default to Direction.desc)
+     * @param query Case-insensitive substring filter on the sub-query text (optional)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun listQueryFanOutsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListQueryFanOuts?, order: OrderListQueryFanOuts?, direction: DirectionListQueryFanOuts?, query: kotlin.String?, model: ModelListQueryFanOuts?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListQueryFanOuts?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListQueryFanOuts?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (view != null) {
+                    put("view", listOf(view.value))
+                }
+                if (order != null) {
+                    put("order", listOf(order.value))
+                }
+                if (direction != null) {
+                    put("direction", listOf(direction.value))
+                }
+                if (query != null) {
+                    put("query", listOf(query.toString()))
+                }
+                if (model != null) {
+                    put("model", listOf(model.value))
+                }
+                if (collectionId != null) {
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (prompt != null) {
+                    put("prompt", listOf(prompt.toString()))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/dimensions/query_fan_outs",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

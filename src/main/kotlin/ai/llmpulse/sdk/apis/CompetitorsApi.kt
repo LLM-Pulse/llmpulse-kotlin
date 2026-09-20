@@ -28,7 +28,9 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.CompetitorDetails
 import ai.llmpulse.sdk.models.CreateCompetitorRequest
+import ai.llmpulse.sdk.models.ListCompetitors200Response
 import ai.llmpulse.sdk.models.UpdateCompetitorRequest
 
 import com.squareup.moshi.Json
@@ -58,7 +60,7 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * POST /competitors
      * Add a competitor
-     * Adds a competitor (brand name + domain) to a project. Honours the per-plan max competitors cap. Requires a &#x60;read_write&#x60; scope API key.
+     * Adds a competitor with its own citation URL matching rule. Honours the per-plan max competitors cap. Requires a &#x60;read_write&#x60; scope API key.
      * @param createCompetitorRequest 
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
@@ -89,7 +91,7 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * POST /competitors
      * Add a competitor
-     * Adds a competitor (brand name + domain) to a project. Honours the per-plan max competitors cap. Requires a &#x60;read_write&#x60; scope API key.
+     * Adds a competitor with its own citation URL matching rule. Honours the per-plan max competitors cap. Requires a &#x60;read_write&#x60; scope API key.
      * @param createCompetitorRequest 
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -205,9 +207,193 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     }
 
     /**
+     * GET /dimensions/competitors/{id}
+     * Competitor details
+     * 
+     * @param id 
+     * @param projectId Project ID
+     * @return CompetitorDetails
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getCompetitorDetails(id: kotlin.Int, projectId: kotlin.Int) : CompetitorDetails {
+        val localVarResponse = getCompetitorDetailsWithHttpInfo(id = id, projectId = projectId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CompetitorDetails
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /dimensions/competitors/{id}
+     * Competitor details
+     * 
+     * @param id 
+     * @param projectId Project ID
+     * @return ApiResponse<CompetitorDetails?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getCompetitorDetailsWithHttpInfo(id: kotlin.Int, projectId: kotlin.Int) : ApiResponse<CompetitorDetails?> {
+        val localVariableConfig = getCompetitorDetailsRequestConfig(id = id, projectId = projectId)
+
+        return request<Unit, CompetitorDetails>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getCompetitorDetails
+     *
+     * @param id 
+     * @param projectId Project ID
+     * @return RequestConfig
+     */
+    fun getCompetitorDetailsRequestConfig(id: kotlin.Int, projectId: kotlin.Int) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/dimensions/competitors/{id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputListCompetitors(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /dimensions/competitors
+     * List competitors
+     * 
+     * @param projectId Project ID
+     * @param includeProjectBrand When true, prepends the project brand with actor_type&#x3D;project and is_own&#x3D;true (optional, default to false)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ListCompetitors200Response
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listCompetitors(projectId: kotlin.Int, includeProjectBrand: kotlin.Boolean? = false, output: OutputListCompetitors? = null) : ListCompetitors200Response {
+        val localVarResponse = listCompetitorsWithHttpInfo(projectId = projectId, includeProjectBrand = includeProjectBrand, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ListCompetitors200Response
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /dimensions/competitors
+     * List competitors
+     * 
+     * @param projectId Project ID
+     * @param includeProjectBrand When true, prepends the project brand with actor_type&#x3D;project and is_own&#x3D;true (optional, default to false)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<ListCompetitors200Response?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listCompetitorsWithHttpInfo(projectId: kotlin.Int, includeProjectBrand: kotlin.Boolean?, output: OutputListCompetitors?) : ApiResponse<ListCompetitors200Response?> {
+        val localVariableConfig = listCompetitorsRequestConfig(projectId = projectId, includeProjectBrand = includeProjectBrand, output = output)
+
+        return request<Unit, ListCompetitors200Response>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listCompetitors
+     *
+     * @param projectId Project ID
+     * @param includeProjectBrand When true, prepends the project brand with actor_type&#x3D;project and is_own&#x3D;true (optional, default to false)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun listCompetitorsRequestConfig(projectId: kotlin.Int, includeProjectBrand: kotlin.Boolean?, output: OutputListCompetitors?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (includeProjectBrand != null) {
+                    put("include_project_brand", listOf(includeProjectBrand.toString()))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/dimensions/competitors",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
      * PATCH /competitors/{id}
      * Update a competitor
-     * Updates brand_name, matching_names (full replacement list; the brand name is always included automatically) and/or color. The domain is immutable after creation. Name changes re-run mention/citation matching in the background: the competitor shows processing&#x3D;true for a few minutes and further edits are rejected meanwhile. Requires a &#x60;read_write&#x60; scope API key.
+     * Updates brand_name, the competitor website domain or host, matching_names (full replacement list; the brand name is always included automatically), color and/or the citation URL matching rule. Website domain/host and citation-rule changes share one seven-day cooldown per competitor; other fields remain editable during the cooldown. Name, website or citation-rule changes re-run historical matching in the background: the competitor shows processing&#x3D;true for a few minutes and further edits are rejected meanwhile. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateCompetitorRequest 
      * @return void
@@ -239,7 +425,7 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * PATCH /competitors/{id}
      * Update a competitor
-     * Updates brand_name, matching_names (full replacement list; the brand name is always included automatically) and/or color. The domain is immutable after creation. Name changes re-run mention/citation matching in the background: the competitor shows processing&#x3D;true for a few minutes and further edits are rejected meanwhile. Requires a &#x60;read_write&#x60; scope API key.
+     * Updates brand_name, the competitor website domain or host, matching_names (full replacement list; the brand name is always included automatically), color and/or the citation URL matching rule. Website domain/host and citation-rule changes share one seven-day cooldown per competitor; other fields remain editable during the cooldown. Name, website or citation-rule changes re-run historical matching in the background: the competitor shows processing&#x3D;true for a few minutes and further edits are rejected meanwhile. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateCompetitorRequest 
      * @return ApiResponse<Unit?>

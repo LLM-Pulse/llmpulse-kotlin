@@ -28,6 +28,7 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 
 import com.squareup.moshi.Json
 
@@ -54,14 +55,11 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
     }
 
     /**
-     * enum for parameter analysis
+     * enum for parameter output
      */
-     enum class AnalysisListSentimentRecords(val value: kotlin.String) {
-         @Json(name = "very_positive") very_positive("very_positive"),
-         @Json(name = "positive") positive("positive"),
-         @Json(name = "neutral") neutral("neutral"),
-         @Json(name = "negative") negative("negative"),
-         @Json(name = "very_negative") very_negative("very_negative");
+     enum class OutputListSentimentCategories(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -72,6 +70,85 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
          */
         override fun toString(): kotlin.String = "$value"
      }
+
+    /**
+     * GET /dimensions/sentiments
+     * List sentiment categories
+     * Sentiment metric keys + labels + colors. For records, use /sentiments.
+     * @param projectId Project ID
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listSentimentCategories(projectId: kotlin.Int, output: OutputListSentimentCategories? = null) : Unit {
+        val localVarResponse = listSentimentCategoriesWithHttpInfo(projectId = projectId, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /dimensions/sentiments
+     * List sentiment categories
+     * Sentiment metric keys + labels + colors. For records, use /sentiments.
+     * @param projectId Project ID
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listSentimentCategoriesWithHttpInfo(projectId: kotlin.Int, output: OutputListSentimentCategories?) : ApiResponse<Unit?> {
+        val localVariableConfig = listSentimentCategoriesRequestConfig(projectId = projectId, output = output)
+
+        return request<Unit, Unit>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listSentimentCategories
+     *
+     * @param projectId Project ID
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun listSentimentCategoriesRequestConfig(projectId: kotlin.Int, output: OutputListSentimentCategories?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/dimensions/sentiments",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
 
     /**
      * enum for parameter model
@@ -87,7 +164,9 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
          @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus");
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -106,13 +185,13 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @param projectId Project ID
      * @param competitorId  (optional)
      * @param brandOnly  (optional)
-     * @param analysis  (optional)
+     * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return void
@@ -123,7 +202,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listSentimentRecords(projectId: kotlin.Int, competitorId: kotlin.Int? = null, brandOnly: kotlin.Boolean? = null, analysis: AnalysisListSentimentRecords? = null, model: ModelListSentimentRecords? = null, collectionId: kotlin.Int? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
+    fun listSentimentRecords(projectId: kotlin.Int, competitorId: kotlin.Int? = null, brandOnly: kotlin.Boolean? = null, analysis: kotlin.String? = null, model: ModelListSentimentRecords? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
         val localVarResponse = listSentimentRecordsWithHttpInfo(projectId = projectId, competitorId = competitorId, brandOnly = brandOnly, analysis = analysis, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, from = from, to = to, page = page, perPage = perPage)
 
         return when (localVarResponse.responseType) {
@@ -148,13 +227,13 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @param projectId Project ID
      * @param competitorId  (optional)
      * @param brandOnly  (optional)
-     * @param analysis  (optional)
+     * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return ApiResponse<Unit?>
@@ -162,7 +241,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listSentimentRecordsWithHttpInfo(projectId: kotlin.Int, competitorId: kotlin.Int?, brandOnly: kotlin.Boolean?, analysis: AnalysisListSentimentRecords?, model: ModelListSentimentRecords?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
+    fun listSentimentRecordsWithHttpInfo(projectId: kotlin.Int, competitorId: kotlin.Int?, brandOnly: kotlin.Boolean?, analysis: kotlin.String?, model: ModelListSentimentRecords?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
         val localVariableConfig = listSentimentRecordsRequestConfig(projectId = projectId, competitorId = competitorId, brandOnly = brandOnly, analysis = analysis, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, from = from, to = to, page = page, perPage = perPage)
 
         return request<Unit, Unit>(
@@ -176,18 +255,18 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @param projectId Project ID
      * @param competitorId  (optional)
      * @param brandOnly  (optional)
-     * @param analysis  (optional)
+     * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return RequestConfig
      */
-    fun listSentimentRecordsRequestConfig(projectId: kotlin.Int, competitorId: kotlin.Int?, brandOnly: kotlin.Boolean?, analysis: AnalysisListSentimentRecords?, model: ModelListSentimentRecords?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
+    fun listSentimentRecordsRequestConfig(projectId: kotlin.Int, competitorId: kotlin.Int?, brandOnly: kotlin.Boolean?, analysis: kotlin.String?, model: ModelListSentimentRecords?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -199,13 +278,12 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
                     put("brand_only", listOf(brandOnly.toString()))
                 }
                 if (analysis != null) {
-                    put("analysis", listOf(analysis.value))
+                    put("analysis", listOf(analysis.toString()))
                 }
                 if (model != null) {
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
-                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))

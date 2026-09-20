@@ -77,7 +77,7 @@ data class CreateWebhook201Response (
     /**
      * 
      *
-     * Values: mentionPeriodCreated,competitor_mentionPeriodCreated,citationPeriodCreated,prompt_executionPeriodCompleted,sentimentPeriodNegative_detected,recommendationPeriodCompleted,intelligence_taskPeriodCompleted
+     * Values: mentionPeriodCreated,competitor_mentionPeriodCreated,citationPeriodCreated,prompt_executionPeriodCompleted,sentimentPeriodNegative_detected,recommendationPeriodCompleted,intelligence_taskPeriodCompleted,intelligence_taskPeriodUpdated
      */
     @JsonClass(generateAdapter = false)
     enum class EventType(val value: kotlin.String) {
@@ -87,7 +87,8 @@ data class CreateWebhook201Response (
         @Json(name = "prompt_execution.completed") prompt_executionPeriodCompleted("prompt_execution.completed"),
         @Json(name = "sentiment.negative_detected") sentimentPeriodNegative_detected("sentiment.negative_detected"),
         @Json(name = "recommendation.completed") recommendationPeriodCompleted("recommendation.completed"),
-        @Json(name = "intelligence_task.completed") intelligence_taskPeriodCompleted("intelligence_task.completed");
+        @Json(name = "intelligence_task.completed") intelligence_taskPeriodCompleted("intelligence_task.completed"),
+        @Json(name = "intelligence_task.updated") intelligence_taskPeriodUpdated("intelligence_task.updated");
     }
 
 }

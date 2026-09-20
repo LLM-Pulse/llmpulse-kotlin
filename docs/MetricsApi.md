@@ -4,145 +4,12 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**getAgentTraffic**](MetricsApi.md#getAgentTraffic) | **GET** /metrics/agent_traffic | AI bot crawler traffic (Scale+, Beta) |
-| [**getAiTraffic**](MetricsApi.md#getAiTraffic) | **GET** /metrics/ai_traffic | AI referral traffic (Scale+) |
 | [**getPromptSummary**](MetricsApi.md#getPromptSummary) | **GET** /metrics/prompt_summary | Per-prompt metrics summary |
 | [**getShareOfVoice**](MetricsApi.md#getShareOfVoice) | **GET** /metrics/sov | Share of Voice |
 | [**getSummary**](MetricsApi.md#getSummary) | **GET** /metrics/summary | Aggregated metrics summary |
 | [**getTimeseries**](MetricsApi.md#getTimeseries) | **GET** /metrics/timeseries | Time-series metrics |
 | [**getTopSources**](MetricsApi.md#getTopSources) | **GET** /metrics/top_sources | Top cited sources |
 
-
-<a id="getAgentTraffic"></a>
-# **getAgentTraffic**
-> AgentTrafficResponse getAgentTraffic(projectId, range, from, to, bot, company, groupBy, granularity)
-
-AI bot crawler traffic (Scale+, Beta)
-
-Aggregated AI bot traffic hitting the project&#39;s origin server (GPTBot, PerplexityBot, ClaudeBot, OAI-SearchBot, Google-Extended, etc.). Sourced from Cloudflare or CSV uploads. Requires the Scale plan; lower tiers receive ERR_PLAN_REQUIRED.
-
-### Example
-```kotlin
-// Import classes:
-//import ai.llmpulse.sdk.infrastructure.*
-//import ai.llmpulse.sdk.models.*
-
-val apiInstance = MetricsApi()
-val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
-val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
-val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
-val bot : kotlin.String = bot_example // kotlin.String | Filter by bot slug (e.g. gptbot, claudebot, perplexitybot)
-val company : kotlin.String = company_example // kotlin.String | Filter by company (e.g. openai, anthropic, google)
-val groupBy : kotlin.String = groupBy_example // kotlin.String | 
-val granularity : kotlin.String = granularity_example // kotlin.String | 
-try {
-    val result : AgentTrafficResponse = apiInstance.getAgentTraffic(projectId, range, from, to, bot, company, groupBy, granularity)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling MetricsApi#getAgentTraffic")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling MetricsApi#getAgentTraffic")
-    e.printStackTrace()
-}
-```
-
-### Parameters
-| **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
-| **from** | **java.time.OffsetDateTime**|  | [optional] |
-| **to** | **java.time.OffsetDateTime**|  | [optional] |
-| **bot** | **kotlin.String**| Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) | [optional] |
-| **company** | **kotlin.String**| Filter by company (e.g. openai, anthropic, google) | [optional] |
-| **groupBy** | **kotlin.String**|  | [optional] [default to GroupBy.bot] [enum: bot, company] |
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |
-
-### Return type
-
-[**AgentTrafficResponse**](AgentTrafficResponse.md)
-
-### Authorization
-
-
-Configure BearerAuth statically:
-```kotlin
-ApiClient.accessToken = ""
-```
-Configure BearerAuth dynamically:
-```kotlin
-apiInstance.accessTokenProvider = { "" }
-```
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-<a id="getAiTraffic"></a>
-# **getAiTraffic**
-> getAiTraffic(projectId, range, from, to, source, granularity)
-
-AI referral traffic (Scale+)
-
-AI referral traffic for a project: human visits arriving from AI assistants (ChatGPT, Perplexity, Gemini, Claude, etc.), measured from the connected web analytics provider (Google Analytics 4, Adobe Analytics, PostHog, Plausible or Piano). Returns per-source users, sessions and conversions with totals and a conversion rate. Requires a connected provider and the Scale plan; otherwise returns ERR_AI_TRAFFIC_NOT_CONNECTED or ERR_PLAN_REQUIRED.
-
-### Example
-```kotlin
-// Import classes:
-//import ai.llmpulse.sdk.infrastructure.*
-//import ai.llmpulse.sdk.models.*
-
-val apiInstance = MetricsApi()
-val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
-val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
-val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
-val source : kotlin.String = source_example // kotlin.String | Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude)
-val granularity : kotlin.String = granularity_example // kotlin.String | 
-try {
-    apiInstance.getAiTraffic(projectId, range, from, to, source, granularity)
-} catch (e: ClientException) {
-    println("4xx response calling MetricsApi#getAiTraffic")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling MetricsApi#getAiTraffic")
-    e.printStackTrace()
-}
-```
-
-### Parameters
-| **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
-| **from** | **java.time.OffsetDateTime**|  | [optional] |
-| **to** | **java.time.OffsetDateTime**|  | [optional] |
-| **source** | **kotlin.String**| Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) | [optional] |
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |
-
-### Return type
-
-null (empty response body)
-
-### Authorization
-
-
-Configure BearerAuth statically:
-```kotlin
-ApiClient.accessToken = ""
-```
-Configure BearerAuth dynamically:
-```kotlin
-apiInstance.accessTokenProvider = { "" }
-```
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
 
 <a id="getPromptSummary"></a>
 # **getPromptSummary**
@@ -162,14 +29,14 @@ val apiInstance = MetricsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
-val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
+val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val breakdown : kotlin.String = breakdown_example // kotlin.String | Add per-(prompt, model) rows to the output
 val model : kotlin.String = model_example // kotlin.String | Filter by AI model. Models the API key's user has not enabled are silently dropped.
-val collectionId : kotlin.Int = 56 // kotlin.Int | 
-val countryCode : kotlin.String = countryCode_example // kotlin.String | ISO country code (e.g. US, GB, DE)
-val languageCode : kotlin.String = languageCode_example // kotlin.String | ISO language code (e.g. en, es, de)
+val collectionId : GetTimeseriesCollectionIdParameter =  // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs
+val countryCode : kotlin.String = countryCode_example // kotlin.String | One ISO country code or a comma-separated list (e.g. US,GB,DE)
+val languageCode : kotlin.String = languageCode_example // kotlin.String | One ISO language code or a comma-separated list (e.g. en,es,de)
 val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
-val promptType : kotlin.String = promptType_example // kotlin.String | Filter by prompt type (search intent)
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val sort : kotlin.String = sort_example // kotlin.String | 
 val sortDir : kotlin.String = sortDir_example // kotlin.String | 
@@ -192,14 +59,14 @@ try {
 | **projectId** | **kotlin.Int**| Project ID | |
 | **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
-| **to** | **java.time.OffsetDateTime**|  | [optional] |
+| **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **breakdown** | **kotlin.String**| Add per-(prompt, model) rows to the output | [optional] [enum: model] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] |
-| **collectionId** | **kotlin.Int**|  | [optional] |
-| **countryCode** | **kotlin.String**| ISO country code (e.g. US, GB, DE) | [optional] |
-| **languageCode** | **kotlin.String**| ISO language code (e.g. en, es, de) | [optional] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] |
+| **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
+| **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
-| **promptType** | **kotlin.String**| Filter by prompt type (search intent) | [optional] [enum: informational, navigational, commercial, transactional] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
 | **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | **sort** | **kotlin.String**|  | [optional] [default to Sort.responses] [enum: responses, mentions, citations, mention_rate, visibility, citation_rate, avg_mention_position, avg_position] |
 | **sortDir** | **kotlin.String**|  | [optional] [default to SortDir.desc] [enum: asc, desc] |
@@ -248,13 +115,13 @@ val apiInstance = MetricsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
-val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
+val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val granularity : kotlin.String = granularity_example // kotlin.String | 
 val competitors : kotlin.String = competitors_example // kotlin.String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM)
 val model : kotlin.String = model_example // kotlin.String | Filter by AI model. Models the API key's user has not enabled are silently dropped.
-val collectionId : kotlin.Int = 56 // kotlin.Int | 
+val collectionId : GetTimeseriesCollectionIdParameter =  // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs
 val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
-val promptType : kotlin.String = promptType_example // kotlin.String | Filter by prompt type (search intent)
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 val view : kotlin.String = view_example // kotlin.String | Which Share of Voice projection to flatten. Only valid together with 'output'. 'over_time' (default) is one row per date and actor, 'current' the ranked snapshot, 'breakdown' the Top 4 plus Others.
@@ -274,13 +141,13 @@ try {
 | **projectId** | **kotlin.Int**| Project ID | |
 | **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
-| **to** | **java.time.OffsetDateTime**|  | [optional] |
+| **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |
 | **competitors** | **kotlin.String**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] |
-| **collectionId** | **kotlin.Int**|  | [optional] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] |
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
-| **promptType** | **kotlin.String**| Filter by prompt type (search intent) | [optional] [enum: informational, navigational, commercial, transactional] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
 | **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
 | Name | Type | Description  | Notes |
@@ -328,12 +195,12 @@ val metrics : kotlin.String = metrics_example // kotlin.String | Comma-separated
 val granularity : kotlin.String = granularity_example // kotlin.String | 
 val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
-val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
+val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val competitors : kotlin.String = competitors_example // kotlin.String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM)
 val model : kotlin.String = model_example // kotlin.String | Filter by AI model. Models the API key's user has not enabled are silently dropped.
-val collectionId : kotlin.Int = 56 // kotlin.Int | 
+val collectionId : GetTimeseriesCollectionIdParameter =  // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs
 val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
-val promptType : kotlin.String = promptType_example // kotlin.String | Filter by prompt type (search intent)
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
@@ -354,12 +221,12 @@ try {
 | **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |
 | **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
-| **to** | **java.time.OffsetDateTime**|  | [optional] |
+| **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **competitors** | **kotlin.String**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] |
-| **collectionId** | **kotlin.Int**|  | [optional] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] |
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
-| **promptType** | **kotlin.String**| Filter by prompt type (search intent) | [optional] [enum: informational, navigational, commercial, transactional] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
 | **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
@@ -406,14 +273,14 @@ val metrics : kotlin.String = metrics_example // kotlin.String | Comma-separated
 val granularity : kotlin.String = granularity_example // kotlin.String | 
 val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
-val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
+val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val competitors : kotlin.String = competitors_example // kotlin.String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM)
 val model : kotlin.String = model_example // kotlin.String | Filter by AI model. Models the API key's user has not enabled are silently dropped.
-val collectionId : kotlin.Int = 56 // kotlin.Int | 
-val countryCode : kotlin.String = countryCode_example // kotlin.String | ISO country code (e.g. US, GB, DE)
-val languageCode : kotlin.String = languageCode_example // kotlin.String | ISO language code (e.g. en, es, de)
+val collectionId : GetTimeseriesCollectionIdParameter =  // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs
+val countryCode : kotlin.String = countryCode_example // kotlin.String | One ISO country code or a comma-separated list (e.g. US,GB,DE)
+val languageCode : kotlin.String = languageCode_example // kotlin.String | One ISO language code or a comma-separated list (e.g. en,es,de)
 val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
-val promptType : kotlin.String = promptType_example // kotlin.String | Filter by prompt type (search intent)
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val includeProject : kotlin.Boolean = true // kotlin.Boolean | 
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
@@ -435,14 +302,14 @@ try {
 | **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |
 | **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
-| **to** | **java.time.OffsetDateTime**|  | [optional] |
+| **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **competitors** | **kotlin.String**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] |
-| **collectionId** | **kotlin.Int**|  | [optional] |
-| **countryCode** | **kotlin.String**| ISO country code (e.g. US, GB, DE) | [optional] |
-| **languageCode** | **kotlin.String**| ISO language code (e.g. en, es, de) | [optional] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] |
+| **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
+| **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
-| **promptType** | **kotlin.String**| Filter by prompt type (search intent) | [optional] [enum: informational, navigational, commercial, transactional] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
 | **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | **includeProject** | **kotlin.Boolean**|  | [optional] [default to true] |
 | Name | Type | Description  | Notes |
@@ -488,13 +355,13 @@ val apiInstance = MetricsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
-val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
+val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val model : kotlin.String = model_example // kotlin.String | Filter by AI model. Models the API key's user has not enabled are silently dropped.
-val collectionId : kotlin.Int = 56 // kotlin.Int | 
-val countryCode : kotlin.String = countryCode_example // kotlin.String | ISO country code (e.g. US, GB, DE)
-val languageCode : kotlin.String = languageCode_example // kotlin.String | ISO language code (e.g. en, es, de)
+val collectionId : GetTimeseriesCollectionIdParameter =  // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs
+val countryCode : kotlin.String = countryCode_example // kotlin.String | One ISO country code or a comma-separated list (e.g. US,GB,DE)
+val languageCode : kotlin.String = languageCode_example // kotlin.String | One ISO language code or a comma-separated list (e.g. en,es,de)
 val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
-val promptType : kotlin.String = promptType_example // kotlin.String | Filter by prompt type (search intent)
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val sort : kotlin.String = sort_example // kotlin.String | 
 val query : kotlin.String = query_example // kotlin.String | Filter domains by case-insensitive partial match
@@ -517,13 +384,13 @@ try {
 | **projectId** | **kotlin.Int**| Project ID | |
 | **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
-| **to** | **java.time.OffsetDateTime**|  | [optional] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus] |
-| **collectionId** | **kotlin.Int**|  | [optional] |
-| **countryCode** | **kotlin.String**| ISO country code (e.g. US, GB, DE) | [optional] |
-| **languageCode** | **kotlin.String**| ISO language code (e.g. en, es, de) | [optional] |
+| **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md)| One collection/tag ID or a comma-separated list of IDs | [optional] |
+| **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
+| **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
-| **promptType** | **kotlin.String**| Filter by prompt type (search intent) | [optional] [enum: informational, navigational, commercial, transactional] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
 | **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | **sort** | **kotlin.String**|  | [optional] [default to Sort.total_responses] [enum: total_responses, avg_mention_rate, avg_visibility] |
 | **query** | **kotlin.String**| Filter domains by case-insensitive partial match | [optional] |

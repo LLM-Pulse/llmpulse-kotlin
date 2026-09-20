@@ -34,6 +34,8 @@ import com.squareup.moshi.JsonClass
  * @param brandName 
  * @param domain URL is accepted and normalised to host (e.g. https://www.openai.com → openai.com)
  * @param matchingNames 
+ * @param citationMatchMode domain includes the registrable domain and all subdomains; host requires the exact hostname; path_prefix also requires citation_match_path
+ * @param citationMatchPath Required when citation_match_mode=path_prefix, e.g. /es. Case-sensitive; trailing slash is optional; query and fragment are ignored
  */
 
 
@@ -50,10 +52,29 @@ data class CreateCompetitorRequest (
     val domain: kotlin.String,
 
     @Json(name = "matching_names")
-    val matchingNames: kotlin.collections.List<kotlin.String>? = null
+    val matchingNames: kotlin.collections.List<kotlin.String>? = null,
+
+    /* domain includes the registrable domain and all subdomains; host requires the exact hostname; path_prefix also requires citation_match_path */
+    @Json(name = "citation_match_mode")
+    val citationMatchMode: CreateCompetitorRequest.CitationMatchMode? = CitationMatchMode.domain,
+
+    /* Required when citation_match_mode=path_prefix, e.g. /es. Case-sensitive; trailing slash is optional; query and fragment are ignored */
+    @Json(name = "citation_match_path")
+    val citationMatchPath: kotlin.String? = null
 
 ) {
 
+    /**
+     * domain includes the registrable domain and all subdomains; host requires the exact hostname; path_prefix also requires citation_match_path
+     *
+     * Values: domain,host,path_prefix
+     */
+    @JsonClass(generateAdapter = false)
+    enum class CitationMatchMode(val value: kotlin.String) {
+        @Json(name = "domain") domain("domain"),
+        @Json(name = "host") host("host"),
+        @Json(name = "path_prefix") path_prefix("path_prefix");
+    }
 
 }
 

@@ -90,17 +90,58 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      }
 
     /**
+     * enum for parameter searchType
+     */
+     enum class SearchTypeGetSearchConsolePages(val value: kotlin.String) {
+         @Json(name = "web") web("web"),
+         @Json(name = "image") image("image"),
+         @Json(name = "video") video("video"),
+         @Json(name = "news") news("news"),
+         @Json(name = "discover") discover("discover"),
+         @Json(name = "googleNews") googleNews("googleNews");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter dataState
+     */
+     enum class DataStateGetSearchConsolePages(val value: kotlin.String) {
+         @Json(name = "final") `final`("final"),
+         @Json(name = "all") all("all");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /search_console/pages
      * Top Search Console pages (Growth+)
-     * Top Google Search Console landing pages over a date range, ranked by impressions, clicks, ctr or position, paginated. Requires a connected Search Console property (Growth+).
+     * Top Google Search Console landing pages over a date range, ranked by impressions, clicks, ctr or position, paginated. Requires a connected Search Console property (Growth+). X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. total counts distinct keys available for the range: keys from synced daily rows for stored reads, or up to 25,000 rows from one Google request for live reads. Live responses include truncated: true when that limit is reached. Sorting and pagination apply to the available set.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param sort  (optional, default to Sort.impressions)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -109,8 +150,8 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getSearchConsolePages(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, sort: SortGetSearchConsolePages? = SortGetSearchConsolePages.impressions, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetSearchConsolePages? = null) : Unit {
-        val localVarResponse = getSearchConsolePagesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, output = output)
+    fun getSearchConsolePages(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, sort: SortGetSearchConsolePages? = SortGetSearchConsolePages.impressions, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetSearchConsolePages? = null, searchType: SearchTypeGetSearchConsolePages? = SearchTypeGetSearchConsolePages.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsolePages? = DataStateGetSearchConsolePages.`final`) : Unit {
+        val localVarResponse = getSearchConsolePagesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -130,22 +171,25 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * GET /search_console/pages
      * Top Search Console pages (Growth+)
-     * Top Google Search Console landing pages over a date range, ranked by impressions, clicks, ctr or position, paginated. Requires a connected Search Console property (Growth+).
+     * Top Google Search Console landing pages over a date range, ranked by impressions, clicks, ctr or position, paginated. Requires a connected Search Console property (Growth+). X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. total counts distinct keys available for the range: keys from synced daily rows for stored reads, or up to 25,000 rows from one Google request for live reads. Live responses include truncated: true when that limit is reached. Sorting and pagination apply to the available set.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param sort  (optional, default to Sort.impressions)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getSearchConsolePagesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sort: SortGetSearchConsolePages?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsolePages?) : ApiResponse<Unit?> {
-        val localVariableConfig = getSearchConsolePagesRequestConfig(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, output = output)
+    fun getSearchConsolePagesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sort: SortGetSearchConsolePages?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsolePages?, searchType: SearchTypeGetSearchConsolePages?, filters: kotlin.String?, dataState: DataStateGetSearchConsolePages?) : ApiResponse<Unit?> {
+        val localVariableConfig = getSearchConsolePagesRequestConfig(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -158,14 +202,17 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param sort  (optional, default to Sort.impressions)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return RequestConfig
      */
-    fun getSearchConsolePagesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sort: SortGetSearchConsolePages?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsolePages?) : RequestConfig<Unit> {
+    fun getSearchConsolePagesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sort: SortGetSearchConsolePages?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsolePages?, searchType: SearchTypeGetSearchConsolePages?, filters: kotlin.String?, dataState: DataStateGetSearchConsolePages?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -190,6 +237,15 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
                 }
                 if (output != null) {
                     put("output", listOf(output.value))
+                }
+                if (searchType != null) {
+                    put("search_type", listOf(searchType.value))
+                }
+                if (filters != null) {
+                    put("filters", listOf(filters.toString()))
+                }
+                if (dataState != null) {
+                    put("data_state", listOf(dataState.value))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -242,17 +298,58 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      }
 
     /**
+     * enum for parameter searchType
+     */
+     enum class SearchTypeGetSearchConsoleQueries(val value: kotlin.String) {
+         @Json(name = "web") web("web"),
+         @Json(name = "image") image("image"),
+         @Json(name = "video") video("video"),
+         @Json(name = "news") news("news"),
+         @Json(name = "discover") discover("discover"),
+         @Json(name = "googleNews") googleNews("googleNews");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter dataState
+     */
+     enum class DataStateGetSearchConsoleQueries(val value: kotlin.String) {
+         @Json(name = "final") `final`("final"),
+         @Json(name = "all") all("all");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /search_console/queries
      * Top Search Console queries (Growth+)
-     * Top Google Search Console search queries over a date range, ranked by impressions, clicks, ctr or position, paginated. Knowingly undercounts anonymized queries; for exact totals use /search_console/summary. Requires a connected Search Console property (Growth+).
+     * Top Google Search Console search queries over a date range, ranked by impressions, clicks, ctr or position, paginated. Excludes anonymized queries; for headline totals use /search_console/summary. Requires a connected Search Console property (Growth+). X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. total counts distinct keys available for the range: keys from synced daily rows for stored reads, or up to 25,000 rows from one Google request for live reads. Live responses include truncated: true when that limit is reached. Sorting and pagination apply to the available set.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param sort  (optional, default to Sort.impressions)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -261,8 +358,8 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getSearchConsoleQueries(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, sort: SortGetSearchConsoleQueries? = SortGetSearchConsoleQueries.impressions, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetSearchConsoleQueries? = null) : Unit {
-        val localVarResponse = getSearchConsoleQueriesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, output = output)
+    fun getSearchConsoleQueries(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, sort: SortGetSearchConsoleQueries? = SortGetSearchConsoleQueries.impressions, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetSearchConsoleQueries? = null, searchType: SearchTypeGetSearchConsoleQueries? = SearchTypeGetSearchConsoleQueries.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleQueries? = DataStateGetSearchConsoleQueries.`final`) : Unit {
+        val localVarResponse = getSearchConsoleQueriesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -282,22 +379,25 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * GET /search_console/queries
      * Top Search Console queries (Growth+)
-     * Top Google Search Console search queries over a date range, ranked by impressions, clicks, ctr or position, paginated. Knowingly undercounts anonymized queries; for exact totals use /search_console/summary. Requires a connected Search Console property (Growth+).
+     * Top Google Search Console search queries over a date range, ranked by impressions, clicks, ctr or position, paginated. Excludes anonymized queries; for headline totals use /search_console/summary. Requires a connected Search Console property (Growth+). X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. total counts distinct keys available for the range: keys from synced daily rows for stored reads, or up to 25,000 rows from one Google request for live reads. Live responses include truncated: true when that limit is reached. Sorting and pagination apply to the available set.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param sort  (optional, default to Sort.impressions)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getSearchConsoleQueriesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sort: SortGetSearchConsoleQueries?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleQueries?) : ApiResponse<Unit?> {
-        val localVariableConfig = getSearchConsoleQueriesRequestConfig(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, output = output)
+    fun getSearchConsoleQueriesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sort: SortGetSearchConsoleQueries?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleQueries?, searchType: SearchTypeGetSearchConsoleQueries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleQueries?) : ApiResponse<Unit?> {
+        val localVariableConfig = getSearchConsoleQueriesRequestConfig(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -310,14 +410,17 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param sort  (optional, default to Sort.impressions)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return RequestConfig
      */
-    fun getSearchConsoleQueriesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sort: SortGetSearchConsoleQueries?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleQueries?) : RequestConfig<Unit> {
+    fun getSearchConsoleQueriesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sort: SortGetSearchConsoleQueries?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleQueries?, searchType: SearchTypeGetSearchConsoleQueries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleQueries?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -343,6 +446,15 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
                 if (output != null) {
                     put("output", listOf(output.value))
                 }
+                if (searchType != null) {
+                    put("search_type", listOf(searchType.value))
+                }
+                if (filters != null) {
+                    put("filters", listOf(filters.toString()))
+                }
+                if (dataState != null) {
+                    put("data_state", listOf(dataState.value))
+                }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/json"
@@ -362,7 +474,48 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      */
      enum class DimensionGetSearchConsoleSummary(val value: kotlin.String) {
          @Json(name = "country") country("country"),
-         @Json(name = "device") device("device");
+         @Json(name = "device") device("device"),
+         @Json(name = "page") page("page"),
+         @Json(name = "query") query("query"),
+         @Json(name = "searchAppearance") searchAppearance("searchAppearance");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter searchType
+     */
+     enum class SearchTypeGetSearchConsoleSummary(val value: kotlin.String) {
+         @Json(name = "web") web("web"),
+         @Json(name = "image") image("image"),
+         @Json(name = "video") video("video"),
+         @Json(name = "news") news("news"),
+         @Json(name = "discover") discover("discover"),
+         @Json(name = "googleNews") googleNews("googleNews");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter dataState
+     */
+     enum class DataStateGetSearchConsoleSummary(val value: kotlin.String) {
+         @Json(name = "final") `final`("final"),
+         @Json(name = "all") all("all");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -377,12 +530,16 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * GET /search_console/summary
      * Search Console summary (Growth+)
-     * Google Search Console headline totals (impressions, clicks, ctr as a 0..1 fraction, average position) for the project over a date range. Pass dimension&#x3D;country or dimension&#x3D;device to also receive the breakdown aggregated over the range. Requires the project to have a connected Search Console property and the Growth plan or above; otherwise returns ERR_SEARCH_CONSOLE_NOT_CONNECTED or ERR_PLAN_REQUIRED.
+     * Google Search Console headline totals (impressions, clicks, ctr as a 0..1 fraction, average position) for the project over a date range. Pass dimension&#x3D;country, device, page, query or searchAppearance to also receive the breakdown aggregated over the range, capped by limit. Requires the project to have a connected Search Console property and the Growth plan or above; otherwise returns ERR_SEARCH_CONSOLE_NOT_CONNECTED or ERR_PLAN_REQUIRED. X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
-     * @param dimension Optional breakdown aggregated over the range (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param dimension Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. (optional)
+     * @param limit Maximum breakdown rows, sorted by impressions descending. Default and maximum 1000. Use /search_console/queries or /search_console/pages to page through a full list. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -391,8 +548,8 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getSearchConsoleSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, dimension: DimensionGetSearchConsoleSummary? = null) : Unit {
-        val localVarResponse = getSearchConsoleSummaryWithHttpInfo(projectId = projectId, range = range, from = from, to = to, dimension = dimension)
+    fun getSearchConsoleSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, dimension: DimensionGetSearchConsoleSummary? = null, limit: kotlin.Int? = null, searchType: SearchTypeGetSearchConsoleSummary? = SearchTypeGetSearchConsoleSummary.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleSummary? = DataStateGetSearchConsoleSummary.`final`) : Unit {
+        val localVarResponse = getSearchConsoleSummaryWithHttpInfo(projectId = projectId, range = range, from = from, to = to, dimension = dimension, limit = limit, searchType = searchType, filters = filters, dataState = dataState)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -412,19 +569,23 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * GET /search_console/summary
      * Search Console summary (Growth+)
-     * Google Search Console headline totals (impressions, clicks, ctr as a 0..1 fraction, average position) for the project over a date range. Pass dimension&#x3D;country or dimension&#x3D;device to also receive the breakdown aggregated over the range. Requires the project to have a connected Search Console property and the Growth plan or above; otherwise returns ERR_SEARCH_CONSOLE_NOT_CONNECTED or ERR_PLAN_REQUIRED.
+     * Google Search Console headline totals (impressions, clicks, ctr as a 0..1 fraction, average position) for the project over a date range. Pass dimension&#x3D;country, device, page, query or searchAppearance to also receive the breakdown aggregated over the range, capped by limit. Requires the project to have a connected Search Console property and the Growth plan or above; otherwise returns ERR_SEARCH_CONSOLE_NOT_CONNECTED or ERR_PLAN_REQUIRED. X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
-     * @param dimension Optional breakdown aggregated over the range (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param dimension Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. (optional)
+     * @param limit Maximum breakdown rows, sorted by impressions descending. Default and maximum 1000. Use /search_console/queries or /search_console/pages to page through a full list. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getSearchConsoleSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, dimension: DimensionGetSearchConsoleSummary?) : ApiResponse<Unit?> {
-        val localVariableConfig = getSearchConsoleSummaryRequestConfig(projectId = projectId, range = range, from = from, to = to, dimension = dimension)
+    fun getSearchConsoleSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, dimension: DimensionGetSearchConsoleSummary?, limit: kotlin.Int?, searchType: SearchTypeGetSearchConsoleSummary?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleSummary?) : ApiResponse<Unit?> {
+        val localVariableConfig = getSearchConsoleSummaryRequestConfig(projectId = projectId, range = range, from = from, to = to, dimension = dimension, limit = limit, searchType = searchType, filters = filters, dataState = dataState)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -437,11 +598,15 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
-     * @param dimension Optional breakdown aggregated over the range (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param dimension Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. (optional)
+     * @param limit Maximum breakdown rows, sorted by impressions descending. Default and maximum 1000. Use /search_console/queries or /search_console/pages to page through a full list. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return RequestConfig
      */
-    fun getSearchConsoleSummaryRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, dimension: DimensionGetSearchConsoleSummary?) : RequestConfig<Unit> {
+    fun getSearchConsoleSummaryRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, dimension: DimensionGetSearchConsoleSummary?, limit: kotlin.Int?, searchType: SearchTypeGetSearchConsoleSummary?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleSummary?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -457,6 +622,18 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
                 }
                 if (dimension != null) {
                     put("dimension", listOf(dimension.value))
+                }
+                if (limit != null) {
+                    put("limit", listOf(limit.toString()))
+                }
+                if (searchType != null) {
+                    put("search_type", listOf(searchType.value))
+                }
+                if (filters != null) {
+                    put("filters", listOf(filters.toString()))
+                }
+                if (dataState != null) {
+                    put("data_state", listOf(dataState.value))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -508,15 +685,56 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      }
 
     /**
+     * enum for parameter searchType
+     */
+     enum class SearchTypeGetSearchConsoleTimeseries(val value: kotlin.String) {
+         @Json(name = "web") web("web"),
+         @Json(name = "image") image("image"),
+         @Json(name = "video") video("video"),
+         @Json(name = "news") news("news"),
+         @Json(name = "discover") discover("discover"),
+         @Json(name = "googleNews") googleNews("googleNews");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter dataState
+     */
+     enum class DataStateGetSearchConsoleTimeseries(val value: kotlin.String) {
+         @Json(name = "final") `final`("final"),
+         @Json(name = "all") all("all");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /search_console/timeseries
      * Search Console time series (Growth+)
-     * Google Search Console property-wide series (impressions, clicks, ctr, position) bucketed by day, week or month. Requires a connected Search Console property (Growth+).
+     * Google Search Console property-wide series (impressions, clicks, ctr, position) bucketed by day, week or month. Requires a connected Search Console property (Growth+). X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -525,8 +743,8 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getSearchConsoleTimeseries(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetSearchConsoleTimeseries? = null, output: OutputGetSearchConsoleTimeseries? = null) : Unit {
-        val localVarResponse = getSearchConsoleTimeseriesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, output = output)
+    fun getSearchConsoleTimeseries(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetSearchConsoleTimeseries? = null, output: OutputGetSearchConsoleTimeseries? = null, searchType: SearchTypeGetSearchConsoleTimeseries? = SearchTypeGetSearchConsoleTimeseries.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleTimeseries? = DataStateGetSearchConsoleTimeseries.`final`) : Unit {
+        val localVarResponse = getSearchConsoleTimeseriesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, output = output, searchType = searchType, filters = filters, dataState = dataState)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -546,20 +764,23 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * GET /search_console/timeseries
      * Search Console time series (Growth+)
-     * Google Search Console property-wide series (impressions, clicks, ctr, position) bucketed by day, week or month. Requires a connected Search Console property (Growth+).
+     * Google Search Console property-wide series (impressions, clicks, ctr, position) bucketed by day, week or month. Requires a connected Search Console property (Growth+). X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getSearchConsoleTimeseriesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetSearchConsoleTimeseries?, output: OutputGetSearchConsoleTimeseries?) : ApiResponse<Unit?> {
-        val localVariableConfig = getSearchConsoleTimeseriesRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, output = output)
+    fun getSearchConsoleTimeseriesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetSearchConsoleTimeseries?, output: OutputGetSearchConsoleTimeseries?, searchType: SearchTypeGetSearchConsoleTimeseries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleTimeseries?) : ApiResponse<Unit?> {
+        val localVariableConfig = getSearchConsoleTimeseriesRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, output = output, searchType = searchType, filters = filters, dataState = dataState)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -572,12 +793,15 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @return RequestConfig
      */
-    fun getSearchConsoleTimeseriesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetSearchConsoleTimeseries?, output: OutputGetSearchConsoleTimeseries?) : RequestConfig<Unit> {
+    fun getSearchConsoleTimeseriesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetSearchConsoleTimeseries?, output: OutputGetSearchConsoleTimeseries?, searchType: SearchTypeGetSearchConsoleTimeseries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleTimeseries?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -596,6 +820,15 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
                 }
                 if (output != null) {
                     put("output", listOf(output.value))
+                }
+                if (searchType != null) {
+                    put("search_type", listOf(searchType.value))
+                }
+                if (filters != null) {
+                    put("filters", listOf(filters.toString()))
+                }
+                if (dataState != null) {
+                    put("data_state", listOf(dataState.value))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

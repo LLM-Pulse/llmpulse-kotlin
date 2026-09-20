@@ -32,8 +32,11 @@ import com.squareup.moshi.JsonClass
  *
  * @param projectId 
  * @param brandName 
+ * @param domain Website domain or host used for citation matching. A full URL is accepted and normalised to its host.
  * @param matchingNames 
  * @param color Hex color, e.g. #1a2b3c
+ * @param citationMatchMode 
+ * @param citationMatchPath Required when changing citation_match_mode to path_prefix
  */
 
 
@@ -45,15 +48,37 @@ data class UpdateCompetitorRequest (
     @Json(name = "brand_name")
     val brandName: kotlin.String? = null,
 
+    /* Website domain or host used for citation matching. A full URL is accepted and normalised to its host. */
+    @Json(name = "domain")
+    val domain: kotlin.String? = null,
+
     @Json(name = "matching_names")
     val matchingNames: kotlin.collections.List<kotlin.String>? = null,
 
     /* Hex color, e.g. #1a2b3c */
     @Json(name = "color")
-    val color: kotlin.String? = null
+    val color: kotlin.String? = null,
+
+    @Json(name = "citation_match_mode")
+    val citationMatchMode: UpdateCompetitorRequest.CitationMatchMode? = null,
+
+    /* Required when changing citation_match_mode to path_prefix */
+    @Json(name = "citation_match_path")
+    val citationMatchPath: kotlin.String? = null
 
 ) {
 
+    /**
+     * 
+     *
+     * Values: domain,host,path_prefix
+     */
+    @JsonClass(generateAdapter = false)
+    enum class CitationMatchMode(val value: kotlin.String) {
+        @Json(name = "domain") domain("domain"),
+        @Json(name = "host") host("host"),
+        @Json(name = "path_prefix") path_prefix("path_prefix");
+    }
 
 }
 

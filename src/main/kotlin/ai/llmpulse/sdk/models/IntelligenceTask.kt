@@ -48,6 +48,8 @@ import com.squareup.moshi.JsonClass
  * @param estimatedTime 
  * @param createdAt 
  * @param processedAt 
+ * @param manuallyEditedAt When the content was last edited by hand; null while the output is as generated
+ * @param editedByUserId User behind the last manual edit; null for an unedited task or an edit made from an embedded portal
  * @param requestId 
  */
 
@@ -108,6 +110,14 @@ data class IntelligenceTask (
 
     @Json(name = "processed_at")
     val processedAt: java.time.OffsetDateTime? = null,
+
+    /* When the content was last edited by hand; null while the output is as generated */
+    @Json(name = "manually_edited_at")
+    val manuallyEditedAt: java.time.OffsetDateTime? = null,
+
+    /* User behind the last manual edit; null for an unedited task or an edit made from an embedded portal */
+    @Json(name = "edited_by_user_id")
+    val editedByUserId: kotlin.Int? = null,
 
     @Json(name = "request_id")
     val requestId: kotlin.String? = null

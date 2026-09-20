@@ -7,7 +7,12 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 | [**createProject**](ProjectsApi.md#createProject) | **POST** /projects | Create a project (fast mode) |
 | [**createProjectDraft**](ProjectsApi.md#createProjectDraft) | **POST** /project_drafts | Start a project draft (wizard step 1) |
 | [**finalizeProjectDraft**](ProjectsApi.md#finalizeProjectDraft) | **POST** /project_drafts/{id}/finalize | Finalize a draft into a real project |
+| [**getProjectDetails**](ProjectsApi.md#getProjectDetails) | **GET** /dimensions/projects/{id} | Project details |
 | [**getProjectDraft**](ProjectsApi.md#getProjectDraft) | **GET** /project_drafts/{id} | Read a project draft |
+| [**listLocales**](ProjectsApi.md#listLocales) | **GET** /dimensions/locales | List locales with data |
+| [**listModels**](ProjectsApi.md#listModels) | **GET** /dimensions/models | List models with data |
+| [**listProjects**](ProjectsApi.md#listProjects) | **GET** /dimensions/projects | List projects |
+| [**updateProject**](ProjectsApi.md#updateProject) | **PATCH** /projects/{id} | Update a project profile (Brand Book) |
 | [**updateProjectDraft**](ProjectsApi.md#updateProjectDraft) | **PATCH** /project_drafts/{id} | Submit a wizard step |
 
 
@@ -173,6 +178,60 @@ apiInstance.accessTokenProvider = { "" }
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+<a id="getProjectDetails"></a>
+# **getProjectDetails**
+> ProjectDetails getProjectDetails(id)
+
+Project details
+
+Detailed info for one project: matching_names, industry, business model, primary products, target audience, brand voice, locale, app store IDs, stats (incl. prompts_by_brand_kind counts) and data_coverage (models, countries and languages with data).
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = ProjectsApi()
+val id : kotlin.Int = 56 // kotlin.Int | 
+try {
+    val result : ProjectDetails = apiInstance.getProjectDetails(id)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling ProjectsApi#getProjectDetails")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling ProjectsApi#getProjectDetails")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **id** | **kotlin.Int**|  | |
+
+### Return type
+
+[**ProjectDetails**](ProjectDetails.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
 <a id="getProjectDraft"></a>
 # **getProjectDraft**
 > getProjectDraft(id, includeSuggestions)
@@ -224,6 +283,217 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="listLocales"></a>
+# **listLocales**
+> listLocales(projectId)
+
+List locales with data
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = ProjectsApi()
+val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
+try {
+    apiInstance.listLocales(projectId)
+} catch (e: ClientException) {
+    println("4xx response calling ProjectsApi#listLocales")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling ProjectsApi#listLocales")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **projectId** | **kotlin.Int**| Project ID | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a id="listModels"></a>
+# **listModels**
+> listModels(projectId)
+
+List models with data
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = ProjectsApi()
+val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
+try {
+    apiInstance.listModels(projectId)
+} catch (e: ClientException) {
+    println("4xx response calling ProjectsApi#listModels")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling ProjectsApi#listModels")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **projectId** | **kotlin.Int**| Project ID | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a id="listProjects"></a>
+# **listProjects**
+> ListProjects200Response listProjects(output)
+
+List projects
+
+All projects accessible with your API key.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = ProjectsApi()
+val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
+try {
+    val result : ListProjects200Response = apiInstance.listProjects(output)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling ProjectsApi#listProjects")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling ProjectsApi#listProjects")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+
+### Return type
+
+[**ListProjects200Response**](ListProjects200Response.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="updateProject"></a>
+# **updateProject**
+> updateProject(id, updateProjectRequest)
+
+Update a project profile (Brand Book)
+
+Updates the project profile, the same fields as Project Settings: brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names. Send only the fields to change; unknown fields are rejected. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background (rematching&#x3D;true); further edits are rejected while that runs. Requires a &#x60;read_write&#x60; scope API key.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = ProjectsApi()
+val id : kotlin.Int = 56 // kotlin.Int | 
+val updateProjectRequest : UpdateProjectRequest =  // UpdateProjectRequest | 
+try {
+    apiInstance.updateProject(id, updateProjectRequest)
+} catch (e: ClientException) {
+    println("4xx response calling ProjectsApi#updateProject")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling ProjectsApi#updateProject")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **id** | **kotlin.Int**|  | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **updateProjectRequest** | [**UpdateProjectRequest**](UpdateProjectRequest.md)|  | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 <a id="updateProjectDraft"></a>

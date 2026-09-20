@@ -39,9 +39,11 @@ import com.squareup.moshi.JsonClass
  * @param matchingNames 
  * @param industry 
  * @param businessModel 
+ * @param businessModelOther Set only when business_model is OTHER
  * @param primaryProducts 
  * @param targetAudience 
  * @param brandVoice 
+ * @param goals 
  * @param countryCode 
  * @param languageCode 
  * @param paused 
@@ -80,14 +82,21 @@ data class ProjectDetails (
     @Json(name = "business_model")
     val businessModel: kotlin.String? = null,
 
+    /* Set only when business_model is OTHER */
+    @Json(name = "business_model_other")
+    val businessModelOther: kotlin.String? = null,
+
     @Json(name = "primary_products")
-    val primaryProducts: kotlin.String? = null,
+    val primaryProducts: kotlin.collections.List<kotlin.String>? = null,
 
     @Json(name = "target_audience")
     val targetAudience: kotlin.String? = null,
 
     @Json(name = "brand_voice")
     val brandVoice: kotlin.String? = null,
+
+    @Json(name = "goals")
+    val goals: kotlin.String? = null,
 
     @Json(name = "country_code")
     val countryCode: kotlin.String? = null,

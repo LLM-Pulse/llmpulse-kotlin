@@ -30,6 +30,8 @@ import okhttp3.HttpUrl
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.IntelligenceTask
 import ai.llmpulse.sdk.models.IntelligenceTaskCreateRequest
+import ai.llmpulse.sdk.models.IntelligenceTaskUpdateRequest
+import ai.llmpulse.sdk.models.IntelligenceTaskUpdateResponse
 
 import com.squareup.moshi.Json
 
@@ -318,6 +320,162 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/intelligence_tasks",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * POST /intelligence_tasks/{id}/revert
+     * Revert GEO Writer task content
+     * Discards every manual edit on the task and restores the output exactly as it was generated. Returns ERR_INVALID_PARAM when the task has no manual edits. Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Writer.
+     * @param id Numeric task ID or public_id string token
+     * @param projectId Project ID
+     * @return IntelligenceTask
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun revertIntelligenceTaskContent(id: kotlin.String, projectId: kotlin.Int) : IntelligenceTask {
+        val localVarResponse = revertIntelligenceTaskContentWithHttpInfo(id = id, projectId = projectId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntelligenceTask
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /intelligence_tasks/{id}/revert
+     * Revert GEO Writer task content
+     * Discards every manual edit on the task and restores the output exactly as it was generated. Returns ERR_INVALID_PARAM when the task has no manual edits. Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Writer.
+     * @param id Numeric task ID or public_id string token
+     * @param projectId Project ID
+     * @return ApiResponse<IntelligenceTask?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun revertIntelligenceTaskContentWithHttpInfo(id: kotlin.String, projectId: kotlin.Int) : ApiResponse<IntelligenceTask?> {
+        val localVariableConfig = revertIntelligenceTaskContentRequestConfig(id = id, projectId = projectId)
+
+        return request<Unit, IntelligenceTask>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation revertIntelligenceTaskContent
+     *
+     * @param id Numeric task ID or public_id string token
+     * @param projectId Project ID
+     * @return RequestConfig
+     */
+    fun revertIntelligenceTaskContentRequestConfig(id: kotlin.String, projectId: kotlin.Int) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/intelligence_tasks/{id}/revert".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * PATCH /intelligence_tasks/{id}
+     * Edit GEO Writer task content
+     * Edits the text of a completed task in place. &#x60;edits&#x60; maps dotted paths into result_data (for example &#x60;title&#x60; or &#x60;sections.0.content&#x60;) to replacement text. Only string fields that already exist can change: a path that does not resolve to text, a blank &#x60;title&#x60;, a value over 20,000 characters or an empty &#x60;edits&#x60; object is rejected with ERR_INVALID_PARAM and nothing is written. Values identical to the stored text are ignored, and the response lists the paths that actually changed. The first edit keeps a copy of the generated output so POST /intelligence_tasks/{id}/revert can restore it; regenerating the task replaces the edited content. Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Writer.
+     * @param id Numeric task ID or public_id string token
+     * @param intelligenceTaskUpdateRequest 
+     * @return IntelligenceTaskUpdateResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun updateIntelligenceTaskContent(id: kotlin.String, intelligenceTaskUpdateRequest: IntelligenceTaskUpdateRequest) : IntelligenceTaskUpdateResponse {
+        val localVarResponse = updateIntelligenceTaskContentWithHttpInfo(id = id, intelligenceTaskUpdateRequest = intelligenceTaskUpdateRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntelligenceTaskUpdateResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * PATCH /intelligence_tasks/{id}
+     * Edit GEO Writer task content
+     * Edits the text of a completed task in place. &#x60;edits&#x60; maps dotted paths into result_data (for example &#x60;title&#x60; or &#x60;sections.0.content&#x60;) to replacement text. Only string fields that already exist can change: a path that does not resolve to text, a blank &#x60;title&#x60;, a value over 20,000 characters or an empty &#x60;edits&#x60; object is rejected with ERR_INVALID_PARAM and nothing is written. Values identical to the stored text are ignored, and the response lists the paths that actually changed. The first edit keeps a copy of the generated output so POST /intelligence_tasks/{id}/revert can restore it; regenerating the task replaces the edited content. Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Writer.
+     * @param id Numeric task ID or public_id string token
+     * @param intelligenceTaskUpdateRequest 
+     * @return ApiResponse<IntelligenceTaskUpdateResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun updateIntelligenceTaskContentWithHttpInfo(id: kotlin.String, intelligenceTaskUpdateRequest: IntelligenceTaskUpdateRequest) : ApiResponse<IntelligenceTaskUpdateResponse?> {
+        val localVariableConfig = updateIntelligenceTaskContentRequestConfig(id = id, intelligenceTaskUpdateRequest = intelligenceTaskUpdateRequest)
+
+        return request<IntelligenceTaskUpdateRequest, IntelligenceTaskUpdateResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation updateIntelligenceTaskContent
+     *
+     * @param id Numeric task ID or public_id string token
+     * @param intelligenceTaskUpdateRequest 
+     * @return RequestConfig
+     */
+    fun updateIntelligenceTaskContentRequestConfig(id: kotlin.String, intelligenceTaskUpdateRequest: IntelligenceTaskUpdateRequest) : RequestConfig<IntelligenceTaskUpdateRequest> {
+        val localVariableBody = intelligenceTaskUpdateRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.PATCH,
+            path = "/intelligence_tasks/{id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

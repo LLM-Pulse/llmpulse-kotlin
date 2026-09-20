@@ -27,6 +27,7 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 
 import com.squareup.moshi.Json
 
@@ -71,25 +72,6 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      }
 
     /**
-     * enum for parameter promptType
-     */
-     enum class PromptTypeGetAiModelInsightsSummary(val value: kotlin.String) {
-         @Json(name = "informational") informational("informational"),
-         @Json(name = "navigational") navigational("navigational"),
-         @Json(name = "commercial") commercial("commercial"),
-         @Json(name = "transactional") transactional("transactional");
-
-        /**
-         * Override [toString()] to avoid using the enum variable name as the value, and instead use
-         * the actual value defined in the API spec file.
-         *
-         * This solves a problem when the variable name and its value are different, and ensures that
-         * the client sends the correct enum values to the server always.
-         */
-        override fun toString(): kotlin.String = "$value"
-     }
-
-    /**
      * enum for parameter brandKind
      */
      enum class BrandKindGetAiModelInsightsSummary(val value: kotlin.String) {
@@ -114,12 +96,12 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
-     * @param promptType Filter by prompt type (search intent) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @return void
@@ -130,7 +112,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAiModelInsightsSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelInsightsSummary? = null, collectionId: kotlin.Int? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: PromptTypeGetAiModelInsightsSummary? = null, brandKind: BrandKindGetAiModelInsightsSummary? = null, competitors: kotlin.String? = null) : Unit {
+    fun getAiModelInsightsSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelInsightsSummary? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiModelInsightsSummary? = null, competitors: kotlin.String? = null) : Unit {
         val localVarResponse = getAiModelInsightsSummaryWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, competitors = competitors)
 
         return when (localVarResponse.responseType) {
@@ -155,12 +137,12 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
-     * @param promptType Filter by prompt type (search intent) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @return ApiResponse<Unit?>
@@ -168,7 +150,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAiModelInsightsSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelInsightsSummary?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: PromptTypeGetAiModelInsightsSummary?, brandKind: BrandKindGetAiModelInsightsSummary?, competitors: kotlin.String?) : ApiResponse<Unit?> {
+    fun getAiModelInsightsSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelInsightsSummary?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelInsightsSummary?, competitors: kotlin.String?) : ApiResponse<Unit?> {
         val localVariableConfig = getAiModelInsightsSummaryRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, competitors = competitors)
 
         return request<Unit, Unit>(
@@ -182,17 +164,17 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
-     * @param promptType Filter by prompt type (search intent) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @return RequestConfig
      */
-    fun getAiModelInsightsSummaryRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelInsightsSummary?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: PromptTypeGetAiModelInsightsSummary?, brandKind: BrandKindGetAiModelInsightsSummary?, competitors: kotlin.String?) : RequestConfig<Unit> {
+    fun getAiModelInsightsSummaryRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelInsightsSummary?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelInsightsSummary?, competitors: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -210,7 +192,6 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                     put("granularity", listOf(granularity.value))
                 }
                 if (collectionId != null) {
-                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -219,7 +200,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                     put("language_code", listOf(languageCode.toString()))
                 }
                 if (promptType != null) {
-                    put("prompt_type", listOf(promptType.value))
+                    put("prompt_type", listOf(promptType.toString()))
                 }
                 if (brandKind != null) {
                     put("brand_kind", listOf(brandKind.value))
@@ -247,25 +228,6 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
          @Json(name = "day") day("day"),
          @Json(name = "week") week("week"),
          @Json(name = "month") month("month");
-
-        /**
-         * Override [toString()] to avoid using the enum variable name as the value, and instead use
-         * the actual value defined in the API spec file.
-         *
-         * This solves a problem when the variable name and its value are different, and ensures that
-         * the client sends the correct enum values to the server always.
-         */
-        override fun toString(): kotlin.String = "$value"
-     }
-
-    /**
-     * enum for parameter promptType
-     */
-     enum class PromptTypeGetAiModelPositionDistribution(val value: kotlin.String) {
-         @Json(name = "informational") informational("informational"),
-         @Json(name = "navigational") navigational("navigational"),
-         @Json(name = "commercial") commercial("commercial"),
-         @Json(name = "transactional") transactional("transactional");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -309,7 +271,9 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
          @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus");
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -328,12 +292,12 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
-     * @param promptType Filter by prompt type (search intent) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
      * @param brand1 Competitor ID for the first comparison brand (omit to compare project brand) (optional)
@@ -346,7 +310,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAiModelPositionDistribution(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelPositionDistribution? = null, collectionId: kotlin.Int? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: PromptTypeGetAiModelPositionDistribution? = null, brandKind: BrandKindGetAiModelPositionDistribution? = null, model: ModelGetAiModelPositionDistribution? = null, brand1: kotlin.Int? = null, brand2: kotlin.Int? = null) : Unit {
+    fun getAiModelPositionDistribution(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelPositionDistribution? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiModelPositionDistribution? = null, model: ModelGetAiModelPositionDistribution? = null, brand1: kotlin.Int? = null, brand2: kotlin.Int? = null) : Unit {
         val localVarResponse = getAiModelPositionDistributionWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, model = model, brand1 = brand1, brand2 = brand2)
 
         return when (localVarResponse.responseType) {
@@ -371,12 +335,12 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
-     * @param promptType Filter by prompt type (search intent) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
      * @param brand1 Competitor ID for the first comparison brand (omit to compare project brand) (optional)
@@ -386,7 +350,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAiModelPositionDistributionWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelPositionDistribution?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: PromptTypeGetAiModelPositionDistribution?, brandKind: BrandKindGetAiModelPositionDistribution?, model: ModelGetAiModelPositionDistribution?, brand1: kotlin.Int?, brand2: kotlin.Int?) : ApiResponse<Unit?> {
+    fun getAiModelPositionDistributionWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelPositionDistribution?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelPositionDistribution?, model: ModelGetAiModelPositionDistribution?, brand1: kotlin.Int?, brand2: kotlin.Int?) : ApiResponse<Unit?> {
         val localVariableConfig = getAiModelPositionDistributionRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, model = model, brand1 = brand1, brand2 = brand2)
 
         return request<Unit, Unit>(
@@ -400,19 +364,19 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
-     * @param promptType Filter by prompt type (search intent) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
      * @param brand1 Competitor ID for the first comparison brand (omit to compare project brand) (optional)
      * @param brand2  (optional)
      * @return RequestConfig
      */
-    fun getAiModelPositionDistributionRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelPositionDistribution?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: PromptTypeGetAiModelPositionDistribution?, brandKind: BrandKindGetAiModelPositionDistribution?, model: ModelGetAiModelPositionDistribution?, brand1: kotlin.Int?, brand2: kotlin.Int?) : RequestConfig<Unit> {
+    fun getAiModelPositionDistributionRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelPositionDistribution?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelPositionDistribution?, model: ModelGetAiModelPositionDistribution?, brand1: kotlin.Int?, brand2: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -430,7 +394,6 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                     put("granularity", listOf(granularity.value))
                 }
                 if (collectionId != null) {
-                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -439,7 +402,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                     put("language_code", listOf(languageCode.toString()))
                 }
                 if (promptType != null) {
-                    put("prompt_type", listOf(promptType.value))
+                    put("prompt_type", listOf(promptType.toString()))
                 }
                 if (brandKind != null) {
                     put("brand_kind", listOf(brandKind.value))
@@ -485,25 +448,6 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      }
 
     /**
-     * enum for parameter promptType
-     */
-     enum class PromptTypeGetAiOverviewResults(val value: kotlin.String) {
-         @Json(name = "informational") informational("informational"),
-         @Json(name = "navigational") navigational("navigational"),
-         @Json(name = "commercial") commercial("commercial"),
-         @Json(name = "transactional") transactional("transactional");
-
-        /**
-         * Override [toString()] to avoid using the enum variable name as the value, and instead use
-         * the actual value defined in the API spec file.
-         *
-         * This solves a problem when the variable name and its value are different, and ensures that
-         * the client sends the correct enum values to the server always.
-         */
-        override fun toString(): kotlin.String = "$value"
-     }
-
-    /**
      * enum for parameter brandKind
      */
      enum class BrandKindGetAiOverviewResults(val value: kotlin.String) {
@@ -528,12 +472,12 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
-     * @param promptType Filter by prompt type (search intent) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
@@ -545,7 +489,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAiOverviewResults(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiOverviewResults? = null, collectionId: kotlin.Int? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: PromptTypeGetAiOverviewResults? = null, brandKind: BrandKindGetAiOverviewResults? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
+    fun getAiOverviewResults(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiOverviewResults? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiOverviewResults? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
         val localVarResponse = getAiOverviewResultsWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, page = page, perPage = perPage)
 
         return when (localVarResponse.responseType) {
@@ -570,12 +514,12 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
-     * @param promptType Filter by prompt type (search intent) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
@@ -584,7 +528,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAiOverviewResultsWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiOverviewResults?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: PromptTypeGetAiOverviewResults?, brandKind: BrandKindGetAiOverviewResults?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
+    fun getAiOverviewResultsWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiOverviewResults?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiOverviewResults?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
         val localVariableConfig = getAiOverviewResultsRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, page = page, perPage = perPage)
 
         return request<Unit, Unit>(
@@ -598,18 +542,18 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
-     * @param promptType Filter by prompt type (search intent) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return RequestConfig
      */
-    fun getAiOverviewResultsRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiOverviewResults?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: PromptTypeGetAiOverviewResults?, brandKind: BrandKindGetAiOverviewResults?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
+    fun getAiOverviewResultsRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiOverviewResults?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiOverviewResults?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -627,7 +571,6 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                     put("granularity", listOf(granularity.value))
                 }
                 if (collectionId != null) {
-                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -636,7 +579,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                     put("language_code", listOf(languageCode.toString()))
                 }
                 if (promptType != null) {
-                    put("prompt_type", listOf(promptType.value))
+                    put("prompt_type", listOf(promptType.toString()))
                 }
                 if (brandKind != null) {
                     put("brand_kind", listOf(brandKind.value))

@@ -305,7 +305,8 @@ open class WebhooksApi(basePath: kotlin.String = defaultBasePath, client: Call.F
          @Json(name = "prompt_execution.completed") prompt_executionPeriodCompleted("prompt_execution.completed"),
          @Json(name = "sentiment.negative_detected") sentimentPeriodNegative_detected("sentiment.negative_detected"),
          @Json(name = "recommendation.completed") recommendationPeriodCompleted("recommendation.completed"),
-         @Json(name = "intelligence_task.completed") intelligence_taskPeriodCompleted("intelligence_task.completed");
+         @Json(name = "intelligence_task.completed") intelligence_taskPeriodCompleted("intelligence_task.completed"),
+         @Json(name = "intelligence_task.updated") intelligence_taskPeriodUpdated("intelligence_task.updated");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use

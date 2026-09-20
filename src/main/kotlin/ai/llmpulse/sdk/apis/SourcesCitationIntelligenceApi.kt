@@ -28,6 +28,7 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 
 import com.squareup.moshi.Json
 
@@ -45,7 +46,7 @@ import ai.llmpulse.sdk.infrastructure.ResponseType
 import ai.llmpulse.sdk.infrastructure.Success
 import ai.llmpulse.sdk.infrastructure.toMultiValue
 
-open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
+open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -56,7 +57,7 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * GET /citation_intelligence/urls/{url_sha256}/content
      * Cited URL cached content
-     * 
+     * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null; content_gap_status is content_unavailable (or missing_page_cache). Mention arrays stay empty until usable content has completed analysis. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; mention counts are null when no URL has completed analysis.
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
      * @return void
@@ -88,7 +89,7 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * GET /citation_intelligence/urls/{url_sha256}/content
      * Cited URL cached content
-     * 
+     * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null; content_gap_status is content_unavailable (or missing_page_cache). Mention arrays stay empty until usable content has completed analysis. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; mention counts are null when no URL has completed analysis.
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
      * @return ApiResponse<Unit?>
@@ -133,7 +134,7 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * GET /citation_intelligence/urls/{url_sha256}
      * Cited URL detail
-     * 
+     * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null; content_gap_status is content_unavailable (or missing_page_cache). Mention arrays stay empty until usable content has completed analysis. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; mention counts are null when no URL has completed analysis.
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
      * @return void
@@ -165,7 +166,7 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * GET /citation_intelligence/urls/{url_sha256}
      * Cited URL detail
-     * 
+     * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null; content_gap_status is content_unavailable (or missing_page_cache). Mention arrays stay empty until usable content has completed analysis. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; mention counts are null when no URL has completed analysis.
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
      * @return ApiResponse<Unit?>
@@ -221,7 +222,27 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
          @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus");
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindGetMentionsByCitingDomain(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -240,12 +261,13 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
      * @param projectId Project ID
      * @param domains Source domains to analyze, e.g. domains[]&#x3D;gmac.com&amp;domains[]&#x3D;educaweb.com
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -254,8 +276,8 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMentionsByCitingDomain(projectId: kotlin.Int, domains: kotlin.collections.List<kotlin.String>, model: ModelGetMentionsByCitingDomain? = null, collectionId: kotlin.Int? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null) : Unit {
-        val localVarResponse = getMentionsByCitingDomainWithHttpInfo(projectId = projectId, domains = domains, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to)
+    fun getMentionsByCitingDomain(projectId: kotlin.Int, domains: kotlin.collections.List<kotlin.String>, model: ModelGetMentionsByCitingDomain? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, brandKind: BrandKindGetMentionsByCitingDomain? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null) : Unit {
+        val localVarResponse = getMentionsByCitingDomainWithHttpInfo(projectId = projectId, domains = domains, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -279,19 +301,20 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
      * @param projectId Project ID
      * @param domains Source domains to analyze, e.g. domains[]&#x3D;gmac.com&amp;domains[]&#x3D;educaweb.com
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMentionsByCitingDomainWithHttpInfo(projectId: kotlin.Int, domains: kotlin.collections.List<kotlin.String>, model: ModelGetMentionsByCitingDomain?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?) : ApiResponse<Unit?> {
-        val localVariableConfig = getMentionsByCitingDomainRequestConfig(projectId = projectId, domains = domains, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to)
+    fun getMentionsByCitingDomainWithHttpInfo(projectId: kotlin.Int, domains: kotlin.collections.List<kotlin.String>, model: ModelGetMentionsByCitingDomain?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindGetMentionsByCitingDomain?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?) : ApiResponse<Unit?> {
+        val localVariableConfig = getMentionsByCitingDomainRequestConfig(projectId = projectId, domains = domains, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -304,15 +327,16 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
      * @param projectId Project ID
      * @param domains Source domains to analyze, e.g. domains[]&#x3D;gmac.com&amp;domains[]&#x3D;educaweb.com
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @return RequestConfig
      */
-    fun getMentionsByCitingDomainRequestConfig(projectId: kotlin.Int, domains: kotlin.collections.List<kotlin.String>, model: ModelGetMentionsByCitingDomain?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?) : RequestConfig<Unit> {
+    fun getMentionsByCitingDomainRequestConfig(projectId: kotlin.Int, domains: kotlin.collections.List<kotlin.String>, model: ModelGetMentionsByCitingDomain?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindGetMentionsByCitingDomain?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -322,7 +346,6 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
-                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -332,6 +355,9 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
                 }
                 if (prompt != null) {
                     put("prompt", listOf(prompt.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
                 }
                 if (from != null) {
                     put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
@@ -424,7 +450,9 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
          @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus");
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -494,7 +522,7 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * GET /citation_intelligence/groups
      * Grouped citation intelligence
-     * Grouped citation intelligence by url / domain / host with per-model breakdown, citation rate, and avg citation position. Counts and citation rate include visible citations and background source references. Average position ignores rows with position&#x3D;0. Owned and competitor source matching honor the project&#39;s exact-subdomain setting. Filter vocabulary aligns with &#x60;source_type&#x60; returned by the API.
+     * Grouped citation intelligence by url / domain / host with per-model breakdown, citation rate, and avg citation position. Counts and citation rate include visible citations and background source references. Average position ignores rows with position&#x3D;0. Owned and competitor source matching honor the project&#39;s exact-subdomain setting. Filter vocabulary aligns with &#x60;source_type&#x60; returned by the API. Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null; content_gap_status is content_unavailable (or missing_page_cache). Mention arrays stay empty until usable content has completed analysis. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; mention counts are null when no URL has completed analysis.
      * @param projectId Project ID
      * @param view  (optional, default to View.url)
      * @param page  (optional, default to 1)
@@ -502,12 +530,12 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
      * @param order  (optional)
      * @param direction  (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param query  (optional)
      * @param sourceType  (optional)
      * @param sentiment  (optional)
@@ -520,7 +548,7 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCitationGroups(projectId: kotlin.Int, view: ViewListCitationGroups? = ViewListCitationGroups.url, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, order: OrderListCitationGroups? = null, direction: DirectionListCitationGroups? = null, model: ModelListCitationGroups? = null, collectionId: kotlin.Int? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, query: kotlin.String? = null, sourceType: SourceTypeListCitationGroups? = null, sentiment: SentimentListCitationGroups? = null, contentGap: ContentGapListCitationGroups? = null) : Unit {
+    fun listCitationGroups(projectId: kotlin.Int, view: ViewListCitationGroups? = ViewListCitationGroups.url, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, order: OrderListCitationGroups? = null, direction: DirectionListCitationGroups? = null, model: ModelListCitationGroups? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, query: kotlin.String? = null, sourceType: SourceTypeListCitationGroups? = null, sentiment: SentimentListCitationGroups? = null, contentGap: ContentGapListCitationGroups? = null) : Unit {
         val localVarResponse = listCitationGroupsWithHttpInfo(projectId = projectId, view = view, page = page, perPage = perPage, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, query = query, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap)
 
         return when (localVarResponse.responseType) {
@@ -541,7 +569,7 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * GET /citation_intelligence/groups
      * Grouped citation intelligence
-     * Grouped citation intelligence by url / domain / host with per-model breakdown, citation rate, and avg citation position. Counts and citation rate include visible citations and background source references. Average position ignores rows with position&#x3D;0. Owned and competitor source matching honor the project&#39;s exact-subdomain setting. Filter vocabulary aligns with &#x60;source_type&#x60; returned by the API.
+     * Grouped citation intelligence by url / domain / host with per-model breakdown, citation rate, and avg citation position. Counts and citation rate include visible citations and background source references. Average position ignores rows with position&#x3D;0. Owned and competitor source matching honor the project&#39;s exact-subdomain setting. Filter vocabulary aligns with &#x60;source_type&#x60; returned by the API. Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null; content_gap_status is content_unavailable (or missing_page_cache). Mention arrays stay empty until usable content has completed analysis. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; mention counts are null when no URL has completed analysis.
      * @param projectId Project ID
      * @param view  (optional, default to View.url)
      * @param page  (optional, default to 1)
@@ -549,12 +577,12 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
      * @param order  (optional)
      * @param direction  (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param query  (optional)
      * @param sourceType  (optional)
      * @param sentiment  (optional)
@@ -564,7 +592,7 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCitationGroupsWithHttpInfo(projectId: kotlin.Int, view: ViewListCitationGroups?, page: kotlin.Int?, perPage: kotlin.Int?, order: OrderListCitationGroups?, direction: DirectionListCitationGroups?, model: ModelListCitationGroups?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, query: kotlin.String?, sourceType: SourceTypeListCitationGroups?, sentiment: SentimentListCitationGroups?, contentGap: ContentGapListCitationGroups?) : ApiResponse<Unit?> {
+    fun listCitationGroupsWithHttpInfo(projectId: kotlin.Int, view: ViewListCitationGroups?, page: kotlin.Int?, perPage: kotlin.Int?, order: OrderListCitationGroups?, direction: DirectionListCitationGroups?, model: ModelListCitationGroups?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, query: kotlin.String?, sourceType: SourceTypeListCitationGroups?, sentiment: SentimentListCitationGroups?, contentGap: ContentGapListCitationGroups?) : ApiResponse<Unit?> {
         val localVariableConfig = listCitationGroupsRequestConfig(projectId = projectId, view = view, page = page, perPage = perPage, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, query = query, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap)
 
         return request<Unit, Unit>(
@@ -582,19 +610,19 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
      * @param order  (optional)
      * @param direction  (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId  (optional)
-     * @param countryCode ISO country code (e.g. US, GB, DE) (optional)
-     * @param languageCode ISO language code (e.g. en, es, de) (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
-     * @param to  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param query  (optional)
      * @param sourceType  (optional)
      * @param sentiment  (optional)
      * @param contentGap  (optional)
      * @return RequestConfig
      */
-    fun listCitationGroupsRequestConfig(projectId: kotlin.Int, view: ViewListCitationGroups?, page: kotlin.Int?, perPage: kotlin.Int?, order: OrderListCitationGroups?, direction: DirectionListCitationGroups?, model: ModelListCitationGroups?, collectionId: kotlin.Int?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, query: kotlin.String?, sourceType: SourceTypeListCitationGroups?, sentiment: SentimentListCitationGroups?, contentGap: ContentGapListCitationGroups?) : RequestConfig<Unit> {
+    fun listCitationGroupsRequestConfig(projectId: kotlin.Int, view: ViewListCitationGroups?, page: kotlin.Int?, perPage: kotlin.Int?, order: OrderListCitationGroups?, direction: DirectionListCitationGroups?, model: ModelListCitationGroups?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, query: kotlin.String?, sourceType: SourceTypeListCitationGroups?, sentiment: SentimentListCitationGroups?, contentGap: ContentGapListCitationGroups?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -618,7 +646,6 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
-                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -743,6 +770,242 @@ open class CitationIntelligenceApi(basePath: kotlin.String = defaultBasePath, cl
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/citation_intelligence/urls/{url_sha256}/occurrences".replace("{"+"url_sha256"+"}", encodeURIComponent(urlSha256.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter model
+     */
+     enum class ModelListSources(val value: kotlin.String) {
+         @Json(name = "chatgpt") chatgpt("chatgpt"),
+         @Json(name = "perplexity") perplexity("perplexity"),
+         @Json(name = "gemini") gemini("gemini"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "claude") claude("claude"),
+         @Json(name = "grok") grok("grok"),
+         @Json(name = "deepseek") deepseek("deepseek"),
+         @Json(name = "meta_ai") meta_ai("meta_ai"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter sourceType
+     */
+     enum class SourceTypeListSources(val value: kotlin.String) {
+         @Json(name = "owned") owned("owned"),
+         @Json(name = "competitor") competitor("competitor"),
+         @Json(name = "third_party") third_party("third_party");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter mentionFilter
+     */
+     enum class MentionFilterListSources(val value: kotlin.String) {
+         @Json(name = "mentions_you") mentions_you("mentions_you"),
+         @Json(name = "not_mentions_you") not_mentions_you("not_mentions_you"),
+         @Json(name = "mentions_competitor") mentions_competitor("mentions_competitor"),
+         @Json(name = "not_mentions_competitor") not_mentions_competitor("not_mentions_competitor"),
+         @Json(name = "you_and_competitor") you_and_competitor("you_and_competitor"),
+         @Json(name = "competitor_not_you") competitor_not_you("competitor_not_you"),
+         @Json(name = "you_not_competitor") you_not_competitor("you_not_competitor"),
+         @Json(name = "no_brands") no_brands("no_brands");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputListSources(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /dimensions/sources
+     * List source URLs
+     * 
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param sourceType Filter by source ownership. Owned and competitor matching honor the project&#39;s exact-subdomain setting. (optional)
+     * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
+     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listSources(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListSources? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, sourceType: SourceTypeListSources? = null, mentionFilter: MentionFilterListSources? = null, competitors: kotlin.String? = null, output: OutputListSources? = null) : Unit {
+        val localVarResponse = listSourcesWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, sourceType = sourceType, mentionFilter = mentionFilter, competitors = competitors, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /dimensions/sources
+     * List source URLs
+     * 
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param sourceType Filter by source ownership. Owned and competitor matching honor the project&#39;s exact-subdomain setting. (optional)
+     * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
+     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listSourcesWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListSources?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sourceType: SourceTypeListSources?, mentionFilter: MentionFilterListSources?, competitors: kotlin.String?, output: OutputListSources?) : ApiResponse<Unit?> {
+        val localVariableConfig = listSourcesRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, sourceType = sourceType, mentionFilter = mentionFilter, competitors = competitors, output = output)
+
+        return request<Unit, Unit>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listSources
+     *
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param sourceType Filter by source ownership. Owned and competitor matching honor the project&#39;s exact-subdomain setting. (optional)
+     * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
+     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun listSourcesRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListSources?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sourceType: SourceTypeListSources?, mentionFilter: MentionFilterListSources?, competitors: kotlin.String?, output: OutputListSources?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (model != null) {
+                    put("model", listOf(model.value))
+                }
+                if (collectionId != null) {
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (prompt != null) {
+                    put("prompt", listOf(prompt.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+                if (sourceType != null) {
+                    put("source_type", listOf(sourceType.value))
+                }
+                if (mentionFilter != null) {
+                    put("mention_filter", listOf(mentionFilter.value))
+                }
+                if (competitors != null) {
+                    put("competitors", listOf(competitors.toString()))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/dimensions/sources",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
