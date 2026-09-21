@@ -27,7 +27,6 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
-import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 
 import com.squareup.moshi.Json
 
@@ -98,7 +97,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -112,7 +111,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAiModelInsightsSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelInsightsSummary? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiModelInsightsSummary? = null, competitors: kotlin.String? = null) : Unit {
+    fun getAiModelInsightsSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelInsightsSummary? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiModelInsightsSummary? = null, competitors: kotlin.String? = null) : Unit {
         val localVarResponse = getAiModelInsightsSummaryWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, competitors = competitors)
 
         return when (localVarResponse.responseType) {
@@ -139,7 +138,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -150,7 +149,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAiModelInsightsSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelInsightsSummary?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelInsightsSummary?, competitors: kotlin.String?) : ApiResponse<Unit?> {
+    fun getAiModelInsightsSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelInsightsSummary?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelInsightsSummary?, competitors: kotlin.String?) : ApiResponse<Unit?> {
         val localVariableConfig = getAiModelInsightsSummaryRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, competitors = competitors)
 
         return request<Unit, Unit>(
@@ -166,7 +165,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -174,7 +173,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @return RequestConfig
      */
-    fun getAiModelInsightsSummaryRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelInsightsSummary?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelInsightsSummary?, competitors: kotlin.String?) : RequestConfig<Unit> {
+    fun getAiModelInsightsSummaryRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelInsightsSummary?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelInsightsSummary?, competitors: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -192,6 +191,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                     put("granularity", listOf(granularity.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -294,7 +294,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -310,7 +310,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAiModelPositionDistribution(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelPositionDistribution? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiModelPositionDistribution? = null, model: ModelGetAiModelPositionDistribution? = null, brand1: kotlin.Int? = null, brand2: kotlin.Int? = null) : Unit {
+    fun getAiModelPositionDistribution(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelPositionDistribution? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiModelPositionDistribution? = null, model: ModelGetAiModelPositionDistribution? = null, brand1: kotlin.Int? = null, brand2: kotlin.Int? = null) : Unit {
         val localVarResponse = getAiModelPositionDistributionWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, model = model, brand1 = brand1, brand2 = brand2)
 
         return when (localVarResponse.responseType) {
@@ -337,7 +337,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -350,7 +350,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAiModelPositionDistributionWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelPositionDistribution?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelPositionDistribution?, model: ModelGetAiModelPositionDistribution?, brand1: kotlin.Int?, brand2: kotlin.Int?) : ApiResponse<Unit?> {
+    fun getAiModelPositionDistributionWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelPositionDistribution?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelPositionDistribution?, model: ModelGetAiModelPositionDistribution?, brand1: kotlin.Int?, brand2: kotlin.Int?) : ApiResponse<Unit?> {
         val localVariableConfig = getAiModelPositionDistributionRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, model = model, brand1 = brand1, brand2 = brand2)
 
         return request<Unit, Unit>(
@@ -366,7 +366,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -376,7 +376,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param brand2  (optional)
      * @return RequestConfig
      */
-    fun getAiModelPositionDistributionRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelPositionDistribution?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelPositionDistribution?, model: ModelGetAiModelPositionDistribution?, brand1: kotlin.Int?, brand2: kotlin.Int?) : RequestConfig<Unit> {
+    fun getAiModelPositionDistributionRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelPositionDistribution?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelPositionDistribution?, model: ModelGetAiModelPositionDistribution?, brand1: kotlin.Int?, brand2: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -394,6 +394,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                     put("granularity", listOf(granularity.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -474,7 +475,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -489,7 +490,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAiOverviewResults(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiOverviewResults? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiOverviewResults? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
+    fun getAiOverviewResults(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiOverviewResults? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiOverviewResults? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
         val localVarResponse = getAiOverviewResultsWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, page = page, perPage = perPage)
 
         return when (localVarResponse.responseType) {
@@ -516,7 +517,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -528,7 +529,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAiOverviewResultsWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiOverviewResults?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiOverviewResults?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
+    fun getAiOverviewResultsWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiOverviewResults?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiOverviewResults?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
         val localVariableConfig = getAiOverviewResultsRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, page = page, perPage = perPage)
 
         return request<Unit, Unit>(
@@ -544,7 +545,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -553,7 +554,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param perPage  (optional, default to 20)
      * @return RequestConfig
      */
-    fun getAiOverviewResultsRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiOverviewResults?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiOverviewResults?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
+    fun getAiOverviewResultsRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiOverviewResults?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiOverviewResults?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -571,6 +572,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                     put("granularity", listOf(granularity.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))

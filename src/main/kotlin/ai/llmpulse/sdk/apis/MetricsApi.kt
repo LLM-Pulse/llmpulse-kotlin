@@ -28,7 +28,6 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
-import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 import ai.llmpulse.sdk.models.PromptSummaryResponse
 import ai.llmpulse.sdk.models.SovResponse
 import ai.llmpulse.sdk.models.SummaryResponse
@@ -188,7 +187,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param breakdown Add per-(prompt, model) rows to the output (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -208,7 +207,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getPromptSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, breakdown: BreakdownGetPromptSummary? = null, model: ModelGetPromptSummary? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetPromptSummary? = null, sort: SortGetPromptSummary? = SortGetPromptSummary.responses, sortDir: SortDirGetPromptSummary? = SortDirGetPromptSummary.desc, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetPromptSummary? = null) : PromptSummaryResponse {
+    fun getPromptSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, breakdown: BreakdownGetPromptSummary? = null, model: ModelGetPromptSummary? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetPromptSummary? = null, sort: SortGetPromptSummary? = SortGetPromptSummary.responses, sortDir: SortDirGetPromptSummary? = SortDirGetPromptSummary.desc, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetPromptSummary? = null) : PromptSummaryResponse {
         val localVarResponse = getPromptSummaryWithHttpInfo(projectId = projectId, range = range, from = from, to = to, breakdown = breakdown, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, sort = sort, sortDir = sortDir, page = page, perPage = perPage, output = output)
 
         return when (localVarResponse.responseType) {
@@ -236,7 +235,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param breakdown Add per-(prompt, model) rows to the output (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -253,7 +252,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getPromptSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, breakdown: BreakdownGetPromptSummary?, model: ModelGetPromptSummary?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetPromptSummary?, sort: SortGetPromptSummary?, sortDir: SortDirGetPromptSummary?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetPromptSummary?) : ApiResponse<PromptSummaryResponse?> {
+    fun getPromptSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, breakdown: BreakdownGetPromptSummary?, model: ModelGetPromptSummary?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetPromptSummary?, sort: SortGetPromptSummary?, sortDir: SortDirGetPromptSummary?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetPromptSummary?) : ApiResponse<PromptSummaryResponse?> {
         val localVariableConfig = getPromptSummaryRequestConfig(projectId = projectId, range = range, from = from, to = to, breakdown = breakdown, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, sort = sort, sortDir = sortDir, page = page, perPage = perPage, output = output)
 
         return request<Unit, PromptSummaryResponse>(
@@ -270,7 +269,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param breakdown Add per-(prompt, model) rows to the output (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -283,7 +282,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun getPromptSummaryRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, breakdown: BreakdownGetPromptSummary?, model: ModelGetPromptSummary?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetPromptSummary?, sort: SortGetPromptSummary?, sortDir: SortDirGetPromptSummary?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetPromptSummary?) : RequestConfig<Unit> {
+    fun getPromptSummaryRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, breakdown: BreakdownGetPromptSummary?, model: ModelGetPromptSummary?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetPromptSummary?, sort: SortGetPromptSummary?, sortDir: SortDirGetPromptSummary?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetPromptSummary?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -304,6 +303,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -459,7 +459,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param granularity  (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -474,7 +474,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getShareOfVoice(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetShareOfVoice? = null, competitors: kotlin.String? = null, model: ModelGetShareOfVoice? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetShareOfVoice? = null, output: OutputGetShareOfVoice? = null, view: ViewGetShareOfVoice? = ViewGetShareOfVoice.over_time) : SovResponse {
+    fun getShareOfVoice(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetShareOfVoice? = null, competitors: kotlin.String? = null, model: ModelGetShareOfVoice? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetShareOfVoice? = null, output: OutputGetShareOfVoice? = null, view: ViewGetShareOfVoice? = ViewGetShareOfVoice.over_time) : SovResponse {
         val localVarResponse = getShareOfVoiceWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output, view = view)
 
         return when (localVarResponse.responseType) {
@@ -503,7 +503,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param granularity  (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -515,7 +515,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getShareOfVoiceWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetShareOfVoice?, competitors: kotlin.String?, model: ModelGetShareOfVoice?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetShareOfVoice?, output: OutputGetShareOfVoice?, view: ViewGetShareOfVoice?) : ApiResponse<SovResponse?> {
+    fun getShareOfVoiceWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetShareOfVoice?, competitors: kotlin.String?, model: ModelGetShareOfVoice?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetShareOfVoice?, output: OutputGetShareOfVoice?, view: ViewGetShareOfVoice?) : ApiResponse<SovResponse?> {
         val localVariableConfig = getShareOfVoiceRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output, view = view)
 
         return request<Unit, SovResponse>(
@@ -533,7 +533,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param granularity  (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -541,7 +541,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param view Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to View.over_time)
      * @return RequestConfig
      */
-    fun getShareOfVoiceRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetShareOfVoice?, competitors: kotlin.String?, model: ModelGetShareOfVoice?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetShareOfVoice?, output: OutputGetShareOfVoice?, view: ViewGetShareOfVoice?) : RequestConfig<Unit> {
+    fun getShareOfVoiceRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetShareOfVoice?, competitors: kotlin.String?, model: ModelGetShareOfVoice?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetShareOfVoice?, output: OutputGetShareOfVoice?, view: ViewGetShareOfVoice?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -565,6 +565,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (prompt != null) {
                     put("prompt", listOf(prompt.toString()))
@@ -688,7 +689,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -702,7 +703,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getSummary(projectId: kotlin.Int, metrics: kotlin.String? = null, granularity: GranularityGetSummary? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, competitors: kotlin.String? = null, model: ModelGetSummary? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetSummary? = null, output: OutputGetSummary? = null) : SummaryResponse {
+    fun getSummary(projectId: kotlin.Int, metrics: kotlin.String? = null, granularity: GranularityGetSummary? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, competitors: kotlin.String? = null, model: ModelGetSummary? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetSummary? = null, output: OutputGetSummary? = null) : SummaryResponse {
         val localVarResponse = getSummaryWithHttpInfo(projectId = projectId, metrics = metrics, granularity = granularity, range = range, from = from, to = to, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output)
 
         return when (localVarResponse.responseType) {
@@ -732,7 +733,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -743,7 +744,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getSummaryWithHttpInfo(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetSummary?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetSummary?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetSummary?, output: OutputGetSummary?) : ApiResponse<SummaryResponse?> {
+    fun getSummaryWithHttpInfo(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetSummary?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetSummary?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetSummary?, output: OutputGetSummary?) : ApiResponse<SummaryResponse?> {
         val localVariableConfig = getSummaryRequestConfig(projectId = projectId, metrics = metrics, granularity = granularity, range = range, from = from, to = to, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output)
 
         return request<Unit, SummaryResponse>(
@@ -762,14 +763,14 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun getSummaryRequestConfig(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetSummary?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetSummary?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetSummary?, output: OutputGetSummary?) : RequestConfig<Unit> {
+    fun getSummaryRequestConfig(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetSummary?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetSummary?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetSummary?, output: OutputGetSummary?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -796,6 +797,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (prompt != null) {
                     put("prompt", listOf(prompt.toString()))
@@ -916,7 +918,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -933,7 +935,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getTimeseries(projectId: kotlin.Int, metrics: kotlin.String? = null, granularity: GranularityGetTimeseries? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, competitors: kotlin.String? = null, model: ModelGetTimeseries? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetTimeseries? = null, includeProject: kotlin.Boolean? = true, output: OutputGetTimeseries? = null) : TimeseriesResponse {
+    fun getTimeseries(projectId: kotlin.Int, metrics: kotlin.String? = null, granularity: GranularityGetTimeseries? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, competitors: kotlin.String? = null, model: ModelGetTimeseries? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetTimeseries? = null, includeProject: kotlin.Boolean? = true, output: OutputGetTimeseries? = null) : TimeseriesResponse {
         val localVarResponse = getTimeseriesWithHttpInfo(projectId = projectId, metrics = metrics, granularity = granularity, range = range, from = from, to = to, competitors = competitors, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, includeProject = includeProject, output = output)
 
         return when (localVarResponse.responseType) {
@@ -963,7 +965,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -977,7 +979,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getTimeseriesWithHttpInfo(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetTimeseries?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetTimeseries?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTimeseries?, includeProject: kotlin.Boolean?, output: OutputGetTimeseries?) : ApiResponse<TimeseriesResponse?> {
+    fun getTimeseriesWithHttpInfo(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetTimeseries?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetTimeseries?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTimeseries?, includeProject: kotlin.Boolean?, output: OutputGetTimeseries?) : ApiResponse<TimeseriesResponse?> {
         val localVariableConfig = getTimeseriesRequestConfig(projectId = projectId, metrics = metrics, granularity = granularity, range = range, from = from, to = to, competitors = competitors, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, includeProject = includeProject, output = output)
 
         return request<Unit, TimeseriesResponse>(
@@ -996,7 +998,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -1006,7 +1008,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun getTimeseriesRequestConfig(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetTimeseries?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetTimeseries?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTimeseries?, includeProject: kotlin.Boolean?, output: OutputGetTimeseries?) : RequestConfig<Unit> {
+    fun getTimeseriesRequestConfig(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetTimeseries?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetTimeseries?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTimeseries?, includeProject: kotlin.Boolean?, output: OutputGetTimeseries?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -1033,6 +1035,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -1159,7 +1162,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -1179,7 +1182,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getTopSources(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, model: ModelGetTopSources? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetTopSources? = null, sort: SortGetTopSources? = SortGetTopSources.total_responses, query: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetTopSources? = null) : TopSourcesResponse {
+    fun getTopSources(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, model: ModelGetTopSources? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetTopSources? = null, sort: SortGetTopSources? = SortGetTopSources.total_responses, query: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetTopSources? = null) : TopSourcesResponse {
         val localVarResponse = getTopSourcesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, sort = sort, query = query, page = page, perPage = perPage, output = output)
 
         return when (localVarResponse.responseType) {
@@ -1206,7 +1209,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -1223,7 +1226,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getTopSourcesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetTopSources?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTopSources?, sort: SortGetTopSources?, query: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetTopSources?) : ApiResponse<TopSourcesResponse?> {
+    fun getTopSourcesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetTopSources?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTopSources?, sort: SortGetTopSources?, query: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetTopSources?) : ApiResponse<TopSourcesResponse?> {
         val localVariableConfig = getTopSourcesRequestConfig(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, sort = sort, query = query, page = page, perPage = perPage, output = output)
 
         return request<Unit, TopSourcesResponse>(
@@ -1239,7 +1242,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -1252,7 +1255,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun getTopSourcesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetTopSources?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTopSources?, sort: SortGetTopSources?, query: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetTopSources?) : RequestConfig<Unit> {
+    fun getTopSourcesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetTopSources?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTopSources?, sort: SortGetTopSources?, query: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetTopSources?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -1270,6 +1273,7 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))

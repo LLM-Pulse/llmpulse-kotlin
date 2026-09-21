@@ -28,7 +28,6 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
-import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 import ai.llmpulse.sdk.models.PromptsCreateRequest
 import ai.llmpulse.sdk.models.PromptsCreateResponse
 
@@ -306,7 +305,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -324,7 +323,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listPromptExecutions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPromptExecutions? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, mentionFilter: MentionFilterListPromptExecutions? = null, citationFilter: CitationFilterListPromptExecutions? = null, competitors: kotlin.String? = null, output: OutputListPromptExecutions? = null) : Unit {
+    fun listPromptExecutions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPromptExecutions? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, mentionFilter: MentionFilterListPromptExecutions? = null, citationFilter: CitationFilterListPromptExecutions? = null, competitors: kotlin.String? = null, output: OutputListPromptExecutions? = null) : Unit {
         val localVarResponse = listPromptExecutionsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, output = output)
 
         return when (localVarResponse.responseType) {
@@ -350,7 +349,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -365,7 +364,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listPromptExecutionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?) : ApiResponse<Unit?> {
+    fun listPromptExecutionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?) : ApiResponse<Unit?> {
         val localVariableConfig = listPromptExecutionsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, output = output)
 
         return request<Unit, Unit>(
@@ -380,7 +379,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -392,7 +391,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listPromptExecutionsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?) : RequestConfig<Unit> {
+    fun listPromptExecutionsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -407,6 +406,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -519,7 +519,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -535,7 +535,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listPrompts(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPrompts? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListPrompts? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListPrompts? = null) : Unit {
+    fun listPrompts(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPrompts? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListPrompts? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListPrompts? = null) : Unit {
         val localVarResponse = listPromptsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -561,7 +561,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -574,7 +574,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listPromptsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : ApiResponse<Unit?> {
+    fun listPromptsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : ApiResponse<Unit?> {
         val localVariableConfig = listPromptsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -589,7 +589,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -599,7 +599,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listPromptsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : RequestConfig<Unit> {
+    fun listPromptsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -614,6 +614,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -779,7 +780,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param direction  (optional, default to Direction.desc)
      * @param query Case-insensitive substring filter on the sub-query text (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -797,7 +798,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listQueryFanOuts(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListQueryFanOuts? = ViewListQueryFanOuts.query, order: OrderListQueryFanOuts? = null, direction: DirectionListQueryFanOuts? = DirectionListQueryFanOuts.desc, query: kotlin.String? = null, model: ModelListQueryFanOuts? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListQueryFanOuts? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListQueryFanOuts? = null) : Unit {
+    fun listQueryFanOuts(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListQueryFanOuts? = ViewListQueryFanOuts.query, order: OrderListQueryFanOuts? = null, direction: DirectionListQueryFanOuts? = DirectionListQueryFanOuts.desc, query: kotlin.String? = null, model: ModelListQueryFanOuts? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListQueryFanOuts? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListQueryFanOuts? = null) : Unit {
         val localVarResponse = listQueryFanOutsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, view = view, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -827,7 +828,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param direction  (optional, default to Direction.desc)
      * @param query Case-insensitive substring filter on the sub-query text (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -842,7 +843,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listQueryFanOutsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListQueryFanOuts?, order: OrderListQueryFanOuts?, direction: DirectionListQueryFanOuts?, query: kotlin.String?, model: ModelListQueryFanOuts?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListQueryFanOuts?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListQueryFanOuts?) : ApiResponse<Unit?> {
+    fun listQueryFanOutsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListQueryFanOuts?, order: OrderListQueryFanOuts?, direction: DirectionListQueryFanOuts?, query: kotlin.String?, model: ModelListQueryFanOuts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListQueryFanOuts?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListQueryFanOuts?) : ApiResponse<Unit?> {
         val localVariableConfig = listQueryFanOutsRequestConfig(projectId = projectId, page = page, perPage = perPage, view = view, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -861,7 +862,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param direction  (optional, default to Direction.desc)
      * @param query Case-insensitive substring filter on the sub-query text (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -873,7 +874,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listQueryFanOutsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListQueryFanOuts?, order: OrderListQueryFanOuts?, direction: DirectionListQueryFanOuts?, query: kotlin.String?, model: ModelListQueryFanOuts?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListQueryFanOuts?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListQueryFanOuts?) : RequestConfig<Unit> {
+    fun listQueryFanOutsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListQueryFanOuts?, order: OrderListQueryFanOuts?, direction: DirectionListQueryFanOuts?, query: kotlin.String?, model: ModelListQueryFanOuts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListQueryFanOuts?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListQueryFanOuts?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -900,6 +901,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))

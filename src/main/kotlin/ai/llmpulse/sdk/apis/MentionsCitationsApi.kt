@@ -27,7 +27,6 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
-import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 
 import com.squareup.moshi.Json
 
@@ -107,7 +106,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
@@ -120,7 +119,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAllCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllCitations? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllCitations? = null) : Unit {
+    fun listAllCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllCitations? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllCitations? = null) : Unit {
         val localVarResponse = listAllCitationsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -147,7 +146,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
@@ -157,7 +156,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAllCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllCitations?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllCitations?) : ApiResponse<Unit?> {
+    fun listAllCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllCitations?) : ApiResponse<Unit?> {
         val localVariableConfig = listAllCitationsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -173,14 +172,14 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listAllCitationsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllCitations?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllCitations?) : RequestConfig<Unit> {
+    fun listAllCitationsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllCitations?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -198,6 +197,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (prompt != null) {
                     put("prompt", listOf(prompt.toString()))
@@ -278,7 +278,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
@@ -291,7 +291,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAllMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllMentions? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllMentions? = null) : Unit {
+    fun listAllMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllMentions? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllMentions? = null) : Unit {
         val localVarResponse = listAllMentionsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -318,7 +318,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
@@ -328,7 +328,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAllMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllMentions?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllMentions?) : ApiResponse<Unit?> {
+    fun listAllMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllMentions?) : ApiResponse<Unit?> {
         val localVariableConfig = listAllMentionsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -344,14 +344,14 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listAllMentionsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllMentions?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllMentions?) : RequestConfig<Unit> {
+    fun listAllMentionsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllMentions?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -369,6 +369,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (prompt != null) {
                     put("prompt", listOf(prompt.toString()))
@@ -448,7 +449,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -463,7 +464,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCitations(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCitations? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCitations? = null) : Unit {
+    fun listCitations(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCitations? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCitations? = null) : Unit {
         val localVarResponse = listCitationsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -489,7 +490,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -501,7 +502,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCitationsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCitations?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCitations?) : ApiResponse<Unit?> {
+    fun listCitationsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCitations?) : ApiResponse<Unit?> {
         val localVariableConfig = listCitationsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -516,7 +517,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -525,7 +526,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listCitationsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCitations?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCitations?) : RequestConfig<Unit> {
+    fun listCitationsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCitations?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -540,6 +541,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -626,7 +628,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
@@ -639,7 +641,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCompetitorCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorCitations? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorCitations? = null) : Unit {
+    fun listCompetitorCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorCitations? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorCitations? = null) : Unit {
         val localVarResponse = listCompetitorCitationsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -666,7 +668,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
@@ -676,7 +678,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCompetitorCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorCitations?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorCitations?) : ApiResponse<Unit?> {
+    fun listCompetitorCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorCitations?) : ApiResponse<Unit?> {
         val localVariableConfig = listCompetitorCitationsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -692,14 +694,14 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listCompetitorCitationsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorCitations?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorCitations?) : RequestConfig<Unit> {
+    fun listCompetitorCitationsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorCitations?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -717,6 +719,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (prompt != null) {
                     put("prompt", listOf(prompt.toString()))
@@ -797,7 +800,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
@@ -810,7 +813,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCompetitorMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorMentions? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorMentions? = null) : Unit {
+    fun listCompetitorMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorMentions? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorMentions? = null) : Unit {
         val localVarResponse = listCompetitorMentionsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -837,7 +840,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
@@ -847,7 +850,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCompetitorMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorMentions?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorMentions?) : ApiResponse<Unit?> {
+    fun listCompetitorMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorMentions?) : ApiResponse<Unit?> {
         val localVariableConfig = listCompetitorMentionsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -863,14 +866,14 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param prompt Filter by prompt ID (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listCompetitorMentionsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorMentions?, collectionId: GetTimeseriesCollectionIdParameter?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorMentions?) : RequestConfig<Unit> {
+    fun listCompetitorMentionsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorMentions?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -888,6 +891,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (prompt != null) {
                     put("prompt", listOf(prompt.toString()))
@@ -967,7 +971,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -982,7 +986,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMentions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListMentions? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListMentions? = null) : Unit {
+    fun listMentions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListMentions? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListMentions? = null) : Unit {
         val localVarResponse = listMentionsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -1008,7 +1012,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -1020,7 +1024,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMentionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListMentions?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListMentions?) : ApiResponse<Unit?> {
+    fun listMentionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListMentions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListMentions?) : ApiResponse<Unit?> {
         val localVariableConfig = listMentionsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -1035,7 +1039,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -1044,7 +1048,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listMentionsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListMentions?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListMentions?) : RequestConfig<Unit> {
+    fun listMentionsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListMentions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListMentions?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -1059,6 +1063,7 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))

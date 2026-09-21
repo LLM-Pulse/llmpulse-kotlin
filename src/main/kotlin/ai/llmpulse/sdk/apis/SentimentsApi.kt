@@ -28,7 +28,6 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
-import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 
 import com.squareup.moshi.Json
 
@@ -187,7 +186,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @param brandOnly  (optional)
      * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param from  (optional)
@@ -202,7 +201,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listSentimentRecords(projectId: kotlin.Int, competitorId: kotlin.Int? = null, brandOnly: kotlin.Boolean? = null, analysis: kotlin.String? = null, model: ModelListSentimentRecords? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
+    fun listSentimentRecords(projectId: kotlin.Int, competitorId: kotlin.Int? = null, brandOnly: kotlin.Boolean? = null, analysis: kotlin.String? = null, model: ModelListSentimentRecords? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
         val localVarResponse = listSentimentRecordsWithHttpInfo(projectId = projectId, competitorId = competitorId, brandOnly = brandOnly, analysis = analysis, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, from = from, to = to, page = page, perPage = perPage)
 
         return when (localVarResponse.responseType) {
@@ -229,7 +228,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @param brandOnly  (optional)
      * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param from  (optional)
@@ -241,7 +240,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listSentimentRecordsWithHttpInfo(projectId: kotlin.Int, competitorId: kotlin.Int?, brandOnly: kotlin.Boolean?, analysis: kotlin.String?, model: ModelListSentimentRecords?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
+    fun listSentimentRecordsWithHttpInfo(projectId: kotlin.Int, competitorId: kotlin.Int?, brandOnly: kotlin.Boolean?, analysis: kotlin.String?, model: ModelListSentimentRecords?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
         val localVariableConfig = listSentimentRecordsRequestConfig(projectId = projectId, competitorId = competitorId, brandOnly = brandOnly, analysis = analysis, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, from = from, to = to, page = page, perPage = perPage)
 
         return request<Unit, Unit>(
@@ -257,7 +256,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @param brandOnly  (optional)
      * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param from  (optional)
@@ -266,7 +265,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @param perPage  (optional, default to 20)
      * @return RequestConfig
      */
-    fun listSentimentRecordsRequestConfig(projectId: kotlin.Int, competitorId: kotlin.Int?, brandOnly: kotlin.Boolean?, analysis: kotlin.String?, model: ModelListSentimentRecords?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
+    fun listSentimentRecordsRequestConfig(projectId: kotlin.Int, competitorId: kotlin.Int?, brandOnly: kotlin.Boolean?, analysis: kotlin.String?, model: ModelListSentimentRecords?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -284,6 +283,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))

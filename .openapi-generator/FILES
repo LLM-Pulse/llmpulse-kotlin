@@ -35,7 +35,6 @@ docs/GetAccount200Response.md
 docs/GetAccount200ResponseLimits.md
 docs/GetAccount200ResponseRateLimits.md
 docs/GetAccount200ResponseSubscription.md
-docs/GetTimeseriesCollectionIdParameter.md
 docs/HealthApi.md
 docs/IntelligenceTask.md
 docs/IntelligenceTaskCreateRequest.md
@@ -167,7 +166,6 @@ src/main/kotlin/ai/llmpulse/sdk/models/GetAccount200Response.kt
 src/main/kotlin/ai/llmpulse/sdk/models/GetAccount200ResponseLimits.kt
 src/main/kotlin/ai/llmpulse/sdk/models/GetAccount200ResponseRateLimits.kt
 src/main/kotlin/ai/llmpulse/sdk/models/GetAccount200ResponseSubscription.kt
-src/main/kotlin/ai/llmpulse/sdk/models/GetTimeseriesCollectionIdParameter.kt
 src/main/kotlin/ai/llmpulse/sdk/models/IntelligenceTask.kt
 src/main/kotlin/ai/llmpulse/sdk/models/IntelligenceTaskCreateRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/IntelligenceTaskUpdateRequest.kt

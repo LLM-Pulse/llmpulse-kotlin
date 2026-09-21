@@ -28,7 +28,6 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
-import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 
 import com.squareup.moshi.Json
 
@@ -188,7 +187,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param store provider&#x3D;mobile_apps only (optional, default to Store.google_play)
      * @param owned Return only rows belonging to the account&#39;s own connected profile (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -204,7 +203,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listOwnedMedia(projectId: kotlin.Int, provider: ProviderListOwnedMedia, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListOwnedMedia? = null, store: StoreListOwnedMedia? = StoreListOwnedMedia.google_play, owned: kotlin.Boolean? = null, model: ModelListOwnedMedia? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindListOwnedMedia? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListOwnedMedia? = null) : Unit {
+    fun listOwnedMedia(projectId: kotlin.Int, provider: ProviderListOwnedMedia, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListOwnedMedia? = null, store: StoreListOwnedMedia? = StoreListOwnedMedia.google_play, owned: kotlin.Boolean? = null, model: ModelListOwnedMedia? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindListOwnedMedia? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListOwnedMedia? = null) : Unit {
         val localVarResponse = listOwnedMediaWithHttpInfo(projectId = projectId, provider = provider, page = page, perPage = perPage, view = view, store = store, owned = owned, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -234,7 +233,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param store provider&#x3D;mobile_apps only (optional, default to Store.google_play)
      * @param owned Return only rows belonging to the account&#39;s own connected profile (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -247,7 +246,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listOwnedMediaWithHttpInfo(projectId: kotlin.Int, provider: ProviderListOwnedMedia, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListOwnedMedia?, store: StoreListOwnedMedia?, owned: kotlin.Boolean?, model: ModelListOwnedMedia?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListOwnedMedia?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListOwnedMedia?) : ApiResponse<Unit?> {
+    fun listOwnedMediaWithHttpInfo(projectId: kotlin.Int, provider: ProviderListOwnedMedia, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListOwnedMedia?, store: StoreListOwnedMedia?, owned: kotlin.Boolean?, model: ModelListOwnedMedia?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListOwnedMedia?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListOwnedMedia?) : ApiResponse<Unit?> {
         val localVariableConfig = listOwnedMediaRequestConfig(projectId = projectId, provider = provider, page = page, perPage = perPage, view = view, store = store, owned = owned, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -266,7 +265,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param store provider&#x3D;mobile_apps only (optional, default to Store.google_play)
      * @param owned Return only rows belonging to the account&#39;s own connected profile (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -276,7 +275,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listOwnedMediaRequestConfig(projectId: kotlin.Int, provider: ProviderListOwnedMedia, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListOwnedMedia?, store: StoreListOwnedMedia?, owned: kotlin.Boolean?, model: ModelListOwnedMedia?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListOwnedMedia?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListOwnedMedia?) : RequestConfig<Unit> {
+    fun listOwnedMediaRequestConfig(projectId: kotlin.Int, provider: ProviderListOwnedMedia, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListOwnedMedia?, store: StoreListOwnedMedia?, owned: kotlin.Boolean?, model: ModelListOwnedMedia?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListOwnedMedia?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListOwnedMedia?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -301,6 +300,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -493,7 +493,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param order Sort field; the allowed set depends on view (optional)
      * @param direction  (optional, default to Direction.desc)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -509,7 +509,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listRedditCitations(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListRedditCitations? = ViewListRedditCitations.subreddits, subreddit: kotlin.String? = null, author: kotlin.String? = null, status: StatusListRedditCitations? = null, owned: kotlin.Boolean? = null, brand: kotlin.String? = null, order: OrderListRedditCitations? = null, direction: DirectionListRedditCitations? = DirectionListRedditCitations.desc, model: ModelListRedditCitations? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindListRedditCitations? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListRedditCitations? = null) : Unit {
+    fun listRedditCitations(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListRedditCitations? = ViewListRedditCitations.subreddits, subreddit: kotlin.String? = null, author: kotlin.String? = null, status: StatusListRedditCitations? = null, owned: kotlin.Boolean? = null, brand: kotlin.String? = null, order: OrderListRedditCitations? = null, direction: DirectionListRedditCitations? = DirectionListRedditCitations.desc, model: ModelListRedditCitations? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindListRedditCitations? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListRedditCitations? = null) : Unit {
         val localVarResponse = listRedditCitationsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, view = view, subreddit = subreddit, author = author, status = status, owned = owned, brand = brand, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -543,7 +543,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param order Sort field; the allowed set depends on view (optional)
      * @param direction  (optional, default to Direction.desc)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -556,7 +556,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listRedditCitationsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListRedditCitations?, subreddit: kotlin.String?, author: kotlin.String?, status: StatusListRedditCitations?, owned: kotlin.Boolean?, brand: kotlin.String?, order: OrderListRedditCitations?, direction: DirectionListRedditCitations?, model: ModelListRedditCitations?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListRedditCitations?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListRedditCitations?) : ApiResponse<Unit?> {
+    fun listRedditCitationsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListRedditCitations?, subreddit: kotlin.String?, author: kotlin.String?, status: StatusListRedditCitations?, owned: kotlin.Boolean?, brand: kotlin.String?, order: OrderListRedditCitations?, direction: DirectionListRedditCitations?, model: ModelListRedditCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListRedditCitations?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListRedditCitations?) : ApiResponse<Unit?> {
         val localVariableConfig = listRedditCitationsRequestConfig(projectId = projectId, page = page, perPage = perPage, view = view, subreddit = subreddit, author = author, status = status, owned = owned, brand = brand, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -579,7 +579,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param order Sort field; the allowed set depends on view (optional)
      * @param direction  (optional, default to Direction.desc)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -589,7 +589,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listRedditCitationsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListRedditCitations?, subreddit: kotlin.String?, author: kotlin.String?, status: StatusListRedditCitations?, owned: kotlin.Boolean?, brand: kotlin.String?, order: OrderListRedditCitations?, direction: DirectionListRedditCitations?, model: ModelListRedditCitations?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListRedditCitations?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListRedditCitations?) : RequestConfig<Unit> {
+    fun listRedditCitationsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListRedditCitations?, subreddit: kotlin.String?, author: kotlin.String?, status: StatusListRedditCitations?, owned: kotlin.Boolean?, brand: kotlin.String?, order: OrderListRedditCitations?, direction: DirectionListRedditCitations?, model: ModelListRedditCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListRedditCitations?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListRedditCitations?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -628,6 +628,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))

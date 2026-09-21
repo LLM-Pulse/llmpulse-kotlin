@@ -164,7 +164,6 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
  - [ai.llmpulse.sdk.models.GetAccount200ResponseLimits](docs/GetAccount200ResponseLimits.md)
  - [ai.llmpulse.sdk.models.GetAccount200ResponseRateLimits](docs/GetAccount200ResponseRateLimits.md)
  - [ai.llmpulse.sdk.models.GetAccount200ResponseSubscription](docs/GetAccount200ResponseSubscription.md)
- - [ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter](docs/GetTimeseriesCollectionIdParameter.md)
  - [ai.llmpulse.sdk.models.IntelligenceTask](docs/IntelligenceTask.md)
  - [ai.llmpulse.sdk.models.IntelligenceTaskCreateRequest](docs/IntelligenceTaskCreateRequest.md)
  - [ai.llmpulse.sdk.models.IntelligenceTaskUpdateRequest](docs/IntelligenceTaskUpdateRequest.md)

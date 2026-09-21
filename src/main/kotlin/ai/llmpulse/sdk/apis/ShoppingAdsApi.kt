@@ -28,7 +28,6 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
-import ai.llmpulse.sdk.models.GetTimeseriesCollectionIdParameter
 
 import com.squareup.moshi.Json
 
@@ -186,7 +185,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param direction Sort direction for view&#x3D;advertisers. Defaults to desc, except avg_position and domain which default to asc. (optional)
      * @param query Case-insensitive substring filter on the ad title, domain or snippet (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -204,7 +203,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAds(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListAds? = ViewListAds.advertisers, owned: kotlin.Boolean? = null, order: OrderListAds? = null, direction: DirectionListAds? = null, query: kotlin.String? = null, model: ModelListAds? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAds? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAds? = null) : Unit {
+    fun listAds(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListAds? = ViewListAds.advertisers, owned: kotlin.Boolean? = null, order: OrderListAds? = null, direction: DirectionListAds? = null, query: kotlin.String? = null, model: ModelListAds? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAds? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAds? = null) : Unit {
         val localVarResponse = listAdsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, view = view, owned = owned, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -235,7 +234,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param direction Sort direction for view&#x3D;advertisers. Defaults to desc, except avg_position and domain which default to asc. (optional)
      * @param query Case-insensitive substring filter on the ad title, domain or snippet (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -250,7 +249,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAdsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListAds?, owned: kotlin.Boolean?, order: OrderListAds?, direction: DirectionListAds?, query: kotlin.String?, model: ModelListAds?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListAds?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAds?) : ApiResponse<Unit?> {
+    fun listAdsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListAds?, owned: kotlin.Boolean?, order: OrderListAds?, direction: DirectionListAds?, query: kotlin.String?, model: ModelListAds?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListAds?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAds?) : ApiResponse<Unit?> {
         val localVariableConfig = listAdsRequestConfig(projectId = projectId, page = page, perPage = perPage, view = view, owned = owned, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -270,7 +269,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param direction Sort direction for view&#x3D;advertisers. Defaults to desc, except avg_position and domain which default to asc. (optional)
      * @param query Case-insensitive substring filter on the ad title, domain or snippet (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -282,7 +281,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listAdsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListAds?, owned: kotlin.Boolean?, order: OrderListAds?, direction: DirectionListAds?, query: kotlin.String?, model: ModelListAds?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListAds?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAds?) : RequestConfig<Unit> {
+    fun listAdsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListAds?, owned: kotlin.Boolean?, order: OrderListAds?, direction: DirectionListAds?, query: kotlin.String?, model: ModelListAds?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListAds?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAds?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -312,6 +311,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
@@ -487,7 +487,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param direction  (optional, default to Direction.desc)
      * @param query Case-insensitive substring filter on the product title (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -505,7 +505,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listShopping(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListShopping? = ViewListShopping.products, owned: kotlin.Boolean? = null, order: OrderListShopping? = null, direction: DirectionListShopping? = DirectionListShopping.desc, query: kotlin.String? = null, model: ModelListShopping? = null, collectionId: GetTimeseriesCollectionIdParameter? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListShopping? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListShopping? = null) : Unit {
+    fun listShopping(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListShopping? = ViewListShopping.products, owned: kotlin.Boolean? = null, order: OrderListShopping? = null, direction: DirectionListShopping? = DirectionListShopping.desc, query: kotlin.String? = null, model: ModelListShopping? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListShopping? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListShopping? = null) : Unit {
         val localVarResponse = listShoppingWithHttpInfo(projectId = projectId, page = page, perPage = perPage, view = view, owned = owned, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
@@ -536,7 +536,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param direction  (optional, default to Direction.desc)
      * @param query Case-insensitive substring filter on the product title (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -551,7 +551,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listShoppingWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListShopping?, owned: kotlin.Boolean?, order: OrderListShopping?, direction: DirectionListShopping?, query: kotlin.String?, model: ModelListShopping?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListShopping?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListShopping?) : ApiResponse<Unit?> {
+    fun listShoppingWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListShopping?, owned: kotlin.Boolean?, order: OrderListShopping?, direction: DirectionListShopping?, query: kotlin.String?, model: ModelListShopping?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListShopping?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListShopping?) : ApiResponse<Unit?> {
         val localVariableConfig = listShoppingRequestConfig(projectId = projectId, page = page, perPage = perPage, view = view, owned = owned, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return request<Unit, Unit>(
@@ -571,7 +571,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param direction  (optional, default to Direction.desc)
      * @param query Case-insensitive substring filter on the product title (optional)
      * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     * @param collectionId One collection/tag ID or a comma-separated list of IDs (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
@@ -583,7 +583,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listShoppingRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListShopping?, owned: kotlin.Boolean?, order: OrderListShopping?, direction: DirectionListShopping?, query: kotlin.String?, model: ModelListShopping?, collectionId: GetTimeseriesCollectionIdParameter?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListShopping?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListShopping?) : RequestConfig<Unit> {
+    fun listShoppingRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListShopping?, owned: kotlin.Boolean?, order: OrderListShopping?, direction: DirectionListShopping?, query: kotlin.String?, model: ModelListShopping?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListShopping?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListShopping?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -613,6 +613,7 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
                     put("model", listOf(model.value))
                 }
                 if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
                 }
                 if (countryCode != null) {
                     put("country_code", listOf(countryCode.toString()))
