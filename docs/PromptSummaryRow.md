@@ -15,6 +15,7 @@
 | **citationRate** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
 | **avgMentionPosition** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
 | **avgPosition** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
+| **appUrl** | [**java.net.URI**](java.net.URI.md) | Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project |  [optional] |
 
 
 

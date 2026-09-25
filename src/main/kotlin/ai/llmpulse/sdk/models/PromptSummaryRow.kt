@@ -41,6 +41,7 @@ import com.squareup.moshi.JsonClass
  * @param citationRate 
  * @param avgMentionPosition 
  * @param avgPosition 
+ * @param appUrl Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project
  */
 
 
@@ -78,7 +79,11 @@ data class PromptSummaryRow (
     val avgMentionPosition: java.math.BigDecimal? = null,
 
     @Json(name = "avg_position")
-    val avgPosition: java.math.BigDecimal? = null
+    val avgPosition: java.math.BigDecimal? = null,
+
+    /* Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project */
+    @Json(name = "app_url")
+    val appUrl: java.net.URI? = null
 
 ) {
 

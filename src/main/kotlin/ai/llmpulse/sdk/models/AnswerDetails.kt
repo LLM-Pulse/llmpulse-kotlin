@@ -51,6 +51,7 @@ import com.squareup.moshi.JsonClass
  * @param brandEntities 
  * @param localBusinesses 
  * @param locale 
+ * @param appUrl Opens this answer in the app. The link names its project, so it opens there for any user with access to that project
  */
 
 
@@ -114,7 +115,11 @@ data class AnswerDetails (
     val localBusinesses: kotlin.collections.List<kotlin.Any>? = null,
 
     @Json(name = "locale")
-    val locale: AnswerDetailsLocale? = null
+    val locale: AnswerDetailsLocale? = null,
+
+    /* Opens this answer in the app. The link names its project, so it opens there for any user with access to that project */
+    @Json(name = "app_url")
+    val appUrl: java.net.URI? = null
 
 ) {
 

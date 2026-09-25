@@ -24,6 +24,7 @@
 | **brandEntities** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
 | **localBusinesses** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
 | **locale** | [**AnswerDetailsLocale**](AnswerDetailsLocale.md) |  |  [optional] |
+| **appUrl** | [**java.net.URI**](java.net.URI.md) | Opens this answer in the app. The link names its project, so it opens there for any user with access to that project |  [optional] |
 
 
 
