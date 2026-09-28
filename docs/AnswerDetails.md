@@ -11,8 +11,8 @@
 | **response** | **kotlin.String** |  |  [optional] |
 | **responseTruncated** | **kotlin.Boolean** |  |  [optional] |
 | **executedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
-| **durationMs** | **kotlin.Int** |  |  [optional] |
-| **success** | **kotlin.Boolean** |  |  [optional] |
+| **durationMs** | [**java.math.BigDecimal**](java.math.BigDecimal.md) | Milliseconds, rounded to one decimal place |  [optional] |
+| **success** | **kotlin.Boolean** | Null while the answer is still pending |  [optional] |
 | **fanOutQueries** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  [optional] |
 | **mentions** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
 | **citations** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |

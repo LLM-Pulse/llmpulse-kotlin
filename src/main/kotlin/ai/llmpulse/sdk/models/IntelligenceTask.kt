@@ -43,7 +43,7 @@ import com.squareup.moshi.JsonClass
  * @param userInstructions 
  * @param outputLanguageCode 
  * @param wordCount 
- * @param resultData Only present when status='completed'
+ * @param resultData The generated content once status is completed; null before that
  * @param errorMessage 
  * @param estimatedTime 
  * @param createdAt 
@@ -95,7 +95,7 @@ data class IntelligenceTask (
     @Json(name = "word_count")
     val wordCount: kotlin.Int? = null,
 
-    /* Only present when status='completed' */
+    /* The generated content once status is completed; null before that */
     @Json(name = "result_data")
     val resultData: kotlin.Any? = null,
 

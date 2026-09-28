@@ -17,7 +17,7 @@
 | **userInstructions** | **kotlin.String** |  |  [optional] |
 | **outputLanguageCode** | **kotlin.String** |  |  [optional] |
 | **wordCount** | **kotlin.Int** |  |  [optional] |
-| **resultData** | [**kotlin.Any**](.md) | Only present when status&#x3D;&#39;completed&#39; |  [optional] |
+| **resultData** | [**kotlin.Any**](.md) | The generated content once status is completed; null before that |  [optional] |
 | **errorMessage** | **kotlin.String** |  |  [optional] |
 | **estimatedTime** | **kotlin.String** |  |  [optional] |
 | **createdAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |

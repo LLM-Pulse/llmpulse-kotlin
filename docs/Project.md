@@ -6,7 +6,7 @@
 | ------------ | ------------- | ------------- | ------------- |
 | **id** | **kotlin.Int** |  |  [optional] |
 | **name** | **kotlin.String** | Internal project label (sidebar, settings, admin) |  [optional] |
-| **brandName** | **kotlin.String** | LLM-facing brand label (used in prompts and customer-facing charts). Defaults to &#x60;name&#x60; when not set. |  [optional] |
+| **brandName** | **kotlin.String** | LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use &#x60;name&#x60;. |  [optional] |
 
 
 

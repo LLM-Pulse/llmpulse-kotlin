@@ -38,8 +38,8 @@ import com.squareup.moshi.JsonClass
  * @param response 
  * @param responseTruncated 
  * @param executedAt 
- * @param durationMs 
- * @param success 
+ * @param durationMs Milliseconds, rounded to one decimal place
+ * @param success Null while the answer is still pending
  * @param fanOutQueries 
  * @param mentions 
  * @param citations 
@@ -78,9 +78,11 @@ data class AnswerDetails (
     @Json(name = "executed_at")
     val executedAt: java.time.OffsetDateTime? = null,
 
+    /* Milliseconds, rounded to one decimal place */
     @Json(name = "duration_ms")
-    val durationMs: kotlin.Int? = null,
+    val durationMs: java.math.BigDecimal? = null,
 
+    /* Null while the answer is still pending */
     @Json(name = "success")
     val success: kotlin.Boolean? = null,
 

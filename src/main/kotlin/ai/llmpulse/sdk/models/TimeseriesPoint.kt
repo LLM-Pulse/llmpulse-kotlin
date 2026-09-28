@@ -30,16 +30,18 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
- * @param date 
- * @param `value` 
+ * @param date Calendar day in Europe/Madrid (YYYY-MM-DD). With granularity week or month it is the first day of the bucket (the Monday, or the 1st of the month).
+ * @param `value` Null when the metric has no value for the bucket, e.g. a rate, position or sentiment metric on a day without answers.
  */
 
 
 data class TimeseriesPoint (
 
+    /* Calendar day in Europe/Madrid (YYYY-MM-DD). With granularity week or month it is the first day of the bucket (the Monday, or the 1st of the month). */
     @Json(name = "date")
-    val date: java.time.OffsetDateTime? = null,
+    val date: java.time.LocalDate? = null,
 
+    /* Null when the metric has no value for the bucket, e.g. a rate, position or sentiment metric on a day without answers. */
     @Json(name = "value")
     val `value`: java.math.BigDecimal? = null
 

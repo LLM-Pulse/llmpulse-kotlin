@@ -34,7 +34,7 @@ import com.squareup.moshi.JsonClass
  * @param id 
  * @param competitorId 
  * @param name 
- * @param domain Bare (scheme-less) domain
+ * @param domain Bare (scheme-less) domain. Null for the project actor when the project has no URL.
  */
 
 
@@ -52,7 +52,7 @@ data class Actor (
     @Json(name = "name")
     val name: kotlin.String? = null,
 
-    /* Bare (scheme-less) domain */
+    /* Bare (scheme-less) domain. Null for the project actor when the project has no URL. */
     @Json(name = "domain")
     val domain: kotlin.String? = null
 

@@ -72,8 +72,8 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
 
     /**
      * GET /dimensions/sentiments
-     * List sentiment categories
-     * Sentiment metric keys + labels + colors. For records, use /sentiments.
+     * List sentiment categories (Growth plan or above)
+     * Sentiment metric keys + labels + colors. For records, use /sentiments. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return void
@@ -104,8 +104,8 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
 
     /**
      * GET /dimensions/sentiments
-     * List sentiment categories
-     * Sentiment metric keys + labels + colors. For records, use /sentiments.
+     * List sentiment categories (Growth plan or above)
+     * Sentiment metric keys + labels + colors. For records, use /sentiments. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return ApiResponse<Unit?>
@@ -138,7 +138,8 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/sentiments",
@@ -179,8 +180,8 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
 
     /**
      * GET /sentiments
-     * List sentiment records
-     * 
+     * List sentiment records (Growth plan or above)
+     * Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
      * @param competitorId  (optional)
      * @param brandOnly  (optional)
@@ -221,8 +222,8 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
 
     /**
      * GET /sentiments
-     * List sentiment records
-     * 
+     * List sentiment records (Growth plan or above)
+     * Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
      * @param competitorId  (optional)
      * @param brandOnly  (optional)

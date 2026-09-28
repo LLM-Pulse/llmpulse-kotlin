@@ -32,7 +32,7 @@ import com.squareup.moshi.JsonClass
  *
  * @param id 
  * @param name 
- * @param domain 
+ * @param domain Bare (scheme-less) domain. Null only on the own-brand row (include_project_brand=true) when the project has no URL.
  * @param actorType Only present when include_project_brand=true
  * @param isOwn Only present when include_project_brand=true
  */
@@ -46,6 +46,7 @@ data class Competitor (
     @Json(name = "name")
     val name: kotlin.String? = null,
 
+    /* Bare (scheme-less) domain. Null only on the own-brand row (include_project_brand=true) when the project has no URL. */
     @Json(name = "domain")
     val domain: kotlin.String? = null,
 

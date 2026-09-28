@@ -8,7 +8,7 @@
 | **id** | **kotlin.Int** |  |  [optional] |
 | **competitorId** | **kotlin.Int** |  |  [optional] |
 | **name** | **kotlin.String** |  |  [optional] |
-| **domain** | **kotlin.String** | Bare (scheme-less) domain |  [optional] |
+| **domain** | **kotlin.String** | Bare (scheme-less) domain. Null for the project actor when the project has no URL. |  [optional] |
 
 
 <a id="Type"></a>

@@ -33,7 +33,7 @@ import com.squareup.moshi.JsonClass
  *
  * @param id 
  * @param name Internal project label (sidebar, settings, admin)
- * @param brandName LLM-facing brand label (used in prompts and customer-facing charts). Defaults to `name` when not set.
+ * @param brandName LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`.
  * @param url 
  * @param description 
  * @param matchingNames 
@@ -63,7 +63,7 @@ data class ProjectDetails (
     @Json(name = "name")
     val name: kotlin.String? = null,
 
-    /* LLM-facing brand label (used in prompts and customer-facing charts). Defaults to `name` when not set. */
+    /* LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`. */
     @Json(name = "brand_name")
     val brandName: kotlin.String? = null,
 
