@@ -34,6 +34,7 @@ import com.squareup.moshi.JsonClass
  * 
  *
  * @param plan Plan key (starter, growth, scale, ...)
+ * @param planName Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key)
  * @param trackingFrequency How often prompts run (weekly, daily, monthly, ...)
  * @param role Whether the key belongs to the account owner or a team member
  * @param subscription 
@@ -48,6 +49,10 @@ data class GetAccount200Response (
     /* Plan key (starter, growth, scale, ...) */
     @Json(name = "plan")
     val plan: kotlin.String? = null,
+
+    /* Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key) */
+    @Json(name = "plan_name")
+    val planName: kotlin.String? = null,
 
     /* How often prompts run (weekly, daily, monthly, ...) */
     @Json(name = "tracking_frequency")

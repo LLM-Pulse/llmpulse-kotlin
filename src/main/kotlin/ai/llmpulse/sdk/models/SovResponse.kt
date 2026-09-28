@@ -27,6 +27,7 @@ import ai.llmpulse.sdk.models.SovResponseBreakdownInner
 import ai.llmpulse.sdk.models.SovResponseCurrentInner
 import ai.llmpulse.sdk.models.SovResponseOverTimeInner
 import ai.llmpulse.sdk.models.SovResponsePeriodsInner
+import ai.llmpulse.sdk.models.SovResponseSample
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -35,7 +36,8 @@ import com.squareup.moshi.JsonClass
  * 
  *
  * @param projectId 
- * @param periods Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window.
+ * @param periods Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window; confidence and margin_of_error read the sample size.
+ * @param sample 
  * @param overTime 
  * @param current 
  * @param breakdown 
@@ -48,9 +50,12 @@ data class SovResponse (
     @Json(name = "project_id")
     val projectId: kotlin.Int? = null,
 
-    /* Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window. */
+    /* Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window; confidence and margin_of_error read the sample size. */
     @Json(name = "periods")
     val periods: kotlin.collections.List<SovResponsePeriodsInner>? = null,
+
+    @Json(name = "sample")
+    val sample: SovResponseSample? = null,
 
     @Json(name = "over_time")
     val overTime: kotlin.collections.List<SovResponseOverTimeInner>? = null,

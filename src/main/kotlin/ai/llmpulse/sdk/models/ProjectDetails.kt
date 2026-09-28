@@ -37,7 +37,7 @@ import com.squareup.moshi.JsonClass
  * @param url 
  * @param description 
  * @param matchingNames 
- * @param industry 
+ * @param industry Industry as stored: one key as a string (e.g. SAAS), or an array of key strings when the project was created with a list or the in-app multi-select. Deliberately untyped so generated clients decode either shape
  * @param businessModel 
  * @param businessModelOther Set only when business_model is OTHER
  * @param primaryProducts 
@@ -76,8 +76,9 @@ data class ProjectDetails (
     @Json(name = "matching_names")
     val matchingNames: kotlin.collections.List<kotlin.String>? = null,
 
+    /* Industry as stored: one key as a string (e.g. SAAS), or an array of key strings when the project was created with a list or the in-app multi-select. Deliberately untyped so generated clients decode either shape */
     @Json(name = "industry")
-    val industry: kotlin.String? = null,
+    val industry: kotlin.Any? = null,
 
     @Json(name = "business_model")
     val businessModel: kotlin.String? = null,

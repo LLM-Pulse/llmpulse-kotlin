@@ -5,6 +5,7 @@
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
 | **plan** | **kotlin.String** | Plan key (starter, growth, scale, ...) |  [optional] |
+| **planName** | **kotlin.String** | Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key) |  [optional] |
 | **trackingFrequency** | **kotlin.String** | How often prompts run (weekly, daily, monthly, ...) |  [optional] |
 | **role** | [**inline**](#Role) | Whether the key belongs to the account owner or a team member |  [optional] |
 | **subscription** | [**GetAccount200ResponseSubscription**](GetAccount200ResponseSubscription.md) |  |  [optional] |

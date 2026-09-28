@@ -23,10 +23,12 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.ProjectCreateResponseCollectionsInner
 import ai.llmpulse.sdk.models.ProjectCreateResponseCompetitors
 import ai.llmpulse.sdk.models.ProjectCreateResponseEmailSubscription
 import ai.llmpulse.sdk.models.ProjectCreateResponseLimits
 import ai.llmpulse.sdk.models.ProjectCreateResponsePrompts
+import ai.llmpulse.sdk.models.ProjectCreateResponseSameDomainProjectsInner
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -37,6 +39,8 @@ import com.squareup.moshi.JsonClass
  * @param project Same shape as GET /dimensions/projects/{id}
  * @param prompts 
  * @param competitors 
+ * @param collections Collections created from the request's collections field (empty when none were sent; absent on an idempotent replay)
+ * @param sameDomainProjects Projects the caller can already see on the same domain (absent on an idempotent replay). Informational only: the create is never blocked, since one domain tracked per market is a normal setup.
  * @param emailSubscription 
  * @param limits 
  * @param idempotent Present and true only on external_identifier replays
@@ -55,6 +59,14 @@ data class ProjectCreateResponse (
 
     @Json(name = "competitors")
     val competitors: ProjectCreateResponseCompetitors? = null,
+
+    /* Collections created from the request's collections field (empty when none were sent; absent on an idempotent replay) */
+    @Json(name = "collections")
+    val collections: kotlin.collections.List<ProjectCreateResponseCollectionsInner>? = null,
+
+    /* Projects the caller can already see on the same domain (absent on an idempotent replay). Informational only: the create is never blocked, since one domain tracked per market is a normal setup. */
+    @Json(name = "same_domain_projects")
+    val sameDomainProjects: kotlin.collections.List<ProjectCreateResponseSameDomainProjectsInner>? = null,
 
     @Json(name = "email_subscription")
     val emailSubscription: ProjectCreateResponseEmailSubscription? = null,

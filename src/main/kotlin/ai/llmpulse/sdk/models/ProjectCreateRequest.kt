@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.ProjectCreateRequestCollectionsInner
 import ai.llmpulse.sdk.models.ProjectCreateRequestCompetitorsInner
 import ai.llmpulse.sdk.models.ProjectCreateRequestOwnedMedia
 
@@ -33,12 +34,12 @@ import com.squareup.moshi.JsonClass
  * 
  *
  * @param websiteUrl Public HTTP(S) URL with a DNS hostname or public IP address. Credentials, private and special IP addresses, localhost and internal hostnames are rejected.
- * @param name 
+ * @param name Project name, as plain text. It can be changed later with PATCH /projects/{id}
  * @param mainCountry 
  * @param mainLanguage 
  * @param brandName 
  * @param description 
- * @param industry 
+ * @param industry Industry keys, case-insensitive; a single key string is also accepted. An unknown key returns ERR_INVALID_PARAM listing the valid keys (the same list as the in-app industry picker, e.g. TECHNOLOGY, SAAS, ECOMMERCE)
  * @param businessModel Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected
  * @param businessModelOther Free-text business model, only accepted when business_model is OTHER; rejected against any other key
  * @param targetAudience Who the brand sells to. Context for Recommendations and GEO Writer (Brand Book)
@@ -47,6 +48,7 @@ import com.squareup.moshi.JsonClass
  * @param primaryProducts Main products or services
  * @param matchingNames 
  * @param prompts 
+ * @param collections Collections (prompt tags) created with the project, each tagging prompts of this request by their exact text, so no separate tagging calls are needed. A text that is not in prompts returns ERR_INVALID_PARAM. A team member also needs Tags: Create permission.
  * @param competitors 
  * @param ownedMedia 
  * @param useSubdomain 
@@ -62,6 +64,7 @@ data class ProjectCreateRequest (
     @Json(name = "website_url")
     val websiteUrl: java.net.URI,
 
+    /* Project name, as plain text. It can be changed later with PATCH /projects/{id} */
     @Json(name = "name")
     val name: kotlin.String,
 
@@ -77,6 +80,7 @@ data class ProjectCreateRequest (
     @Json(name = "description")
     val description: kotlin.String? = null,
 
+    /* Industry keys, case-insensitive; a single key string is also accepted. An unknown key returns ERR_INVALID_PARAM listing the valid keys (the same list as the in-app industry picker, e.g. TECHNOLOGY, SAAS, ECOMMERCE) */
     @Json(name = "industry")
     val industry: kotlin.collections.List<kotlin.String>? = null,
 
@@ -109,6 +113,10 @@ data class ProjectCreateRequest (
 
     @Json(name = "prompts")
     val prompts: kotlin.collections.List<kotlin.String>? = null,
+
+    /* Collections (prompt tags) created with the project, each tagging prompts of this request by their exact text, so no separate tagging calls are needed. A text that is not in prompts returns ERR_INVALID_PARAM. A team member also needs Tags: Create permission. */
+    @Json(name = "collections")
+    val collections: kotlin.collections.List<ProjectCreateRequestCollectionsInner>? = null,
 
     @Json(name = "competitors")
     val competitors: kotlin.collections.List<ProjectCreateRequestCompetitorsInner>? = null,

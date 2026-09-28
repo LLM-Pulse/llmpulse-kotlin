@@ -4,9 +4,10 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
+| **name** | **kotlin.String** | Project name shown in the app. A label: it does not change mention detection unless brand_name is empty. Cannot be blank |  [optional] |
 | **brandName** | **kotlin.String** | Brand name used to detect mentions. Applies to future runs; it does not rewrite history |  [optional] |
 | **description** | **kotlin.String** | What the brand does. Context for Recommendations and GEO Writer (Brand Book) |  [optional] |
-| **industry** | **kotlin.String** | Single industry key (e.g. SAAS); unknown keys are rejected |  [optional] |
+| **industry** | **kotlin.String** | Single industry key (e.g. SAAS), stored as sent; an array of keys is also accepted and stored as an array, like the in-app multi-select. Unknown keys are rejected with the valid keys listed |  [optional] |
 | **businessModel** | **kotlin.String** | Business model key (e.g. B2B_SAAS); unknown keys are rejected |  [optional] |
 | **businessModelOther** | **kotlin.String** | Free-text business model, only accepted when business_model is OTHER; rejected against any other key |  [optional] |
 | **targetAudience** | **kotlin.String** | Who the brand sells to (Brand Book) |  [optional] |

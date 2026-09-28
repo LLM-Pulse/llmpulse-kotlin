@@ -28,17 +28,17 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * 
+ * The period the current shares were computed on (the last one with mentions), same shape as a periods item; null when the window has no mentions.
  *
  * @param date 
  * @param mentions 
  * @param partial 
- * @param confidence How far the shares of this period can be trusted, from its mentions: none (0), low (under 30), medium (under 100) or high (100 or more).
- * @param marginOfError Worst-case 95% margin of a share in percentage points, 98 / sqrt(mentions); mentions within one answer are not independent, so the real margin is at least this wide. null with no mentions.
+ * @param confidence 
+ * @param marginOfError 
  */
 
 
-data class SovResponsePeriodsInner (
+data class SovResponseSample (
 
     @Json(name = "date")
     val date: java.time.LocalDate? = null,
@@ -49,11 +49,9 @@ data class SovResponsePeriodsInner (
     @Json(name = "partial")
     val partial: kotlin.Boolean? = null,
 
-    /* How far the shares of this period can be trusted, from its mentions: none (0), low (under 30), medium (under 100) or high (100 or more). */
     @Json(name = "confidence")
     val confidence: kotlin.String? = null,
 
-    /* Worst-case 95% margin of a share in percentage points, 98 / sqrt(mentions); mentions within one answer are not independent, so the real margin is at least this wide. null with no mentions. */
     @Json(name = "margin_of_error")
     val marginOfError: java.math.BigDecimal? = null
 

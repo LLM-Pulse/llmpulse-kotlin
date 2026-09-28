@@ -10,7 +10,7 @@
 | **url** | [**java.net.URI**](java.net.URI.md) |  |  [optional] |
 | **description** | **kotlin.String** |  |  [optional] |
 | **matchingNames** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  [optional] |
-| **industry** | **kotlin.String** |  |  [optional] |
+| **industry** | [**kotlin.Any**](.md) | Industry as stored: one key as a string (e.g. SAAS), or an array of key strings when the project was created with a list or the in-app multi-select. Deliberately untyped so generated clients decode either shape |  [optional] |
 | **businessModel** | **kotlin.String** |  |  [optional] |
 | **businessModelOther** | **kotlin.String** | Set only when business_model is OTHER |  [optional] |
 | **primaryProducts** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  [optional] |
