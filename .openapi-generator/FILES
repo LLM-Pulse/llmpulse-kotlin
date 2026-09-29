@@ -45,6 +45,8 @@ docs/ListCompetitors200Response.md
 docs/ListProjects200Response.md
 docs/ListWebhooks200Response.md
 docs/ListWebhooks200ResponseDataInner.md
+docs/LlmsTxtTechnicalGeoReport.md
+docs/LlmsTxtTechnicalGeoReportResultData.md
 docs/MentionsCitationsApi.md
 docs/MetricsApi.md
 docs/OwnedMediaCommunitiesApi.md
@@ -89,6 +91,10 @@ docs/SummaryResponse.md
 docs/SummaryResponseAllOfPositionDistribution.md
 docs/SummaryResponseAllOfSummaryValueInner.md
 docs/TechnicalGEOReportsApi.md
+docs/TechnicalGeoReportContentRevertRequest.md
+docs/TechnicalGeoReportContentUpdateRequest.md
+docs/TechnicalGeoReportContentUpdateRequestEdits.md
+docs/TechnicalGeoReportContentUpdateResponse.md
 docs/TimeseriesPoint.md
 docs/TimeseriesResponse.md
 docs/TimeseriesSeries.md
@@ -179,6 +185,8 @@ src/main/kotlin/ai/llmpulse/sdk/models/ListCompetitors200Response.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ListProjects200Response.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ListWebhooks200Response.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ListWebhooks200ResponseDataInner.kt
+src/main/kotlin/ai/llmpulse/sdk/models/LlmsTxtTechnicalGeoReport.kt
+src/main/kotlin/ai/llmpulse/sdk/models/LlmsTxtTechnicalGeoReportResultData.kt
 src/main/kotlin/ai/llmpulse/sdk/models/Ping200Response.kt
 src/main/kotlin/ai/llmpulse/sdk/models/Project.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectCreateRequest.kt
@@ -211,6 +219,10 @@ src/main/kotlin/ai/llmpulse/sdk/models/SovResponseSample.kt
 src/main/kotlin/ai/llmpulse/sdk/models/SummaryResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/SummaryResponseAllOfPositionDistribution.kt
 src/main/kotlin/ai/llmpulse/sdk/models/SummaryResponseAllOfSummaryValueInner.kt
+src/main/kotlin/ai/llmpulse/sdk/models/TechnicalGeoReportContentRevertRequest.kt
+src/main/kotlin/ai/llmpulse/sdk/models/TechnicalGeoReportContentUpdateRequest.kt
+src/main/kotlin/ai/llmpulse/sdk/models/TechnicalGeoReportContentUpdateRequestEdits.kt
+src/main/kotlin/ai/llmpulse/sdk/models/TechnicalGeoReportContentUpdateResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/TimeseriesPoint.kt
 src/main/kotlin/ai/llmpulse/sdk/models/TimeseriesResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/TimeseriesSeries.kt

@@ -29,6 +29,10 @@ import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.CreateTechnicalGeoReportsRequest
+import ai.llmpulse.sdk.models.LlmsTxtTechnicalGeoReport
+import ai.llmpulse.sdk.models.TechnicalGeoReportContentRevertRequest
+import ai.llmpulse.sdk.models.TechnicalGeoReportContentUpdateRequest
+import ai.llmpulse.sdk.models.TechnicalGeoReportContentUpdateResponse
 
 import com.squareup.moshi.Json
 
@@ -57,7 +61,7 @@ open class TechnicalGEOReportsApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * POST /technical_geo_reports
      * Run technical GEO analysis
-     * Launches the full technical GEO analysis bundle (crawlability, schema, content readiness, discoverability, site structure, robots.txt, agent readiness, llms.txt, AI visibility) for a URL + country. Each report runs in a background job. Requires a &#x60;read_write&#x60; scope API key.
+     * Launches the full nine-report technical GEO analysis bundle for a URL + country. The bundle starts only when at least nine daily units remain. Each successfully created report uses one unit; a report that is not created uses none. Daily allocations vary by account. Each report runs in a background job. Requires a &#x60;read_write&#x60; scope API key.
      * @param createTechnicalGeoReportsRequest 
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
@@ -88,7 +92,7 @@ open class TechnicalGEOReportsApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * POST /technical_geo_reports
      * Run technical GEO analysis
-     * Launches the full technical GEO analysis bundle (crawlability, schema, content readiness, discoverability, site structure, robots.txt, agent readiness, llms.txt, AI visibility) for a URL + country. Each report runs in a background job. Requires a &#x60;read_write&#x60; scope API key.
+     * Launches the full nine-report technical GEO analysis bundle for a URL + country. The bundle starts only when at least nine daily units remain. Each successfully created report uses one unit; a report that is not created uses none. Daily allocations vary by account. Each report runs in a background job. Requires a &#x60;read_write&#x60; scope API key.
      * @param createTechnicalGeoReportsRequest 
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -153,7 +157,7 @@ open class TechnicalGEOReportsApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * GET /technical_geo_reports/{id}
      * Get a technical GEO report
-     * Returns the current status and the full result_data once the report is completed. While it is running, result_data is null and poll_after_seconds tells clients when to check again. Summaries carry output_language_code (the ISO 639-1 code an llms_txt report was requested in; null for an llms_txt report left on the website&#39;s own language in the app, and for every other report type); a completed llms_txt result_data also returns manually_edited_at, original_llms_txt_content and original_llms_full_txt_content (the generated files, set once the customer edited the files in the app) and metadata.output_language_code.
+     * Returns the current status and the full result_data once the report is completed. While it is running, result_data is null and poll_after_seconds tells clients when to check again. Summaries carry output_language_code (the ISO 639-1 code an llms_txt report was requested in; null for an llms_txt report written in the website&#39;s own language, requested as auto or chosen in the app, and for every other report type); a completed llms_txt result_data also returns content_version (send it back to PATCH /technical_geo_reports/{id}/content), manually_edited_at, original_llms_txt_content and original_llms_full_txt_content (the generated files, kept from the first manual edit in the app, the API or MCP) and metadata.output_language_code.
      * @param id Report id returned by POST /technical_geo_reports or GET /technical_geo_reports
      * @param projectId Project ID
      * @param reportType 
@@ -186,7 +190,7 @@ open class TechnicalGEOReportsApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * GET /technical_geo_reports/{id}
      * Get a technical GEO report
-     * Returns the current status and the full result_data once the report is completed. While it is running, result_data is null and poll_after_seconds tells clients when to check again. Summaries carry output_language_code (the ISO 639-1 code an llms_txt report was requested in; null for an llms_txt report left on the website&#39;s own language in the app, and for every other report type); a completed llms_txt result_data also returns manually_edited_at, original_llms_txt_content and original_llms_full_txt_content (the generated files, set once the customer edited the files in the app) and metadata.output_language_code.
+     * Returns the current status and the full result_data once the report is completed. While it is running, result_data is null and poll_after_seconds tells clients when to check again. Summaries carry output_language_code (the ISO 639-1 code an llms_txt report was requested in; null for an llms_txt report written in the website&#39;s own language, requested as auto or chosen in the app, and for every other report type); a completed llms_txt result_data also returns content_version (send it back to PATCH /technical_geo_reports/{id}/content), manually_edited_at, original_llms_txt_content and original_llms_full_txt_content (the generated files, kept from the first manual edit in the app, the API or MCP) and metadata.output_language_code.
      * @param id Report id returned by POST /technical_geo_reports or GET /technical_geo_reports
      * @param projectId Project ID
      * @param reportType 
@@ -350,6 +354,160 @@ open class TechnicalGEOReportsApi(basePath: kotlin.String = defaultBasePath, cli
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/technical_geo_reports",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * POST /technical_geo_reports/{id}/revert_content
+     * Revert llms.txt report content
+     * Discards every manual edit on the llms_txt report and restores the llms.txt and llms-full.txt files exactly as they were generated. Returns ERR_INVALID_PARAM when the report has no manual edits or report_type is not llms_txt. Requires a &#x60;read_write&#x60; scope API key and, for team members, create permission on GEO Optimization.
+     * @param id Report id returned by POST /technical_geo_reports or GET /technical_geo_reports
+     * @param technicalGeoReportContentRevertRequest 
+     * @return LlmsTxtTechnicalGeoReport
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun revertTechnicalGeoReportContent(id: kotlin.Int, technicalGeoReportContentRevertRequest: TechnicalGeoReportContentRevertRequest) : LlmsTxtTechnicalGeoReport {
+        val localVarResponse = revertTechnicalGeoReportContentWithHttpInfo(id = id, technicalGeoReportContentRevertRequest = technicalGeoReportContentRevertRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as LlmsTxtTechnicalGeoReport
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /technical_geo_reports/{id}/revert_content
+     * Revert llms.txt report content
+     * Discards every manual edit on the llms_txt report and restores the llms.txt and llms-full.txt files exactly as they were generated. Returns ERR_INVALID_PARAM when the report has no manual edits or report_type is not llms_txt. Requires a &#x60;read_write&#x60; scope API key and, for team members, create permission on GEO Optimization.
+     * @param id Report id returned by POST /technical_geo_reports or GET /technical_geo_reports
+     * @param technicalGeoReportContentRevertRequest 
+     * @return ApiResponse<LlmsTxtTechnicalGeoReport?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun revertTechnicalGeoReportContentWithHttpInfo(id: kotlin.Int, technicalGeoReportContentRevertRequest: TechnicalGeoReportContentRevertRequest) : ApiResponse<LlmsTxtTechnicalGeoReport?> {
+        val localVariableConfig = revertTechnicalGeoReportContentRequestConfig(id = id, technicalGeoReportContentRevertRequest = technicalGeoReportContentRevertRequest)
+
+        return request<TechnicalGeoReportContentRevertRequest, LlmsTxtTechnicalGeoReport>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation revertTechnicalGeoReportContent
+     *
+     * @param id Report id returned by POST /technical_geo_reports or GET /technical_geo_reports
+     * @param technicalGeoReportContentRevertRequest 
+     * @return RequestConfig
+     */
+    fun revertTechnicalGeoReportContentRequestConfig(id: kotlin.Int, technicalGeoReportContentRevertRequest: TechnicalGeoReportContentRevertRequest) : RequestConfig<TechnicalGeoReportContentRevertRequest> {
+        val localVariableBody = technicalGeoReportContentRevertRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/technical_geo_reports/{id}/revert_content".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * PATCH /technical_geo_reports/{id}/content
+     * Edit llms.txt report content
+     * Replaces the llms.txt and llms-full.txt files of a completed llms_txt report in place, without generating them again. &#x60;edits&#x60; maps llms_txt and/or llms_full_txt to the full replacement text. &#x60;content_version&#x60; must equal result_data.content_version of the report as last read; when the report changed since, the edit is refused as stale and the message names the current version. A missing or stale content_version, a blank file, a file over 200,000 characters, a value that is not text, an unknown file key, an empty &#x60;edits&#x60; object, a report that has not completed or a report_type other than llms_txt is rejected with ERR_INVALID_PARAM and nothing is written. Files are stored with Unix line endings and one trailing newline. A file identical to the stored one is ignored, and the response lists the files that actually changed. The first edit keeps the generated files in original_llms_txt_content and original_llms_full_txt_content so POST /technical_geo_reports/{id}/revert_content can restore them; running the report again creates a new report without these edits. Requires a &#x60;read_write&#x60; scope API key and, for team members, create permission on GEO Optimization.
+     * @param id Report id returned by POST /technical_geo_reports or GET /technical_geo_reports
+     * @param technicalGeoReportContentUpdateRequest 
+     * @return TechnicalGeoReportContentUpdateResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun updateTechnicalGeoReportContent(id: kotlin.Int, technicalGeoReportContentUpdateRequest: TechnicalGeoReportContentUpdateRequest) : TechnicalGeoReportContentUpdateResponse {
+        val localVarResponse = updateTechnicalGeoReportContentWithHttpInfo(id = id, technicalGeoReportContentUpdateRequest = technicalGeoReportContentUpdateRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as TechnicalGeoReportContentUpdateResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * PATCH /technical_geo_reports/{id}/content
+     * Edit llms.txt report content
+     * Replaces the llms.txt and llms-full.txt files of a completed llms_txt report in place, without generating them again. &#x60;edits&#x60; maps llms_txt and/or llms_full_txt to the full replacement text. &#x60;content_version&#x60; must equal result_data.content_version of the report as last read; when the report changed since, the edit is refused as stale and the message names the current version. A missing or stale content_version, a blank file, a file over 200,000 characters, a value that is not text, an unknown file key, an empty &#x60;edits&#x60; object, a report that has not completed or a report_type other than llms_txt is rejected with ERR_INVALID_PARAM and nothing is written. Files are stored with Unix line endings and one trailing newline. A file identical to the stored one is ignored, and the response lists the files that actually changed. The first edit keeps the generated files in original_llms_txt_content and original_llms_full_txt_content so POST /technical_geo_reports/{id}/revert_content can restore them; running the report again creates a new report without these edits. Requires a &#x60;read_write&#x60; scope API key and, for team members, create permission on GEO Optimization.
+     * @param id Report id returned by POST /technical_geo_reports or GET /technical_geo_reports
+     * @param technicalGeoReportContentUpdateRequest 
+     * @return ApiResponse<TechnicalGeoReportContentUpdateResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun updateTechnicalGeoReportContentWithHttpInfo(id: kotlin.Int, technicalGeoReportContentUpdateRequest: TechnicalGeoReportContentUpdateRequest) : ApiResponse<TechnicalGeoReportContentUpdateResponse?> {
+        val localVariableConfig = updateTechnicalGeoReportContentRequestConfig(id = id, technicalGeoReportContentUpdateRequest = technicalGeoReportContentUpdateRequest)
+
+        return request<TechnicalGeoReportContentUpdateRequest, TechnicalGeoReportContentUpdateResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation updateTechnicalGeoReportContent
+     *
+     * @param id Report id returned by POST /technical_geo_reports or GET /technical_geo_reports
+     * @param technicalGeoReportContentUpdateRequest 
+     * @return RequestConfig
+     */
+    fun updateTechnicalGeoReportContentRequestConfig(id: kotlin.Int, technicalGeoReportContentUpdateRequest: TechnicalGeoReportContentUpdateRequest) : RequestConfig<TechnicalGeoReportContentUpdateRequest> {
+        val localVariableBody = technicalGeoReportContentUpdateRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.PATCH,
+            path = "/technical_geo_reports/{id}/content".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
