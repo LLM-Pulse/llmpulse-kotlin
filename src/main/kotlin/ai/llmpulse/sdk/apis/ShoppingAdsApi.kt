@@ -28,6 +28,7 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.LocalBusinessesResponse
 
 import com.squareup.moshi.Json
 
@@ -347,6 +348,285 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/ads",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter order
+     */
+     enum class OrderListLocalBusinesses(val value: kotlin.String) {
+         @Json(name = "appearances") appearances("appearances"),
+         @Json(name = "business") business("business"),
+         @Json(name = "rating") rating("rating"),
+         @Json(name = "reviews") reviews("reviews"),
+         @Json(name = "avg_position") avg_position("avg_position"),
+         @Json(name = "prompts") prompts("prompts");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter direction
+     */
+     enum class DirectionListLocalBusinesses(val value: kotlin.String) {
+         @Json(name = "asc") asc("asc"),
+         @Json(name = "desc") desc("desc");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter model
+     */
+     enum class ModelListLocalBusinesses(val value: kotlin.String) {
+         @Json(name = "chatgpt") chatgpt("chatgpt"),
+         @Json(name = "perplexity") perplexity("perplexity"),
+         @Json(name = "gemini") gemini("gemini"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "claude") claude("claude"),
+         @Json(name = "grok") grok("grok"),
+         @Json(name = "deepseek") deepseek("deepseek"),
+         @Json(name = "meta_ai") meta_ai("meta_ai"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListLocalBusinesses(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputListLocalBusinesses(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /dimensions/local_businesses
+     * List local businesses
+     * Local businesses (shops, restaurants, services) listed inside AI answers, one row per business: its name at its address, so two locations of a chain are two rows. Each row carries its appearance count, the number of prompts that listed it, its average rating and average position in the list, its review count, and whether it is yours or a tracked competitor. Every response also carries a totals block matching the KPI cards in the app. Local business lists come from a subset of models and only for prompts with local intent. Available on every plan.
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param owned Return only listings identified as the tracked brand&#39;s own locations. The totals block stays account-wide. (optional)
+     * @param order Sort field (optional, default to Order.appearances)
+     * @param direction  (optional, default to Direction.desc)
+     * @param query Case-insensitive substring filter on the business name or address (optional)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return LocalBusinessesResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listLocalBusinesses(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, owned: kotlin.Boolean? = null, order: OrderListLocalBusinesses? = OrderListLocalBusinesses.appearances, direction: DirectionListLocalBusinesses? = DirectionListLocalBusinesses.desc, query: kotlin.String? = null, model: ModelListLocalBusinesses? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListLocalBusinesses? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListLocalBusinesses? = null) : LocalBusinessesResponse {
+        val localVarResponse = listLocalBusinessesWithHttpInfo(projectId = projectId, page = page, perPage = perPage, owned = owned, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as LocalBusinessesResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /dimensions/local_businesses
+     * List local businesses
+     * Local businesses (shops, restaurants, services) listed inside AI answers, one row per business: its name at its address, so two locations of a chain are two rows. Each row carries its appearance count, the number of prompts that listed it, its average rating and average position in the list, its review count, and whether it is yours or a tracked competitor. Every response also carries a totals block matching the KPI cards in the app. Local business lists come from a subset of models and only for prompts with local intent. Available on every plan.
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param owned Return only listings identified as the tracked brand&#39;s own locations. The totals block stays account-wide. (optional)
+     * @param order Sort field (optional, default to Order.appearances)
+     * @param direction  (optional, default to Direction.desc)
+     * @param query Case-insensitive substring filter on the business name or address (optional)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<LocalBusinessesResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listLocalBusinessesWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, owned: kotlin.Boolean?, order: OrderListLocalBusinesses?, direction: DirectionListLocalBusinesses?, query: kotlin.String?, model: ModelListLocalBusinesses?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListLocalBusinesses?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListLocalBusinesses?) : ApiResponse<LocalBusinessesResponse?> {
+        val localVariableConfig = listLocalBusinessesRequestConfig(projectId = projectId, page = page, perPage = perPage, owned = owned, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
+
+        return request<Unit, LocalBusinessesResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listLocalBusinesses
+     *
+     * @param projectId Project ID
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param owned Return only listings identified as the tracked brand&#39;s own locations. The totals block stays account-wide. (optional)
+     * @param order Sort field (optional, default to Order.appearances)
+     * @param direction  (optional, default to Direction.desc)
+     * @param query Case-insensitive substring filter on the business name or address (optional)
+     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun listLocalBusinessesRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, owned: kotlin.Boolean?, order: OrderListLocalBusinesses?, direction: DirectionListLocalBusinesses?, query: kotlin.String?, model: ModelListLocalBusinesses?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListLocalBusinesses?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListLocalBusinesses?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (owned != null) {
+                    put("owned", listOf(owned.toString()))
+                }
+                if (order != null) {
+                    put("order", listOf(order.value))
+                }
+                if (direction != null) {
+                    put("direction", listOf(direction.value))
+                }
+                if (query != null) {
+                    put("query", listOf(query.toString()))
+                }
+                if (model != null) {
+                    put("model", listOf(model.value))
+                }
+                if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (prompt != null) {
+                    put("prompt", listOf(prompt.toString()))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/dimensions/local_businesses",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
