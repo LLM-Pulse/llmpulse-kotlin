@@ -60,7 +60,7 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
     /**
      * POST /intelligence_tasks
      * Create a GEO Writer task
-     * 
+     * Creates a GEO Writer task, processed asynchronously: poll GET /intelligence_tasks/{id} until status is completed. Prompt-based mode takes prompt_id; agentic mode takes custom_topic and/or user_instructions. task_type product_listing is API-only and serves store apps: send a product object (title required) and optionally prompt_ids, and the completed result_data holds ready-to-apply product page copy. Edit and revert it with PATCH /intelligence_tasks/{id} and POST /intelligence_tasks/{id}/revert. Requires a &#x60;read_write&#x60; scope API key.
      * @param intelligenceTaskCreateRequest 
      * @return IntelligenceTask
      * @throws IllegalStateException If the request is not correctly configured
@@ -92,7 +92,7 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
     /**
      * POST /intelligence_tasks
      * Create a GEO Writer task
-     * 
+     * Creates a GEO Writer task, processed asynchronously: poll GET /intelligence_tasks/{id} until status is completed. Prompt-based mode takes prompt_id; agentic mode takes custom_topic and/or user_instructions. task_type product_listing is API-only and serves store apps: send a product object (title required) and optionally prompt_ids, and the completed result_data holds ready-to-apply product page copy. Edit and revert it with PATCH /intelligence_tasks/{id} and POST /intelligence_tasks/{id}/revert. Requires a &#x60;read_write&#x60; scope API key.
      * @param intelligenceTaskCreateRequest 
      * @return ApiResponse<IntelligenceTask?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -218,7 +218,8 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
          @Json(name = "create") create("create"),
          @Json(name = "update") update("update"),
          @Json(name = "pr_insights") pr_insights("pr_insights"),
-         @Json(name = "custom") custom("custom");
+         @Json(name = "custom") custom("custom"),
+         @Json(name = "product_listing") product_listing("product_listing");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use

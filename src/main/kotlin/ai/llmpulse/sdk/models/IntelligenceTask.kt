@@ -43,7 +43,7 @@ import com.squareup.moshi.JsonClass
  * @param userInstructions 
  * @param outputLanguageCode 
  * @param wordCount 
- * @param resultData The generated content once status is completed; null before that
+ * @param resultData The generated content once status is completed; null before that. A product_listing task returns title, summary, description_html (p, ul, ol, li, strong, em, h3 and br only), faq (question and answer pairs), seo_title, seo_description, image_alts (image_id and alt), changes (field and reason) and labels
  * @param errorMessage 
  * @param estimatedTime 
  * @param createdAt 
@@ -95,7 +95,7 @@ data class IntelligenceTask (
     @Json(name = "word_count")
     val wordCount: kotlin.Int? = null,
 
-    /* The generated content once status is completed; null before that */
+    /* The generated content once status is completed; null before that. A product_listing task returns title, summary, description_html (p, ul, ol, li, strong, em, h3 and br only), faq (question and answer pairs), seo_title, seo_description, image_alts (image_id and alt), changes (field and reason) and labels */
     @Json(name = "result_data")
     val resultData: kotlin.Any? = null,
 

@@ -33,10 +33,11 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
- * @param plan Plan key (starter, growth, scale, ...)
- * @param planName Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key)
+ * @param plan Plan key (starter, growth, scale, ...). Absent for a key limited to some projects.
+ * @param planName Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key). Absent for a key limited to some projects.
  * @param trackingFrequency How often prompts run (weekly, daily, monthly, ...)
  * @param role Whether the key belongs to the account owner or a team member
+ * @param apiKeyProjectIds The projects the calling API key is limited to; null for a key that sees the whole account, and for OAuth
  * @param subscription 
  * @param limits 
  * @param rateLimits 
@@ -46,11 +47,11 @@ import com.squareup.moshi.JsonClass
 
 data class GetAccount200Response (
 
-    /* Plan key (starter, growth, scale, ...) */
+    /* Plan key (starter, growth, scale, ...). Absent for a key limited to some projects. */
     @Json(name = "plan")
     val plan: kotlin.String? = null,
 
-    /* Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key) */
+    /* Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key). Absent for a key limited to some projects. */
     @Json(name = "plan_name")
     val planName: kotlin.String? = null,
 
@@ -61,6 +62,10 @@ data class GetAccount200Response (
     /* Whether the key belongs to the account owner or a team member */
     @Json(name = "role")
     val role: GetAccount200Response.Role? = null,
+
+    /* The projects the calling API key is limited to; null for a key that sees the whole account, and for OAuth */
+    @Json(name = "api_key_project_ids")
+    val apiKeyProjectIds: kotlin.collections.List<kotlin.Int>? = null,
 
     @Json(name = "subscription")
     val subscription: GetAccount200ResponseSubscription? = null,

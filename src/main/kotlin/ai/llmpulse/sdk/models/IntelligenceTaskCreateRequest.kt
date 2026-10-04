@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.IntelligenceTaskProduct
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -31,13 +32,15 @@ import com.squareup.moshi.JsonClass
  * 
  *
  * @param projectId 
- * @param taskType 
- * @param promptId 
+ * @param taskType product_listing is API-only: it needs product and returns ready-to-apply product page copy
+ * @param promptId Not used by product_listing; send null or omit it
  * @param customTopic 
  * @param userInstructions 
  * @param outputLanguageCode 
  * @param existingContent 
  * @param existingContentUrl 
+ * @param product 
+ * @param promptIds product_listing only: up to 20 project prompts the copy should answer
  */
 
 
@@ -46,9 +49,11 @@ data class IntelligenceTaskCreateRequest (
     @Json(name = "project_id")
     val projectId: kotlin.Int,
 
+    /* product_listing is API-only: it needs product and returns ready-to-apply product page copy */
     @Json(name = "task_type")
     val taskType: IntelligenceTaskCreateRequest.TaskType,
 
+    /* Not used by product_listing; send null or omit it */
     @Json(name = "prompt_id")
     val promptId: kotlin.Int? = null,
 
@@ -65,14 +70,21 @@ data class IntelligenceTaskCreateRequest (
     val existingContent: kotlin.String? = null,
 
     @Json(name = "existing_content_url")
-    val existingContentUrl: java.net.URI? = null
+    val existingContentUrl: java.net.URI? = null,
+
+    @Json(name = "product")
+    val product: IntelligenceTaskProduct? = null,
+
+    /* product_listing only: up to 20 project prompts the copy should answer */
+    @Json(name = "prompt_ids")
+    val promptIds: kotlin.collections.List<kotlin.Int>? = null
 
 ) {
 
     /**
-     * 
+     * product_listing is API-only: it needs product and returns ready-to-apply product page copy
      *
-     * Values: brief,create,update,pr_insights,custom
+     * Values: brief,create,update,pr_insights,custom,product_listing
      */
     @JsonClass(generateAdapter = false)
     enum class TaskType(val value: kotlin.String) {
@@ -80,7 +92,8 @@ data class IntelligenceTaskCreateRequest (
         @Json(name = "create") create("create"),
         @Json(name = "update") update("update"),
         @Json(name = "pr_insights") pr_insights("pr_insights"),
-        @Json(name = "custom") custom("custom");
+        @Json(name = "custom") custom("custom"),
+        @Json(name = "product_listing") product_listing("product_listing");
     }
 
 }
