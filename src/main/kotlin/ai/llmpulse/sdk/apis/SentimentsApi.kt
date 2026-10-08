@@ -28,6 +28,7 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.SentimentsResponse
 
 import com.squareup.moshi.Json
 
@@ -156,17 +157,17 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      enum class ModelListSentimentRecords(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
          @Json(name = "perplexity") perplexity("perplexity"),
-         @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "ai_overview") ai_overview("ai_overview"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
          @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "claude") claude("claude"),
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
-         @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -194,19 +195,20 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return void
+     * @return SentimentsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listSentimentRecords(projectId: kotlin.Int, competitorId: kotlin.Int? = null, brandOnly: kotlin.Boolean? = null, analysis: kotlin.String? = null, model: ModelListSentimentRecords? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
+    fun listSentimentRecords(projectId: kotlin.Int, competitorId: kotlin.Int? = null, brandOnly: kotlin.Boolean? = null, analysis: kotlin.String? = null, model: ModelListSentimentRecords? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : SentimentsResponse {
         val localVarResponse = listSentimentRecordsWithHttpInfo(projectId = projectId, competitorId = competitorId, brandOnly = brandOnly, analysis = analysis, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, from = from, to = to, page = page, perPage = perPage)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SentimentsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -236,15 +238,16 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<SentimentsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listSentimentRecordsWithHttpInfo(projectId: kotlin.Int, competitorId: kotlin.Int?, brandOnly: kotlin.Boolean?, analysis: kotlin.String?, model: ModelListSentimentRecords?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
+    fun listSentimentRecordsWithHttpInfo(projectId: kotlin.Int, competitorId: kotlin.Int?, brandOnly: kotlin.Boolean?, analysis: kotlin.String?, model: ModelListSentimentRecords?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<SentimentsResponse?> {
         val localVariableConfig = listSentimentRecordsRequestConfig(projectId = projectId, competitorId = competitorId, brandOnly = brandOnly, analysis = analysis, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, from = from, to = to, page = page, perPage = perPage)
 
-        return request<Unit, Unit>(
+        return request<Unit, SentimentsResponse>(
             localVariableConfig
         )
     }

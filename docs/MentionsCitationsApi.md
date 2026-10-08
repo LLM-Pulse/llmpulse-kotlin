@@ -53,7 +53,7 @@ try {
 | **competitors** | **kotlin.String**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
@@ -124,7 +124,7 @@ try {
 | **competitors** | **kotlin.String**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
@@ -156,7 +156,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listCitations"></a>
 # **listCitations**
-> listCitations(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
+> CitationsResponse listCitations(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
 
 List brand citations
 
@@ -181,7 +181,8 @@ val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.Off
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listCitations(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
+    val result : CitationsResponse = apiInstance.listCitations(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listCitations")
     e.printStackTrace()
@@ -195,7 +196,7 @@ try {
 | **projectId** | **kotlin.Int**| Project ID | |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
 | **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
 | **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
@@ -208,7 +209,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CitationsResponse**](CitationsResponse.md)
 
 ### Authorization
 
@@ -225,7 +226,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listCompetitorCitations"></a>
 # **listCompetitorCitations**
@@ -268,7 +269,7 @@ try {
 | **competitors** | **kotlin.String**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
@@ -300,7 +301,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listCompetitorMentions"></a>
 # **listCompetitorMentions**
-> listCompetitorMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
+> CompetitorMentionsResponse listCompetitorMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
 
 List competitor mentions
 
@@ -322,7 +323,8 @@ val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.Off
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listCompetitorMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
+    val result : CompetitorMentionsResponse = apiInstance.listCompetitorMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listCompetitorMentions")
     e.printStackTrace()
@@ -337,7 +339,7 @@ try {
 | **competitors** | **kotlin.String**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
@@ -348,7 +350,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CompetitorMentionsResponse**](CompetitorMentionsResponse.md)
 
 ### Authorization
 
@@ -365,11 +367,11 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listMentions"></a>
 # **listMentions**
-> listMentions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
+> MentionsResponse listMentions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
 
 List brand mentions
 
@@ -392,7 +394,8 @@ val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.Off
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listMentions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
+    val result : MentionsResponse = apiInstance.listMentions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listMentions")
     e.printStackTrace()
@@ -406,7 +409,7 @@ try {
 | **projectId** | **kotlin.Int**| Project ID | |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
 | **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
 | **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
@@ -419,7 +422,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**MentionsResponse**](MentionsResponse.md)
 
 ### Authorization
 
@@ -436,5 +439,5 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 

@@ -23,8 +23,10 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.MetricsFiltersEcho
 import ai.llmpulse.sdk.models.SovResponseBreakdownInner
 import ai.llmpulse.sdk.models.SovResponseCurrentInner
+import ai.llmpulse.sdk.models.SovResponseOthersInner
 import ai.llmpulse.sdk.models.SovResponseOverTimeInner
 import ai.llmpulse.sdk.models.SovResponsePeriodsInner
 import ai.llmpulse.sdk.models.SovResponseSample
@@ -36,12 +38,17 @@ import com.squareup.moshi.JsonClass
  * 
  *
  * @param projectId 
+ * @param from 
+ * @param to 
+ * @param granularity day, week or month
+ * @param filters 
  * @param periods Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window; confidence and margin_of_error read the sample size.
  * @param sample 
  * @param overTime 
  * @param current 
  * @param breakdown 
- * @param others 
+ * @param others Actors ranked fifth and below, folded into the Others share of breakdown
+ * @param requestId 
  */
 
 
@@ -49,6 +56,19 @@ data class SovResponse (
 
     @Json(name = "project_id")
     val projectId: kotlin.Int? = null,
+
+    @Json(name = "from")
+    val from: java.time.OffsetDateTime? = null,
+
+    @Json(name = "to")
+    val to: java.time.OffsetDateTime? = null,
+
+    /* day, week or month */
+    @Json(name = "granularity")
+    val granularity: kotlin.String? = null,
+
+    @Json(name = "filters")
+    val filters: MetricsFiltersEcho? = null,
 
     /* Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window; confidence and margin_of_error read the sample size. */
     @Json(name = "periods")
@@ -66,8 +86,12 @@ data class SovResponse (
     @Json(name = "breakdown")
     val breakdown: kotlin.collections.List<SovResponseBreakdownInner>? = null,
 
+    /* Actors ranked fifth and below, folded into the Others share of breakdown */
     @Json(name = "others")
-    val others: kotlin.collections.List<kotlin.Any>? = null
+    val others: kotlin.collections.List<SovResponseOthersInner>? = null,
+
+    @Json(name = "request_id")
+    val requestId: kotlin.String? = null
 
 ) {
 

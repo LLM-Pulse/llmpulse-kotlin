@@ -121,7 +121,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listRecommendations"></a>
 # **listRecommendations**
-> listRecommendations(projectId, recommendationType, status, page, perPage)
+> RecommendationsResponse listRecommendations(projectId, recommendationType, status, page, perPage)
 
 List recommendation runs
 
@@ -138,7 +138,8 @@ val status : kotlin.String = status_example // kotlin.String |
 val page : kotlin.Int = 56 // kotlin.Int | 
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 try {
-    apiInstance.listRecommendations(projectId, recommendationType, status, page, perPage)
+    val result : RecommendationsResponse = apiInstance.listRecommendations(projectId, recommendationType, status, page, perPage)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling RecommendationsApi#listRecommendations")
     e.printStackTrace()
@@ -159,7 +160,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**RecommendationsResponse**](RecommendationsResponse.md)
 
 ### Authorization
 
@@ -176,5 +177,5 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 

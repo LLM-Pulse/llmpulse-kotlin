@@ -14,7 +14,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 <a id="assignPromptTags"></a>
 # **assignPromptTags**
-> assignPromptTags(assignPromptTagsRequest)
+> PromptTagsAssignResponse assignPromptTags(assignPromptTagsRequest)
 
 Bulk-attach tags to prompts
 
@@ -29,7 +29,8 @@ Idempotent bulk assignment of tags (Collections) to existing prompts. Tags can b
 val apiInstance = CollectionsTagsApi()
 val assignPromptTagsRequest : AssignPromptTagsRequest =  // AssignPromptTagsRequest | 
 try {
-    apiInstance.assignPromptTags(assignPromptTagsRequest)
+    val result : PromptTagsAssignResponse = apiInstance.assignPromptTags(assignPromptTagsRequest)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling CollectionsTagsApi#assignPromptTags")
     e.printStackTrace()
@@ -46,7 +47,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**PromptTagsAssignResponse**](PromptTagsAssignResponse.md)
 
 ### Authorization
 
@@ -67,7 +68,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="createCollection"></a>
 # **createCollection**
-> createCollection(createCollectionRequest)
+> CollectionCreateResponse createCollection(createCollectionRequest)
 
 Create a tag
 
@@ -82,7 +83,8 @@ Creates a tag (Collection) in a project. Optional &#x60;prompt_ids&#x60; attache
 val apiInstance = CollectionsTagsApi()
 val createCollectionRequest : CreateCollectionRequest =  // CreateCollectionRequest | 
 try {
-    apiInstance.createCollection(createCollectionRequest)
+    val result : CollectionCreateResponse = apiInstance.createCollection(createCollectionRequest)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling CollectionsTagsApi#createCollection")
     e.printStackTrace()
@@ -99,7 +101,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CollectionCreateResponse**](CollectionCreateResponse.md)
 
 ### Authorization
 
@@ -175,7 +177,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listCollections"></a>
 # **listCollections**
-> listCollections(projectId, output)
+> CollectionsResponse listCollections(projectId, output)
 
 List tags/collections
 
@@ -189,7 +191,8 @@ val apiInstance = CollectionsTagsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listCollections(projectId, output)
+    val result : CollectionsResponse = apiInstance.listCollections(projectId, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling CollectionsTagsApi#listCollections")
     e.printStackTrace()
@@ -207,7 +210,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CollectionsResponse**](CollectionsResponse.md)
 
 ### Authorization
 
@@ -224,11 +227,11 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listTags"></a>
 # **listTags**
-> listTags(projectId, output)
+> CollectionsResponse listTags(projectId, output)
 
 List tags (alias for /collections)
 
@@ -242,7 +245,8 @@ val apiInstance = CollectionsTagsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listTags(projectId, output)
+    val result : CollectionsResponse = apiInstance.listTags(projectId, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling CollectionsTagsApi#listTags")
     e.printStackTrace()
@@ -260,7 +264,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CollectionsResponse**](CollectionsResponse.md)
 
 ### Authorization
 
@@ -277,7 +281,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="updateCollection"></a>
 # **updateCollection**

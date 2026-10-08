@@ -32,7 +32,9 @@ import com.squareup.moshi.JsonClass
  * 
  *
  * @param actor 
+ * @param metric 
  * @param total 
+ * @param aggregation How total combines the buckets
  * @param min 
  * @param max 
  * @param last 
@@ -44,8 +46,15 @@ data class SummaryResponseAllOfSummaryValueInner (
     @Json(name = "actor")
     val actor: Actor? = null,
 
+    @Json(name = "metric")
+    val metric: kotlin.String? = null,
+
     @Json(name = "total")
     val total: java.math.BigDecimal? = null,
+
+    /* How total combines the buckets */
+    @Json(name = "aggregation")
+    val aggregation: SummaryResponseAllOfSummaryValueInner.Aggregation? = null,
 
     @Json(name = "min")
     val min: java.math.BigDecimal? = null,
@@ -58,6 +67,16 @@ data class SummaryResponseAllOfSummaryValueInner (
 
 ) {
 
+    /**
+     * How total combines the buckets
+     *
+     * Values: sum,average
+     */
+    @JsonClass(generateAdapter = false)
+    enum class Aggregation(val value: kotlin.String) {
+        @Json(name = "sum") sum("sum"),
+        @Json(name = "average") average("average");
+    }
 
 }
 

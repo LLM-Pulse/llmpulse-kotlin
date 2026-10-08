@@ -31,6 +31,8 @@ import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.CreateProjectDraftRequest
 import ai.llmpulse.sdk.models.FinalizeProjectDraftRequest
 import ai.llmpulse.sdk.models.ListProjects200Response
+import ai.llmpulse.sdk.models.LocalesResponse
+import ai.llmpulse.sdk.models.ModelsResponse
 import ai.llmpulse.sdk.models.ProjectCreateRequest
 import ai.llmpulse.sdk.models.ProjectCreateResponse
 import ai.llmpulse.sdk.models.ProjectDetails
@@ -439,19 +441,20 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * List locales with data
      * 
      * @param projectId Project ID
-     * @return void
+     * @return LocalesResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listLocales(projectId: kotlin.Int) : Unit {
+    fun listLocales(projectId: kotlin.Int) : LocalesResponse {
         val localVarResponse = listLocalesWithHttpInfo(projectId = projectId)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as LocalesResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -470,15 +473,16 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * List locales with data
      * 
      * @param projectId Project ID
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<LocalesResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listLocalesWithHttpInfo(projectId: kotlin.Int) : ApiResponse<Unit?> {
+    fun listLocalesWithHttpInfo(projectId: kotlin.Int) : ApiResponse<LocalesResponse?> {
         val localVariableConfig = listLocalesRequestConfig(projectId = projectId)
 
-        return request<Unit, Unit>(
+        return request<Unit, LocalesResponse>(
             localVariableConfig
         )
     }
@@ -496,7 +500,8 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
                 put("project_id", listOf(projectId.toString()))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/locales",
@@ -512,19 +517,20 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * List models with data
      * 
      * @param projectId Project ID
-     * @return void
+     * @return ModelsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listModels(projectId: kotlin.Int) : Unit {
+    fun listModels(projectId: kotlin.Int) : ModelsResponse {
         val localVarResponse = listModelsWithHttpInfo(projectId = projectId)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ModelsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -543,15 +549,16 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * List models with data
      * 
      * @param projectId Project ID
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<ModelsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listModelsWithHttpInfo(projectId: kotlin.Int) : ApiResponse<Unit?> {
+    fun listModelsWithHttpInfo(projectId: kotlin.Int) : ApiResponse<ModelsResponse?> {
         val localVariableConfig = listModelsRequestConfig(projectId = projectId)
 
-        return request<Unit, Unit>(
+        return request<Unit, ModelsResponse>(
             localVariableConfig
         )
     }
@@ -569,7 +576,8 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
                 put("project_id", listOf(projectId.toString()))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/models",

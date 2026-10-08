@@ -32,6 +32,7 @@ import ai.llmpulse.sdk.models.IntelligenceTask
 import ai.llmpulse.sdk.models.IntelligenceTaskCreateRequest
 import ai.llmpulse.sdk.models.IntelligenceTaskUpdateRequest
 import ai.llmpulse.sdk.models.IntelligenceTaskUpdateResponse
+import ai.llmpulse.sdk.models.IntelligenceTasksResponse
 
 import com.squareup.moshi.Json
 
@@ -240,19 +241,20 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
      * @param status  (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return void
+     * @return IntelligenceTasksResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listIntelligenceTasks(projectId: kotlin.Int, taskType: TaskTypeListIntelligenceTasks? = null, status: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
+    fun listIntelligenceTasks(projectId: kotlin.Int, taskType: TaskTypeListIntelligenceTasks? = null, status: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : IntelligenceTasksResponse {
         val localVarResponse = listIntelligenceTasksWithHttpInfo(projectId = projectId, taskType = taskType, status = status, page = page, perPage = perPage)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntelligenceTasksResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -275,15 +277,16 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
      * @param status  (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<IntelligenceTasksResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listIntelligenceTasksWithHttpInfo(projectId: kotlin.Int, taskType: TaskTypeListIntelligenceTasks?, status: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
+    fun listIntelligenceTasksWithHttpInfo(projectId: kotlin.Int, taskType: TaskTypeListIntelligenceTasks?, status: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<IntelligenceTasksResponse?> {
         val localVariableConfig = listIntelligenceTasksRequestConfig(projectId = projectId, taskType = taskType, status = status, page = page, perPage = perPage)
 
-        return request<Unit, Unit>(
+        return request<Unit, IntelligenceTasksResponse>(
             localVariableConfig
         )
     }
@@ -317,7 +320,8 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/intelligence_tasks",

@@ -65,7 +65,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listSentimentRecords"></a>
 # **listSentimentRecords**
-> listSentimentRecords(projectId, competitorId, brandOnly, analysis, model, collectionId, countryCode, languageCode, from, to, page, perPage)
+> SentimentsResponse listSentimentRecords(projectId, competitorId, brandOnly, analysis, model, collectionId, countryCode, languageCode, from, to, page, perPage)
 
 List sentiment records (Growth plan or above)
 
@@ -91,7 +91,8 @@ val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.Offse
 val page : kotlin.Int = 56 // kotlin.Int | 
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 try {
-    apiInstance.listSentimentRecords(projectId, competitorId, brandOnly, analysis, model, collectionId, countryCode, languageCode, from, to, page, perPage)
+    val result : SentimentsResponse = apiInstance.listSentimentRecords(projectId, competitorId, brandOnly, analysis, model, collectionId, countryCode, languageCode, from, to, page, perPage)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling SentimentsApi#listSentimentRecords")
     e.printStackTrace()
@@ -106,7 +107,7 @@ try {
 | **competitorId** | **kotlin.Int**|  | [optional] |
 | **brandOnly** | **kotlin.Boolean**|  | [optional] |
 | **analysis** | **kotlin.String**| One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative | [optional] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
 | **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
 | **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
@@ -119,7 +120,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**SentimentsResponse**](SentimentsResponse.md)
 
 ### Authorization
 

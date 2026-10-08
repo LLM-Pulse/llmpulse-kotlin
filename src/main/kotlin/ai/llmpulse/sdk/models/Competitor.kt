@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.CitationMatchMode
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -33,6 +34,9 @@ import com.squareup.moshi.JsonClass
  * @param id 
  * @param name 
  * @param domain Bare (scheme-less) domain. Null only on the own-brand row (include_project_brand=true) when the project has no URL.
+ * @param matchingNames Alternative names matched as this competitor. Absent on the own-brand row
+ * @param citationMatchMode 
+ * @param citationMatchPath Set only when citation_match_mode is path_prefix
  * @param actorType Only present when include_project_brand=true
  * @param isOwn Only present when include_project_brand=true
  */
@@ -49,6 +53,17 @@ data class Competitor (
     /* Bare (scheme-less) domain. Null only on the own-brand row (include_project_brand=true) when the project has no URL. */
     @Json(name = "domain")
     val domain: kotlin.String? = null,
+
+    /* Alternative names matched as this competitor. Absent on the own-brand row */
+    @Json(name = "matching_names")
+    val matchingNames: kotlin.collections.List<kotlin.String>? = null,
+
+    @Json(name = "citation_match_mode")
+    val citationMatchMode: CitationMatchMode? = null,
+
+    /* Set only when citation_match_mode is path_prefix */
+    @Json(name = "citation_match_path")
+    val citationMatchPath: kotlin.String? = null,
 
     /* Only present when include_project_brand=true */
     @Json(name = "actor_type")

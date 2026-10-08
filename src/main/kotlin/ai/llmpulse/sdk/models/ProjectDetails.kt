@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.ProjectDetailsAllOfDataCoverage
 import ai.llmpulse.sdk.models.ProjectDetailsAllOfStats
 
 import com.squareup.moshi.Json
@@ -51,6 +52,8 @@ import com.squareup.moshi.JsonClass
  * @param appStoreId 
  * @param createdAt 
  * @param stats 
+ * @param dataCoverage 
+ * @param requestId 
  */
 
 
@@ -118,7 +121,13 @@ data class ProjectDetails (
     val createdAt: java.time.OffsetDateTime? = null,
 
     @Json(name = "stats")
-    val stats: ProjectDetailsAllOfStats? = null
+    val stats: ProjectDetailsAllOfStats? = null,
+
+    @Json(name = "data_coverage")
+    val dataCoverage: ProjectDetailsAllOfDataCoverage? = null,
+
+    @Json(name = "request_id")
+    val requestId: kotlin.String? = null
 
 ) {
 

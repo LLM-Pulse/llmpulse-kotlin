@@ -39,6 +39,7 @@ import com.squareup.moshi.JsonClass
  * @param lastDeliveredAt 
  * @param createdAt 
  * @param secret HMAC signing secret (whsec_...). Only returned on create.
+ * @param requestId 
  */
 
 
@@ -70,14 +71,17 @@ data class CreateWebhook201Response (
 
     /* HMAC signing secret (whsec_...). Only returned on create. */
     @Json(name = "secret")
-    val secret: kotlin.String? = null
+    val secret: kotlin.String? = null,
+
+    @Json(name = "request_id")
+    val requestId: kotlin.String? = null
 
 ) {
 
     /**
      * 
      *
-     * Values: mentionPeriodCreated,competitor_mentionPeriodCreated,citationPeriodCreated,prompt_executionPeriodCompleted,sentimentPeriodNegative_detected,recommendationPeriodCompleted,intelligence_taskPeriodCompleted,intelligence_taskPeriodUpdated
+     * Values: mentionPeriodCreated,competitor_mentionPeriodCreated,citationPeriodCreated,prompt_executionPeriodCompleted,sentimentPeriodNegative_detected,recommendationPeriodCompleted,intelligence_taskPeriodCompleted,intelligence_taskPeriodUpdated,geo_audit_runPeriodCompleted,geo_audit_alertPeriodTriggered
      */
     @JsonClass(generateAdapter = false)
     enum class EventType(val value: kotlin.String) {
@@ -88,7 +92,9 @@ data class CreateWebhook201Response (
         @Json(name = "sentiment.negative_detected") sentimentPeriodNegative_detected("sentiment.negative_detected"),
         @Json(name = "recommendation.completed") recommendationPeriodCompleted("recommendation.completed"),
         @Json(name = "intelligence_task.completed") intelligence_taskPeriodCompleted("intelligence_task.completed"),
-        @Json(name = "intelligence_task.updated") intelligence_taskPeriodUpdated("intelligence_task.updated");
+        @Json(name = "intelligence_task.updated") intelligence_taskPeriodUpdated("intelligence_task.updated"),
+        @Json(name = "geo_audit_run.completed") geo_audit_runPeriodCompleted("geo_audit_run.completed"),
+        @Json(name = "geo_audit_alert.triggered") geo_audit_alertPeriodTriggered("geo_audit_alert.triggered");
     }
 
 }

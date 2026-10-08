@@ -263,17 +263,17 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      enum class ModelGetAiModelPositionDistribution(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
          @Json(name = "perplexity") perplexity("perplexity"),
-         @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "ai_overview") ai_overview("ai_overview"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
          @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "claude") claude("claude"),
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
-         @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use

@@ -121,7 +121,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listIntelligenceTasks"></a>
 # **listIntelligenceTasks**
-> listIntelligenceTasks(projectId, taskType, status, page, perPage)
+> IntelligenceTasksResponse listIntelligenceTasks(projectId, taskType, status, page, perPage)
 
 List GEO Writer tasks
 
@@ -138,7 +138,8 @@ val status : kotlin.String = status_example // kotlin.String |
 val page : kotlin.Int = 56 // kotlin.Int | 
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 try {
-    apiInstance.listIntelligenceTasks(projectId, taskType, status, page, perPage)
+    val result : IntelligenceTasksResponse = apiInstance.listIntelligenceTasks(projectId, taskType, status, page, perPage)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling GEOWriterApi#listIntelligenceTasks")
     e.printStackTrace()
@@ -159,7 +160,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**IntelligenceTasksResponse**](IntelligenceTasksResponse.md)
 
 ### Authorization
 
@@ -176,7 +177,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="revertIntelligenceTaskContent"></a>
 # **revertIntelligenceTaskContent**

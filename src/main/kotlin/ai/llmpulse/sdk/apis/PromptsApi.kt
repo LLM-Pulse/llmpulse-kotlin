@@ -28,8 +28,10 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.PromptExecutionsResponse
 import ai.llmpulse.sdk.models.PromptsCreateRequest
 import ai.llmpulse.sdk.models.PromptsCreateResponse
+import ai.llmpulse.sdk.models.PromptsResponse
 
 import com.squareup.moshi.Json
 
@@ -212,17 +214,17 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      enum class ModelListPromptExecutions(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
          @Json(name = "perplexity") perplexity("perplexity"),
-         @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "ai_overview") ai_overview("ai_overview"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
          @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "claude") claude("claude"),
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
-         @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -315,19 +317,20 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return PromptExecutionsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listPromptExecutions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPromptExecutions? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, mentionFilter: MentionFilterListPromptExecutions? = null, citationFilter: CitationFilterListPromptExecutions? = null, competitors: kotlin.String? = null, output: OutputListPromptExecutions? = null) : Unit {
+    fun listPromptExecutions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPromptExecutions? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, mentionFilter: MentionFilterListPromptExecutions? = null, citationFilter: CitationFilterListPromptExecutions? = null, competitors: kotlin.String? = null, output: OutputListPromptExecutions? = null) : PromptExecutionsResponse {
         val localVarResponse = listPromptExecutionsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as PromptExecutionsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -359,15 +362,16 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<PromptExecutionsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listPromptExecutionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?) : ApiResponse<Unit?> {
+    fun listPromptExecutionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?) : ApiResponse<PromptExecutionsResponse?> {
         val localVariableConfig = listPromptExecutionsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, PromptExecutionsResponse>(
             localVariableConfig
         )
     }
@@ -437,7 +441,8 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/prompt_executions",
@@ -454,17 +459,17 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      enum class ModelListPrompts(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
          @Json(name = "perplexity") perplexity("perplexity"),
-         @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "ai_overview") ai_overview("ai_overview"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
          @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "claude") claude("claude"),
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
-         @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -527,19 +532,20 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return PromptsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listPrompts(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPrompts? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListPrompts? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListPrompts? = null) : Unit {
+    fun listPrompts(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPrompts? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListPrompts? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListPrompts? = null) : PromptsResponse {
         val localVarResponse = listPromptsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as PromptsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -569,15 +575,16 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<PromptsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listPromptsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : ApiResponse<Unit?> {
+    fun listPromptsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : ApiResponse<PromptsResponse?> {
         val localVariableConfig = listPromptsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, from = from, to = to, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, PromptsResponse>(
             localVariableConfig
         )
     }
@@ -639,7 +646,8 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/prompts",
@@ -711,17 +719,17 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      enum class ModelListQueryFanOuts(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
          @Json(name = "perplexity") perplexity("perplexity"),
-         @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "ai_overview") ai_overview("ai_overview"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
          @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "claude") claude("claude"),
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
-         @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use

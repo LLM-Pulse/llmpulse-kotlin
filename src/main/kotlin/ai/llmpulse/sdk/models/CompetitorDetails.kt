@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.CitationMatchMode
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -37,8 +38,16 @@ import com.squareup.moshi.JsonClass
  * @param matchingNames 
  * @param googlePlayId 
  * @param appStoreId 
+ * @param citationMatchMode 
+ * @param citationMatchPath Set only when citation_match_mode is path_prefix
+ * @param googlePlayName English app name on Google Play, when the competitor has an Android app
+ * @param appStoreName English app name on the App Store, when the competitor has an iOS app
+ * @param googlePlayIconUrl 
+ * @param appStoreIconUrl 
  * @param color 
+ * @param processing True while the competitor's historical mentions are being recalculated
  * @param createdAt 
+ * @param requestId 
  */
 
 
@@ -65,11 +74,39 @@ data class CompetitorDetails (
     @Json(name = "app_store_id")
     val appStoreId: kotlin.String? = null,
 
+    @Json(name = "citation_match_mode")
+    val citationMatchMode: CitationMatchMode? = null,
+
+    /* Set only when citation_match_mode is path_prefix */
+    @Json(name = "citation_match_path")
+    val citationMatchPath: kotlin.String? = null,
+
+    /* English app name on Google Play, when the competitor has an Android app */
+    @Json(name = "google_play_name")
+    val googlePlayName: kotlin.String? = null,
+
+    /* English app name on the App Store, when the competitor has an iOS app */
+    @Json(name = "app_store_name")
+    val appStoreName: kotlin.String? = null,
+
+    @Json(name = "google_play_icon_url")
+    val googlePlayIconUrl: kotlin.String? = null,
+
+    @Json(name = "app_store_icon_url")
+    val appStoreIconUrl: kotlin.String? = null,
+
     @Json(name = "color")
     val color: kotlin.String? = null,
 
+    /* True while the competitor's historical mentions are being recalculated */
+    @Json(name = "processing")
+    val processing: kotlin.Boolean? = null,
+
     @Json(name = "created_at")
-    val createdAt: java.time.OffsetDateTime? = null
+    val createdAt: java.time.OffsetDateTime? = null,
+
+    @Json(name = "request_id")
+    val requestId: kotlin.String? = null
 
 ) {
 

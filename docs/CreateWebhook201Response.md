@@ -13,13 +13,14 @@
 | **lastDeliveredAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **createdAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **secret** | **kotlin.String** | HMAC signing secret (whsec_...). Only returned on create. |  [optional] |
+| **requestId** | **kotlin.String** |  |  [optional] |
 
 
 <a id="EventType"></a>
 ## Enum: event_type
 | Name | Value |
 | ---- | ----- |
-| eventType | mention.created, competitor_mention.created, citation.created, prompt_execution.completed, sentiment.negative_detected, recommendation.completed, intelligence_task.completed, intelligence_task.updated |
+| eventType | mention.created, competitor_mention.created, citation.created, prompt_execution.completed, sentiment.negative_detected, recommendation.completed, intelligence_task.completed, intelligence_task.updated, geo_audit_run.completed, geo_audit_alert.triggered |
 
 
 

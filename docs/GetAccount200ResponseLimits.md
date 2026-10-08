@@ -9,6 +9,8 @@
 | **competitorsPerProject** | [**AccountCapacity**](AccountCapacity.md) |  |  [optional] |
 | **intelligenceTasks** | [**AccountQuota**](AccountQuota.md) |  |  [optional] |
 | **teamMembers** | [**AccountCapacity**](AccountCapacity.md) |  |  [optional] |
+| **recurringGeoAudits** | [**AccountQuota**](AccountQuota.md) |  |  [optional] |
+| **geoAuditManualRuns** | [**AccountQuota**](AccountQuota.md) |  |  [optional] |
 
 
 

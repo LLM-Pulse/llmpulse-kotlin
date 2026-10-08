@@ -7,11 +7,13 @@
 | **projectId** | **kotlin.Int** |  |  [optional] |
 | **from** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **to** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
+| **filters** | [**MetricsFiltersEcho**](MetricsFiltersEcho.md) |  |  [optional] |
 | **sort** | **kotlin.String** |  |  [optional] |
 | **page** | **kotlin.Int** |  |  [optional] |
 | **perPage** | **kotlin.Int** |  |  [optional] |
 | **total** | **kotlin.Int** |  |  [optional] |
 | **&#x60;data&#x60;** | [**kotlin.collections.List&lt;TopSourcesResponseDataInner&gt;**](TopSourcesResponseDataInner.md) |  |  [optional] |
+| **requestId** | **kotlin.String** |  |  [optional] |
 
 
 

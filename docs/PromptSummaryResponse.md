@@ -7,7 +7,7 @@
 | **projectId** | **kotlin.Int** |  |  [optional] |
 | **from** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **to** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
-| **filters** | [**kotlin.Any**](.md) |  |  [optional] |
+| **filters** | [**MetricsFiltersEcho**](MetricsFiltersEcho.md) |  |  [optional] |
 | **breakdown** | **kotlin.String** |  |  [optional] |
 | **sort** | **kotlin.String** |  |  [optional] |
 | **sortDir** | **kotlin.String** |  |  [optional] |

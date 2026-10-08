@@ -29,7 +29,10 @@ import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.AssignPromptTagsRequest
+import ai.llmpulse.sdk.models.CollectionCreateResponse
+import ai.llmpulse.sdk.models.CollectionsResponse
 import ai.llmpulse.sdk.models.CreateCollectionRequest
+import ai.llmpulse.sdk.models.PromptTagsAssignResponse
 import ai.llmpulse.sdk.models.UpdateCollectionRequest
 
 import com.squareup.moshi.Json
@@ -61,19 +64,20 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * Bulk-attach tags to prompts
      * Idempotent bulk assignment of tags (Collections) to existing prompts. Tags can be resolved by id or by name (case-insensitive). Use &#x60;create_missing: true&#x60; to auto-create unknown tag names. Requires a &#x60;read_write&#x60; scope API key.
      * @param assignPromptTagsRequest 
-     * @return void
+     * @return PromptTagsAssignResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun assignPromptTags(assignPromptTagsRequest: AssignPromptTagsRequest) : Unit {
+    fun assignPromptTags(assignPromptTagsRequest: AssignPromptTagsRequest) : PromptTagsAssignResponse {
         val localVarResponse = assignPromptTagsWithHttpInfo(assignPromptTagsRequest = assignPromptTagsRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as PromptTagsAssignResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -92,15 +96,16 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * Bulk-attach tags to prompts
      * Idempotent bulk assignment of tags (Collections) to existing prompts. Tags can be resolved by id or by name (case-insensitive). Use &#x60;create_missing: true&#x60; to auto-create unknown tag names. Requires a &#x60;read_write&#x60; scope API key.
      * @param assignPromptTagsRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<PromptTagsAssignResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun assignPromptTagsWithHttpInfo(assignPromptTagsRequest: AssignPromptTagsRequest) : ApiResponse<Unit?> {
+    fun assignPromptTagsWithHttpInfo(assignPromptTagsRequest: AssignPromptTagsRequest) : ApiResponse<PromptTagsAssignResponse?> {
         val localVariableConfig = assignPromptTagsRequestConfig(assignPromptTagsRequest = assignPromptTagsRequest)
 
-        return request<AssignPromptTagsRequest, Unit>(
+        return request<AssignPromptTagsRequest, PromptTagsAssignResponse>(
             localVariableConfig
         )
     }
@@ -133,19 +138,20 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * Create a tag
      * Creates a tag (Collection) in a project. Optional &#x60;prompt_ids&#x60; attaches existing prompts in the same call. Tag name must be unique per project (case-insensitive). Requires a &#x60;read_write&#x60; scope API key.
      * @param createCollectionRequest 
-     * @return void
+     * @return CollectionCreateResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createCollection(createCollectionRequest: CreateCollectionRequest) : Unit {
+    fun createCollection(createCollectionRequest: CreateCollectionRequest) : CollectionCreateResponse {
         val localVarResponse = createCollectionWithHttpInfo(createCollectionRequest = createCollectionRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CollectionCreateResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -164,15 +170,16 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * Create a tag
      * Creates a tag (Collection) in a project. Optional &#x60;prompt_ids&#x60; attaches existing prompts in the same call. Tag name must be unique per project (case-insensitive). Requires a &#x60;read_write&#x60; scope API key.
      * @param createCollectionRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CollectionCreateResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createCollectionWithHttpInfo(createCollectionRequest: CreateCollectionRequest) : ApiResponse<Unit?> {
+    fun createCollectionWithHttpInfo(createCollectionRequest: CreateCollectionRequest) : ApiResponse<CollectionCreateResponse?> {
         val localVariableConfig = createCollectionRequestConfig(createCollectionRequest = createCollectionRequest)
 
-        return request<CreateCollectionRequest, Unit>(
+        return request<CreateCollectionRequest, CollectionCreateResponse>(
             localVariableConfig
         )
     }
@@ -300,19 +307,20 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * 
      * @param projectId Project ID
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return CollectionsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCollections(projectId: kotlin.Int, output: OutputListCollections? = null) : Unit {
+    fun listCollections(projectId: kotlin.Int, output: OutputListCollections? = null) : CollectionsResponse {
         val localVarResponse = listCollectionsWithHttpInfo(projectId = projectId, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CollectionsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -332,15 +340,16 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * 
      * @param projectId Project ID
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CollectionsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCollectionsWithHttpInfo(projectId: kotlin.Int, output: OutputListCollections?) : ApiResponse<Unit?> {
+    fun listCollectionsWithHttpInfo(projectId: kotlin.Int, output: OutputListCollections?) : ApiResponse<CollectionsResponse?> {
         val localVariableConfig = listCollectionsRequestConfig(projectId = projectId, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, CollectionsResponse>(
             localVariableConfig
         )
     }
@@ -362,7 +371,8 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/collections",
@@ -396,19 +406,20 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * 
      * @param projectId Project ID
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return CollectionsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listTags(projectId: kotlin.Int, output: OutputListTags? = null) : Unit {
+    fun listTags(projectId: kotlin.Int, output: OutputListTags? = null) : CollectionsResponse {
         val localVarResponse = listTagsWithHttpInfo(projectId = projectId, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CollectionsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -428,15 +439,16 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * 
      * @param projectId Project ID
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CollectionsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listTagsWithHttpInfo(projectId: kotlin.Int, output: OutputListTags?) : ApiResponse<Unit?> {
+    fun listTagsWithHttpInfo(projectId: kotlin.Int, output: OutputListTags?) : ApiResponse<CollectionsResponse?> {
         val localVariableConfig = listTagsRequestConfig(projectId = projectId, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, CollectionsResponse>(
             localVariableConfig
         )
     }
@@ -458,7 +470,8 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/tags",

@@ -24,6 +24,8 @@
 | **appStoreId** | **kotlin.String** |  |  [optional] |
 | **createdAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **stats** | [**ProjectDetailsAllOfStats**](ProjectDetailsAllOfStats.md) |  |  [optional] |
+| **dataCoverage** | [**ProjectDetailsAllOfDataCoverage**](ProjectDetailsAllOfDataCoverage.md) |  |  [optional] |
+| **requestId** | **kotlin.String** |  |  [optional] |
 
 
 

@@ -12,7 +12,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 <a id="createAnnotation"></a>
 # **createAnnotation**
-> createAnnotation(createAnnotationRequest)
+> AnnotationCreateResponse createAnnotation(createAnnotationRequest)
 
 Create a timeline annotation
 
@@ -27,7 +27,8 @@ Marks a date in the project timeseries with a title + description. Available on 
 val apiInstance = AnnotationsApi()
 val createAnnotationRequest : CreateAnnotationRequest =  // CreateAnnotationRequest | 
 try {
-    apiInstance.createAnnotation(createAnnotationRequest)
+    val result : AnnotationCreateResponse = apiInstance.createAnnotation(createAnnotationRequest)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling AnnotationsApi#createAnnotation")
     e.printStackTrace()
@@ -44,7 +45,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AnnotationCreateResponse**](AnnotationCreateResponse.md)
 
 ### Authorization
 

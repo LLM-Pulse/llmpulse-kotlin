@@ -37,6 +37,8 @@ import com.squareup.moshi.JsonClass
  * @param competitorsPerProject 
  * @param intelligenceTasks 
  * @param teamMembers 
+ * @param recurringGeoAudits 
+ * @param geoAuditManualRuns 
  */
 
 
@@ -55,7 +57,13 @@ data class GetAccount200ResponseLimits (
     val intelligenceTasks: AccountQuota? = null,
 
     @Json(name = "team_members")
-    val teamMembers: AccountCapacity? = null
+    val teamMembers: AccountCapacity? = null,
+
+    @Json(name = "recurring_geo_audits")
+    val recurringGeoAudits: AccountQuota? = null,
+
+    @Json(name = "geo_audit_manual_runs")
+    val geoAuditManualRuns: AccountQuota? = null
 
 ) {
 

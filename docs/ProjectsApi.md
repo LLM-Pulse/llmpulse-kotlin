@@ -287,7 +287,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listLocales"></a>
 # **listLocales**
-> listLocales(projectId)
+> LocalesResponse listLocales(projectId)
 
 List locales with data
 
@@ -300,7 +300,8 @@ List locales with data
 val apiInstance = ProjectsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 try {
-    apiInstance.listLocales(projectId)
+    val result : LocalesResponse = apiInstance.listLocales(projectId)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectsApi#listLocales")
     e.printStackTrace()
@@ -317,7 +318,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**LocalesResponse**](LocalesResponse.md)
 
 ### Authorization
 
@@ -334,11 +335,11 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listModels"></a>
 # **listModels**
-> listModels(projectId)
+> ModelsResponse listModels(projectId)
 
 List models with data
 
@@ -351,7 +352,8 @@ List models with data
 val apiInstance = ProjectsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 try {
-    apiInstance.listModels(projectId)
+    val result : ModelsResponse = apiInstance.listModels(projectId)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectsApi#listModels")
     e.printStackTrace()
@@ -368,7 +370,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**ModelsResponse**](ModelsResponse.md)
 
 ### Authorization
 
@@ -385,7 +387,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listProjects"></a>
 # **listProjects**

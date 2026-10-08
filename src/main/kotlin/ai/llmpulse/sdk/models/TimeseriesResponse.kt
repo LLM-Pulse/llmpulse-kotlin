@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.MetricsFiltersEcho
 import ai.llmpulse.sdk.models.TimeseriesSeries
 
 import com.squareup.moshi.Json
@@ -34,7 +35,7 @@ import com.squareup.moshi.JsonClass
  * @param projectId 
  * @param from 
  * @param to 
- * @param granularity 
+ * @param granularity day, week or month
  * @param filters 
  * @param series 
  * @param requestId 
@@ -52,11 +53,12 @@ data class TimeseriesResponse (
     @Json(name = "to")
     val to: java.time.OffsetDateTime? = null,
 
+    /* day, week or month */
     @Json(name = "granularity")
     val granularity: kotlin.String? = null,
 
     @Json(name = "filters")
-    val filters: kotlin.Any? = null,
+    val filters: MetricsFiltersEcho? = null,
 
     @Json(name = "series")
     val series: kotlin.collections.Map<kotlin.String, kotlin.collections.List<TimeseriesSeries>>? = null,

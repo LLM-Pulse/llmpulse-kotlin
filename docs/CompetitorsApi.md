@@ -13,7 +13,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 <a id="createCompetitor"></a>
 # **createCompetitor**
-> createCompetitor(createCompetitorRequest)
+> CompetitorCreateResponse createCompetitor(createCompetitorRequest)
 
 Add a competitor
 
@@ -28,7 +28,8 @@ Adds a competitor with its own citation URL matching rule. Honours the per-plan 
 val apiInstance = CompetitorsApi()
 val createCompetitorRequest : CreateCompetitorRequest =  // CreateCompetitorRequest | 
 try {
-    apiInstance.createCompetitor(createCompetitorRequest)
+    val result : CompetitorCreateResponse = apiInstance.createCompetitor(createCompetitorRequest)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling CompetitorsApi#createCompetitor")
     e.printStackTrace()
@@ -45,7 +46,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CompetitorCreateResponse**](CompetitorCreateResponse.md)
 
 ### Authorization
 

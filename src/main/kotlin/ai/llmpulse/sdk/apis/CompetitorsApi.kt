@@ -28,6 +28,7 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.CompetitorCreateResponse
 import ai.llmpulse.sdk.models.CompetitorDetails
 import ai.llmpulse.sdk.models.CreateCompetitorRequest
 import ai.llmpulse.sdk.models.ListCompetitors200Response
@@ -62,19 +63,20 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Add a competitor
      * Adds a competitor with its own citation URL matching rule. Honours the per-plan max competitors cap. Requires a &#x60;read_write&#x60; scope API key.
      * @param createCompetitorRequest 
-     * @return void
+     * @return CompetitorCreateResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createCompetitor(createCompetitorRequest: CreateCompetitorRequest) : Unit {
+    fun createCompetitor(createCompetitorRequest: CreateCompetitorRequest) : CompetitorCreateResponse {
         val localVarResponse = createCompetitorWithHttpInfo(createCompetitorRequest = createCompetitorRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CompetitorCreateResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -93,15 +95,16 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Add a competitor
      * Adds a competitor with its own citation URL matching rule. Honours the per-plan max competitors cap. Requires a &#x60;read_write&#x60; scope API key.
      * @param createCompetitorRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CompetitorCreateResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createCompetitorWithHttpInfo(createCompetitorRequest: CreateCompetitorRequest) : ApiResponse<Unit?> {
+    fun createCompetitorWithHttpInfo(createCompetitorRequest: CreateCompetitorRequest) : ApiResponse<CompetitorCreateResponse?> {
         val localVariableConfig = createCompetitorRequestConfig(createCompetitorRequest = createCompetitorRequest)
 
-        return request<CreateCompetitorRequest, Unit>(
+        return request<CreateCompetitorRequest, CompetitorCreateResponse>(
             localVariableConfig
         )
     }

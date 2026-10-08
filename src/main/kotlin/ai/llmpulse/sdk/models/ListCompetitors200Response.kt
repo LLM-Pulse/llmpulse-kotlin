@@ -33,6 +33,7 @@ import com.squareup.moshi.JsonClass
  *
  * @param projectId 
  * @param competitors 
+ * @param requestId 
  */
 
 
@@ -42,7 +43,10 @@ data class ListCompetitors200Response (
     val projectId: kotlin.Int? = null,
 
     @Json(name = "competitors")
-    val competitors: kotlin.collections.List<Competitor>? = null
+    val competitors: kotlin.collections.List<Competitor>? = null,
+
+    @Json(name = "request_id")
+    val requestId: kotlin.String? = null
 
 ) {
 

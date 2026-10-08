@@ -6,6 +6,7 @@
 | ------------ | ------------- | ------------- | ------------- |
 | **projectId** | **kotlin.Int** |  |  [optional] |
 | **competitors** | [**kotlin.collections.List&lt;Competitor&gt;**](Competitor.md) |  |  [optional] |
+| **requestId** | **kotlin.String** |  |  [optional] |
 
 
 

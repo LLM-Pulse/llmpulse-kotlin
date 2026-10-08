@@ -27,6 +27,7 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import ai.llmpulse.sdk.models.AnnotationCreateResponse
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.CreateAnnotationRequest
 import ai.llmpulse.sdk.models.UpdateAnnotationRequest
@@ -60,19 +61,20 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Create a timeline annotation
      * Marks a date in the project timeseries with a title + description. Available on every plan. Requires a &#x60;read_write&#x60; scope API key.
      * @param createAnnotationRequest 
-     * @return void
+     * @return AnnotationCreateResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createAnnotation(createAnnotationRequest: CreateAnnotationRequest) : Unit {
+    fun createAnnotation(createAnnotationRequest: CreateAnnotationRequest) : AnnotationCreateResponse {
         val localVarResponse = createAnnotationWithHttpInfo(createAnnotationRequest = createAnnotationRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AnnotationCreateResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -91,15 +93,16 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Create a timeline annotation
      * Marks a date in the project timeseries with a title + description. Available on every plan. Requires a &#x60;read_write&#x60; scope API key.
      * @param createAnnotationRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AnnotationCreateResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createAnnotationWithHttpInfo(createAnnotationRequest: CreateAnnotationRequest) : ApiResponse<Unit?> {
+    fun createAnnotationWithHttpInfo(createAnnotationRequest: CreateAnnotationRequest) : ApiResponse<AnnotationCreateResponse?> {
         val localVariableConfig = createAnnotationRequestConfig(createAnnotationRequest = createAnnotationRequest)
 
-        return request<CreateAnnotationRequest, Unit>(
+        return request<CreateAnnotationRequest, AnnotationCreateResponse>(
             localVariableConfig
         )
     }

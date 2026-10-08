@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.ProjectDetailsAllOfStatsPromptsByBrandKind
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -31,6 +32,7 @@ import com.squareup.moshi.JsonClass
  * 
  *
  * @param promptsCount 
+ * @param promptsByBrandKind 
  * @param competitorsCount 
  * @param collectionsCount 
  */
@@ -40,6 +42,9 @@ data class ProjectDetailsAllOfStats (
 
     @Json(name = "prompts_count")
     val promptsCount: kotlin.Int? = null,
+
+    @Json(name = "prompts_by_brand_kind")
+    val promptsByBrandKind: ProjectDetailsAllOfStatsPromptsByBrandKind? = null,
 
     @Json(name = "competitors_count")
     val competitorsCount: kotlin.Int? = null,

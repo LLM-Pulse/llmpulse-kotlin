@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.MetricsFiltersEcho
 import ai.llmpulse.sdk.models.PromptSummaryRow
 
 import com.squareup.moshi.Json
@@ -58,7 +59,7 @@ data class PromptSummaryResponse (
     val to: java.time.OffsetDateTime? = null,
 
     @Json(name = "filters")
-    val filters: kotlin.Any? = null,
+    val filters: MetricsFiltersEcho? = null,
 
     @Json(name = "breakdown")
     val breakdown: kotlin.String? = null,

@@ -29,6 +29,7 @@ import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.LaunchRecommendationsRequest
+import ai.llmpulse.sdk.models.RecommendationsResponse
 
 import com.squareup.moshi.Json
 
@@ -280,19 +281,20 @@ open class RecommendationsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param status  (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return void
+     * @return RecommendationsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listRecommendations(projectId: kotlin.Int, recommendationType: RecommendationTypeListRecommendations? = null, status: StatusListRecommendations? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
+    fun listRecommendations(projectId: kotlin.Int, recommendationType: RecommendationTypeListRecommendations? = null, status: StatusListRecommendations? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : RecommendationsResponse {
         val localVarResponse = listRecommendationsWithHttpInfo(projectId = projectId, recommendationType = recommendationType, status = status, page = page, perPage = perPage)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as RecommendationsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -315,15 +317,16 @@ open class RecommendationsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param status  (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<RecommendationsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listRecommendationsWithHttpInfo(projectId: kotlin.Int, recommendationType: RecommendationTypeListRecommendations?, status: StatusListRecommendations?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
+    fun listRecommendationsWithHttpInfo(projectId: kotlin.Int, recommendationType: RecommendationTypeListRecommendations?, status: StatusListRecommendations?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<RecommendationsResponse?> {
         val localVariableConfig = listRecommendationsRequestConfig(projectId = projectId, recommendationType = recommendationType, status = status, page = page, perPage = perPage)
 
-        return request<Unit, Unit>(
+        return request<Unit, RecommendationsResponse>(
             localVariableConfig
         )
     }
@@ -357,7 +360,8 @@ open class RecommendationsApi(basePath: kotlin.String = defaultBasePath, client:
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/recommendations",

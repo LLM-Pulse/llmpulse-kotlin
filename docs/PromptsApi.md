@@ -122,7 +122,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listPromptExecutions"></a>
 # **listPromptExecutions**
-> listPromptExecutions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, mentionFilter, citationFilter, competitors, output)
+> PromptExecutionsResponse listPromptExecutions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, mentionFilter, citationFilter, competitors, output)
 
 List prompt executions
 
@@ -148,7 +148,8 @@ val citationFilter : kotlin.String = citationFilter_example // kotlin.String | S
 val competitors : kotlin.String = competitors_example // kotlin.String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM)
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listPromptExecutions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, mentionFilter, citationFilter, competitors, output)
+    val result : PromptExecutionsResponse = apiInstance.listPromptExecutions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, mentionFilter, citationFilter, competitors, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling PromptsApi#listPromptExecutions")
     e.printStackTrace()
@@ -162,7 +163,7 @@ try {
 | **projectId** | **kotlin.Int**| Project ID | |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
 | **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
 | **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
@@ -178,7 +179,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**PromptExecutionsResponse**](PromptExecutionsResponse.md)
 
 ### Authorization
 
@@ -195,11 +196,11 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listPrompts"></a>
 # **listPrompts**
-> listPrompts(projectId, page, perPage, model, collectionId, countryCode, languageCode, promptType, brandKind, from, to, output)
+> PromptsResponse listPrompts(projectId, page, perPage, model, collectionId, countryCode, languageCode, promptType, brandKind, from, to, output)
 
 List prompts
 
@@ -223,7 +224,8 @@ val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.Off
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listPrompts(projectId, page, perPage, model, collectionId, countryCode, languageCode, promptType, brandKind, from, to, output)
+    val result : PromptsResponse = apiInstance.listPrompts(projectId, page, perPage, model, collectionId, countryCode, languageCode, promptType, brandKind, from, to, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling PromptsApi#listPrompts")
     e.printStackTrace()
@@ -237,7 +239,7 @@ try {
 | **projectId** | **kotlin.Int**| Project ID | |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
 | **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
 | **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
@@ -251,7 +253,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**PromptsResponse**](PromptsResponse.md)
 
 ### Authorization
 
@@ -268,7 +270,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listQueryFanOuts"></a>
 # **listQueryFanOuts**
@@ -322,7 +324,7 @@ try {
 | **order** | **kotlin.String**| Sort field; the allowed set depends on view | [optional] [enum: count, share, query_text, total_count, variations_count, prompt_text] |
 | **direction** | **kotlin.String**|  | [optional] [default to Direction.desc] [enum: asc, desc] |
 | **query** | **kotlin.String**| Case-insensitive substring filter on the sub-query text | [optional] |
-| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, gemini, ai_overview, ai_mode, copilot, claude, grok, deepseek, meta_ai, amazon_rufus, naver_ai, baidu_ai] |
+| **model** | **kotlin.String**| Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
 | **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
 | **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |

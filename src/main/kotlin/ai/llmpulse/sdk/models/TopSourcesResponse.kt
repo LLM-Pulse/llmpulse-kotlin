@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.MetricsFiltersEcho
 import ai.llmpulse.sdk.models.TopSourcesResponseDataInner
 
 import com.squareup.moshi.Json
@@ -34,11 +35,13 @@ import com.squareup.moshi.JsonClass
  * @param projectId 
  * @param from 
  * @param to 
+ * @param filters 
  * @param sort 
  * @param page 
  * @param perPage 
  * @param total 
  * @param `data` 
+ * @param requestId 
  */
 
 
@@ -53,6 +56,9 @@ data class TopSourcesResponse (
     @Json(name = "to")
     val to: java.time.OffsetDateTime? = null,
 
+    @Json(name = "filters")
+    val filters: MetricsFiltersEcho? = null,
+
     @Json(name = "sort")
     val sort: kotlin.String? = null,
 
@@ -66,7 +72,10 @@ data class TopSourcesResponse (
     val total: kotlin.Int? = null,
 
     @Json(name = "data")
-    val `data`: kotlin.collections.List<TopSourcesResponseDataInner>? = null
+    val `data`: kotlin.collections.List<TopSourcesResponseDataInner>? = null,
+
+    @Json(name = "request_id")
+    val requestId: kotlin.String? = null
 
 ) {
 

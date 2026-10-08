@@ -27,6 +27,9 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import ai.llmpulse.sdk.models.CitationsResponse
+import ai.llmpulse.sdk.models.CompetitorMentionsResponse
+import ai.llmpulse.sdk.models.MentionsResponse
 
 import com.squareup.moshi.Json
 
@@ -58,17 +61,17 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      enum class ModelListAllCitations(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
          @Json(name = "perplexity") perplexity("perplexity"),
-         @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "ai_overview") ai_overview("ai_overview"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
          @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "claude") claude("claude"),
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
-         @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -230,17 +233,17 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      enum class ModelListAllMentions(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
          @Json(name = "perplexity") perplexity("perplexity"),
-         @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "ai_overview") ai_overview("ai_overview"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
          @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "claude") claude("claude"),
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
-         @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -402,17 +405,17 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      enum class ModelListCitations(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
          @Json(name = "perplexity") perplexity("perplexity"),
-         @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "ai_overview") ai_overview("ai_overview"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
          @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "claude") claude("claude"),
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
-         @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -456,19 +459,20 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return CitationsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCitations(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCitations? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCitations? = null) : Unit {
+    fun listCitations(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCitations? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCitations? = null) : CitationsResponse {
         val localVarResponse = listCitationsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CitationsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -497,15 +501,16 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CitationsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCitationsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCitations?) : ApiResponse<Unit?> {
+    fun listCitationsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCitations?) : ApiResponse<CitationsResponse?> {
         val localVariableConfig = listCitationsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, CitationsResponse>(
             localVariableConfig
         )
     }
@@ -563,7 +568,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/citations",
@@ -580,17 +586,17 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      enum class ModelListCompetitorCitations(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
          @Json(name = "perplexity") perplexity("perplexity"),
-         @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "ai_overview") ai_overview("ai_overview"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
          @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "claude") claude("claude"),
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
-         @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -752,17 +758,17 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      enum class ModelListCompetitorMentions(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
          @Json(name = "perplexity") perplexity("perplexity"),
-         @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "ai_overview") ai_overview("ai_overview"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
          @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "claude") claude("claude"),
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
-         @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -805,19 +811,20 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return CompetitorMentionsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCompetitorMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorMentions? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorMentions? = null) : Unit {
+    fun listCompetitorMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorMentions? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorMentions? = null) : CompetitorMentionsResponse {
         val localVarResponse = listCompetitorMentionsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CompetitorMentionsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -845,15 +852,16 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CompetitorMentionsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCompetitorMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorMentions?) : ApiResponse<Unit?> {
+    fun listCompetitorMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorMentions?) : ApiResponse<CompetitorMentionsResponse?> {
         val localVariableConfig = listCompetitorMentionsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, CompetitorMentionsResponse>(
             localVariableConfig
         )
     }
@@ -907,7 +915,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/competitor_mentions",
@@ -924,17 +933,17 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      enum class ModelListMentions(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
          @Json(name = "perplexity") perplexity("perplexity"),
-         @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "ai_overview") ai_overview("ai_overview"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
          @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "claude") claude("claude"),
          @Json(name = "grok") grok("grok"),
          @Json(name = "deepseek") deepseek("deepseek"),
-         @Json(name = "meta_ai") meta_ai("meta_ai"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -978,19 +987,20 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return MentionsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMentions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListMentions? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListMentions? = null) : Unit {
+    fun listMentions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListMentions? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListMentions? = null) : MentionsResponse {
         val localVarResponse = listMentionsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MentionsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -1019,15 +1029,16 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<MentionsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMentionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListMentions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListMentions?) : ApiResponse<Unit?> {
+    fun listMentionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListMentions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListMentions?) : ApiResponse<MentionsResponse?> {
         val localVariableConfig = listMentionsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, MentionsResponse>(
             localVariableConfig
         )
     }
@@ -1085,7 +1096,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/mentions",

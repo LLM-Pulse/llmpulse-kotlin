@@ -40,6 +40,7 @@ import com.squareup.moshi.JsonClass
  * @param executedAt 
  * @param durationMs Milliseconds, rounded to one decimal place
  * @param success Null while the answer is still pending
+ * @param noResult True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics
  * @param fanOutQueries 
  * @param mentions 
  * @param citations 
@@ -52,6 +53,7 @@ import com.squareup.moshi.JsonClass
  * @param localBusinesses 
  * @param locale 
  * @param appUrl Opens this answer in the app. The link names its project, so it opens there for any user with access to that project
+ * @param requestId 
  */
 
 
@@ -85,6 +87,10 @@ data class AnswerDetails (
     /* Null while the answer is still pending */
     @Json(name = "success")
     val success: kotlin.Boolean? = null,
+
+    /* True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics */
+    @Json(name = "no_result")
+    val noResult: kotlin.Boolean? = null,
 
     @Json(name = "fan_out_queries")
     val fanOutQueries: kotlin.collections.List<kotlin.String>? = null,
@@ -121,7 +127,10 @@ data class AnswerDetails (
 
     /* Opens this answer in the app. The link names its project, so it opens there for any user with access to that project */
     @Json(name = "app_url")
-    val appUrl: java.net.URI? = null
+    val appUrl: java.net.URI? = null,
+
+    @Json(name = "request_id")
+    val requestId: kotlin.String? = null
 
 ) {
 

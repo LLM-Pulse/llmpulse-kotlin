@@ -36,6 +36,7 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
+ * @param draftId The finalized draft; only present on POST /project_drafts/{id}/finalize
  * @param project Same shape as GET /dimensions/projects/{id}
  * @param prompts 
  * @param competitors 
@@ -49,6 +50,10 @@ import com.squareup.moshi.JsonClass
 
 
 data class ProjectCreateResponse (
+
+    /* The finalized draft; only present on POST /project_drafts/{id}/finalize */
+    @Json(name = "draft_id")
+    val draftId: kotlin.String? = null,
 
     /* Same shape as GET /dimensions/projects/{id} */
     @Json(name = "project")
