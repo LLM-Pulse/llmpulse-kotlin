@@ -146,6 +146,7 @@ docs/PromptsCreateRequest.md
 docs/PromptsCreateResponse.md
 docs/PromptsCreateResponseDataInner.md
 docs/PromptsResponse.md
+docs/QueryWebAnalyticsRequest.md
 docs/RecommendationSummary.md
 docs/RecommendationSummarySummary.md
 docs/RecommendationsApi.md
@@ -191,6 +192,9 @@ docs/UpdateCollectionRequest.md
 docs/UpdateCompetitorRequest.md
 docs/UpdateProjectDraftRequest.md
 docs/UpdateProjectRequest.md
+docs/WebAnalyticsQueryResponse.md
+docs/WebAnalyticsQueryResponseColumnsInner.md
+docs/WebAnalyticsSchemaResponse.md
 docs/WebhooksApi.md
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
@@ -368,6 +372,7 @@ src/main/kotlin/ai/llmpulse/sdk/models/PromptsCreateRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptsCreateResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptsCreateResponseDataInner.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptsResponse.kt
+src/main/kotlin/ai/llmpulse/sdk/models/QueryWebAnalyticsRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RecommendationSummary.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RecommendationSummarySummary.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RecommendationsResponse.kt
@@ -405,3 +410,6 @@ src/main/kotlin/ai/llmpulse/sdk/models/UpdateCollectionRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/UpdateCompetitorRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/UpdateProjectDraftRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/UpdateProjectRequest.kt
+src/main/kotlin/ai/llmpulse/sdk/models/WebAnalyticsQueryResponse.kt
+src/main/kotlin/ai/llmpulse/sdk/models/WebAnalyticsQueryResponseColumnsInner.kt
+src/main/kotlin/ai/llmpulse/sdk/models/WebAnalyticsSchemaResponse.kt

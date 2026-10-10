@@ -6,7 +6,9 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 | ------------- | ------------- | ------------- |
 | [**getAgentTraffic**](AIAgentTrafficApi.md#getAgentTraffic) | **GET** /metrics/agent_traffic | AI bot crawler traffic (Scale plan or above, Beta) |
 | [**getAiTraffic**](AIAgentTrafficApi.md#getAiTraffic) | **GET** /metrics/ai_traffic | AI referral traffic (Scale plan or above) |
+| [**getWebAnalyticsSchema**](AIAgentTrafficApi.md#getWebAnalyticsSchema) | **GET** /web_analytics/schema | Web analytics query format (Growth+) |
 | [**listAgentBots**](AIAgentTrafficApi.md#listAgentBots) | **GET** /dimensions/agent_bots | AI bot catalog (Scale plan or above) |
+| [**queryWebAnalytics**](AIAgentTrafficApi.md#queryWebAnalytics) | **POST** /web_analytics/query | Live web analytics query (Growth+) |
 
 
 <a id="getAgentTraffic"></a>
@@ -140,6 +142,60 @@ apiInstance.accessTokenProvider = { "" }
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+<a id="getWebAnalyticsSchema"></a>
+# **getWebAnalyticsSchema**
+> WebAnalyticsSchemaResponse getWebAnalyticsSchema(projectId)
+
+Web analytics query format (Growth+)
+
+How to query the web analytics provider connected to the project, live: the provider, the property every query runs on, the native query format it accepts, the allowed top-level fields, the rules the bridge enforces (the connected property is always used, only reads run, row limits), a worked example and, where the provider offers it, its live field list. Cached for an hour. Supported providers: Google Analytics 4, Adobe Analytics or Customer Journey Analytics, Matomo, PostHog, Plausible and Piano, connected on the AI Traffic page. Requires the Growth plan or above; otherwise ERR_PLAN_REQUIRED. Without a connected provider returns ERR_WEB_ANALYTICS_NOT_CONNECTED (404); a provider that refuses the stored credentials returns ERR_WEB_ANALYTICS_ACCESS_REVOKED (403); an unavailable provider, an exhausted provider quota, more than 20 uncached queries a minute or too many running at once for the project returns ERR_WEB_ANALYTICS_UPSTREAM (503): wait for the number of seconds in Retry-After before retrying.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = AIAgentTrafficApi()
+val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
+try {
+    val result : WebAnalyticsSchemaResponse = apiInstance.getWebAnalyticsSchema(projectId)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling AIAgentTrafficApi#getWebAnalyticsSchema")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling AIAgentTrafficApi#getWebAnalyticsSchema")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **projectId** | **kotlin.Int**| Project ID | |
+
+### Return type
+
+[**WebAnalyticsSchemaResponse**](WebAnalyticsSchemaResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
 <a id="listAgentBots"></a>
 # **listAgentBots**
 > AgentBotsResponse listAgentBots(projectId, output)
@@ -194,5 +250,59 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="queryWebAnalytics"></a>
+# **queryWebAnalytics**
+> WebAnalyticsQueryResponse queryWebAnalytics(queryWebAnalyticsRequest)
+
+Live web analytics query (Growth+)
+
+Runs a read-only query, written in the connected provider&#39;s native format, against the project&#39;s property and returns columns and rows: a GA4 Data API runReport body, an Adobe Analytics or Customer Journey Analytics report request, Matomo Reporting API parameters (get methods only), PostHog HogQL, a Plausible Stats API v2 query or a Piano getData body. The connected property, site, report suite or project is always used and any property field in the query is ignored. Rows default to 100 and are capped at 5,000. Identical queries are answered from a 10-minute cache (cached: true). A query the provider rejects returns ERR_WEB_ANALYTICS_INVALID_QUERY (422) with the provider&#39;s own validation message. Each uncached query spends the customer&#39;s provider API quota. A read: no writable key is needed. Supported providers: Google Analytics 4, Adobe Analytics or Customer Journey Analytics, Matomo, PostHog, Plausible and Piano, connected on the AI Traffic page. Requires the Growth plan or above; otherwise ERR_PLAN_REQUIRED. Without a connected provider returns ERR_WEB_ANALYTICS_NOT_CONNECTED (404); a provider that refuses the stored credentials returns ERR_WEB_ANALYTICS_ACCESS_REVOKED (403); an unavailable provider, an exhausted provider quota, more than 20 uncached queries a minute or too many running at once for the project returns ERR_WEB_ANALYTICS_UPSTREAM (503): wait for the number of seconds in Retry-After before retrying.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = AIAgentTrafficApi()
+val queryWebAnalyticsRequest : QueryWebAnalyticsRequest = {"project_id":123,"query":{"dateRanges":[{"startDate":"28daysAgo","endDate":"yesterday"}],"dimensions":[{"name":"sessionDefaultChannelGroup"}],"metrics":[{"name":"sessions"},{"name":"keyEvents"}],"limit":20}} // QueryWebAnalyticsRequest | 
+try {
+    val result : WebAnalyticsQueryResponse = apiInstance.queryWebAnalytics(queryWebAnalyticsRequest)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling AIAgentTrafficApi#queryWebAnalytics")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling AIAgentTrafficApi#queryWebAnalytics")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **queryWebAnalyticsRequest** | [**QueryWebAnalyticsRequest**](QueryWebAnalyticsRequest.md)|  | |
+
+### Return type
+
+[**WebAnalyticsQueryResponse**](WebAnalyticsQueryResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
