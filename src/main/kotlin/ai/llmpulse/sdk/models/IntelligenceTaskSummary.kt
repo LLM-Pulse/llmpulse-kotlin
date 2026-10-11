@@ -41,6 +41,7 @@ import com.squareup.moshi.JsonClass
  * @param manuallyEditedAt When the content was last edited by hand; null while the output is as generated
  * @param createdAt 
  * @param processedAt 
+ * @param resultVersion Concurrency token for content edits: send it back as result_version on PATCH /intelligence_tasks/{id} so an edit composed before a regeneration is refused with ERR_STALE_CONTENT (409). It is \"0\" until the task first completes, then changes each time a generation or regeneration replaces result_data, never on a manual edit or a revert. Treat it as opaque text
  */
 
 
@@ -78,7 +79,11 @@ data class IntelligenceTaskSummary (
     val createdAt: java.time.OffsetDateTime,
 
     @Json(name = "processed_at")
-    val processedAt: java.time.OffsetDateTime?
+    val processedAt: java.time.OffsetDateTime?,
+
+    /* Concurrency token for content edits: send it back as result_version on PATCH /intelligence_tasks/{id} so an edit composed before a regeneration is refused with ERR_STALE_CONTENT (409). It is \"0\" until the task first completes, then changes each time a generation or regeneration replaces result_data, never on a manual edit or a revert. Treat it as opaque text */
+    @Json(name = "result_version")
+    val resultVersion: kotlin.String
 
 ) {
 

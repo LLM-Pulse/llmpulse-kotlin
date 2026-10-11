@@ -96,7 +96,7 @@ open class AIAgentTrafficApi(basePath: kotlin.String = defaultBasePath, client: 
     /**
      * GET /metrics/agent_traffic
      * AI bot crawler traffic (Scale plan or above, Beta)
-     * Aggregated AI bot traffic hitting the project&#39;s origin server (GPTBot, PerplexityBot, ClaudeBot, OAI-SearchBot, Google-Extended, etc.). Sourced from Cloudflare or CSV uploads. Requires the Scale plan; lower tiers receive ERR_PLAN_REQUIRED.
+     * Aggregated AI bot traffic hitting the project&#39;s origin server (GPTBot, PerplexityBot, ClaudeBot, OAI-SearchBot, Google-Extended, etc.). Sourced from Cloudflare or CSV uploads. Requires the Scale plan; lower tiers receive ERR_PLAN_REQUIRED. A range below 1, or a window whose from is later than its to, returns ERR_INVALID_PARAM.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
@@ -135,7 +135,7 @@ open class AIAgentTrafficApi(basePath: kotlin.String = defaultBasePath, client: 
     /**
      * GET /metrics/agent_traffic
      * AI bot crawler traffic (Scale plan or above, Beta)
-     * Aggregated AI bot traffic hitting the project&#39;s origin server (GPTBot, PerplexityBot, ClaudeBot, OAI-SearchBot, Google-Extended, etc.). Sourced from Cloudflare or CSV uploads. Requires the Scale plan; lower tiers receive ERR_PLAN_REQUIRED.
+     * Aggregated AI bot traffic hitting the project&#39;s origin server (GPTBot, PerplexityBot, ClaudeBot, OAI-SearchBot, Google-Extended, etc.). Sourced from Cloudflare or CSV uploads. Requires the Scale plan; lower tiers receive ERR_PLAN_REQUIRED. A range below 1, or a window whose from is later than its to, returns ERR_INVALID_PARAM.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
@@ -232,7 +232,7 @@ open class AIAgentTrafficApi(basePath: kotlin.String = defaultBasePath, client: 
     /**
      * GET /metrics/ai_traffic
      * AI referral traffic (Scale plan or above)
-     * AI referral traffic for a project: human visits arriving from AI assistants (ChatGPT, Perplexity, Gemini, Claude, etc.), measured from the connected web analytics provider (Google Analytics 4, Adobe Analytics, PostHog, Plausible, Matomo or Piano). Returns per-source users, sessions and conversions with totals and a conversion rate. Requires a connected provider and the Scale plan; otherwise returns ERR_AI_TRAFFIC_NOT_CONNECTED or ERR_PLAN_REQUIRED.
+     * AI referral traffic for a project: human visits arriving from AI assistants (ChatGPT, Perplexity, Gemini, Claude, etc.), measured from the connected web analytics provider (Google Analytics 4, Adobe Analytics, PostHog, Plausible, Matomo or Piano). Returns per-source users, sessions and conversions with totals and a conversion rate. Requires a connected provider and the Scale plan; otherwise returns ERR_AI_TRAFFIC_NOT_CONNECTED or ERR_PLAN_REQUIRED. A range below 1, or a window whose from is later than its to, returns ERR_INVALID_PARAM.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
@@ -268,7 +268,7 @@ open class AIAgentTrafficApi(basePath: kotlin.String = defaultBasePath, client: 
     /**
      * GET /metrics/ai_traffic
      * AI referral traffic (Scale plan or above)
-     * AI referral traffic for a project: human visits arriving from AI assistants (ChatGPT, Perplexity, Gemini, Claude, etc.), measured from the connected web analytics provider (Google Analytics 4, Adobe Analytics, PostHog, Plausible, Matomo or Piano). Returns per-source users, sessions and conversions with totals and a conversion rate. Requires a connected provider and the Scale plan; otherwise returns ERR_AI_TRAFFIC_NOT_CONNECTED or ERR_PLAN_REQUIRED.
+     * AI referral traffic for a project: human visits arriving from AI assistants (ChatGPT, Perplexity, Gemini, Claude, etc.), measured from the connected web analytics provider (Google Analytics 4, Adobe Analytics, PostHog, Plausible, Matomo or Piano). Returns per-source users, sessions and conversions with totals and a conversion rate. Requires a connected provider and the Scale plan; otherwise returns ERR_AI_TRAFFIC_NOT_CONNECTED or ERR_PLAN_REQUIRED. A range below 1, or a window whose from is later than its to, returns ERR_INVALID_PARAM.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)

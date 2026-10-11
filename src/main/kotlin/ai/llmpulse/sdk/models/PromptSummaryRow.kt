@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.TagRef
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -42,6 +43,18 @@ import com.squareup.moshi.JsonClass
  * @param avgMentionPosition 
  * @param avgPosition 
  * @param appUrl Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project
+ * @param countryCode Country of the prompt, as in /dimensions/prompts
+ * @param languageCode Language of the prompt, as in /dimensions/prompts
+ * @param promptType Search intent: informational, navigational, commercial or transactional. Null until the prompt is classified
+ * @param brandKind Brand focus: brand, brand_other or non_brand. Null until the prompt is classified
+ * @param tags Every tag the prompt belongs to
+ * @param sentimentResponses Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries)
+ * @param sentimentVeryPositive Percentage (0-100) of sentiment_responses whose brand verdict is very positive; null when sentiment_responses is 0
+ * @param sentimentPositive Percentage (0-100) of sentiment_responses whose brand verdict is positive; null when sentiment_responses is 0
+ * @param sentimentNeutral Percentage (0-100) of sentiment_responses whose brand verdict is neutral; null when sentiment_responses is 0
+ * @param sentimentNegative Percentage (0-100) of sentiment_responses whose brand verdict is negative; null when sentiment_responses is 0
+ * @param sentimentVeryNegative Percentage (0-100) of sentiment_responses whose brand verdict is very negative; null when sentiment_responses is 0
+ * @param netSentiment Positive minus negative percentages (-100 to 100), neutral counted in the base; null when sentiment_responses is 0
  */
 
 
@@ -83,7 +96,55 @@ data class PromptSummaryRow (
 
     /* Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project */
     @Json(name = "app_url")
-    val appUrl: java.net.URI? = null
+    val appUrl: java.net.URI? = null,
+
+    /* Country of the prompt, as in /dimensions/prompts */
+    @Json(name = "country_code")
+    val countryCode: kotlin.String? = null,
+
+    /* Language of the prompt, as in /dimensions/prompts */
+    @Json(name = "language_code")
+    val languageCode: kotlin.String? = null,
+
+    /* Search intent: informational, navigational, commercial or transactional. Null until the prompt is classified */
+    @Json(name = "prompt_type")
+    val promptType: kotlin.String? = null,
+
+    /* Brand focus: brand, brand_other or non_brand. Null until the prompt is classified */
+    @Json(name = "brand_kind")
+    val brandKind: kotlin.String? = null,
+
+    /* Every tag the prompt belongs to */
+    @Json(name = "tags")
+    val tags: kotlin.collections.List<TagRef>? = null,
+
+    /* Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries) */
+    @Json(name = "sentiment_responses")
+    val sentimentResponses: kotlin.Int? = null,
+
+    /* Percentage (0-100) of sentiment_responses whose brand verdict is very positive; null when sentiment_responses is 0 */
+    @Json(name = "sentiment_very_positive")
+    val sentimentVeryPositive: java.math.BigDecimal? = null,
+
+    /* Percentage (0-100) of sentiment_responses whose brand verdict is positive; null when sentiment_responses is 0 */
+    @Json(name = "sentiment_positive")
+    val sentimentPositive: java.math.BigDecimal? = null,
+
+    /* Percentage (0-100) of sentiment_responses whose brand verdict is neutral; null when sentiment_responses is 0 */
+    @Json(name = "sentiment_neutral")
+    val sentimentNeutral: java.math.BigDecimal? = null,
+
+    /* Percentage (0-100) of sentiment_responses whose brand verdict is negative; null when sentiment_responses is 0 */
+    @Json(name = "sentiment_negative")
+    val sentimentNegative: java.math.BigDecimal? = null,
+
+    /* Percentage (0-100) of sentiment_responses whose brand verdict is very negative; null when sentiment_responses is 0 */
+    @Json(name = "sentiment_very_negative")
+    val sentimentVeryNegative: java.math.BigDecimal? = null,
+
+    /* Positive minus negative percentages (-100 to 100), neutral counted in the base; null when sentiment_responses is 0 */
+    @Json(name = "net_sentiment")
+    val netSentiment: java.math.BigDecimal? = null
 
 ) {
 

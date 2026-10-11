@@ -32,6 +32,7 @@ import com.squareup.moshi.JsonClass
  *
  * @param projectId 
  * @param edits Dotted result_data paths (title, sections.0.content, key_points.2) mapped to their replacement text. Only string fields that already exist are editable; sections cannot be added or removed.
+ * @param resultVersion Optional. The result_version of the task as last read. When sent, the edit is refused with ERR_STALE_CONTENT (409) and nothing is written if the task was regenerated since. Omitted, null or empty, the edits apply to whatever the task holds now
  */
 
 
@@ -42,7 +43,11 @@ data class IntelligenceTaskUpdateRequest (
 
     /* Dotted result_data paths (title, sections.0.content, key_points.2) mapped to their replacement text. Only string fields that already exist are editable; sections cannot be added or removed. */
     @Json(name = "edits")
-    val edits: kotlin.collections.Map<kotlin.String, kotlin.String>
+    val edits: kotlin.collections.Map<kotlin.String, kotlin.String>,
+
+    /* Optional. The result_version of the task as last read. When sent, the edit is refused with ERR_STALE_CONTENT (409) and nothing is written if the task was regenerated since. Omitted, null or empty, the edits apply to whatever the task holds now */
+    @Json(name = "result_version")
+    val resultVersion: kotlin.String? = null
 
 ) {
 
