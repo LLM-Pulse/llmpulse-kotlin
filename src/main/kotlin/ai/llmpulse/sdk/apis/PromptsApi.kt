@@ -306,7 +306,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -351,7 +351,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -382,7 +382,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -523,10 +523,11 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param model Keep only the prompts with at least one execution on this AI model, of any outcome and date (the prompts /dimensions/prompt_executions lists for the same model). Prompts have no model of their own, so a prompt with no execution on this model yet (a newly enabled model, or a locale the model does not cover) is left out. An unknown value, or a model the API key&#39;s user has not enabled, returns 422 ERR_INVALID_PARAM. from and to still filter prompt creation. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param from  (optional)
@@ -541,8 +542,8 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listPrompts(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPrompts? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListPrompts? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListPrompts? = null) : PromptsResponse {
-        val localVarResponse = listPromptsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, from = from, to = to, output = output)
+    fun listPrompts(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPrompts? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListPrompts? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListPrompts? = null) : PromptsResponse {
+        val localVarResponse = listPromptsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as PromptsResponse
@@ -566,10 +567,11 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param model Keep only the prompts with at least one execution on this AI model, of any outcome and date (the prompts /dimensions/prompt_executions lists for the same model). Prompts have no model of their own, so a prompt with no execution on this model yet (a newly enabled model, or a locale the model does not cover) is left out. An unknown value, or a model the API key&#39;s user has not enabled, returns 422 ERR_INVALID_PARAM. from and to still filter prompt creation. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param from  (optional)
@@ -581,8 +583,8 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listPromptsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : ApiResponse<PromptsResponse?> {
-        val localVariableConfig = listPromptsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, from = from, to = to, output = output)
+    fun listPromptsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : ApiResponse<PromptsResponse?> {
+        val localVariableConfig = listPromptsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, from = from, to = to, output = output)
 
         return request<Unit, PromptsResponse>(
             localVariableConfig
@@ -595,10 +597,11 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param model Keep only the prompts with at least one execution on this AI model, of any outcome and date (the prompts /dimensions/prompt_executions lists for the same model). Prompts have no model of their own, so a prompt with no execution on this model yet (a newly enabled model, or a locale the model does not cover) is left out. An unknown value, or a model the API key&#39;s user has not enabled, returns 422 ERR_INVALID_PARAM. from and to still filter prompt creation. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param from  (optional)
@@ -606,7 +609,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */
-    fun listPromptsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : RequestConfig<Unit> {
+    fun listPromptsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPrompts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListPrompts?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListPrompts?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -628,6 +631,9 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                 }
                 if (languageCode != null) {
                     put("language_code", listOf(languageCode.toString()))
+                }
+                if (prompt != null) {
+                    put("prompt", listOf(prompt.toString()))
                 }
                 if (promptType != null) {
                     put("prompt_type", listOf(promptType.toString()))
@@ -787,7 +793,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param order Sort field; the allowed set depends on view (optional)
      * @param direction  (optional, default to Direction.desc)
      * @param query Case-insensitive substring filter on the sub-query text (optional)
-     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -835,7 +841,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param order Sort field; the allowed set depends on view (optional)
      * @param direction  (optional, default to Direction.desc)
      * @param query Case-insensitive substring filter on the sub-query text (optional)
-     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -869,7 +875,7 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param order Sort field; the allowed set depends on view (optional)
      * @param direction  (optional, default to Direction.desc)
      * @param query Case-insensitive substring filter on the sub-query text (optional)
-     * @param model Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)

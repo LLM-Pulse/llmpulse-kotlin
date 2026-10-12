@@ -39,6 +39,7 @@ import com.squareup.moshi.JsonClass
  * @param url 
  * @param description 
  * @param matchingNames 
+ * @param additionalOwnedDomains Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none
  * @param industry Industry as stored: one key as a string (e.g. SAAS), or an array of key strings when the project was created with a list or the in-app multi-select. Deliberately untyped so generated clients decode either shape
  * @param businessModel 
  * @param businessModelOther Set only when business_model is OTHER
@@ -80,6 +81,10 @@ data class ProjectDetails (
 
     @Json(name = "matching_names")
     val matchingNames: kotlin.collections.List<kotlin.String>? = null,
+
+    /* Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none */
+    @Json(name = "additional_owned_domains")
+    val additionalOwnedDomains: kotlin.collections.List<kotlin.String>? = null,
 
     /* Industry as stored: one key as a string (e.g. SAAS), or an array of key strings when the project was created with a list or the in-app multi-select. Deliberately untyped so generated clients decode either shape */
     @Json(name = "industry")

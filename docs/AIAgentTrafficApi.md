@@ -211,7 +211,7 @@ Static catalog of AI bots that Agent Analytics can identify. Useful for renderin
 //import ai.llmpulse.sdk.models.*
 
 val apiInstance = AIAgentTrafficApi()
-val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
+val projectId : kotlin.Int = 56 // kotlin.Int | Accepted for compatibility and ignored. The catalog is the same for every project, so any value returns the same list and the project is not checked.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
     val result : AgentBotsResponse = apiInstance.listAgentBots(projectId, output)
@@ -226,7 +226,7 @@ try {
 ```
 
 ### Parameters
-| **projectId** | **kotlin.Int**| Project ID | |
+| **projectId** | **kotlin.Int**| Accepted for compatibility and ignored. The catalog is the same for every project, so any value returns the same list and the project is not checked. | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |

@@ -430,7 +430,7 @@ open class AIAgentTrafficApi(basePath: kotlin.String = defaultBasePath, client: 
      * GET /dimensions/agent_bots
      * AI bot catalog (Scale plan or above)
      * Static catalog of AI bots that Agent Analytics can identify. Useful for rendering filter UIs that mirror our internal classification (slug, display name, company, category, Cloudflare verified-bot mapping, description). Requires the Scale plan; lower tiers receive ERR_PLAN_REQUIRED. The equivalent MCP tool list_agent_bots is available on the Scale plan or above.
-     * @param projectId Project ID
+     * @param projectId Accepted for compatibility and ignored. The catalog is the same for every project, so any value returns the same list and the project is not checked.
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return AgentBotsResponse
      * @throws IllegalStateException If the request is not correctly configured
@@ -463,7 +463,7 @@ open class AIAgentTrafficApi(basePath: kotlin.String = defaultBasePath, client: 
      * GET /dimensions/agent_bots
      * AI bot catalog (Scale plan or above)
      * Static catalog of AI bots that Agent Analytics can identify. Useful for rendering filter UIs that mirror our internal classification (slug, display name, company, category, Cloudflare verified-bot mapping, description). Requires the Scale plan; lower tiers receive ERR_PLAN_REQUIRED. The equivalent MCP tool list_agent_bots is available on the Scale plan or above.
-     * @param projectId Project ID
+     * @param projectId Accepted for compatibility and ignored. The catalog is the same for every project, so any value returns the same list and the project is not checked.
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return ApiResponse<AgentBotsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -482,7 +482,7 @@ open class AIAgentTrafficApi(basePath: kotlin.String = defaultBasePath, client: 
     /**
      * To obtain the request config of the operation listAgentBots
      *
-     * @param projectId Project ID
+     * @param projectId Accepted for compatibility and ignored. The catalog is the same for every project, so any value returns the same list and the project is not checked.
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @return RequestConfig
      */

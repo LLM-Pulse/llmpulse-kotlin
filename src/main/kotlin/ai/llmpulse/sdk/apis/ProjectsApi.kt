@@ -36,6 +36,7 @@ import ai.llmpulse.sdk.models.ModelsResponse
 import ai.llmpulse.sdk.models.ProjectCreateRequest
 import ai.llmpulse.sdk.models.ProjectCreateResponse
 import ai.llmpulse.sdk.models.ProjectDetails
+import ai.llmpulse.sdk.models.ProjectUpdateResponse
 import ai.llmpulse.sdk.models.UpdateProjectDraftRequest
 import ai.llmpulse.sdk.models.UpdateProjectRequest
 
@@ -287,7 +288,7 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * GET /dimensions/projects/{id}
      * Project details
-     * Detailed info for one project: matching_names, industry, business model, primary products, target audience, brand voice, locale, app store IDs, stats (incl. prompts_by_brand_kind counts) and data_coverage (models, countries and languages with data).
+     * Detailed info for one project: matching_names, additional_owned_domains, industry, business model, primary products, target audience, brand voice, locale, app store IDs, stats (incl. prompts_by_brand_kind counts) and data_coverage (models, countries and languages with data).
      * @param id 
      * @return ProjectDetails
      * @throws IllegalStateException If the request is not correctly configured
@@ -319,7 +320,7 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * GET /dimensions/projects/{id}
      * Project details
-     * Detailed info for one project: matching_names, industry, business model, primary products, target audience, brand voice, locale, app store IDs, stats (incl. prompts_by_brand_kind counts) and data_coverage (models, countries and languages with data).
+     * Detailed info for one project: matching_names, additional_owned_domains, industry, business model, primary products, target audience, brand voice, locale, app store IDs, stats (incl. prompts_by_brand_kind counts) and data_coverage (models, countries and languages with data).
      * @param id 
      * @return ApiResponse<ProjectDetails?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -686,22 +687,23 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * PATCH /projects/{id}
      * Update a project profile (Brand Book)
-     * Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names. Send only the fields to change; unknown fields are rejected. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background (rematching&#x3D;true); further edits are rejected while that runs. Requires a &#x60;read_write&#x60; scope API key.
+     * Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names, and the additional owned domains (additional_owned_domains). Send only the fields to change; unknown fields are rejected, and a request is applied whole or not at all. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background, and an additional_owned_domains change reprocesses the past answers that cite an added or removed domain (rematching&#x3D;true); further edits are rejected while that runs. Only the account owner can send additional_owned_domains: a team member key gets ERR_INSUFFICIENT_PERMISSION and nothing is applied. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateProjectRequest 
-     * @return void
+     * @return ProjectUpdateResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateProject(id: kotlin.Int, updateProjectRequest: UpdateProjectRequest) : Unit {
+    fun updateProject(id: kotlin.Int, updateProjectRequest: UpdateProjectRequest) : ProjectUpdateResponse {
         val localVarResponse = updateProjectWithHttpInfo(id = id, updateProjectRequest = updateProjectRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ProjectUpdateResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -718,18 +720,19 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * PATCH /projects/{id}
      * Update a project profile (Brand Book)
-     * Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names. Send only the fields to change; unknown fields are rejected. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background (rematching&#x3D;true); further edits are rejected while that runs. Requires a &#x60;read_write&#x60; scope API key.
+     * Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names, and the additional owned domains (additional_owned_domains). Send only the fields to change; unknown fields are rejected, and a request is applied whole or not at all. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background, and an additional_owned_domains change reprocesses the past answers that cite an added or removed domain (rematching&#x3D;true); further edits are rejected while that runs. Only the account owner can send additional_owned_domains: a team member key gets ERR_INSUFFICIENT_PERMISSION and nothing is applied. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateProjectRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<ProjectUpdateResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateProjectWithHttpInfo(id: kotlin.Int, updateProjectRequest: UpdateProjectRequest) : ApiResponse<Unit?> {
+    fun updateProjectWithHttpInfo(id: kotlin.Int, updateProjectRequest: UpdateProjectRequest) : ApiResponse<ProjectUpdateResponse?> {
         val localVariableConfig = updateProjectRequestConfig(id = id, updateProjectRequest = updateProjectRequest)
 
-        return request<UpdateProjectRequest, Unit>(
+        return request<UpdateProjectRequest, ProjectUpdateResponse>(
             localVariableConfig
         )
     }

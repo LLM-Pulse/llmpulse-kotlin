@@ -139,6 +139,8 @@ docs/ProjectDetailsAllOfDataCoverage.md
 docs/ProjectDetailsAllOfSearchConsole.md
 docs/ProjectDetailsAllOfStats.md
 docs/ProjectDetailsAllOfStatsPromptsByBrandKind.md
+docs/ProjectProfile.md
+docs/ProjectUpdateResponse.md
 docs/ProjectsApi.md
 docs/PromptExecutionRecord.md
 docs/PromptExecutionsResponse.md
@@ -389,6 +391,8 @@ src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfDataCoverage.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfSearchConsole.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfStats.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfStatsPromptsByBrandKind.kt
+src/main/kotlin/ai/llmpulse/sdk/models/ProjectProfile.kt
+src/main/kotlin/ai/llmpulse/sdk/models/ProjectUpdateResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptExecutionRecord.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptExecutionsResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptRecord.kt

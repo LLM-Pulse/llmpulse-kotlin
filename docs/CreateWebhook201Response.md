@@ -8,7 +8,7 @@
 | **projectId** | **kotlin.Int** |  |  [optional] |
 | **eventType** | [**inline**](#EventType) |  |  [optional] |
 | **targetUrl** | **kotlin.String** |  |  [optional] |
-| **disabled** | **kotlin.Boolean** |  |  [optional] |
+| **disabled** | **kotlin.Boolean** | True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked. Creating it again with the same project, event and URL replaces it with a new subscription and secret. |  [optional] |
 | **failureCount** | **kotlin.Int** |  |  [optional] |
 | **lastDeliveredAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **createdAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
