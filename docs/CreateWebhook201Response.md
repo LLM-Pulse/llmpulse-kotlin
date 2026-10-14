@@ -12,7 +12,7 @@
 | **failureCount** | **kotlin.Int** |  |  [optional] |
 | **lastDeliveredAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **createdAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
-| **secret** | **kotlin.String** | HMAC signing secret (whsec_...). Only returned on create. |  [optional] |
+| **secret** | **kotlin.String** | HMAC signing secret (whsec_...). Returned when the subscription is created, and on a re-post only to the API key or OAuth connection that created it; absent for any other credential. |  [optional] |
 | **requestId** | **kotlin.String** |  |  [optional] |
 
 
