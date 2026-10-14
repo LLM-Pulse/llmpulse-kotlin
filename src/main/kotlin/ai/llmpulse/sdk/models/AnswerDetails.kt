@@ -40,7 +40,7 @@ import com.squareup.moshi.JsonClass
  * @param executedAt 
  * @param durationMs Milliseconds, rounded to one decimal place
  * @param success Null while the answer is still pending
- * @param noResult True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics
+ * @param noResult True for a sentinel non-answer (the provider returned nothing after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics
  * @param fanOutQueries 
  * @param mentions 
  * @param citations 
@@ -88,7 +88,7 @@ data class AnswerDetails (
     @Json(name = "success")
     val success: kotlin.Boolean? = null,
 
-    /* True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics */
+    /* True for a sentinel non-answer (the provider returned nothing after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics */
     @Json(name = "no_result")
     val noResult: kotlin.Boolean? = null,
 

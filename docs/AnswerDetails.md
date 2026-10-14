@@ -13,7 +13,7 @@
 | **executedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **durationMs** | [**java.math.BigDecimal**](java.math.BigDecimal.md) | Milliseconds, rounded to one decimal place |  [optional] |
 | **success** | **kotlin.Boolean** | Null while the answer is still pending |  [optional] |
-| **noResult** | **kotlin.Boolean** | True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics |  [optional] |
+| **noResult** | **kotlin.Boolean** | True for a sentinel non-answer (the provider returned nothing after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics |  [optional] |
 | **fanOutQueries** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  [optional] |
 | **mentions** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
 | **citations** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |

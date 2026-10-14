@@ -131,11 +131,124 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
     }
 
     /**
+     * enum for parameter model
+     */
+     enum class ModelGetCitedUrlDetail(val value: kotlin.String) {
+         @Json(name = "chatgpt") chatgpt("chatgpt"),
+         @Json(name = "perplexity") perplexity("perplexity"),
+         @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
+         @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "claude") claude("claude"),
+         @Json(name = "grok") grok("grok"),
+         @Json(name = "deepseek") deepseek("deepseek"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindGetCitedUrlDetail(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter sourceType
+     */
+     enum class SourceTypeGetCitedUrlDetail(val value: kotlin.String) {
+         @Json(name = "owned") owned("owned"),
+         @Json(name = "competitor") competitor("competitor"),
+         @Json(name = "third_party") third_party("third_party"),
+         @Json(name = "social_media") social_media("social_media"),
+         @Json(name = "own_domain") own_domain("own_domain"),
+         @Json(name = "ugc") ugc("ugc"),
+         @Json(name = "background") background("background");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter sentiment
+     */
+     enum class SentimentGetCitedUrlDetail(val value: kotlin.String) {
+         @Json(name = "negative") negative("negative");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter contentGap
+     */
+     enum class ContentGapGetCitedUrlDetail(val value: kotlin.String) {
+         @Json(name = "mentioned") mentioned("mentioned"),
+         @Json(name = "gap") gap("gap");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /citation_intelligence/urls/{url_sha256}
      * Cited URL detail
-     * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is.
+     * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is. The filters narrow stats and citation_series alike. citation_series (with include_series&#x3D;true) holds the answers citing the URL under the same filters: granularity (day, week or month, from the account tracking cadence, with weeks when a daily account spans more than 60 days, starting on Monday), total (equal to total_responses), by_model (answers per AI model, largest first, which can include enabled models outside the seven the model filter accepts) and data, one { date, value } point per period that holds a filtered answer, so a zero means answers ran and none cited it. Periods date each answer by its executed_at in Europe/Madrid time, the column from and to filter.
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai and baidu_ai are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those seven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param sourceType  (optional)
+     * @param sentiment  (optional)
+     * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
+     * @param includeSeries Adds citation_series. Without it the response is unchanged. (optional, default to false)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -144,8 +257,8 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getCitedUrlDetail(urlSha256: kotlin.String, projectId: kotlin.Int) : Unit {
-        val localVarResponse = getCitedUrlDetailWithHttpInfo(urlSha256 = urlSha256, projectId = projectId)
+    fun getCitedUrlDetail(urlSha256: kotlin.String, projectId: kotlin.Int, model: ModelGetCitedUrlDetail? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, brandKind: BrandKindGetCitedUrlDetail? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, sourceType: SourceTypeGetCitedUrlDetail? = null, sentiment: SentimentGetCitedUrlDetail? = null, contentGap: ContentGapGetCitedUrlDetail? = null, includeSeries: kotlin.Boolean? = false) : Unit {
+        val localVarResponse = getCitedUrlDetailWithHttpInfo(urlSha256 = urlSha256, projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap, includeSeries = includeSeries)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -165,16 +278,28 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
     /**
      * GET /citation_intelligence/urls/{url_sha256}
      * Cited URL detail
-     * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is.
+     * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is. The filters narrow stats and citation_series alike. citation_series (with include_series&#x3D;true) holds the answers citing the URL under the same filters: granularity (day, week or month, from the account tracking cadence, with weeks when a daily account spans more than 60 days, starting on Monday), total (equal to total_responses), by_model (answers per AI model, largest first, which can include enabled models outside the seven the model filter accepts) and data, one { date, value } point per period that holds a filtered answer, so a zero means answers ran and none cited it. Periods date each answer by its executed_at in Europe/Madrid time, the column from and to filter.
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai and baidu_ai are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those seven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param sourceType  (optional)
+     * @param sentiment  (optional)
+     * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
+     * @param includeSeries Adds citation_series. Without it the response is unchanged. (optional, default to false)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun getCitedUrlDetailWithHttpInfo(urlSha256: kotlin.String, projectId: kotlin.Int) : ApiResponse<Unit?> {
-        val localVariableConfig = getCitedUrlDetailRequestConfig(urlSha256 = urlSha256, projectId = projectId)
+    fun getCitedUrlDetailWithHttpInfo(urlSha256: kotlin.String, projectId: kotlin.Int, model: ModelGetCitedUrlDetail?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindGetCitedUrlDetail?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sourceType: SourceTypeGetCitedUrlDetail?, sentiment: SentimentGetCitedUrlDetail?, contentGap: ContentGapGetCitedUrlDetail?, includeSeries: kotlin.Boolean?) : ApiResponse<Unit?> {
+        val localVariableConfig = getCitedUrlDetailRequestConfig(urlSha256 = urlSha256, projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap, includeSeries = includeSeries)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -186,13 +311,61 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      *
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai and baidu_ai are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those seven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param prompt Filter by prompt ID (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param sourceType  (optional)
+     * @param sentiment  (optional)
+     * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
+     * @param includeSeries Adds citation_series. Without it the response is unchanged. (optional, default to false)
      * @return RequestConfig
      */
-    fun getCitedUrlDetailRequestConfig(urlSha256: kotlin.String, projectId: kotlin.Int) : RequestConfig<Unit> {
+    fun getCitedUrlDetailRequestConfig(urlSha256: kotlin.String, projectId: kotlin.Int, model: ModelGetCitedUrlDetail?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindGetCitedUrlDetail?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sourceType: SourceTypeGetCitedUrlDetail?, sentiment: SentimentGetCitedUrlDetail?, contentGap: ContentGapGetCitedUrlDetail?, includeSeries: kotlin.Boolean?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 put("project_id", listOf(projectId.toString()))
+                if (model != null) {
+                    put("model", listOf(model.value))
+                }
+                if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (prompt != null) {
+                    put("prompt", listOf(prompt.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+                if (sourceType != null) {
+                    put("source_type", listOf(sourceType.value))
+                }
+                if (sentiment != null) {
+                    put("sentiment", listOf(sentiment.value))
+                }
+                if (contentGap != null) {
+                    put("content_gap", listOf(contentGap.value))
+                }
+                if (includeSeries != null) {
+                    put("include_series", listOf(includeSeries.toString()))
+                }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/json"
@@ -465,6 +638,24 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      }
 
     /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListCitationGroups(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * enum for parameter sourceType
      */
      enum class SourceTypeListCitationGroups(val value: kotlin.String) {
@@ -522,7 +713,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
     /**
      * GET /citation_intelligence/groups
      * Grouped citation intelligence
-     * Grouped citation intelligence by url / domain / host with per-model breakdown, citation rate, and avg citation position. Counts and citation rate include visible citations and background source references. Average position ignores rows with position&#x3D;0. Owned and competitor source matching honor the project&#39;s exact-subdomain setting. Filter vocabulary aligns with &#x60;source_type&#x60; returned by the API. Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is.
+     * Grouped citation intelligence by url / domain / host with per-model breakdown, citation rate, and avg citation position. Counts and citation rate include visible citations and background source references. Average position ignores rows with position&#x3D;0. Owned and competitor source matching honor the project&#39;s exact-subdomain setting. Filter vocabulary aligns with &#x60;source_type&#x60; returned by the API. Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is. Pass key to read one group; brand_kind filters by the brand focus of the prompts, like the source page. citation_series (with include_series&#x3D;true) holds the answers citing the URL, domain or host under the same filters: granularity (day, week or month, from the account tracking cadence, with weeks when a daily account spans more than 60 days, starting on Monday), total (equal to total_responses), by_model (answers per AI model, largest first, which can include enabled models outside the seven the model filter accepts) and data, one { date, value } point per period that holds a filtered answer, so a zero means answers ran and none cited it. Periods date each answer by its executed_at in Europe/Madrid time, the column from and to filter.
      * @param projectId Project ID
      * @param view  (optional, default to View.url)
      * @param page  (optional, default to 1)
@@ -534,8 +725,11 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param key Return only this group of the chosen view: a domain (view&#x3D;domain), a host (view&#x3D;host) or a cited URL exactly as listed (view&#x3D;url). Domains and hosts match case-insensitively, without www. A view&#x3D;url key is one raw URL, so its variants (a tracking parameter, a trailing slash) stay separate rows; GET /citation_intelligence/urls/{url_sha256} merges them, as the app does. No match returns an empty list (total 0), not an error. (optional)
+     * @param includeSeries Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. (optional, default to false)
      * @param query  (optional)
      * @param sourceType  (optional)
      * @param sentiment  (optional)
@@ -548,8 +742,8 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCitationGroups(projectId: kotlin.Int, view: ViewListCitationGroups? = ViewListCitationGroups.url, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, order: OrderListCitationGroups? = null, direction: DirectionListCitationGroups? = null, model: ModelListCitationGroups? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, query: kotlin.String? = null, sourceType: SourceTypeListCitationGroups? = null, sentiment: SentimentListCitationGroups? = null, contentGap: ContentGapListCitationGroups? = null) : Unit {
-        val localVarResponse = listCitationGroupsWithHttpInfo(projectId = projectId, view = view, page = page, perPage = perPage, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, query = query, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap)
+    fun listCitationGroups(projectId: kotlin.Int, view: ViewListCitationGroups? = ViewListCitationGroups.url, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, order: OrderListCitationGroups? = null, direction: DirectionListCitationGroups? = null, model: ModelListCitationGroups? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, brandKind: BrandKindListCitationGroups? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, key: kotlin.String? = null, includeSeries: kotlin.Boolean? = false, query: kotlin.String? = null, sourceType: SourceTypeListCitationGroups? = null, sentiment: SentimentListCitationGroups? = null, contentGap: ContentGapListCitationGroups? = null) : Unit {
+        val localVarResponse = listCitationGroupsWithHttpInfo(projectId = projectId, view = view, page = page, perPage = perPage, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to, key = key, includeSeries = includeSeries, query = query, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -569,7 +763,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
     /**
      * GET /citation_intelligence/groups
      * Grouped citation intelligence
-     * Grouped citation intelligence by url / domain / host with per-model breakdown, citation rate, and avg citation position. Counts and citation rate include visible citations and background source references. Average position ignores rows with position&#x3D;0. Owned and competitor source matching honor the project&#39;s exact-subdomain setting. Filter vocabulary aligns with &#x60;source_type&#x60; returned by the API. Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is.
+     * Grouped citation intelligence by url / domain / host with per-model breakdown, citation rate, and avg citation position. Counts and citation rate include visible citations and background source references. Average position ignores rows with position&#x3D;0. Owned and competitor source matching honor the project&#39;s exact-subdomain setting. Filter vocabulary aligns with &#x60;source_type&#x60; returned by the API. Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is. Pass key to read one group; brand_kind filters by the brand focus of the prompts, like the source page. citation_series (with include_series&#x3D;true) holds the answers citing the URL, domain or host under the same filters: granularity (day, week or month, from the account tracking cadence, with weeks when a daily account spans more than 60 days, starting on Monday), total (equal to total_responses), by_model (answers per AI model, largest first, which can include enabled models outside the seven the model filter accepts) and data, one { date, value } point per period that holds a filtered answer, so a zero means answers ran and none cited it. Periods date each answer by its executed_at in Europe/Madrid time, the column from and to filter.
      * @param projectId Project ID
      * @param view  (optional, default to View.url)
      * @param page  (optional, default to 1)
@@ -581,8 +775,11 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param key Return only this group of the chosen view: a domain (view&#x3D;domain), a host (view&#x3D;host) or a cited URL exactly as listed (view&#x3D;url). Domains and hosts match case-insensitively, without www. A view&#x3D;url key is one raw URL, so its variants (a tracking parameter, a trailing slash) stay separate rows; GET /citation_intelligence/urls/{url_sha256} merges them, as the app does. No match returns an empty list (total 0), not an error. (optional)
+     * @param includeSeries Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. (optional, default to false)
      * @param query  (optional)
      * @param sourceType  (optional)
      * @param sentiment  (optional)
@@ -592,8 +789,8 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCitationGroupsWithHttpInfo(projectId: kotlin.Int, view: ViewListCitationGroups?, page: kotlin.Int?, perPage: kotlin.Int?, order: OrderListCitationGroups?, direction: DirectionListCitationGroups?, model: ModelListCitationGroups?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, query: kotlin.String?, sourceType: SourceTypeListCitationGroups?, sentiment: SentimentListCitationGroups?, contentGap: ContentGapListCitationGroups?) : ApiResponse<Unit?> {
-        val localVariableConfig = listCitationGroupsRequestConfig(projectId = projectId, view = view, page = page, perPage = perPage, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, query = query, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap)
+    fun listCitationGroupsWithHttpInfo(projectId: kotlin.Int, view: ViewListCitationGroups?, page: kotlin.Int?, perPage: kotlin.Int?, order: OrderListCitationGroups?, direction: DirectionListCitationGroups?, model: ModelListCitationGroups?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindListCitationGroups?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, key: kotlin.String?, includeSeries: kotlin.Boolean?, query: kotlin.String?, sourceType: SourceTypeListCitationGroups?, sentiment: SentimentListCitationGroups?, contentGap: ContentGapListCitationGroups?) : ApiResponse<Unit?> {
+        val localVariableConfig = listCitationGroupsRequestConfig(projectId = projectId, view = view, page = page, perPage = perPage, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to, key = key, includeSeries = includeSeries, query = query, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -614,15 +811,18 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param prompt Filter by prompt ID (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param key Return only this group of the chosen view: a domain (view&#x3D;domain), a host (view&#x3D;host) or a cited URL exactly as listed (view&#x3D;url). Domains and hosts match case-insensitively, without www. A view&#x3D;url key is one raw URL, so its variants (a tracking parameter, a trailing slash) stay separate rows; GET /citation_intelligence/urls/{url_sha256} merges them, as the app does. No match returns an empty list (total 0), not an error. (optional)
+     * @param includeSeries Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. (optional, default to false)
      * @param query  (optional)
      * @param sourceType  (optional)
      * @param sentiment  (optional)
      * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      * @return RequestConfig
      */
-    fun listCitationGroupsRequestConfig(projectId: kotlin.Int, view: ViewListCitationGroups?, page: kotlin.Int?, perPage: kotlin.Int?, order: OrderListCitationGroups?, direction: DirectionListCitationGroups?, model: ModelListCitationGroups?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, query: kotlin.String?, sourceType: SourceTypeListCitationGroups?, sentiment: SentimentListCitationGroups?, contentGap: ContentGapListCitationGroups?) : RequestConfig<Unit> {
+    fun listCitationGroupsRequestConfig(projectId: kotlin.Int, view: ViewListCitationGroups?, page: kotlin.Int?, perPage: kotlin.Int?, order: OrderListCitationGroups?, direction: DirectionListCitationGroups?, model: ModelListCitationGroups?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindListCitationGroups?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, key: kotlin.String?, includeSeries: kotlin.Boolean?, query: kotlin.String?, sourceType: SourceTypeListCitationGroups?, sentiment: SentimentListCitationGroups?, contentGap: ContentGapListCitationGroups?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -657,11 +857,20 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
                 if (prompt != null) {
                     put("prompt", listOf(prompt.toString()))
                 }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
                 if (from != null) {
                     put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
                 }
                 if (to != null) {
                     put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+                if (key != null) {
+                    put("key", listOf(key.toString()))
+                }
+                if (includeSeries != null) {
+                    put("include_series", listOf(includeSeries.toString()))
                 }
                 if (query != null) {
                     put("query", listOf(query.toString()))
