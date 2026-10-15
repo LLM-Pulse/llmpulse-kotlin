@@ -28,6 +28,12 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.OwnedMediaCitingPromptsResponse
+import ai.llmpulse.sdk.models.OwnedMediaListResponse
+import ai.llmpulse.sdk.models.OwnedMediaProfilesResponse
+import ai.llmpulse.sdk.models.OwnedMediaProfilesUpdateResponse
+import ai.llmpulse.sdk.models.OwnedMediaSummaryResponse
+import ai.llmpulse.sdk.models.UpdateOwnedMediaProfilesRequest
 
 import com.squareup.moshi.Json
 
@@ -51,6 +57,275 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "https://api.llmpulse.ai/api/v1")
         }
+    }
+
+    /**
+     * GET /projects/{id}/owned_media
+     * Get a project&#39;s owned-media profiles
+     * The profiles whose citations count as yours in the Owned Media and YouTube Intelligence reports, as Project Settings &gt; Owned Media shows them. platforms holds one entry per platform with whether it is connected, how many extra profiles it accepts and its profiles: the main one, the extra ones, and on Reddit the claimed subreddits and usernames, each with its URL, handle, store (for apps), name, avatar and the state of the scrape that reads them. settings holds the current value of every field PATCH accepts, ready to edit and send back. Requires the Growth plan or above.
+     * @param id Project ID
+     * @return OwnedMediaProfilesResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getOwnedMediaProfiles(id: kotlin.Int) : OwnedMediaProfilesResponse {
+        val localVarResponse = getOwnedMediaProfilesWithHttpInfo(id = id)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as OwnedMediaProfilesResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /projects/{id}/owned_media
+     * Get a project&#39;s owned-media profiles
+     * The profiles whose citations count as yours in the Owned Media and YouTube Intelligence reports, as Project Settings &gt; Owned Media shows them. platforms holds one entry per platform with whether it is connected, how many extra profiles it accepts and its profiles: the main one, the extra ones, and on Reddit the claimed subreddits and usernames, each with its URL, handle, store (for apps), name, avatar and the state of the scrape that reads them. settings holds the current value of every field PATCH accepts, ready to edit and send back. Requires the Growth plan or above.
+     * @param id Project ID
+     * @return ApiResponse<OwnedMediaProfilesResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getOwnedMediaProfilesWithHttpInfo(id: kotlin.Int) : ApiResponse<OwnedMediaProfilesResponse?> {
+        val localVariableConfig = getOwnedMediaProfilesRequestConfig(id = id)
+
+        return request<Unit, OwnedMediaProfilesResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getOwnedMediaProfiles
+     *
+     * @param id Project ID
+     * @return RequestConfig
+     */
+    fun getOwnedMediaProfilesRequestConfig(id: kotlin.Int) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/projects/{id}/owned_media".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter provider
+     */
+     enum class ProviderGetOwnedMediaSummary(val value: kotlin.String) {
+         @Json(name = "youtube") youtube("youtube"),
+         @Json(name = "instagram") instagram("instagram"),
+         @Json(name = "facebook") facebook("facebook"),
+         @Json(name = "tiktok") tiktok("tiktok"),
+         @Json(name = "linkedin") linkedin("linkedin"),
+         @Json(name = "mobile_apps") mobile_apps("mobile_apps"),
+         @Json(name = "overview") overview("overview");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter model
+     */
+     enum class ModelGetOwnedMediaSummary(val value: kotlin.String) {
+         @Json(name = "chatgpt") chatgpt("chatgpt"),
+         @Json(name = "perplexity") perplexity("perplexity"),
+         @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
+         @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "claude") claude("claude"),
+         @Json(name = "grok") grok("grok"),
+         @Json(name = "deepseek") deepseek("deepseek"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindGetOwnedMediaSummary(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /dimensions/owned_media/summary
+     * Get an owned-media summary
+     * The numbers behind one Owned Media tab. kpis gives the platform citations (total), yours (your profiles and their content), your_profile and your_content apart, and share_pct; previous gives the same KPIs for the period of the same length that ends just before from, and changes the difference (percent for counts, percentage points for share_pct, null when there is nothing to compare). weekly is the citations per week, yours against everyone else. by_model and by_country split every citation of the platform; content_types (reel, post, tv, pulse, or regular, shorts and live on YouTube) and age_buckets cover posts and videos. provider&#x3D;mobile_apps adds stores, the per-store totals, and has no content type or age; provider&#x3D;overview returns platforms, one rollup per platform the caller can read, and no breakdowns. A team member also needs the YouTube Intelligence permission for provider&#x3D;youtube. Defaults to the last 30 days. Requires the Growth plan or above.
+     * @param projectId Project ID
+     * @param provider The platform to summarize, or overview for every platform at once
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @return OwnedMediaSummaryResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getOwnedMediaSummary(projectId: kotlin.Int, provider: ProviderGetOwnedMediaSummary, model: ModelGetOwnedMediaSummary? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindGetOwnedMediaSummary? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null) : OwnedMediaSummaryResponse {
+        val localVarResponse = getOwnedMediaSummaryWithHttpInfo(projectId = projectId, provider = provider, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as OwnedMediaSummaryResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /dimensions/owned_media/summary
+     * Get an owned-media summary
+     * The numbers behind one Owned Media tab. kpis gives the platform citations (total), yours (your profiles and their content), your_profile and your_content apart, and share_pct; previous gives the same KPIs for the period of the same length that ends just before from, and changes the difference (percent for counts, percentage points for share_pct, null when there is nothing to compare). weekly is the citations per week, yours against everyone else. by_model and by_country split every citation of the platform; content_types (reel, post, tv, pulse, or regular, shorts and live on YouTube) and age_buckets cover posts and videos. provider&#x3D;mobile_apps adds stores, the per-store totals, and has no content type or age; provider&#x3D;overview returns platforms, one rollup per platform the caller can read, and no breakdowns. A team member also needs the YouTube Intelligence permission for provider&#x3D;youtube. Defaults to the last 30 days. Requires the Growth plan or above.
+     * @param projectId Project ID
+     * @param provider The platform to summarize, or overview for every platform at once
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @return ApiResponse<OwnedMediaSummaryResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getOwnedMediaSummaryWithHttpInfo(projectId: kotlin.Int, provider: ProviderGetOwnedMediaSummary, model: ModelGetOwnedMediaSummary?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindGetOwnedMediaSummary?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?) : ApiResponse<OwnedMediaSummaryResponse?> {
+        val localVariableConfig = getOwnedMediaSummaryRequestConfig(projectId = projectId, provider = provider, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to)
+
+        return request<Unit, OwnedMediaSummaryResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getOwnedMediaSummary
+     *
+     * @param projectId Project ID
+     * @param provider The platform to summarize, or overview for every platform at once
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @return RequestConfig
+     */
+    fun getOwnedMediaSummaryRequestConfig(projectId: kotlin.Int, provider: ProviderGetOwnedMediaSummary, model: ModelGetOwnedMediaSummary?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindGetOwnedMediaSummary?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                put("provider", listOf(provider.value))
+                if (model != null) {
+                    put("model", listOf(model.value))
+                }
+                if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/dimensions/owned_media/summary",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
     }
 
     /**
@@ -178,7 +453,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
     /**
      * GET /dimensions/owned_media
      * List owned-media citations
-     * Which owned-media content AI answers cite, by platform. &#x60;provider&#x60; is required. Each row carries a &#x60;yours&#x60; flag so you can compare your own presence against everyone else cited on the same platform. view&#x3D;own_citations returns the raw citations of the connected profile only and stays empty until a profile is connected. For Reddit use /dimensions/reddit. Requires the Growth plan or above.
+     * Which owned-media content AI answers cite, by platform. &#x60;provider&#x60; is required. Each row carries a &#x60;yours&#x60; flag so you can compare your own presence against everyone else cited on the same platform. Video, post, channel and profile rows also carry their image (thumbnail_url or avatar_url, our cached copy where one exists), their average position in the answers and, on YouTube, the video id, the channel handle and URL, and the channel key that /dimensions/owned_media/citing_prompts accepts. view&#x3D;own_citations returns the raw citations of the connected profile only and stays empty until a profile is connected. For Reddit use /dimensions/reddit. Requires the Growth plan or above.
      * @param projectId Project ID
      * @param provider The platform to report on
      * @param page  (optional, default to 1)
@@ -195,19 +470,20 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return OwnedMediaListResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listOwnedMedia(projectId: kotlin.Int, provider: ProviderListOwnedMedia, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListOwnedMedia? = null, store: StoreListOwnedMedia? = StoreListOwnedMedia.google_play, owned: kotlin.Boolean? = null, model: ModelListOwnedMedia? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindListOwnedMedia? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListOwnedMedia? = null) : Unit {
+    fun listOwnedMedia(projectId: kotlin.Int, provider: ProviderListOwnedMedia, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListOwnedMedia? = null, store: StoreListOwnedMedia? = StoreListOwnedMedia.google_play, owned: kotlin.Boolean? = null, model: ModelListOwnedMedia? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindListOwnedMedia? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListOwnedMedia? = null) : OwnedMediaListResponse {
         val localVarResponse = listOwnedMediaWithHttpInfo(projectId = projectId, provider = provider, page = page, perPage = perPage, view = view, store = store, owned = owned, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as OwnedMediaListResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -224,7 +500,7 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
     /**
      * GET /dimensions/owned_media
      * List owned-media citations
-     * Which owned-media content AI answers cite, by platform. &#x60;provider&#x60; is required. Each row carries a &#x60;yours&#x60; flag so you can compare your own presence against everyone else cited on the same platform. view&#x3D;own_citations returns the raw citations of the connected profile only and stays empty until a profile is connected. For Reddit use /dimensions/reddit. Requires the Growth plan or above.
+     * Which owned-media content AI answers cite, by platform. &#x60;provider&#x60; is required. Each row carries a &#x60;yours&#x60; flag so you can compare your own presence against everyone else cited on the same platform. Video, post, channel and profile rows also carry their image (thumbnail_url or avatar_url, our cached copy where one exists), their average position in the answers and, on YouTube, the video id, the channel handle and URL, and the channel key that /dimensions/owned_media/citing_prompts accepts. view&#x3D;own_citations returns the raw citations of the connected profile only and stays empty until a profile is connected. For Reddit use /dimensions/reddit. Requires the Growth plan or above.
      * @param projectId Project ID
      * @param provider The platform to report on
      * @param page  (optional, default to 1)
@@ -241,15 +517,16 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<OwnedMediaListResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listOwnedMediaWithHttpInfo(projectId: kotlin.Int, provider: ProviderListOwnedMedia, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListOwnedMedia?, store: StoreListOwnedMedia?, owned: kotlin.Boolean?, model: ModelListOwnedMedia?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListOwnedMedia?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListOwnedMedia?) : ApiResponse<Unit?> {
+    fun listOwnedMediaWithHttpInfo(projectId: kotlin.Int, provider: ProviderListOwnedMedia, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListOwnedMedia?, store: StoreListOwnedMedia?, owned: kotlin.Boolean?, model: ModelListOwnedMedia?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListOwnedMedia?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListOwnedMedia?) : ApiResponse<OwnedMediaListResponse?> {
         val localVariableConfig = listOwnedMediaRequestConfig(projectId = projectId, provider = provider, page = page, perPage = perPage, view = view, store = store, owned = owned, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, OwnedMediaListResponse>(
             localVariableConfig
         )
     }
@@ -330,6 +607,247 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/owned_media",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter provider
+     */
+     enum class ProviderListOwnedMediaCitingPrompts(val value: kotlin.String) {
+         @Json(name = "youtube") youtube("youtube"),
+         @Json(name = "instagram") instagram("instagram"),
+         @Json(name = "facebook") facebook("facebook"),
+         @Json(name = "tiktok") tiktok("tiktok"),
+         @Json(name = "linkedin") linkedin("linkedin");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter model
+     */
+     enum class ModelListOwnedMediaCitingPrompts(val value: kotlin.String) {
+         @Json(name = "chatgpt") chatgpt("chatgpt"),
+         @Json(name = "perplexity") perplexity("perplexity"),
+         @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
+         @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "claude") claude("claude"),
+         @Json(name = "grok") grok("grok"),
+         @Json(name = "deepseek") deepseek("deepseek"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListOwnedMediaCitingPrompts(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputListOwnedMediaCitingPrompts(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /dimensions/owned_media/citing_prompts
+     * List the answers citing an owned-media item
+     * The drill-down behind one row of an Owned Media or YouTube Intelligence table. Pass exactly one of url (a post or video URL, any variant of it) or profile (a handle with or without @, a profile or channel URL, or the channel key the YouTube channels rows return). item describes it (title, image, owner, whether it is yours and its stats), citation_count and prompt_count count its citations in the window, and data lists the citing answers newest first, each with its prompt, answer id, model, country, language, execution date, a plain-text excerpt and its link in the app. It shows prompt and answer text, so a team member also needs the Prompts permission, and YouTube Intelligence for provider&#x3D;youtube. Defaults to the last 30 days. Requires the Growth plan or above.
+     * @param projectId Project ID
+     * @param provider The platform the item belongs to
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param url A post or video URL, or a profile or channel URL. Exclusive with profile (optional)
+     * @param profile A handle (with or without @), a profile or channel URL, or a YouTube channel key (handle:..., channel:... or name:...). Exclusive with url (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return OwnedMediaCitingPromptsResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listOwnedMediaCitingPrompts(projectId: kotlin.Int, provider: ProviderListOwnedMediaCitingPrompts, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, url: kotlin.String? = null, profile: kotlin.String? = null, model: ModelListOwnedMediaCitingPrompts? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindListOwnedMediaCitingPrompts? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListOwnedMediaCitingPrompts? = null) : OwnedMediaCitingPromptsResponse {
+        val localVarResponse = listOwnedMediaCitingPromptsWithHttpInfo(projectId = projectId, provider = provider, page = page, perPage = perPage, url = url, profile = profile, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as OwnedMediaCitingPromptsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /dimensions/owned_media/citing_prompts
+     * List the answers citing an owned-media item
+     * The drill-down behind one row of an Owned Media or YouTube Intelligence table. Pass exactly one of url (a post or video URL, any variant of it) or profile (a handle with or without @, a profile or channel URL, or the channel key the YouTube channels rows return). item describes it (title, image, owner, whether it is yours and its stats), citation_count and prompt_count count its citations in the window, and data lists the citing answers newest first, each with its prompt, answer id, model, country, language, execution date, a plain-text excerpt and its link in the app. It shows prompt and answer text, so a team member also needs the Prompts permission, and YouTube Intelligence for provider&#x3D;youtube. Defaults to the last 30 days. Requires the Growth plan or above.
+     * @param projectId Project ID
+     * @param provider The platform the item belongs to
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param url A post or video URL, or a profile or channel URL. Exclusive with profile (optional)
+     * @param profile A handle (with or without @), a profile or channel URL, or a YouTube channel key (handle:..., channel:... or name:...). Exclusive with url (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<OwnedMediaCitingPromptsResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listOwnedMediaCitingPromptsWithHttpInfo(projectId: kotlin.Int, provider: ProviderListOwnedMediaCitingPrompts, page: kotlin.Int?, perPage: kotlin.Int?, url: kotlin.String?, profile: kotlin.String?, model: ModelListOwnedMediaCitingPrompts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListOwnedMediaCitingPrompts?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListOwnedMediaCitingPrompts?) : ApiResponse<OwnedMediaCitingPromptsResponse?> {
+        val localVariableConfig = listOwnedMediaCitingPromptsRequestConfig(projectId = projectId, provider = provider, page = page, perPage = perPage, url = url, profile = profile, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to, output = output)
+
+        return request<Unit, OwnedMediaCitingPromptsResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listOwnedMediaCitingPrompts
+     *
+     * @param projectId Project ID
+     * @param provider The platform the item belongs to
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param url A post or video URL, or a profile or channel URL. Exclusive with profile (optional)
+     * @param profile A handle (with or without @), a profile or channel URL, or a YouTube channel key (handle:..., channel:... or name:...). Exclusive with url (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun listOwnedMediaCitingPromptsRequestConfig(projectId: kotlin.Int, provider: ProviderListOwnedMediaCitingPrompts, page: kotlin.Int?, perPage: kotlin.Int?, url: kotlin.String?, profile: kotlin.String?, model: ModelListOwnedMediaCitingPrompts?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListOwnedMediaCitingPrompts?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListOwnedMediaCitingPrompts?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                put("provider", listOf(provider.value))
+                if (url != null) {
+                    put("url", listOf(url.toString()))
+                }
+                if (profile != null) {
+                    put("profile", listOf(profile.toString()))
+                }
+                if (model != null) {
+                    put("model", listOf(model.value))
+                }
+                if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/dimensions/owned_media/citing_prompts",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -658,6 +1176,83 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/reddit",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * PATCH /projects/{id}/owned_media
+     * Update a project&#39;s owned-media profiles
+     * Sets the profiles whose citations count as yours, like Project Settings &gt; Owned Media. Send only the fields to change: a URL field takes a URL, or an empty string or null to clear it, and every list REPLACES the stored one ([] clears it). URLs are normalized like the app (a profile URL is stored in its canonical form, a Google Play package name becomes its listing URL), and anything the app would refuse (a URL from another platform, an extra profile equal to the main one, more than 10 extra profiles, a malformed subreddit) is rejected with ERR_INVALID_PARAM and nothing is applied. A new main or extra profile is scraped in the background for its name and avatar, listed in profile_scrapes_queued. The response is the GET payload after the change. A team member needs the Owned Media create permission, and YouTube Intelligence create to change the YouTube channel. Requires the Growth plan or above and a &#x60;read_write&#x60; scope API key.
+     * @param id Project ID
+     * @param updateOwnedMediaProfilesRequest 
+     * @return OwnedMediaProfilesUpdateResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun updateOwnedMediaProfiles(id: kotlin.Int, updateOwnedMediaProfilesRequest: UpdateOwnedMediaProfilesRequest) : OwnedMediaProfilesUpdateResponse {
+        val localVarResponse = updateOwnedMediaProfilesWithHttpInfo(id = id, updateOwnedMediaProfilesRequest = updateOwnedMediaProfilesRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as OwnedMediaProfilesUpdateResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * PATCH /projects/{id}/owned_media
+     * Update a project&#39;s owned-media profiles
+     * Sets the profiles whose citations count as yours, like Project Settings &gt; Owned Media. Send only the fields to change: a URL field takes a URL, or an empty string or null to clear it, and every list REPLACES the stored one ([] clears it). URLs are normalized like the app (a profile URL is stored in its canonical form, a Google Play package name becomes its listing URL), and anything the app would refuse (a URL from another platform, an extra profile equal to the main one, more than 10 extra profiles, a malformed subreddit) is rejected with ERR_INVALID_PARAM and nothing is applied. A new main or extra profile is scraped in the background for its name and avatar, listed in profile_scrapes_queued. The response is the GET payload after the change. A team member needs the Owned Media create permission, and YouTube Intelligence create to change the YouTube channel. Requires the Growth plan or above and a &#x60;read_write&#x60; scope API key.
+     * @param id Project ID
+     * @param updateOwnedMediaProfilesRequest 
+     * @return ApiResponse<OwnedMediaProfilesUpdateResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun updateOwnedMediaProfilesWithHttpInfo(id: kotlin.Int, updateOwnedMediaProfilesRequest: UpdateOwnedMediaProfilesRequest) : ApiResponse<OwnedMediaProfilesUpdateResponse?> {
+        val localVariableConfig = updateOwnedMediaProfilesRequestConfig(id = id, updateOwnedMediaProfilesRequest = updateOwnedMediaProfilesRequest)
+
+        return request<UpdateOwnedMediaProfilesRequest, OwnedMediaProfilesUpdateResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation updateOwnedMediaProfiles
+     *
+     * @param id Project ID
+     * @param updateOwnedMediaProfilesRequest 
+     * @return RequestConfig
+     */
+    fun updateOwnedMediaProfilesRequestConfig(id: kotlin.Int, updateOwnedMediaProfilesRequest: UpdateOwnedMediaProfilesRequest) : RequestConfig<UpdateOwnedMediaProfilesRequest> {
+        val localVariableBody = updateOwnedMediaProfilesRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.PATCH,
+            path = "/projects/{id}/owned_media".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

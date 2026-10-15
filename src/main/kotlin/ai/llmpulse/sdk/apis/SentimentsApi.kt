@@ -28,6 +28,8 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.SentimentTagsResponse
+import ai.llmpulse.sdk.models.SentimentTopicsResponse
 import ai.llmpulse.sdk.models.SentimentsResponse
 
 import com.squareup.moshi.Json
@@ -52,6 +54,564 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "https://api.llmpulse.ai/api/v1")
         }
+    }
+
+    /**
+     * enum for parameter model
+     */
+     enum class ModelGetSentimentTags(val value: kotlin.String) {
+         @Json(name = "chatgpt") chatgpt("chatgpt"),
+         @Json(name = "perplexity") perplexity("perplexity"),
+         @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
+         @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "claude") claude("claude"),
+         @Json(name = "grok") grok("grok"),
+         @Json(name = "deepseek") deepseek("deepseek"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindGetSentimentTags(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter sort
+     */
+     enum class SortGetSentimentTags(val value: kotlin.String) {
+         @Json(name = "mentions") mentions("mentions"),
+         @Json(name = "name") byName("name"),
+         @Json(name = "positive") positive("positive"),
+         @Json(name = "negative") negative("negative"),
+         @Json(name = "neutral") neutral("neutral"),
+         @Json(name = "net_score") net_score("net_score");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter sortDir
+     */
+     enum class SortDirGetSentimentTags(val value: kotlin.String) {
+         @Json(name = "desc") desc("desc"),
+         @Json(name = "asc") asc("asc");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputGetSentimentTags(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /reports/sentiment/tags
+     * Sentiment by tag (Growth plan or above)
+     * One row per tag of the project with at least one analyzed mention, with the positive (very positive included), neutral and negative counts, their shares on a 0-100 scale and the net sentiment score. A mention counts once for every tag its prompt carries, as on the Sentiment page. Same filters as GET /reports/sentiment/topics. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
+     * @param projectId Project ID
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
+     * @param topic Only sentiments tagged with this topic (case-insensitive) (optional)
+     * @param query Only sentiments whose answer or prompt text contains this text (optional)
+     * @param brand Whose sentiment to count. Empty or omitted for your own brand, all for every brand, or a competitor id (an unknown id returns ERR_INVALID_PARAM). (optional)
+     * @param sort Sort column: mentions, name (the topic or tag), positive, negative or neutral (their shares) or net_score. Ties sort by name. (optional, default to Sort.mentions)
+     * @param sortDir  (optional, default to SortDir.desc)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return SentimentTagsResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getSentimentTags(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, model: ModelGetSentimentTags? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindGetSentimentTags? = null, analysis: kotlin.String? = null, topic: kotlin.String? = null, query: kotlin.String? = null, brand: kotlin.String? = null, sort: SortGetSentimentTags? = SortGetSentimentTags.mentions, sortDir: SortDirGetSentimentTags? = SortDirGetSentimentTags.desc, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetSentimentTags? = null) : SentimentTagsResponse {
+        val localVarResponse = getSentimentTagsWithHttpInfo(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, analysis = analysis, topic = topic, query = query, brand = brand, sort = sort, sortDir = sortDir, page = page, perPage = perPage, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SentimentTagsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /reports/sentiment/tags
+     * Sentiment by tag (Growth plan or above)
+     * One row per tag of the project with at least one analyzed mention, with the positive (very positive included), neutral and negative counts, their shares on a 0-100 scale and the net sentiment score. A mention counts once for every tag its prompt carries, as on the Sentiment page. Same filters as GET /reports/sentiment/topics. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
+     * @param projectId Project ID
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
+     * @param topic Only sentiments tagged with this topic (case-insensitive) (optional)
+     * @param query Only sentiments whose answer or prompt text contains this text (optional)
+     * @param brand Whose sentiment to count. Empty or omitted for your own brand, all for every brand, or a competitor id (an unknown id returns ERR_INVALID_PARAM). (optional)
+     * @param sort Sort column: mentions, name (the topic or tag), positive, negative or neutral (their shares) or net_score. Ties sort by name. (optional, default to Sort.mentions)
+     * @param sortDir  (optional, default to SortDir.desc)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<SentimentTagsResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getSentimentTagsWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetSentimentTags?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindGetSentimentTags?, analysis: kotlin.String?, topic: kotlin.String?, query: kotlin.String?, brand: kotlin.String?, sort: SortGetSentimentTags?, sortDir: SortDirGetSentimentTags?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSentimentTags?) : ApiResponse<SentimentTagsResponse?> {
+        val localVariableConfig = getSentimentTagsRequestConfig(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, analysis = analysis, topic = topic, query = query, brand = brand, sort = sort, sortDir = sortDir, page = page, perPage = perPage, output = output)
+
+        return request<Unit, SentimentTagsResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getSentimentTags
+     *
+     * @param projectId Project ID
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
+     * @param topic Only sentiments tagged with this topic (case-insensitive) (optional)
+     * @param query Only sentiments whose answer or prompt text contains this text (optional)
+     * @param brand Whose sentiment to count. Empty or omitted for your own brand, all for every brand, or a competitor id (an unknown id returns ERR_INVALID_PARAM). (optional)
+     * @param sort Sort column: mentions, name (the topic or tag), positive, negative or neutral (their shares) or net_score. Ties sort by name. (optional, default to Sort.mentions)
+     * @param sortDir  (optional, default to SortDir.desc)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun getSentimentTagsRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetSentimentTags?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindGetSentimentTags?, analysis: kotlin.String?, topic: kotlin.String?, query: kotlin.String?, brand: kotlin.String?, sort: SortGetSentimentTags?, sortDir: SortDirGetSentimentTags?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSentimentTags?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+                if (model != null) {
+                    put("model", listOf(model.value))
+                }
+                if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (analysis != null) {
+                    put("analysis", listOf(analysis.toString()))
+                }
+                if (topic != null) {
+                    put("topic", listOf(topic.toString()))
+                }
+                if (query != null) {
+                    put("query", listOf(query.toString()))
+                }
+                if (brand != null) {
+                    put("brand", listOf(brand.toString()))
+                }
+                if (sort != null) {
+                    put("sort", listOf(sort.value))
+                }
+                if (sortDir != null) {
+                    put("sort_dir", listOf(sortDir.value))
+                }
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/reports/sentiment/tags",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter model
+     */
+     enum class ModelGetSentimentTopics(val value: kotlin.String) {
+         @Json(name = "chatgpt") chatgpt("chatgpt"),
+         @Json(name = "perplexity") perplexity("perplexity"),
+         @Json(name = "ai_mode") ai_mode("ai_mode"),
+         @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "gemini") gemini("gemini"),
+         @Json(name = "copilot") copilot("copilot"),
+         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
+         @Json(name = "claude") claude("claude"),
+         @Json(name = "grok") grok("grok"),
+         @Json(name = "deepseek") deepseek("deepseek"),
+         @Json(name = "naver_ai") naver_ai("naver_ai"),
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "meta_ai") meta_ai("meta_ai");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindGetSentimentTopics(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter sort
+     */
+     enum class SortGetSentimentTopics(val value: kotlin.String) {
+         @Json(name = "mentions") mentions("mentions"),
+         @Json(name = "name") byName("name"),
+         @Json(name = "positive") positive("positive"),
+         @Json(name = "negative") negative("negative"),
+         @Json(name = "neutral") neutral("neutral"),
+         @Json(name = "net_score") net_score("net_score");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter sortDir
+     */
+     enum class SortDirGetSentimentTopics(val value: kotlin.String) {
+         @Json(name = "desc") desc("desc"),
+         @Json(name = "asc") asc("asc");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputGetSentimentTopics(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /reports/sentiment/topics
+     * Sentiment by topic (Growth plan or above)
+     * One row per topic AI answers associate with the brand (topics are matched case-insensitively), with its analyzed mentions, the positive (very positive included), neutral and negative counts, their shares on a 0-100 scale and the net sentiment score ((positive - negative) / mentions x 100). The same rows and filters as the Topics tab of the Sentiment page: the window defaults to the last 28 days, &#x60;brand&#x60; empty counts your own brand, &#x60;all&#x60; every brand and a competitor id that competitor. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
+     * @param projectId Project ID
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
+     * @param topic Only sentiments tagged with this topic (case-insensitive) (optional)
+     * @param query Only sentiments whose answer or prompt text contains this text (optional)
+     * @param brand Whose sentiment to count. Empty or omitted for your own brand, all for every brand, or a competitor id (an unknown id returns ERR_INVALID_PARAM). (optional)
+     * @param sort Sort column: mentions, name (the topic or tag), positive, negative or neutral (their shares) or net_score. Ties sort by name. (optional, default to Sort.mentions)
+     * @param sortDir  (optional, default to SortDir.desc)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return SentimentTopicsResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getSentimentTopics(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, model: ModelGetSentimentTopics? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindGetSentimentTopics? = null, analysis: kotlin.String? = null, topic: kotlin.String? = null, query: kotlin.String? = null, brand: kotlin.String? = null, sort: SortGetSentimentTopics? = SortGetSentimentTopics.mentions, sortDir: SortDirGetSentimentTopics? = SortDirGetSentimentTopics.desc, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetSentimentTopics? = null) : SentimentTopicsResponse {
+        val localVarResponse = getSentimentTopicsWithHttpInfo(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, analysis = analysis, topic = topic, query = query, brand = brand, sort = sort, sortDir = sortDir, page = page, perPage = perPage, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SentimentTopicsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /reports/sentiment/topics
+     * Sentiment by topic (Growth plan or above)
+     * One row per topic AI answers associate with the brand (topics are matched case-insensitively), with its analyzed mentions, the positive (very positive included), neutral and negative counts, their shares on a 0-100 scale and the net sentiment score ((positive - negative) / mentions x 100). The same rows and filters as the Topics tab of the Sentiment page: the window defaults to the last 28 days, &#x60;brand&#x60; empty counts your own brand, &#x60;all&#x60; every brand and a competitor id that competitor. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
+     * @param projectId Project ID
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
+     * @param topic Only sentiments tagged with this topic (case-insensitive) (optional)
+     * @param query Only sentiments whose answer or prompt text contains this text (optional)
+     * @param brand Whose sentiment to count. Empty or omitted for your own brand, all for every brand, or a competitor id (an unknown id returns ERR_INVALID_PARAM). (optional)
+     * @param sort Sort column: mentions, name (the topic or tag), positive, negative or neutral (their shares) or net_score. Ties sort by name. (optional, default to Sort.mentions)
+     * @param sortDir  (optional, default to SortDir.desc)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<SentimentTopicsResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getSentimentTopicsWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetSentimentTopics?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindGetSentimentTopics?, analysis: kotlin.String?, topic: kotlin.String?, query: kotlin.String?, brand: kotlin.String?, sort: SortGetSentimentTopics?, sortDir: SortDirGetSentimentTopics?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSentimentTopics?) : ApiResponse<SentimentTopicsResponse?> {
+        val localVariableConfig = getSentimentTopicsRequestConfig(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, analysis = analysis, topic = topic, query = query, brand = brand, sort = sort, sortDir = sortDir, page = page, perPage = perPage, output = output)
+
+        return request<Unit, SentimentTopicsResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getSentimentTopics
+     *
+     * @param projectId Project ID
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
+     * @param topic Only sentiments tagged with this topic (case-insensitive) (optional)
+     * @param query Only sentiments whose answer or prompt text contains this text (optional)
+     * @param brand Whose sentiment to count. Empty or omitted for your own brand, all for every brand, or a competitor id (an unknown id returns ERR_INVALID_PARAM). (optional)
+     * @param sort Sort column: mentions, name (the topic or tag), positive, negative or neutral (their shares) or net_score. Ties sort by name. (optional, default to Sort.mentions)
+     * @param sortDir  (optional, default to SortDir.desc)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun getSentimentTopicsRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetSentimentTopics?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindGetSentimentTopics?, analysis: kotlin.String?, topic: kotlin.String?, query: kotlin.String?, brand: kotlin.String?, sort: SortGetSentimentTopics?, sortDir: SortDirGetSentimentTopics?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSentimentTopics?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+                if (model != null) {
+                    put("model", listOf(model.value))
+                }
+                if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (analysis != null) {
+                    put("analysis", listOf(analysis.toString()))
+                }
+                if (topic != null) {
+                    put("topic", listOf(topic.toString()))
+                }
+                if (query != null) {
+                    put("query", listOf(query.toString()))
+                }
+                if (brand != null) {
+                    put("brand", listOf(brand.toString()))
+                }
+                if (sort != null) {
+                    put("sort", listOf(sort.value))
+                }
+                if (sortDir != null) {
+                    put("sort_dir", listOf(sortDir.value))
+                }
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/reports/sentiment/topics",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
     }
 
     /**

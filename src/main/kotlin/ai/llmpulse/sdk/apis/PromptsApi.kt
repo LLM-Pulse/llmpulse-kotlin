@@ -28,10 +28,21 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.PromptCategorizationResponse
 import ai.llmpulse.sdk.models.PromptExecutionsResponse
+import ai.llmpulse.sdk.models.PromptGenerationRequest
+import ai.llmpulse.sdk.models.PromptGenerationResponse
 import ai.llmpulse.sdk.models.PromptsCreateRequest
 import ai.llmpulse.sdk.models.PromptsCreateResponse
+import ai.llmpulse.sdk.models.PromptsImportRequest
+import ai.llmpulse.sdk.models.PromptsImportResponse
 import ai.llmpulse.sdk.models.PromptsResponse
+import ai.llmpulse.sdk.models.SuggestedPromptIdsRequest
+import ai.llmpulse.sdk.models.SuggestedPromptsAcceptRequest
+import ai.llmpulse.sdk.models.SuggestedPromptsAcceptResponse
+import ai.llmpulse.sdk.models.SuggestedPromptsRejectResponse
+import ai.llmpulse.sdk.models.SuggestedPromptsResponse
+import ai.llmpulse.sdk.models.UpdatePromptRequest
 
 import com.squareup.moshi.Json
 
@@ -55,6 +66,154 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "https://api.llmpulse.ai/api/v1")
         }
+    }
+
+    /**
+     * POST /suggested_prompts/accept
+     * Accept suggested prompts
+     * Starts tracking up to 100 pending suggestions: each becomes a prompt in its own country and language, optionally put in one tag (tag_ids or tag_names; create_missing creates a missing name when the team member may create tags). Suggestions that are no longer pending come back in skipped. When the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and accepts nothing. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+     * @param suggestedPromptsAcceptRequest 
+     * @return SuggestedPromptsAcceptResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun acceptSuggestedPrompts(suggestedPromptsAcceptRequest: SuggestedPromptsAcceptRequest) : SuggestedPromptsAcceptResponse {
+        val localVarResponse = acceptSuggestedPromptsWithHttpInfo(suggestedPromptsAcceptRequest = suggestedPromptsAcceptRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SuggestedPromptsAcceptResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /suggested_prompts/accept
+     * Accept suggested prompts
+     * Starts tracking up to 100 pending suggestions: each becomes a prompt in its own country and language, optionally put in one tag (tag_ids or tag_names; create_missing creates a missing name when the team member may create tags). Suggestions that are no longer pending come back in skipped. When the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and accepts nothing. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+     * @param suggestedPromptsAcceptRequest 
+     * @return ApiResponse<SuggestedPromptsAcceptResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun acceptSuggestedPromptsWithHttpInfo(suggestedPromptsAcceptRequest: SuggestedPromptsAcceptRequest) : ApiResponse<SuggestedPromptsAcceptResponse?> {
+        val localVariableConfig = acceptSuggestedPromptsRequestConfig(suggestedPromptsAcceptRequest = suggestedPromptsAcceptRequest)
+
+        return request<SuggestedPromptsAcceptRequest, SuggestedPromptsAcceptResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation acceptSuggestedPrompts
+     *
+     * @param suggestedPromptsAcceptRequest 
+     * @return RequestConfig
+     */
+    fun acceptSuggestedPromptsRequestConfig(suggestedPromptsAcceptRequest: SuggestedPromptsAcceptRequest) : RequestConfig<SuggestedPromptsAcceptRequest> {
+        val localVariableBody = suggestedPromptsAcceptRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/suggested_prompts/accept",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * POST /prompt_generations
+     * Generate prompt suggestions
+     * Starts a suggestion run with one of the generators behind the app&#39;s Add prompts wizards and answers 202 with the run. website writes suggestions from the scraped website (80% non-brand, 20% brand), keyword from a keyword or the project profile (optionally around a competitor), topic from a topic, reddit from Reddit discussions of a topic or brand, paa from Google People Also Ask (up to 5 keywords, counted against the account&#39;s 24-hour lookup allowance), reputational from brand reputation questions, translate from the project&#39;s prompts of another locale, search_console from the connected property&#39;s top queries of the last 28 days (Growth plan or above, ERR_PLAN_REQUIRED). The suggestions land in the Suggested prompts queue; poll GET /prompt_generations/{id}, then accept the ones you want with POST /suggested_prompts/accept. Nothing is tracked until accepted. The request is validated before the run starts, and refused with ERR_LIMIT_REACHED when the plan has no prompt slot left. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+     * @param promptGenerationRequest 
+     * @return PromptGenerationResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun createPromptGeneration(promptGenerationRequest: PromptGenerationRequest) : PromptGenerationResponse {
+        val localVarResponse = createPromptGenerationWithHttpInfo(promptGenerationRequest = promptGenerationRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as PromptGenerationResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /prompt_generations
+     * Generate prompt suggestions
+     * Starts a suggestion run with one of the generators behind the app&#39;s Add prompts wizards and answers 202 with the run. website writes suggestions from the scraped website (80% non-brand, 20% brand), keyword from a keyword or the project profile (optionally around a competitor), topic from a topic, reddit from Reddit discussions of a topic or brand, paa from Google People Also Ask (up to 5 keywords, counted against the account&#39;s 24-hour lookup allowance), reputational from brand reputation questions, translate from the project&#39;s prompts of another locale, search_console from the connected property&#39;s top queries of the last 28 days (Growth plan or above, ERR_PLAN_REQUIRED). The suggestions land in the Suggested prompts queue; poll GET /prompt_generations/{id}, then accept the ones you want with POST /suggested_prompts/accept. Nothing is tracked until accepted. The request is validated before the run starts, and refused with ERR_LIMIT_REACHED when the plan has no prompt slot left. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+     * @param promptGenerationRequest 
+     * @return ApiResponse<PromptGenerationResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun createPromptGenerationWithHttpInfo(promptGenerationRequest: PromptGenerationRequest) : ApiResponse<PromptGenerationResponse?> {
+        val localVariableConfig = createPromptGenerationRequestConfig(promptGenerationRequest = promptGenerationRequest)
+
+        return request<PromptGenerationRequest, PromptGenerationResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation createPromptGeneration
+     *
+     * @param promptGenerationRequest 
+     * @return RequestConfig
+     */
+    fun createPromptGenerationRequestConfig(promptGenerationRequest: PromptGenerationRequest) : RequestConfig<PromptGenerationRequest> {
+        val localVariableBody = promptGenerationRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/prompt_generations",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
     }
 
     /**
@@ -201,6 +360,159 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/prompts/{id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * GET /prompt_generations/{id}
+     * Get a prompt generation run
+     * Returns a run started with POST /prompt_generations: processing while the generator works, then completed with the suggestions it saved to the Suggested prompts queue, or failed with an error code and message. Poll every few seconds; most runs finish within a minute. Runs are kept for 24 hours, their suggestions stay in the queue.
+     * @param id 
+     * @param projectId Project ID
+     * @return PromptGenerationResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getPromptGeneration(id: java.util.UUID, projectId: kotlin.Int) : PromptGenerationResponse {
+        val localVarResponse = getPromptGenerationWithHttpInfo(id = id, projectId = projectId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as PromptGenerationResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /prompt_generations/{id}
+     * Get a prompt generation run
+     * Returns a run started with POST /prompt_generations: processing while the generator works, then completed with the suggestions it saved to the Suggested prompts queue, or failed with an error code and message. Poll every few seconds; most runs finish within a minute. Runs are kept for 24 hours, their suggestions stay in the queue.
+     * @param id 
+     * @param projectId Project ID
+     * @return ApiResponse<PromptGenerationResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getPromptGenerationWithHttpInfo(id: java.util.UUID, projectId: kotlin.Int) : ApiResponse<PromptGenerationResponse?> {
+        val localVariableConfig = getPromptGenerationRequestConfig(id = id, projectId = projectId)
+
+        return request<Unit, PromptGenerationResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getPromptGeneration
+     *
+     * @param id 
+     * @param projectId Project ID
+     * @return RequestConfig
+     */
+    fun getPromptGenerationRequestConfig(id: java.util.UUID, projectId: kotlin.Int) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/prompt_generations/{id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * POST /prompts/import
+     * Import prompts
+     * The app&#39;s CSV import as JSON: up to 500 rows, each with its own prompt, country_code, language_code (codes or names; both default to the project&#39;s) and tags, created when missing. Duplicates are skipped and existing prompts still get the row&#39;s tags. The prompt limits are checked before anything is written: when the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and imports nothing. Rows with an unknown country or language come back in row_errors. Responds 201 when it created prompts, 200 otherwise. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+     * @param promptsImportRequest 
+     * @return PromptsImportResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun importPrompts(promptsImportRequest: PromptsImportRequest) : PromptsImportResponse {
+        val localVarResponse = importPromptsWithHttpInfo(promptsImportRequest = promptsImportRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as PromptsImportResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /prompts/import
+     * Import prompts
+     * The app&#39;s CSV import as JSON: up to 500 rows, each with its own prompt, country_code, language_code (codes or names; both default to the project&#39;s) and tags, created when missing. Duplicates are skipped and existing prompts still get the row&#39;s tags. The prompt limits are checked before anything is written: when the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and imports nothing. Rows with an unknown country or language come back in row_errors. Responds 201 when it created prompts, 200 otherwise. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+     * @param promptsImportRequest 
+     * @return ApiResponse<PromptsImportResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun importPromptsWithHttpInfo(promptsImportRequest: PromptsImportRequest) : ApiResponse<PromptsImportResponse?> {
+        val localVariableConfig = importPromptsRequestConfig(promptsImportRequest = promptsImportRequest)
+
+        return request<PromptsImportRequest, PromptsImportResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation importPrompts
+     *
+     * @param promptsImportRequest 
+     * @return RequestConfig
+     */
+    fun importPromptsRequestConfig(promptsImportRequest: PromptsImportRequest) : RequestConfig<PromptsImportRequest> {
+        val localVariableBody = promptsImportRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/prompts/import",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -951,6 +1263,300 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/query_fan_outs",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter source
+     */
+     enum class SourceListSuggestedPrompts(val value: kotlin.String) {
+         @Json(name = "website") website("website"),
+         @Json(name = "magic") magic("magic"),
+         @Json(name = "paa") paa("paa"),
+         @Json(name = "topic") topic("topic"),
+         @Json(name = "reddit") reddit("reddit"),
+         @Json(name = "reputational") reputational("reputational"),
+         @Json(name = "gsc") gsc("gsc"),
+         @Json(name = "translate") translate("translate"),
+         @Json(name = "catalog") catalog("catalog");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter status
+     */
+     enum class StatusListSuggestedPrompts(val value: kotlin.String) {
+         @Json(name = "pending") pending("pending"),
+         @Json(name = "accepted") accepted("accepted"),
+         @Json(name = "rejected") rejected("rejected"),
+         @Json(name = "all") all("all");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /suggested_prompts
+     * List suggested prompts
+     * Lists the project&#39;s Suggested prompts queue, the same list the app&#39;s Suggested Prompts tab shows, oldest first. It holds the suggestions of every generator (website, magic for keyword runs, topic, reddit, paa, reputational, translate, gsc for Search Console, catalog). Pending suggestions by default; status&#x3D;all also returns accepted (with the prompt they became) and rejected ones. Team members need create access to Prompts, like the app&#39;s tab.
+     * @param projectId Project ID
+     * @param source Only suggestions from this generator (optional)
+     * @param status Only suggestions in this status (optional, default to Status.pending)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 50)
+     * @return SuggestedPromptsResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listSuggestedPrompts(projectId: kotlin.Int, source: SourceListSuggestedPrompts? = null, status: StatusListSuggestedPrompts? = StatusListSuggestedPrompts.pending, page: kotlin.Int? = 1, perPage: kotlin.Int? = 50) : SuggestedPromptsResponse {
+        val localVarResponse = listSuggestedPromptsWithHttpInfo(projectId = projectId, source = source, status = status, page = page, perPage = perPage)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SuggestedPromptsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /suggested_prompts
+     * List suggested prompts
+     * Lists the project&#39;s Suggested prompts queue, the same list the app&#39;s Suggested Prompts tab shows, oldest first. It holds the suggestions of every generator (website, magic for keyword runs, topic, reddit, paa, reputational, translate, gsc for Search Console, catalog). Pending suggestions by default; status&#x3D;all also returns accepted (with the prompt they became) and rejected ones. Team members need create access to Prompts, like the app&#39;s tab.
+     * @param projectId Project ID
+     * @param source Only suggestions from this generator (optional)
+     * @param status Only suggestions in this status (optional, default to Status.pending)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 50)
+     * @return ApiResponse<SuggestedPromptsResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listSuggestedPromptsWithHttpInfo(projectId: kotlin.Int, source: SourceListSuggestedPrompts?, status: StatusListSuggestedPrompts?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<SuggestedPromptsResponse?> {
+        val localVariableConfig = listSuggestedPromptsRequestConfig(projectId = projectId, source = source, status = status, page = page, perPage = perPage)
+
+        return request<Unit, SuggestedPromptsResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listSuggestedPrompts
+     *
+     * @param projectId Project ID
+     * @param source Only suggestions from this generator (optional)
+     * @param status Only suggestions in this status (optional, default to Status.pending)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 50)
+     * @return RequestConfig
+     */
+    fun listSuggestedPromptsRequestConfig(projectId: kotlin.Int, source: SourceListSuggestedPrompts?, status: StatusListSuggestedPrompts?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (source != null) {
+                    put("source", listOf(source.value))
+                }
+                if (status != null) {
+                    put("status", listOf(status.value))
+                }
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/suggested_prompts",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * POST /suggested_prompts/reject
+     * Reject suggested prompts
+     * Marks up to 100 pending suggestions as rejected, so they leave the pending list; suggestions that are no longer pending stay as they are. Tracks and deletes nothing. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+     * @param suggestedPromptIdsRequest 
+     * @return SuggestedPromptsRejectResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun rejectSuggestedPrompts(suggestedPromptIdsRequest: SuggestedPromptIdsRequest) : SuggestedPromptsRejectResponse {
+        val localVarResponse = rejectSuggestedPromptsWithHttpInfo(suggestedPromptIdsRequest = suggestedPromptIdsRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SuggestedPromptsRejectResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /suggested_prompts/reject
+     * Reject suggested prompts
+     * Marks up to 100 pending suggestions as rejected, so they leave the pending list; suggestions that are no longer pending stay as they are. Tracks and deletes nothing. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+     * @param suggestedPromptIdsRequest 
+     * @return ApiResponse<SuggestedPromptsRejectResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun rejectSuggestedPromptsWithHttpInfo(suggestedPromptIdsRequest: SuggestedPromptIdsRequest) : ApiResponse<SuggestedPromptsRejectResponse?> {
+        val localVariableConfig = rejectSuggestedPromptsRequestConfig(suggestedPromptIdsRequest = suggestedPromptIdsRequest)
+
+        return request<SuggestedPromptIdsRequest, SuggestedPromptsRejectResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation rejectSuggestedPrompts
+     *
+     * @param suggestedPromptIdsRequest 
+     * @return RequestConfig
+     */
+    fun rejectSuggestedPromptsRequestConfig(suggestedPromptIdsRequest: SuggestedPromptIdsRequest) : RequestConfig<SuggestedPromptIdsRequest> {
+        val localVariableBody = suggestedPromptIdsRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/suggested_prompts/reject",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * PATCH /prompts/{id}
+     * Edit a prompt&#39;s categorization
+     * Manual categorization, exactly like editing the intent and brand badges on the prompt page: send &#x60;prompt_type&#x60;, &#x60;brand_kind&#x60; or both. The prompt is marked as manually categorized (&#x60;categorization_source&#x60; becomes &#x60;manual&#x60;), so automatic categorization no longer changes it; the prompt page can revert it to automatic. Any other field returns ERR_INVALID_PARAM. Not available from a white-label portal (ERR_INTEGRATION_UNAVAILABLE), where the page hides the editor. Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on Prompts.
+     * @param id 
+     * @param updatePromptRequest 
+     * @return PromptCategorizationResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun updatePrompt(id: kotlin.Int, updatePromptRequest: UpdatePromptRequest) : PromptCategorizationResponse {
+        val localVarResponse = updatePromptWithHttpInfo(id = id, updatePromptRequest = updatePromptRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as PromptCategorizationResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * PATCH /prompts/{id}
+     * Edit a prompt&#39;s categorization
+     * Manual categorization, exactly like editing the intent and brand badges on the prompt page: send &#x60;prompt_type&#x60;, &#x60;brand_kind&#x60; or both. The prompt is marked as manually categorized (&#x60;categorization_source&#x60; becomes &#x60;manual&#x60;), so automatic categorization no longer changes it; the prompt page can revert it to automatic. Any other field returns ERR_INVALID_PARAM. Not available from a white-label portal (ERR_INTEGRATION_UNAVAILABLE), where the page hides the editor. Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on Prompts.
+     * @param id 
+     * @param updatePromptRequest 
+     * @return ApiResponse<PromptCategorizationResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun updatePromptWithHttpInfo(id: kotlin.Int, updatePromptRequest: UpdatePromptRequest) : ApiResponse<PromptCategorizationResponse?> {
+        val localVariableConfig = updatePromptRequestConfig(id = id, updatePromptRequest = updatePromptRequest)
+
+        return request<UpdatePromptRequest, PromptCategorizationResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation updatePrompt
+     *
+     * @param id 
+     * @param updatePromptRequest 
+     * @return RequestConfig
+     */
+    fun updatePromptRequestConfig(id: kotlin.Int, updatePromptRequest: UpdatePromptRequest) : RequestConfig<UpdatePromptRequest> {
+        val localVariableBody = updatePromptRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.PATCH,
+            path = "/prompts/{id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

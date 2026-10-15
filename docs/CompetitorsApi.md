@@ -7,6 +7,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 | [**createCompetitor**](CompetitorsApi.md#createCompetitor) | **POST** /competitors | Add a competitor |
 | [**deleteCompetitor**](CompetitorsApi.md#deleteCompetitor) | **DELETE** /competitors/{id} | Delete a competitor |
 | [**getCompetitorDetails**](CompetitorsApi.md#getCompetitorDetails) | **GET** /dimensions/competitors/{id} | Competitor details |
+| [**listCompetitorSuggestions**](CompetitorsApi.md#listCompetitorSuggestions) | **GET** /competitors/suggestions | List competitor suggestions |
 | [**listCompetitors**](CompetitorsApi.md#listCompetitors) | **GET** /dimensions/competitors | List competitors |
 | [**updateCompetitor**](CompetitorsApi.md#updateCompetitor) | **PATCH** /competitors/{id} | Update a competitor |
 
@@ -156,6 +157,70 @@ try {
 ### Return type
 
 [**CompetitorDetails**](CompetitorDetails.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="listCompetitorSuggestions"></a>
+# **listCompetitorSuggestions**
+> CompetitorSuggestionsResponse listCompetitorSuggestions(projectId, basis, query, page, perPage, output)
+
+List competitor suggestions
+
+The two lists of the Suggested tab of the Competitors page. &#x60;basis&#x3D;brands&#x60; (default) returns the competing brands the AI discovery proposed that are not tracked or rejected yet, with the names it would match and, when counted, how many answers name it (&#x60;mentions&#x60;). &#x60;basis&#x3D;citations&#x60; returns the domains AI answers cite most that are not your own or tracked yet, with how many answers cite each (&#x60;citations&#x60;). &#x60;discovery&#x60; tells whether a discovery run is still loading. Read-only: it never starts a discovery run, which the page starts from its Discover button. Add a suggestion with POST /competitors.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = CompetitorsApi()
+val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
+val basis : kotlin.String = basis_example // kotlin.String | 
+val query : kotlin.String = query_example // kotlin.String | Only suggestions whose brand name or domain contains this text
+val page : kotlin.Int = 56 // kotlin.Int | 
+val perPage : kotlin.Int = 56 // kotlin.Int | 
+val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
+try {
+    val result : CompetitorSuggestionsResponse = apiInstance.listCompetitorSuggestions(projectId, basis, query, page, perPage, output)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling CompetitorsApi#listCompetitorSuggestions")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling CompetitorsApi#listCompetitorSuggestions")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **projectId** | **kotlin.Int**| Project ID | |
+| **basis** | **kotlin.String**|  | [optional] [default to Basis.brands] [enum: brands, citations] |
+| **query** | **kotlin.String**| Only suggestions whose brand name or domain contains this text | [optional] |
+| **page** | **kotlin.Int**|  | [optional] [default to 1] |
+| **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+
+### Return type
+
+[**CompetitorSuggestionsResponse**](CompetitorSuggestionsResponse.md)
 
 ### Authorization
 

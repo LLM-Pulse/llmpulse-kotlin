@@ -29,7 +29,9 @@ import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.LaunchRecommendationsRequest
+import ai.llmpulse.sdk.models.RecommendationItemUpdateResponse
 import ai.llmpulse.sdk.models.RecommendationsResponse
+import ai.llmpulse.sdk.models.UpdateRecommendationItemRequest
 
 import com.squareup.moshi.Json
 
@@ -365,6 +367,86 @@ open class RecommendationsApi(basePath: kotlin.String = defaultBasePath, client:
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/recommendations",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * PATCH /recommendations/{id}/items/{item_id}
+     * Complete, archive or restore a recommendation item
+     * Moves one item of a recommendation run between &#x60;active&#x60;, &#x60;completed&#x60; and &#x60;archived&#x60;, exactly like the complete, archive and restore buttons on the Recommendations page, and stamps &#x60;status_changed_at&#x60;. Returns the item in the shape &#x60;GET /recommendations/{id}&#x60; lists items. Requires a &#x60;read_write&#x60; scope API key and, for team members, create permission on Recommendations (the permission the page uses for these buttons).
+     * @param id Recommendation run id
+     * @param itemId Item id, from the items of GET /recommendations/{id}
+     * @param updateRecommendationItemRequest 
+     * @return RecommendationItemUpdateResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun updateRecommendationItem(id: kotlin.Int, itemId: kotlin.Int, updateRecommendationItemRequest: UpdateRecommendationItemRequest) : RecommendationItemUpdateResponse {
+        val localVarResponse = updateRecommendationItemWithHttpInfo(id = id, itemId = itemId, updateRecommendationItemRequest = updateRecommendationItemRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as RecommendationItemUpdateResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * PATCH /recommendations/{id}/items/{item_id}
+     * Complete, archive or restore a recommendation item
+     * Moves one item of a recommendation run between &#x60;active&#x60;, &#x60;completed&#x60; and &#x60;archived&#x60;, exactly like the complete, archive and restore buttons on the Recommendations page, and stamps &#x60;status_changed_at&#x60;. Returns the item in the shape &#x60;GET /recommendations/{id}&#x60; lists items. Requires a &#x60;read_write&#x60; scope API key and, for team members, create permission on Recommendations (the permission the page uses for these buttons).
+     * @param id Recommendation run id
+     * @param itemId Item id, from the items of GET /recommendations/{id}
+     * @param updateRecommendationItemRequest 
+     * @return ApiResponse<RecommendationItemUpdateResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun updateRecommendationItemWithHttpInfo(id: kotlin.Int, itemId: kotlin.Int, updateRecommendationItemRequest: UpdateRecommendationItemRequest) : ApiResponse<RecommendationItemUpdateResponse?> {
+        val localVariableConfig = updateRecommendationItemRequestConfig(id = id, itemId = itemId, updateRecommendationItemRequest = updateRecommendationItemRequest)
+
+        return request<UpdateRecommendationItemRequest, RecommendationItemUpdateResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation updateRecommendationItem
+     *
+     * @param id Recommendation run id
+     * @param itemId Item id, from the items of GET /recommendations/{id}
+     * @param updateRecommendationItemRequest 
+     * @return RequestConfig
+     */
+    fun updateRecommendationItemRequestConfig(id: kotlin.Int, itemId: kotlin.Int, updateRecommendationItemRequest: UpdateRecommendationItemRequest) : RequestConfig<UpdateRecommendationItemRequest> {
+        val localVariableBody = updateRecommendationItemRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.PATCH,
+            path = "/recommendations/{id}/items/{item_id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())).replace("{"+"item_id"+"}", encodeURIComponent(itemId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

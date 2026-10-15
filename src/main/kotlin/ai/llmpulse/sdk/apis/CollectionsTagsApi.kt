@@ -33,6 +33,8 @@ import ai.llmpulse.sdk.models.CollectionCreateResponse
 import ai.llmpulse.sdk.models.CollectionsResponse
 import ai.llmpulse.sdk.models.CreateCollectionRequest
 import ai.llmpulse.sdk.models.PromptTagsAssignResponse
+import ai.llmpulse.sdk.models.PromptTagsRemoveResponse
+import ai.llmpulse.sdk.models.RemovePromptTagsRequest
 import ai.llmpulse.sdk.models.UpdateCollectionRequest
 
 import com.squareup.moshi.Json
@@ -475,6 +477,80 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/tags",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * POST /prompts/remove_tags
+     * Bulk-detach tags from prompts
+     * Idempotent bulk removal of tags (Collections) from existing prompts: up to 500 prompt_ids and 50 tags, resolved by id or by name (case-insensitive). Only the prompt-tag links are removed; tags and prompts stay. Links that did not exist are counted in skipped_not_linked. Requires a &#x60;read_write&#x60; scope API key and, for team members, update access to Prompts.
+     * @param removePromptTagsRequest 
+     * @return PromptTagsRemoveResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun removePromptTags(removePromptTagsRequest: RemovePromptTagsRequest) : PromptTagsRemoveResponse {
+        val localVarResponse = removePromptTagsWithHttpInfo(removePromptTagsRequest = removePromptTagsRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as PromptTagsRemoveResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /prompts/remove_tags
+     * Bulk-detach tags from prompts
+     * Idempotent bulk removal of tags (Collections) from existing prompts: up to 500 prompt_ids and 50 tags, resolved by id or by name (case-insensitive). Only the prompt-tag links are removed; tags and prompts stay. Links that did not exist are counted in skipped_not_linked. Requires a &#x60;read_write&#x60; scope API key and, for team members, update access to Prompts.
+     * @param removePromptTagsRequest 
+     * @return ApiResponse<PromptTagsRemoveResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun removePromptTagsWithHttpInfo(removePromptTagsRequest: RemovePromptTagsRequest) : ApiResponse<PromptTagsRemoveResponse?> {
+        val localVariableConfig = removePromptTagsRequestConfig(removePromptTagsRequest = removePromptTagsRequest)
+
+        return request<RemovePromptTagsRequest, PromptTagsRemoveResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation removePromptTags
+     *
+     * @param removePromptTagsRequest 
+     * @return RequestConfig
+     */
+    fun removePromptTagsRequestConfig(removePromptTagsRequest: RemovePromptTagsRequest) : RequestConfig<RemovePromptTagsRequest> {
+        val localVariableBody = removePromptTagsRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/prompts/remove_tags",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

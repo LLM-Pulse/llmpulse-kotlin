@@ -4,12 +4,127 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
+| [**acceptSuggestedPrompts**](PromptsApi.md#acceptSuggestedPrompts) | **POST** /suggested_prompts/accept | Accept suggested prompts |
+| [**createPromptGeneration**](PromptsApi.md#createPromptGeneration) | **POST** /prompt_generations | Generate prompt suggestions |
 | [**createPrompts**](PromptsApi.md#createPrompts) | **POST** /prompts | Bulk-create prompts |
 | [**deletePrompt**](PromptsApi.md#deletePrompt) | **DELETE** /prompts/{id} | Delete a prompt |
+| [**getPromptGeneration**](PromptsApi.md#getPromptGeneration) | **GET** /prompt_generations/{id} | Get a prompt generation run |
+| [**importPrompts**](PromptsApi.md#importPrompts) | **POST** /prompts/import | Import prompts |
 | [**listPromptExecutions**](PromptsApi.md#listPromptExecutions) | **GET** /dimensions/prompt_executions | List prompt executions |
 | [**listPrompts**](PromptsApi.md#listPrompts) | **GET** /dimensions/prompts | List prompts |
 | [**listQueryFanOuts**](PromptsApi.md#listQueryFanOuts) | **GET** /dimensions/query_fan_outs | List query fan-out |
+| [**listSuggestedPrompts**](PromptsApi.md#listSuggestedPrompts) | **GET** /suggested_prompts | List suggested prompts |
+| [**rejectSuggestedPrompts**](PromptsApi.md#rejectSuggestedPrompts) | **POST** /suggested_prompts/reject | Reject suggested prompts |
+| [**updatePrompt**](PromptsApi.md#updatePrompt) | **PATCH** /prompts/{id} | Edit a prompt&#39;s categorization |
 
+
+<a id="acceptSuggestedPrompts"></a>
+# **acceptSuggestedPrompts**
+> SuggestedPromptsAcceptResponse acceptSuggestedPrompts(suggestedPromptsAcceptRequest)
+
+Accept suggested prompts
+
+Starts tracking up to 100 pending suggestions: each becomes a prompt in its own country and language, optionally put in one tag (tag_ids or tag_names; create_missing creates a missing name when the team member may create tags). Suggestions that are no longer pending come back in skipped. When the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and accepts nothing. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = PromptsApi()
+val suggestedPromptsAcceptRequest : SuggestedPromptsAcceptRequest =  // SuggestedPromptsAcceptRequest | 
+try {
+    val result : SuggestedPromptsAcceptResponse = apiInstance.acceptSuggestedPrompts(suggestedPromptsAcceptRequest)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling PromptsApi#acceptSuggestedPrompts")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling PromptsApi#acceptSuggestedPrompts")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **suggestedPromptsAcceptRequest** | [**SuggestedPromptsAcceptRequest**](SuggestedPromptsAcceptRequest.md)|  | |
+
+### Return type
+
+[**SuggestedPromptsAcceptResponse**](SuggestedPromptsAcceptResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a id="createPromptGeneration"></a>
+# **createPromptGeneration**
+> PromptGenerationResponse createPromptGeneration(promptGenerationRequest)
+
+Generate prompt suggestions
+
+Starts a suggestion run with one of the generators behind the app&#39;s Add prompts wizards and answers 202 with the run. website writes suggestions from the scraped website (80% non-brand, 20% brand), keyword from a keyword or the project profile (optionally around a competitor), topic from a topic, reddit from Reddit discussions of a topic or brand, paa from Google People Also Ask (up to 5 keywords, counted against the account&#39;s 24-hour lookup allowance), reputational from brand reputation questions, translate from the project&#39;s prompts of another locale, search_console from the connected property&#39;s top queries of the last 28 days (Growth plan or above, ERR_PLAN_REQUIRED). The suggestions land in the Suggested prompts queue; poll GET /prompt_generations/{id}, then accept the ones you want with POST /suggested_prompts/accept. Nothing is tracked until accepted. The request is validated before the run starts, and refused with ERR_LIMIT_REACHED when the plan has no prompt slot left. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = PromptsApi()
+val promptGenerationRequest : PromptGenerationRequest =  // PromptGenerationRequest | 
+try {
+    val result : PromptGenerationResponse = apiInstance.createPromptGeneration(promptGenerationRequest)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling PromptsApi#createPromptGeneration")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling PromptsApi#createPromptGeneration")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **promptGenerationRequest** | [**PromptGenerationRequest**](PromptGenerationRequest.md)|  | |
+
+### Return type
+
+[**PromptGenerationResponse**](PromptGenerationResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a id="createPrompts"></a>
 # **createPrompts**
@@ -118,6 +233,116 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="getPromptGeneration"></a>
+# **getPromptGeneration**
+> PromptGenerationResponse getPromptGeneration(id, projectId)
+
+Get a prompt generation run
+
+Returns a run started with POST /prompt_generations: processing while the generator works, then completed with the suggestions it saved to the Suggested prompts queue, or failed with an error code and message. Poll every few seconds; most runs finish within a minute. Runs are kept for 24 hours, their suggestions stay in the queue.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = PromptsApi()
+val id : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | 
+val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
+try {
+    val result : PromptGenerationResponse = apiInstance.getPromptGeneration(id, projectId)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling PromptsApi#getPromptGeneration")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling PromptsApi#getPromptGeneration")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **id** | **java.util.UUID**|  | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **projectId** | **kotlin.Int**| Project ID | |
+
+### Return type
+
+[**PromptGenerationResponse**](PromptGenerationResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="importPrompts"></a>
+# **importPrompts**
+> PromptsImportResponse importPrompts(promptsImportRequest)
+
+Import prompts
+
+The app&#39;s CSV import as JSON: up to 500 rows, each with its own prompt, country_code, language_code (codes or names; both default to the project&#39;s) and tags, created when missing. Duplicates are skipped and existing prompts still get the row&#39;s tags. The prompt limits are checked before anything is written: when the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and imports nothing. Rows with an unknown country or language come back in row_errors. Responds 201 when it created prompts, 200 otherwise. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = PromptsApi()
+val promptsImportRequest : PromptsImportRequest =  // PromptsImportRequest | 
+try {
+    val result : PromptsImportResponse = apiInstance.importPrompts(promptsImportRequest)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling PromptsApi#importPrompts")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling PromptsApi#importPrompts")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **promptsImportRequest** | [**PromptsImportRequest**](PromptsImportRequest.md)|  | |
+
+### Return type
+
+[**PromptsImportResponse**](PromptsImportResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 <a id="listPromptExecutions"></a>
@@ -359,5 +584,177 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="listSuggestedPrompts"></a>
+# **listSuggestedPrompts**
+> SuggestedPromptsResponse listSuggestedPrompts(projectId, source, status, page, perPage)
+
+List suggested prompts
+
+Lists the project&#39;s Suggested prompts queue, the same list the app&#39;s Suggested Prompts tab shows, oldest first. It holds the suggestions of every generator (website, magic for keyword runs, topic, reddit, paa, reputational, translate, gsc for Search Console, catalog). Pending suggestions by default; status&#x3D;all also returns accepted (with the prompt they became) and rejected ones. Team members need create access to Prompts, like the app&#39;s tab.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = PromptsApi()
+val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
+val source : kotlin.String = source_example // kotlin.String | Only suggestions from this generator
+val status : kotlin.String = status_example // kotlin.String | Only suggestions in this status
+val page : kotlin.Int = 56 // kotlin.Int | 
+val perPage : kotlin.Int = 56 // kotlin.Int | 
+try {
+    val result : SuggestedPromptsResponse = apiInstance.listSuggestedPrompts(projectId, source, status, page, perPage)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling PromptsApi#listSuggestedPrompts")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling PromptsApi#listSuggestedPrompts")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **projectId** | **kotlin.Int**| Project ID | |
+| **source** | **kotlin.String**| Only suggestions from this generator | [optional] [enum: website, magic, paa, topic, reddit, reputational, gsc, translate, catalog] |
+| **status** | **kotlin.String**| Only suggestions in this status | [optional] [default to Status.pending] [enum: pending, accepted, rejected, all] |
+| **page** | **kotlin.Int**|  | [optional] [default to 1] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **perPage** | **kotlin.Int**|  | [optional] [default to 50] |
+
+### Return type
+
+[**SuggestedPromptsResponse**](SuggestedPromptsResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="rejectSuggestedPrompts"></a>
+# **rejectSuggestedPrompts**
+> SuggestedPromptsRejectResponse rejectSuggestedPrompts(suggestedPromptIdsRequest)
+
+Reject suggested prompts
+
+Marks up to 100 pending suggestions as rejected, so they leave the pending list; suggestions that are no longer pending stay as they are. Tracks and deletes nothing. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = PromptsApi()
+val suggestedPromptIdsRequest : SuggestedPromptIdsRequest =  // SuggestedPromptIdsRequest | 
+try {
+    val result : SuggestedPromptsRejectResponse = apiInstance.rejectSuggestedPrompts(suggestedPromptIdsRequest)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling PromptsApi#rejectSuggestedPrompts")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling PromptsApi#rejectSuggestedPrompts")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **suggestedPromptIdsRequest** | [**SuggestedPromptIdsRequest**](SuggestedPromptIdsRequest.md)|  | |
+
+### Return type
+
+[**SuggestedPromptsRejectResponse**](SuggestedPromptsRejectResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a id="updatePrompt"></a>
+# **updatePrompt**
+> PromptCategorizationResponse updatePrompt(id, updatePromptRequest)
+
+Edit a prompt&#39;s categorization
+
+Manual categorization, exactly like editing the intent and brand badges on the prompt page: send &#x60;prompt_type&#x60;, &#x60;brand_kind&#x60; or both. The prompt is marked as manually categorized (&#x60;categorization_source&#x60; becomes &#x60;manual&#x60;), so automatic categorization no longer changes it; the prompt page can revert it to automatic. Any other field returns ERR_INVALID_PARAM. Not available from a white-label portal (ERR_INTEGRATION_UNAVAILABLE), where the page hides the editor. Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on Prompts.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = PromptsApi()
+val id : kotlin.Int = 56 // kotlin.Int | 
+val updatePromptRequest : UpdatePromptRequest =  // UpdatePromptRequest | 
+try {
+    val result : PromptCategorizationResponse = apiInstance.updatePrompt(id, updatePromptRequest)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling PromptsApi#updatePrompt")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling PromptsApi#updatePrompt")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **id** | **kotlin.Int**|  | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **updatePromptRequest** | [**UpdatePromptRequest**](UpdatePromptRequest.md)|  | |
+
+### Return type
+
+[**PromptCategorizationResponse**](PromptCategorizationResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 

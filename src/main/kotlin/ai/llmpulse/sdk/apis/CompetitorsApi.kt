@@ -30,6 +30,7 @@ import okhttp3.HttpUrl
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.CompetitorCreateResponse
 import ai.llmpulse.sdk.models.CompetitorDetails
+import ai.llmpulse.sdk.models.CompetitorSuggestionsResponse
 import ai.llmpulse.sdk.models.CreateCompetitorRequest
 import ai.llmpulse.sdk.models.ListCompetitors200Response
 import ai.llmpulse.sdk.models.UpdateCompetitorRequest
@@ -281,6 +282,146 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/competitors/{id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter basis
+     */
+     enum class BasisListCompetitorSuggestions(val value: kotlin.String) {
+         @Json(name = "brands") brands("brands"),
+         @Json(name = "citations") citations("citations");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputListCompetitorSuggestions(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /competitors/suggestions
+     * List competitor suggestions
+     * The two lists of the Suggested tab of the Competitors page. &#x60;basis&#x3D;brands&#x60; (default) returns the competing brands the AI discovery proposed that are not tracked or rejected yet, with the names it would match and, when counted, how many answers name it (&#x60;mentions&#x60;). &#x60;basis&#x3D;citations&#x60; returns the domains AI answers cite most that are not your own or tracked yet, with how many answers cite each (&#x60;citations&#x60;). &#x60;discovery&#x60; tells whether a discovery run is still loading. Read-only: it never starts a discovery run, which the page starts from its Discover button. Add a suggestion with POST /competitors.
+     * @param projectId Project ID
+     * @param basis  (optional, default to Basis.brands)
+     * @param query Only suggestions whose brand name or domain contains this text (optional)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return CompetitorSuggestionsResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listCompetitorSuggestions(projectId: kotlin.Int, basis: BasisListCompetitorSuggestions? = BasisListCompetitorSuggestions.brands, query: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputListCompetitorSuggestions? = null) : CompetitorSuggestionsResponse {
+        val localVarResponse = listCompetitorSuggestionsWithHttpInfo(projectId = projectId, basis = basis, query = query, page = page, perPage = perPage, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CompetitorSuggestionsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /competitors/suggestions
+     * List competitor suggestions
+     * The two lists of the Suggested tab of the Competitors page. &#x60;basis&#x3D;brands&#x60; (default) returns the competing brands the AI discovery proposed that are not tracked or rejected yet, with the names it would match and, when counted, how many answers name it (&#x60;mentions&#x60;). &#x60;basis&#x3D;citations&#x60; returns the domains AI answers cite most that are not your own or tracked yet, with how many answers cite each (&#x60;citations&#x60;). &#x60;discovery&#x60; tells whether a discovery run is still loading. Read-only: it never starts a discovery run, which the page starts from its Discover button. Add a suggestion with POST /competitors.
+     * @param projectId Project ID
+     * @param basis  (optional, default to Basis.brands)
+     * @param query Only suggestions whose brand name or domain contains this text (optional)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<CompetitorSuggestionsResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listCompetitorSuggestionsWithHttpInfo(projectId: kotlin.Int, basis: BasisListCompetitorSuggestions?, query: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputListCompetitorSuggestions?) : ApiResponse<CompetitorSuggestionsResponse?> {
+        val localVariableConfig = listCompetitorSuggestionsRequestConfig(projectId = projectId, basis = basis, query = query, page = page, perPage = perPage, output = output)
+
+        return request<Unit, CompetitorSuggestionsResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listCompetitorSuggestions
+     *
+     * @param projectId Project ID
+     * @param basis  (optional, default to Basis.brands)
+     * @param query Only suggestions whose brand name or domain contains this text (optional)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun listCompetitorSuggestionsRequestConfig(projectId: kotlin.Int, basis: BasisListCompetitorSuggestions?, query: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputListCompetitorSuggestions?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (basis != null) {
+                    put("basis", listOf(basis.value))
+                }
+                if (query != null) {
+                    put("query", listOf(query.toString()))
+                }
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/competitors/suggestions",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

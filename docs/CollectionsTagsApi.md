@@ -9,6 +9,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 | [**deleteCollection**](CollectionsTagsApi.md#deleteCollection) | **DELETE** /collections/{id} | Delete a tag |
 | [**listCollections**](CollectionsTagsApi.md#listCollections) | **GET** /dimensions/collections | List tags/collections |
 | [**listTags**](CollectionsTagsApi.md#listTags) | **GET** /dimensions/tags | List tags (alias for /collections) |
+| [**removePromptTags**](CollectionsTagsApi.md#removePromptTags) | **POST** /prompts/remove_tags | Bulk-detach tags from prompts |
 | [**updateCollection**](CollectionsTagsApi.md#updateCollection) | **PATCH** /collections/{id} | Update a tag |
 
 
@@ -281,6 +282,60 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="removePromptTags"></a>
+# **removePromptTags**
+> PromptTagsRemoveResponse removePromptTags(removePromptTagsRequest)
+
+Bulk-detach tags from prompts
+
+Idempotent bulk removal of tags (Collections) from existing prompts: up to 500 prompt_ids and 50 tags, resolved by id or by name (case-insensitive). Only the prompt-tag links are removed; tags and prompts stay. Links that did not exist are counted in skipped_not_linked. Requires a &#x60;read_write&#x60; scope API key and, for team members, update access to Prompts.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = CollectionsTagsApi()
+val removePromptTagsRequest : RemovePromptTagsRequest =  // RemovePromptTagsRequest | 
+try {
+    val result : PromptTagsRemoveResponse = apiInstance.removePromptTags(removePromptTagsRequest)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling CollectionsTagsApi#removePromptTags")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling CollectionsTagsApi#removePromptTags")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **removePromptTagsRequest** | [**RemovePromptTagsRequest**](RemovePromptTagsRequest.md)|  | |
+
+### Return type
+
+[**PromptTagsRemoveResponse**](PromptTagsRemoveResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 <a id="updateCollection"></a>

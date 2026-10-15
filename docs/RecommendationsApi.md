@@ -7,6 +7,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 | [**getRecommendation**](RecommendationsApi.md#getRecommendation) | **GET** /recommendations/{id} | Get recommendation run with items |
 | [**launchRecommendations**](RecommendationsApi.md#launchRecommendations) | **POST** /recommendations | Launch a recommendations generation |
 | [**listRecommendations**](RecommendationsApi.md#listRecommendations) | **GET** /recommendations | List recommendation runs |
+| [**updateRecommendationItem**](RecommendationsApi.md#updateRecommendationItem) | **PATCH** /recommendations/{id}/items/{item_id} | Complete, archive or restore a recommendation item |
 
 
 <a id="getRecommendation"></a>
@@ -177,5 +178,63 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="updateRecommendationItem"></a>
+# **updateRecommendationItem**
+> RecommendationItemUpdateResponse updateRecommendationItem(id, itemId, updateRecommendationItemRequest)
+
+Complete, archive or restore a recommendation item
+
+Moves one item of a recommendation run between &#x60;active&#x60;, &#x60;completed&#x60; and &#x60;archived&#x60;, exactly like the complete, archive and restore buttons on the Recommendations page, and stamps &#x60;status_changed_at&#x60;. Returns the item in the shape &#x60;GET /recommendations/{id}&#x60; lists items. Requires a &#x60;read_write&#x60; scope API key and, for team members, create permission on Recommendations (the permission the page uses for these buttons).
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = RecommendationsApi()
+val id : kotlin.Int = 56 // kotlin.Int | Recommendation run id
+val itemId : kotlin.Int = 56 // kotlin.Int | Item id, from the items of GET /recommendations/{id}
+val updateRecommendationItemRequest : UpdateRecommendationItemRequest =  // UpdateRecommendationItemRequest | 
+try {
+    val result : RecommendationItemUpdateResponse = apiInstance.updateRecommendationItem(id, itemId, updateRecommendationItemRequest)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling RecommendationsApi#updateRecommendationItem")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling RecommendationsApi#updateRecommendationItem")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **id** | **kotlin.Int**| Recommendation run id | |
+| **itemId** | **kotlin.Int**| Item id, from the items of GET /recommendations/{id} | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **updateRecommendationItemRequest** | [**UpdateRecommendationItemRequest**](UpdateRecommendationItemRequest.md)|  | |
+
+### Return type
+
+[**RecommendationItemUpdateResponse**](RecommendationItemUpdateResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
