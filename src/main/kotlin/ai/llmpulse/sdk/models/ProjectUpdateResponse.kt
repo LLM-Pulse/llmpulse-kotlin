@@ -34,7 +34,7 @@ import com.squareup.moshi.JsonClass
  * @param project 
  * @param updatedFields The fields the request sent
  * @param rematching True when a matching_names or additional_owned_domains change started a background recalculation of past answers; further edits are rejected until it finishes
- * @param note What the change does to mention detection, citation ownership and historical numbers
+ * @param note What the change does to mention detection, citation ownership and historical numbers, and, when prompt_limit was sent, how many prompts the project holds and how many more can be added
  * @param requestId 
  */
 
@@ -52,7 +52,7 @@ data class ProjectUpdateResponse (
     @Json(name = "rematching")
     val rematching: kotlin.Boolean,
 
-    /* What the change does to mention detection, citation ownership and historical numbers */
+    /* What the change does to mention detection, citation ownership and historical numbers, and, when prompt_limit was sent, how many prompts the project holds and how many more can be added */
     @Json(name = "note")
     val note: kotlin.String,
 

@@ -35,6 +35,7 @@ import com.squareup.moshi.JsonClass
  * @param promptsByBrandKind 
  * @param competitorsCount 
  * @param collectionsCount 
+ * @param promptsAvailable How many prompts can still be added to this project now, the same number the Prompts page offers. The lower of the project's free slots under prompt_limit and the account's remaining prompts; 0 when either is full (a project over its limit keeps its prompts). Null when neither caps it
  */
 
 
@@ -50,7 +51,11 @@ data class ProjectDetailsAllOfStats (
     val competitorsCount: kotlin.Int? = null,
 
     @Json(name = "collections_count")
-    val collectionsCount: kotlin.Int? = null
+    val collectionsCount: kotlin.Int? = null,
+
+    /* How many prompts can still be added to this project now, the same number the Prompts page offers. The lower of the project's free slots under prompt_limit and the account's remaining prompts; 0 when either is full (a project over its limit keeps its prompts). Null when neither caps it */
+    @Json(name = "prompts_available")
+    val promptsAvailable: kotlin.Int? = null
 
 ) {
 

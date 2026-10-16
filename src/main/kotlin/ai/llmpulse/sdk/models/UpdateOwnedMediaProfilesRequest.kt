@@ -36,13 +36,13 @@ import com.squareup.moshi.JsonClass
  * @param instagramProfileUrl The main Instagram profile URL. An empty string or null clears it
  * @param facebookPageUrl The main Facebook Page URL. An empty string or null clears it
  * @param tiktokProfileUrl The main TikTok profile URL. An empty string or null clears it
- * @param linkedinCompanyUrl The main LinkedIn Company Page URL (/company/...). An empty string or null clears it
+ * @param linkedinCompanyUrl The main LinkedIn page URL: a company (/company/...), school (/school/...) or showcase (/showcase/...) page. An empty string or null clears it
  * @param youtubeExtraProfileUrls FULL replacement list of extra YouTube channel URLs (at most 10); [] clears it
  * @param mobileAppsExtraProfileUrls FULL replacement list of extra App Store or Google Play app URLs (at most 10); [] clears it
  * @param instagramExtraProfileUrls FULL replacement list of extra Instagram profile URLs (at most 10); [] clears it
  * @param facebookExtraProfileUrls FULL replacement list of extra Facebook Page URLs (at most 10); [] clears it
  * @param tiktokExtraProfileUrls FULL replacement list of extra TikTok profile URLs (at most 10); [] clears it
- * @param linkedinExtraProfileUrls FULL replacement list of extra LinkedIn Company Page URLs (at most 10); [] clears it
+ * @param linkedinExtraProfileUrls FULL replacement list of extra LinkedIn company, school or showcase page URLs (at most 10); [] clears it
  * @param redditSubreddits FULL replacement list (at most 10) of subreddit names the brand owns, without r/; [] clears it
  * @param redditUsernames FULL replacement list (at most 25) of Reddit usernames the brand owns, without u/; [] clears it
  */
@@ -74,7 +74,7 @@ data class UpdateOwnedMediaProfilesRequest (
     @Json(name = "tiktok_profile_url")
     val tiktokProfileUrl: kotlin.String? = null,
 
-    /* The main LinkedIn Company Page URL (/company/...). An empty string or null clears it */
+    /* The main LinkedIn page URL: a company (/company/...), school (/school/...) or showcase (/showcase/...) page. An empty string or null clears it */
     @Json(name = "linkedin_company_url")
     val linkedinCompanyUrl: kotlin.String? = null,
 
@@ -98,7 +98,7 @@ data class UpdateOwnedMediaProfilesRequest (
     @Json(name = "tiktok_extra_profile_urls")
     val tiktokExtraProfileUrls: kotlin.collections.List<kotlin.String>? = null,
 
-    /* FULL replacement list of extra LinkedIn Company Page URLs (at most 10); [] clears it */
+    /* FULL replacement list of extra LinkedIn company, school or showcase page URLs (at most 10); [] clears it */
     @Json(name = "linkedin_extra_profile_urls")
     val linkedinExtraProfileUrls: kotlin.collections.List<kotlin.String>? = null,
 

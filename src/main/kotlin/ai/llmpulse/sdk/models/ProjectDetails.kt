@@ -53,6 +53,7 @@ import com.squareup.moshi.JsonClass
  * @param googlePlayId 
  * @param appStoreId 
  * @param createdAt 
+ * @param promptLimit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way
  * @param stats 
  * @param dataCoverage 
  * @param searchConsole 
@@ -126,6 +127,10 @@ data class ProjectDetails (
 
     @Json(name = "created_at")
     val createdAt: java.time.OffsetDateTime? = null,
+
+    /* The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way */
+    @Json(name = "prompt_limit")
+    val promptLimit: kotlin.Int? = null,
 
     @Json(name = "stats")
     val stats: ProjectDetailsAllOfStats? = null,
