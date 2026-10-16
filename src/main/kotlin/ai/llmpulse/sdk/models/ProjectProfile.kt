@@ -34,7 +34,7 @@ import com.squareup.moshi.JsonClass
  * @param name 
  * @param matchingNames 
  * @param additionalOwnedDomains Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none
- * @param promptLimit Maximum number of active prompts this project may hold; null when only the account quota applies
+ * @param promptLimit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way
  * @param brandName 
  * @param description 
  * @param industry Industry as stored: one key as a string (e.g. SAAS), or an array of key strings. Deliberately untyped so generated clients decode either shape
@@ -62,7 +62,7 @@ data class ProjectProfile (
     @Json(name = "additional_owned_domains")
     val additionalOwnedDomains: kotlin.collections.List<kotlin.String>,
 
-    /* Maximum number of active prompts this project may hold; null when only the account quota applies */
+    /* The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way */
     @Json(name = "prompt_limit")
     val promptLimit: kotlin.Int?,
 
