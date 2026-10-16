@@ -8,6 +8,7 @@
 | **name** | **kotlin.String** |  |  |
 | **matchingNames** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  |
 | **additionalOwnedDomains** | **kotlin.collections.List&lt;kotlin.String&gt;** | Other domains the brand owns (at most 10, each a website&#39;s own domain covering its subdomains), whose citations count as owned like the project website. Empty when none |  |
+| **promptLimit** | **kotlin.Int** | Maximum number of active prompts this project may hold; null when only the account quota applies |  |
 | **brandName** | **kotlin.String** |  |  [optional] |
 | **description** | **kotlin.String** |  |  [optional] |
 | **industry** | [**kotlin.Any**](.md) | Industry as stored: one key as a string (e.g. SAAS), or an array of key strings. Deliberately untyped so generated clients decode either shape |  [optional] |
