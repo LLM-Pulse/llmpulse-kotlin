@@ -31,6 +31,7 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
+ * @param planRequiredFields The fields left out of this answer because the account's plan does not include them (sentiments below Growth, shopping_products below Scale). Always present, empty when nothing is left out
  * @param id 
  * @param promptId 
  * @param promptText 
@@ -46,9 +47,9 @@ import com.squareup.moshi.JsonClass
  * @param citations 
  * @param competitorMentions 
  * @param competitorCitations 
- * @param sentiments 
+ * @param sentiments Needs the Growth plan or above; left out below it and named in plan_required_fields
  * @param sources 
- * @param shoppingProducts 
+ * @param shoppingProducts Needs the Scale plan or above; left out below it and named in plan_required_fields
  * @param brandEntities 
  * @param localBusinesses 
  * @param locale 
@@ -58,6 +59,10 @@ import com.squareup.moshi.JsonClass
 
 
 data class AnswerDetails (
+
+    /* The fields left out of this answer because the account's plan does not include them (sentiments below Growth, shopping_products below Scale). Always present, empty when nothing is left out */
+    @Json(name = "plan_required_fields")
+    val planRequiredFields: kotlin.collections.List<kotlin.String>,
 
     @Json(name = "id")
     val id: kotlin.Int? = null,
@@ -107,12 +112,14 @@ data class AnswerDetails (
     @Json(name = "competitor_citations")
     val competitorCitations: kotlin.collections.List<kotlin.Any>? = null,
 
+    /* Needs the Growth plan or above; left out below it and named in plan_required_fields */
     @Json(name = "sentiments")
     val sentiments: kotlin.collections.List<kotlin.Any>? = null,
 
     @Json(name = "sources")
     val sources: kotlin.collections.List<kotlin.Any>? = null,
 
+    /* Needs the Scale plan or above; left out below it and named in plan_required_fields */
     @Json(name = "shopping_products")
     val shoppingProducts: kotlin.collections.List<kotlin.Any>? = null,
 

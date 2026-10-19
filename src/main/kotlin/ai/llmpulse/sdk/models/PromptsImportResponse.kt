@@ -34,10 +34,10 @@ import com.squareup.moshi.JsonClass
  * @param projectId 
  * @param processedRows Distinct rows imported or matched to an existing prompt
  * @param created 
- * @param duplicates Rows that matched an existing prompt (they still get the row's tags)
+ * @param duplicates Rows that matched an existing prompt (they still get the row's tags, unless a team member lacks update access to Prompts)
  * @param tagged New prompt-tag links
  * @param createdTags 
- * @param rowErrors Rows that were skipped, by their index in rows
+ * @param rowErrors Rows that were skipped or whose tags were not added, by their index in rows
  * @param lengthWarning Which tracked AI models will skip new prompts that are too long for them
  * @param promptsAvailable Prompt slots left on the plan; null when unlimited
  * @param requestId 
@@ -56,7 +56,7 @@ data class PromptsImportResponse (
     @Json(name = "created")
     val created: kotlin.Int,
 
-    /* Rows that matched an existing prompt (they still get the row's tags) */
+    /* Rows that matched an existing prompt (they still get the row's tags, unless a team member lacks update access to Prompts) */
     @Json(name = "duplicates")
     val duplicates: kotlin.Int,
 
@@ -67,7 +67,7 @@ data class PromptsImportResponse (
     @Json(name = "created_tags")
     val createdTags: kotlin.Int,
 
-    /* Rows that were skipped, by their index in rows */
+    /* Rows that were skipped or whose tags were not added, by their index in rows */
     @Json(name = "row_errors")
     val rowErrors: kotlin.collections.List<PromptsImportResponseRowErrorsInner>,
 

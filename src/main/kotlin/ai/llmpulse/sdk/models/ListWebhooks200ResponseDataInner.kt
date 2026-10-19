@@ -33,8 +33,8 @@ import com.squareup.moshi.JsonClass
  * @param id 
  * @param projectId 
  * @param eventType 
- * @param targetUrl 
- * @param disabled True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked. Creating it again with the same project, event and URL replaces it with a new subscription and secret.
+ * @param targetUrl The URL deliveries are sent to. A read-only API key receives only its scheme, host and any non-default port followed by `/…` (for example `https://hook.eu1.make.com/…`); a `read_write` scope key receives the full URL.
+ * @param disabled True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked, or when that API key is limited to some projects and no longer covers the subscription's project. Creating it again with the same project, event and URL replaces it with a new subscription and secret.
  * @param failureCount 
  * @param lastDeliveredAt 
  * @param createdAt 
@@ -52,10 +52,11 @@ data class ListWebhooks200ResponseDataInner (
     @Json(name = "event_type")
     val eventType: ListWebhooks200ResponseDataInner.EventType? = null,
 
+    /* The URL deliveries are sent to. A read-only API key receives only its scheme, host and any non-default port followed by `/…` (for example `https://hook.eu1.make.com/…`); a `read_write` scope key receives the full URL. */
     @Json(name = "target_url")
     val targetUrl: kotlin.String? = null,
 
-    /* True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked. Creating it again with the same project, event and URL replaces it with a new subscription and secret. */
+    /* True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked, or when that API key is limited to some projects and no longer covers the subscription's project. Creating it again with the same project, event and URL replaces it with a new subscription and secret. */
     @Json(name = "disabled")
     val disabled: kotlin.Boolean? = null,
 

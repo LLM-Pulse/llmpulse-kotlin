@@ -4,6 +4,7 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
+| **planRequiredFields** | **kotlin.collections.List&lt;kotlin.String&gt;** | The fields left out of this answer because the account&#39;s plan does not include them (sentiments below Growth, shopping_products below Scale). Always present, empty when nothing is left out |  |
 | **id** | **kotlin.Int** |  |  [optional] |
 | **promptId** | **kotlin.Int** |  |  [optional] |
 | **promptText** | **kotlin.String** |  |  [optional] |
@@ -19,9 +20,9 @@
 | **citations** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
 | **competitorMentions** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
 | **competitorCitations** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
-| **sentiments** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
+| **sentiments** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) | Needs the Growth plan or above; left out below it and named in plan_required_fields |  [optional] |
 | **sources** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
-| **shoppingProducts** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
+| **shoppingProducts** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) | Needs the Scale plan or above; left out below it and named in plan_required_fields |  [optional] |
 | **brandEntities** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
 | **localBusinesses** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
 | **locale** | [**AnswerDetailsLocale**](AnswerDetailsLocale.md) |  |  [optional] |
