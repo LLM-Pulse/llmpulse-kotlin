@@ -35,10 +35,10 @@ import com.squareup.moshi.JsonClass
  * @param brandName 
  * @param description 
  * @param industry 
- * @param matchingNames 
+ * @param matchingNames Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422)
  * @param externalIdentifier 
  * @param prompts 
- * @param competitors 
+ * @param competitors Competitors step: objects {domain, brand_name, matching_names}, capped by plan. Each competitor's matching_names takes at most 50 names of up to 100 characters, checked at finalize like POST /projects
  * @param youtubeChannelUrl 
  * @param instagramProfileUrl 
  * @param facebookPageUrl 
@@ -66,6 +66,7 @@ data class UpdateProjectDraftRequest (
     @Json(name = "industry")
     val industry: kotlin.collections.List<kotlin.String>? = null,
 
+    /* Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422) */
     @Json(name = "matching_names")
     val matchingNames: kotlin.collections.List<kotlin.String>? = null,
 
@@ -75,6 +76,7 @@ data class UpdateProjectDraftRequest (
     @Json(name = "prompts")
     val prompts: kotlin.collections.List<kotlin.String>? = null,
 
+    /* Competitors step: objects {domain, brand_name, matching_names}, capped by plan. Each competitor's matching_names takes at most 50 names of up to 100 characters, checked at finalize like POST /projects */
     @Json(name = "competitors")
     val competitors: kotlin.collections.List<kotlin.Any>? = null,
 
