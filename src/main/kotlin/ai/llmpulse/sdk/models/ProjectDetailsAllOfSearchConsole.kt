@@ -28,11 +28,12 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * Google Search Console connection of the project. connected means the Search Console endpoints can answer; reconnect_required means Google refused the stored access, so the endpoints return ERR_SEARCH_CONSOLE_ACCESS_REVOKED until the property is reconnected at connect_url; not_connected means the endpoints return ERR_SEARCH_CONSOLE_NOT_CONNECTED.
+ * Google Search Console connection of the project, judged by its primary property. connected means the Search Console endpoints can answer; reconnect_required means Google refused the primary property's stored access, so reads without property return ERR_SEARCH_CONSOLE_ACCESS_REVOKED until it is reconnected at connect_url, while a property GET /search_console/properties lists as connected, or property=all, still answers; not_connected means the endpoints return ERR_SEARCH_CONSOLE_NOT_CONNECTED.
  *
  * @param status 
- * @param `property` The connected property (e.g. sc-domain:example.com), null when not connected
+ * @param `property` The primary property (e.g. sc-domain:example.com), null when not connected
  * @param connectUrl The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections)
+ * @param propertiesCount Connected properties Google still accepts (reconnect_required ones excluded); GET /search_console/properties lists every property with its status
  */
 
 
@@ -41,13 +42,17 @@ data class ProjectDetailsAllOfSearchConsole (
     @Json(name = "status")
     val status: ProjectDetailsAllOfSearchConsole.Status? = null,
 
-    /* The connected property (e.g. sc-domain:example.com), null when not connected */
+    /* The primary property (e.g. sc-domain:example.com), null when not connected */
     @Json(name = "property")
     val `property`: kotlin.String? = null,
 
     /* The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections) */
     @Json(name = "connect_url")
-    val connectUrl: java.net.URI? = null
+    val connectUrl: java.net.URI? = null,
+
+    /* Connected properties Google still accepts (reconnect_required ones excluded); GET /search_console/properties lists every property with its status */
+    @Json(name = "properties_count")
+    val propertiesCount: kotlin.Int? = null
 
 ) {
 

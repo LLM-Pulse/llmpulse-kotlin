@@ -17,6 +17,7 @@
 | **sourceLanguageCode** | **kotlin.String** | translate: language of the prompts to translate |  [optional] |
 | **minWords** | **kotlin.Int** | search_console: skip queries shorter than this many words |  [optional] |
 | **allCountries** | **kotlin.Boolean** | search_console: include queries from every country instead of country_code only |  [optional] |
+| **&#x60;property&#x60;** | **kotlin.String** | search_console: the property id to read queries from (GET /search_console/properties lists them); the primary property when omitted |  [optional] |
 
 
 <a id="Source"></a>

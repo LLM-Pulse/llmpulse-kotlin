@@ -29,6 +29,7 @@ import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.SearchConsoleListResponse
+import ai.llmpulse.sdk.models.SearchConsolePropertiesResponse
 import ai.llmpulse.sdk.models.SearchConsoleRowsResponse
 import ai.llmpulse.sdk.models.SearchConsoleSummaryResponse
 import ai.llmpulse.sdk.models.SearchConsoleTimeseriesResponse
@@ -166,6 +167,7 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return SearchConsoleListResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -175,8 +177,8 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getSearchConsolePages(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, sort: SortGetSearchConsolePages? = SortGetSearchConsolePages.impressions, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, startRow: kotlin.Int? = 0, output: OutputGetSearchConsolePages? = null, searchType: SearchTypeGetSearchConsolePages? = SearchTypeGetSearchConsolePages.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsolePages? = DataStateGetSearchConsolePages.`final`, aggregationType: AggregationTypeGetSearchConsolePages? = AggregationTypeGetSearchConsolePages.auto) : SearchConsoleListResponse {
-        val localVarResponse = getSearchConsolePagesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+    fun getSearchConsolePages(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, sort: SortGetSearchConsolePages? = SortGetSearchConsolePages.impressions, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, startRow: kotlin.Int? = 0, output: OutputGetSearchConsolePages? = null, searchType: SearchTypeGetSearchConsolePages? = SearchTypeGetSearchConsolePages.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsolePages? = DataStateGetSearchConsolePages.`final`, aggregationType: AggregationTypeGetSearchConsolePages? = AggregationTypeGetSearchConsolePages.auto, `property`: kotlin.String? = null) : SearchConsoleListResponse {
+        val localVarResponse = getSearchConsolePagesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType, `property` = `property`)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SearchConsoleListResponse
@@ -210,14 +212,15 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return ApiResponse<SearchConsoleListResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getSearchConsolePagesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsolePages?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsolePages?, searchType: SearchTypeGetSearchConsolePages?, filters: kotlin.String?, dataState: DataStateGetSearchConsolePages?, aggregationType: AggregationTypeGetSearchConsolePages?) : ApiResponse<SearchConsoleListResponse?> {
-        val localVariableConfig = getSearchConsolePagesRequestConfig(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+    fun getSearchConsolePagesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsolePages?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsolePages?, searchType: SearchTypeGetSearchConsolePages?, filters: kotlin.String?, dataState: DataStateGetSearchConsolePages?, aggregationType: AggregationTypeGetSearchConsolePages?, `property`: kotlin.String?) : ApiResponse<SearchConsoleListResponse?> {
+        val localVariableConfig = getSearchConsolePagesRequestConfig(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType, `property` = `property`)
 
         return request<Unit, SearchConsoleListResponse>(
             localVariableConfig
@@ -240,9 +243,10 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return RequestConfig
      */
-    fun getSearchConsolePagesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsolePages?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsolePages?, searchType: SearchTypeGetSearchConsolePages?, filters: kotlin.String?, dataState: DataStateGetSearchConsolePages?, aggregationType: AggregationTypeGetSearchConsolePages?) : RequestConfig<Unit> {
+    fun getSearchConsolePagesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsolePages?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsolePages?, searchType: SearchTypeGetSearchConsolePages?, filters: kotlin.String?, dataState: DataStateGetSearchConsolePages?, aggregationType: AggregationTypeGetSearchConsolePages?, `property`: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -282,6 +286,9 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
                 }
                 if (aggregationType != null) {
                     put("aggregation_type", listOf(aggregationType.value))
+                }
+                if (`property` != null) {
+                    put("property", listOf(`property`.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -406,6 +413,7 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return SearchConsoleListResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -415,8 +423,8 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getSearchConsoleQueries(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, sort: SortGetSearchConsoleQueries? = SortGetSearchConsoleQueries.impressions, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, startRow: kotlin.Int? = 0, output: OutputGetSearchConsoleQueries? = null, searchType: SearchTypeGetSearchConsoleQueries? = SearchTypeGetSearchConsoleQueries.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleQueries? = DataStateGetSearchConsoleQueries.`final`, aggregationType: AggregationTypeGetSearchConsoleQueries? = AggregationTypeGetSearchConsoleQueries.auto) : SearchConsoleListResponse {
-        val localVarResponse = getSearchConsoleQueriesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+    fun getSearchConsoleQueries(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, sort: SortGetSearchConsoleQueries? = SortGetSearchConsoleQueries.impressions, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, startRow: kotlin.Int? = 0, output: OutputGetSearchConsoleQueries? = null, searchType: SearchTypeGetSearchConsoleQueries? = SearchTypeGetSearchConsoleQueries.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleQueries? = DataStateGetSearchConsoleQueries.`final`, aggregationType: AggregationTypeGetSearchConsoleQueries? = AggregationTypeGetSearchConsoleQueries.auto, `property`: kotlin.String? = null) : SearchConsoleListResponse {
+        val localVarResponse = getSearchConsoleQueriesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType, `property` = `property`)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SearchConsoleListResponse
@@ -450,14 +458,15 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return ApiResponse<SearchConsoleListResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getSearchConsoleQueriesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsoleQueries?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsoleQueries?, searchType: SearchTypeGetSearchConsoleQueries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleQueries?, aggregationType: AggregationTypeGetSearchConsoleQueries?) : ApiResponse<SearchConsoleListResponse?> {
-        val localVariableConfig = getSearchConsoleQueriesRequestConfig(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+    fun getSearchConsoleQueriesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsoleQueries?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsoleQueries?, searchType: SearchTypeGetSearchConsoleQueries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleQueries?, aggregationType: AggregationTypeGetSearchConsoleQueries?, `property`: kotlin.String?) : ApiResponse<SearchConsoleListResponse?> {
+        val localVariableConfig = getSearchConsoleQueriesRequestConfig(projectId = projectId, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType, `property` = `property`)
 
         return request<Unit, SearchConsoleListResponse>(
             localVariableConfig
@@ -480,9 +489,10 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return RequestConfig
      */
-    fun getSearchConsoleQueriesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsoleQueries?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsoleQueries?, searchType: SearchTypeGetSearchConsoleQueries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleQueries?, aggregationType: AggregationTypeGetSearchConsoleQueries?) : RequestConfig<Unit> {
+    fun getSearchConsoleQueriesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsoleQueries?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsoleQueries?, searchType: SearchTypeGetSearchConsoleQueries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleQueries?, aggregationType: AggregationTypeGetSearchConsoleQueries?, `property`: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -522,6 +532,9 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
                 }
                 if (aggregationType != null) {
                     put("aggregation_type", listOf(aggregationType.value))
+                }
+                if (`property` != null) {
+                    put("property", listOf(`property`.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -632,9 +645,9 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * GET /search_console/rows
      * Search Console rows by several dimensions (Growth+)
-     * Google Search Console rows grouped by 1 to 3 dimensions (date, country, device, page, query, searchAppearance) over a date range, each row carrying its dimension values as fields plus impressions, clicks, ctr (0..1) and position, ranked by impressions, clicks, ctr or position, paginated. Google ranks rows by clicks and returns at most 25,000 per request (truncated: true when reached); start_row moves that window. Query rows exclude anonymized queries, so rows add up to less than the summary totals. Requires a connected Search Console property (Growth+) and live reads: stored reads return ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access and ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. A combination Google refuses comes back as ERR_INVALID_PARAM with its reason.
+     * Google Search Console rows grouped by 1 to 3 dimensions (date, country, device, page, query, searchAppearance, property) over a date range, each row carrying its dimension values as fields plus impressions, clicks, ctr (0..1) and position, ranked by impressions, clicks, ctr or position, paginated. Google ranks rows by clicks and returns at most 25,000 per request (truncated: true when reached); start_row moves that window. Query rows exclude anonymized queries, so rows add up to less than the summary totals. Requires a connected Search Console property (Growth+) and live reads: stored reads return ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access and ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. A combination Google refuses comes back as ERR_INVALID_PARAM with its reason.
      * @param projectId Project ID
-     * @param dimensions Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance. Each becomes a field of every row; country and device values are lowercase.
+     * @param dimensions Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance, property. Each becomes a field of every row; country and device values are lowercase. property is the Search Console property the row comes from (see the property parameter).
      * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
      * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
@@ -647,6 +660,7 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return SearchConsoleRowsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -656,8 +670,8 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getSearchConsoleRows(projectId: kotlin.Int, dimensions: kotlin.String, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, sort: SortGetSearchConsoleRows? = SortGetSearchConsoleRows.impressions, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, startRow: kotlin.Int? = 0, output: OutputGetSearchConsoleRows? = null, searchType: SearchTypeGetSearchConsoleRows? = SearchTypeGetSearchConsoleRows.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleRows? = DataStateGetSearchConsoleRows.`final`, aggregationType: AggregationTypeGetSearchConsoleRows? = AggregationTypeGetSearchConsoleRows.auto) : SearchConsoleRowsResponse {
-        val localVarResponse = getSearchConsoleRowsWithHttpInfo(projectId = projectId, dimensions = dimensions, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+    fun getSearchConsoleRows(projectId: kotlin.Int, dimensions: kotlin.String, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, sort: SortGetSearchConsoleRows? = SortGetSearchConsoleRows.impressions, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, startRow: kotlin.Int? = 0, output: OutputGetSearchConsoleRows? = null, searchType: SearchTypeGetSearchConsoleRows? = SearchTypeGetSearchConsoleRows.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleRows? = DataStateGetSearchConsoleRows.`final`, aggregationType: AggregationTypeGetSearchConsoleRows? = AggregationTypeGetSearchConsoleRows.auto, `property`: kotlin.String? = null) : SearchConsoleRowsResponse {
+        val localVarResponse = getSearchConsoleRowsWithHttpInfo(projectId = projectId, dimensions = dimensions, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType, `property` = `property`)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SearchConsoleRowsResponse
@@ -677,9 +691,9 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * GET /search_console/rows
      * Search Console rows by several dimensions (Growth+)
-     * Google Search Console rows grouped by 1 to 3 dimensions (date, country, device, page, query, searchAppearance) over a date range, each row carrying its dimension values as fields plus impressions, clicks, ctr (0..1) and position, ranked by impressions, clicks, ctr or position, paginated. Google ranks rows by clicks and returns at most 25,000 per request (truncated: true when reached); start_row moves that window. Query rows exclude anonymized queries, so rows add up to less than the summary totals. Requires a connected Search Console property (Growth+) and live reads: stored reads return ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access and ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. A combination Google refuses comes back as ERR_INVALID_PARAM with its reason.
+     * Google Search Console rows grouped by 1 to 3 dimensions (date, country, device, page, query, searchAppearance, property) over a date range, each row carrying its dimension values as fields plus impressions, clicks, ctr (0..1) and position, ranked by impressions, clicks, ctr or position, paginated. Google ranks rows by clicks and returns at most 25,000 per request (truncated: true when reached); start_row moves that window. Query rows exclude anonymized queries, so rows add up to less than the summary totals. Requires a connected Search Console property (Growth+) and live reads: stored reads return ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access and ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. A combination Google refuses comes back as ERR_INVALID_PARAM with its reason.
      * @param projectId Project ID
-     * @param dimensions Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance. Each becomes a field of every row; country and device values are lowercase.
+     * @param dimensions Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance, property. Each becomes a field of every row; country and device values are lowercase. property is the Search Console property the row comes from (see the property parameter).
      * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
      * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
@@ -692,14 +706,15 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return ApiResponse<SearchConsoleRowsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getSearchConsoleRowsWithHttpInfo(projectId: kotlin.Int, dimensions: kotlin.String, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsoleRows?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsoleRows?, searchType: SearchTypeGetSearchConsoleRows?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleRows?, aggregationType: AggregationTypeGetSearchConsoleRows?) : ApiResponse<SearchConsoleRowsResponse?> {
-        val localVariableConfig = getSearchConsoleRowsRequestConfig(projectId = projectId, dimensions = dimensions, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+    fun getSearchConsoleRowsWithHttpInfo(projectId: kotlin.Int, dimensions: kotlin.String, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsoleRows?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsoleRows?, searchType: SearchTypeGetSearchConsoleRows?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleRows?, aggregationType: AggregationTypeGetSearchConsoleRows?, `property`: kotlin.String?) : ApiResponse<SearchConsoleRowsResponse?> {
+        val localVariableConfig = getSearchConsoleRowsRequestConfig(projectId = projectId, dimensions = dimensions, range = range, from = from, to = to, sort = sort, page = page, perPage = perPage, startRow = startRow, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType, `property` = `property`)
 
         return request<Unit, SearchConsoleRowsResponse>(
             localVariableConfig
@@ -710,7 +725,7 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * To obtain the request config of the operation getSearchConsoleRows
      *
      * @param projectId Project ID
-     * @param dimensions Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance. Each becomes a field of every row; country and device values are lowercase.
+     * @param dimensions Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance, property. Each becomes a field of every row; country and device values are lowercase. property is the Search Console property the row comes from (see the property parameter).
      * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
      * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
@@ -723,9 +738,10 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return RequestConfig
      */
-    fun getSearchConsoleRowsRequestConfig(projectId: kotlin.Int, dimensions: kotlin.String, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsoleRows?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsoleRows?, searchType: SearchTypeGetSearchConsoleRows?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleRows?, aggregationType: AggregationTypeGetSearchConsoleRows?) : RequestConfig<Unit> {
+    fun getSearchConsoleRowsRequestConfig(projectId: kotlin.Int, dimensions: kotlin.String, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, sort: SortGetSearchConsoleRows?, page: kotlin.Int?, perPage: kotlin.Int?, startRow: kotlin.Int?, output: OutputGetSearchConsoleRows?, searchType: SearchTypeGetSearchConsoleRows?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleRows?, aggregationType: AggregationTypeGetSearchConsoleRows?, `property`: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -767,6 +783,9 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
                 if (aggregationType != null) {
                     put("aggregation_type", listOf(aggregationType.value))
                 }
+                if (`property` != null) {
+                    put("property", listOf(`property`.toString()))
+                }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/json"
@@ -789,7 +808,8 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
          @Json(name = "device") device("device"),
          @Json(name = "page") page("page"),
          @Json(name = "query") query("query"),
-         @Json(name = "searchAppearance") searchAppearance("searchAppearance");
+         @Json(name = "searchAppearance") searchAppearance("searchAppearance"),
+         @Json(name = "property") `property`("property");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -860,17 +880,18 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * GET /search_console/summary
      * Search Console summary (Growth+)
-     * Google Search Console headline totals (impressions, clicks, ctr as a 0..1 fraction, average position) for the project over a date range. Pass dimension&#x3D;country, device, page, query or searchAppearance to also receive the breakdown aggregated over the range, capped by limit. With filters and no dimension, totals are the complete figure Google reports for that filter. Breakdown rows are capped by limit and by Google&#39;s 25,000-row maximum; breakdown_truncated: true means rows were left out. Query rows exclude anonymized queries, and page and searchAppearance rows are counted per page rather than per property, so breakdown rows can differ from the totals. Requires the project to have a connected Search Console property and the Growth plan or above; otherwise returns ERR_SEARCH_CONSOLE_NOT_CONNECTED or ERR_PLAN_REQUIRED. X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * Google Search Console headline totals (impressions, clicks, ctr as a 0..1 fraction, average position) for the project over a date range. Pass dimension&#x3D;country, device, page, query or searchAppearance to also receive the breakdown aggregated over the range, capped by limit, or dimension&#x3D;property for one row per property read (with a property list or property&#x3D;all). With filters and no dimension, totals are the complete figure Google reports for that filter. Breakdown rows are capped by limit and by Google&#39;s 25,000-row maximum; breakdown_truncated: true means rows were left out. Query rows exclude anonymized queries, and page and searchAppearance rows are counted per page rather than per property, so breakdown rows can differ from the totals. Requires the project to have a connected Search Console property and the Growth plan or above; otherwise returns ERR_SEARCH_CONSOLE_NOT_CONNECTED or ERR_PLAN_REQUIRED. X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
      * @param projectId Project ID
      * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
      * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
-     * @param dimension Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. (optional)
+     * @param dimension Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. property gives one row per property read (see the property parameter). (optional)
      * @param limit Maximum breakdown rows, sorted by impressions descending. Default and maximum 1000. Use /search_console/queries or /search_console/pages to page through up to 25,000 rows. (optional)
      * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return SearchConsoleSummaryResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -880,8 +901,8 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getSearchConsoleSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, dimension: DimensionGetSearchConsoleSummary? = null, limit: kotlin.Int? = null, searchType: SearchTypeGetSearchConsoleSummary? = SearchTypeGetSearchConsoleSummary.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleSummary? = DataStateGetSearchConsoleSummary.`final`, aggregationType: AggregationTypeGetSearchConsoleSummary? = AggregationTypeGetSearchConsoleSummary.auto) : SearchConsoleSummaryResponse {
-        val localVarResponse = getSearchConsoleSummaryWithHttpInfo(projectId = projectId, range = range, from = from, to = to, dimension = dimension, limit = limit, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+    fun getSearchConsoleSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, dimension: DimensionGetSearchConsoleSummary? = null, limit: kotlin.Int? = null, searchType: SearchTypeGetSearchConsoleSummary? = SearchTypeGetSearchConsoleSummary.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleSummary? = DataStateGetSearchConsoleSummary.`final`, aggregationType: AggregationTypeGetSearchConsoleSummary? = AggregationTypeGetSearchConsoleSummary.auto, `property`: kotlin.String? = null) : SearchConsoleSummaryResponse {
+        val localVarResponse = getSearchConsoleSummaryWithHttpInfo(projectId = projectId, range = range, from = from, to = to, dimension = dimension, limit = limit, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType, `property` = `property`)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SearchConsoleSummaryResponse
@@ -901,25 +922,26 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * GET /search_console/summary
      * Search Console summary (Growth+)
-     * Google Search Console headline totals (impressions, clicks, ctr as a 0..1 fraction, average position) for the project over a date range. Pass dimension&#x3D;country, device, page, query or searchAppearance to also receive the breakdown aggregated over the range, capped by limit. With filters and no dimension, totals are the complete figure Google reports for that filter. Breakdown rows are capped by limit and by Google&#39;s 25,000-row maximum; breakdown_truncated: true means rows were left out. Query rows exclude anonymized queries, and page and searchAppearance rows are counted per page rather than per property, so breakdown rows can differ from the totals. Requires the project to have a connected Search Console property and the Growth plan or above; otherwise returns ERR_SEARCH_CONSOLE_NOT_CONNECTED or ERR_PLAN_REQUIRED. X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * Google Search Console headline totals (impressions, clicks, ctr as a 0..1 fraction, average position) for the project over a date range. Pass dimension&#x3D;country, device, page, query or searchAppearance to also receive the breakdown aggregated over the range, capped by limit, or dimension&#x3D;property for one row per property read (with a property list or property&#x3D;all). With filters and no dimension, totals are the complete figure Google reports for that filter. Breakdown rows are capped by limit and by Google&#39;s 25,000-row maximum; breakdown_truncated: true means rows were left out. Query rows exclude anonymized queries, and page and searchAppearance rows are counted per page rather than per property, so breakdown rows can differ from the totals. Requires the project to have a connected Search Console property and the Growth plan or above; otherwise returns ERR_SEARCH_CONSOLE_NOT_CONNECTED or ERR_PLAN_REQUIRED. X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
      * @param projectId Project ID
      * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
      * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
-     * @param dimension Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. (optional)
+     * @param dimension Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. property gives one row per property read (see the property parameter). (optional)
      * @param limit Maximum breakdown rows, sorted by impressions descending. Default and maximum 1000. Use /search_console/queries or /search_console/pages to page through up to 25,000 rows. (optional)
      * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return ApiResponse<SearchConsoleSummaryResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getSearchConsoleSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, dimension: DimensionGetSearchConsoleSummary?, limit: kotlin.Int?, searchType: SearchTypeGetSearchConsoleSummary?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleSummary?, aggregationType: AggregationTypeGetSearchConsoleSummary?) : ApiResponse<SearchConsoleSummaryResponse?> {
-        val localVariableConfig = getSearchConsoleSummaryRequestConfig(projectId = projectId, range = range, from = from, to = to, dimension = dimension, limit = limit, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+    fun getSearchConsoleSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, dimension: DimensionGetSearchConsoleSummary?, limit: kotlin.Int?, searchType: SearchTypeGetSearchConsoleSummary?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleSummary?, aggregationType: AggregationTypeGetSearchConsoleSummary?, `property`: kotlin.String?) : ApiResponse<SearchConsoleSummaryResponse?> {
+        val localVariableConfig = getSearchConsoleSummaryRequestConfig(projectId = projectId, range = range, from = from, to = to, dimension = dimension, limit = limit, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType, `property` = `property`)
 
         return request<Unit, SearchConsoleSummaryResponse>(
             localVariableConfig
@@ -933,15 +955,16 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
      * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
-     * @param dimension Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. (optional)
+     * @param dimension Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. property gives one row per property read (see the property parameter). (optional)
      * @param limit Maximum breakdown rows, sorted by impressions descending. Default and maximum 1000. Use /search_console/queries or /search_console/pages to page through up to 25,000 rows. (optional)
      * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return RequestConfig
      */
-    fun getSearchConsoleSummaryRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, dimension: DimensionGetSearchConsoleSummary?, limit: kotlin.Int?, searchType: SearchTypeGetSearchConsoleSummary?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleSummary?, aggregationType: AggregationTypeGetSearchConsoleSummary?) : RequestConfig<Unit> {
+    fun getSearchConsoleSummaryRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, dimension: DimensionGetSearchConsoleSummary?, limit: kotlin.Int?, searchType: SearchTypeGetSearchConsoleSummary?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleSummary?, aggregationType: AggregationTypeGetSearchConsoleSummary?, `property`: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -972,6 +995,9 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
                 }
                 if (aggregationType != null) {
                     put("aggregation_type", listOf(aggregationType.value))
+                }
+                if (`property` != null) {
+                    put("property", listOf(`property`.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -1092,6 +1118,7 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return SearchConsoleTimeseriesResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -1101,8 +1128,8 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getSearchConsoleTimeseries(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, granularity: GranularityGetSearchConsoleTimeseries? = null, output: OutputGetSearchConsoleTimeseries? = null, searchType: SearchTypeGetSearchConsoleTimeseries? = SearchTypeGetSearchConsoleTimeseries.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleTimeseries? = DataStateGetSearchConsoleTimeseries.`final`, aggregationType: AggregationTypeGetSearchConsoleTimeseries? = AggregationTypeGetSearchConsoleTimeseries.auto) : SearchConsoleTimeseriesResponse {
-        val localVarResponse = getSearchConsoleTimeseriesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+    fun getSearchConsoleTimeseries(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, granularity: GranularityGetSearchConsoleTimeseries? = null, output: OutputGetSearchConsoleTimeseries? = null, searchType: SearchTypeGetSearchConsoleTimeseries? = SearchTypeGetSearchConsoleTimeseries.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleTimeseries? = DataStateGetSearchConsoleTimeseries.`final`, aggregationType: AggregationTypeGetSearchConsoleTimeseries? = AggregationTypeGetSearchConsoleTimeseries.auto, `property`: kotlin.String? = null) : SearchConsoleTimeseriesResponse {
+        val localVarResponse = getSearchConsoleTimeseriesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType, `property` = `property`)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SearchConsoleTimeseriesResponse
@@ -1133,14 +1160,15 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return ApiResponse<SearchConsoleTimeseriesResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getSearchConsoleTimeseriesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, granularity: GranularityGetSearchConsoleTimeseries?, output: OutputGetSearchConsoleTimeseries?, searchType: SearchTypeGetSearchConsoleTimeseries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleTimeseries?, aggregationType: AggregationTypeGetSearchConsoleTimeseries?) : ApiResponse<SearchConsoleTimeseriesResponse?> {
-        val localVariableConfig = getSearchConsoleTimeseriesRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+    fun getSearchConsoleTimeseriesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, granularity: GranularityGetSearchConsoleTimeseries?, output: OutputGetSearchConsoleTimeseries?, searchType: SearchTypeGetSearchConsoleTimeseries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleTimeseries?, aggregationType: AggregationTypeGetSearchConsoleTimeseries?, `property`: kotlin.String?) : ApiResponse<SearchConsoleTimeseriesResponse?> {
+        val localVariableConfig = getSearchConsoleTimeseriesRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType, `property` = `property`)
 
         return request<Unit, SearchConsoleTimeseriesResponse>(
             localVariableConfig
@@ -1160,9 +1188,10 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
      * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      * @return RequestConfig
      */
-    fun getSearchConsoleTimeseriesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, granularity: GranularityGetSearchConsoleTimeseries?, output: OutputGetSearchConsoleTimeseries?, searchType: SearchTypeGetSearchConsoleTimeseries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleTimeseries?, aggregationType: AggregationTypeGetSearchConsoleTimeseries?) : RequestConfig<Unit> {
+    fun getSearchConsoleTimeseriesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, granularity: GranularityGetSearchConsoleTimeseries?, output: OutputGetSearchConsoleTimeseries?, searchType: SearchTypeGetSearchConsoleTimeseries?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleTimeseries?, aggregationType: AggregationTypeGetSearchConsoleTimeseries?, `property`: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -1194,6 +1223,9 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
                 if (aggregationType != null) {
                     put("aggregation_type", listOf(aggregationType.value))
                 }
+                if (`property` != null) {
+                    put("property", listOf(`property`.toString()))
+                }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/json"
@@ -1201,6 +1233,105 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/search_console/timeseries",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputListSearchConsoleProperties(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /search_console/properties
+     * List Search Console properties (Growth+)
+     * The Google Search Console properties connected to the project, up to max_properties, from one or more Google accounts, primary first. Each id is a value the property parameter of the other /search_console endpoints accepts: omit it for the primary property, pass one id, or a comma-separated list or all to combine several. type is domain (sc-domain:example.com, which counts every subdomain and protocol) or url_prefix. status reconnect_required means Google refused the stored access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. An empty data list means the project has no Search Console connection. Requires the Growth plan or above.
+     * @param projectId Project ID
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return SearchConsolePropertiesResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listSearchConsoleProperties(projectId: kotlin.Int, output: OutputListSearchConsoleProperties? = null) : SearchConsolePropertiesResponse {
+        val localVarResponse = listSearchConsolePropertiesWithHttpInfo(projectId = projectId, output = output)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SearchConsolePropertiesResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /search_console/properties
+     * List Search Console properties (Growth+)
+     * The Google Search Console properties connected to the project, up to max_properties, from one or more Google accounts, primary first. Each id is a value the property parameter of the other /search_console endpoints accepts: omit it for the primary property, pass one id, or a comma-separated list or all to combine several. type is domain (sc-domain:example.com, which counts every subdomain and protocol) or url_prefix. status reconnect_required means Google refused the stored access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. An empty data list means the project has no Search Console connection. Requires the Growth plan or above.
+     * @param projectId Project ID
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return ApiResponse<SearchConsolePropertiesResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listSearchConsolePropertiesWithHttpInfo(projectId: kotlin.Int, output: OutputListSearchConsoleProperties?) : ApiResponse<SearchConsolePropertiesResponse?> {
+        val localVariableConfig = listSearchConsolePropertiesRequestConfig(projectId = projectId, output = output)
+
+        return request<Unit, SearchConsolePropertiesResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listSearchConsoleProperties
+     *
+     * @param projectId Project ID
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @return RequestConfig
+     */
+    fun listSearchConsolePropertiesRequestConfig(projectId: kotlin.Int, output: OutputListSearchConsoleProperties?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/search_console/properties",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

@@ -15,6 +15,7 @@
 | **sourceLanguageCode** | **kotlin.String** |  |  [optional] |
 | **minWords** | **kotlin.Int** |  |  [optional] |
 | **allCountries** | **kotlin.Boolean** |  |  [optional] |
+| **&#x60;property&#x60;** | **kotlin.String** |  |  [optional] |
 
 
 

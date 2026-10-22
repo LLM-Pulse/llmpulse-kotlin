@@ -43,6 +43,7 @@ import com.squareup.moshi.JsonClass
  * @param sourceLanguageCode translate: language of the prompts to translate
  * @param minWords search_console: skip queries shorter than this many words
  * @param allCountries search_console: include queries from every country instead of country_code only
+ * @param `property` search_console: the property id to read queries from (GET /search_console/properties lists them); the primary property when omitted
  */
 
 
@@ -97,7 +98,11 @@ data class PromptGenerationRequest (
 
     /* search_console: include queries from every country instead of country_code only */
     @Json(name = "all_countries")
-    val allCountries: kotlin.Boolean? = false
+    val allCountries: kotlin.Boolean? = false,
+
+    /* search_console: the property id to read queries from (GET /search_console/properties lists them); the primary property when omitted */
+    @Json(name = "property")
+    val `property`: kotlin.String? = null
 
 ) {
 

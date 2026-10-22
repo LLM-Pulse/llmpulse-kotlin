@@ -40,6 +40,7 @@ import com.squareup.moshi.JsonClass
  * @param clicks 
  * @param ctr 0..1 fraction
  * @param position Impression-weighted average position
+ * @param `property` Present when grouped by property
  */
 
 
@@ -75,7 +76,11 @@ data class SearchConsoleRowsResponseDataInner (
 
     /* Impression-weighted average position */
     @Json(name = "position")
-    val position: java.math.BigDecimal? = null
+    val position: java.math.BigDecimal? = null,
+
+    /* Present when grouped by property */
+    @Json(name = "property")
+    val `property`: kotlin.String? = null
 
 ) {
 

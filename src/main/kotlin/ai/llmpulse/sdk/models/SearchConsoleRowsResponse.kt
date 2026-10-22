@@ -23,7 +23,9 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.SearchConsoleExcludedProperty
 import ai.llmpulse.sdk.models.SearchConsoleProperty
+import ai.llmpulse.sdk.models.SearchConsolePropertyError
 import ai.llmpulse.sdk.models.SearchConsoleRowsResponseDataInner
 
 import com.squareup.moshi.Json
@@ -36,7 +38,7 @@ import com.squareup.moshi.JsonClass
  * @param `property` 
  * @param from 
  * @param to 
- * @param dataThrough Latest date Google has published for the property (it lags 2-3 days). Later days are missing, not zero.
+ * @param dataThrough Latest date Google has published for the property, or for every combined property (it lags 2-3 days). Later days are missing, not zero.
  * @param page 
  * @param perPage 
  * @param total Rows in this window (one Google request, at most 25,000)
@@ -46,6 +48,9 @@ import com.squareup.moshi.JsonClass
  * @param dimensions 
  * @param `data` One row per combination; only the requested dimensions are present
  * @param requestId 
+ * @param properties With a list or all in the property parameter, the properties whose data the response holds (instead of property)
+ * @param excludedProperties With a list or all, selected properties left out because another selected property already counts them
+ * @param propertyErrors With a list or all, selected properties Google refused, left out of the figures
  */
 
 
@@ -63,7 +68,7 @@ data class SearchConsoleRowsResponse (
     @Json(name = "to")
     val to: java.time.LocalDate? = null,
 
-    /* Latest date Google has published for the property (it lags 2-3 days). Later days are missing, not zero. */
+    /* Latest date Google has published for the property, or for every combined property (it lags 2-3 days). Later days are missing, not zero. */
     @Json(name = "data_through")
     val dataThrough: java.time.LocalDate? = null,
 
@@ -96,7 +101,19 @@ data class SearchConsoleRowsResponse (
     val `data`: kotlin.collections.List<SearchConsoleRowsResponseDataInner>? = null,
 
     @Json(name = "request_id")
-    val requestId: kotlin.String? = null
+    val requestId: kotlin.String? = null,
+
+    /* With a list or all in the property parameter, the properties whose data the response holds (instead of property) */
+    @Json(name = "properties")
+    val properties: kotlin.collections.List<SearchConsoleProperty>? = null,
+
+    /* With a list or all, selected properties left out because another selected property already counts them */
+    @Json(name = "excluded_properties")
+    val excludedProperties: kotlin.collections.List<SearchConsoleExcludedProperty>? = null,
+
+    /* With a list or all, selected properties Google refused, left out of the figures */
+    @Json(name = "property_errors")
+    val propertyErrors: kotlin.collections.List<SearchConsolePropertyError>? = null
 
 ) {
 

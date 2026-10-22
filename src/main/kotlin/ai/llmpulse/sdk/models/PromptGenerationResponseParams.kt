@@ -41,6 +41,7 @@ import com.squareup.moshi.JsonClass
  * @param sourceLanguageCode 
  * @param minWords 
  * @param allCountries 
+ * @param `property` 
  */
 
 
@@ -77,7 +78,10 @@ data class PromptGenerationResponseParams (
     val minWords: kotlin.Int? = null,
 
     @Json(name = "all_countries")
-    val allCountries: kotlin.Boolean? = null
+    val allCountries: kotlin.Boolean? = null,
+
+    @Json(name = "property")
+    val `property`: kotlin.String? = null
 
 ) {
 
