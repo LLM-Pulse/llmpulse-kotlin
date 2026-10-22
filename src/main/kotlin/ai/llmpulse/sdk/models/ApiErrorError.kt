@@ -32,7 +32,7 @@ import com.squareup.moshi.JsonClass
  *
  * @param code 
  * @param message 
- * @param meta 
+ * @param meta Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source.
  */
 
 
@@ -44,6 +44,7 @@ data class ApiErrorError (
     @Json(name = "message")
     val message: kotlin.String? = null,
 
+    /* Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. */
     @Json(name = "meta")
     val meta: kotlin.Any? = null
 

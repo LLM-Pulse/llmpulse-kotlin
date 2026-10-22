@@ -23,6 +23,8 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.ProjectDetailsAllOfAgentTraffic
+import ai.llmpulse.sdk.models.ProjectDetailsAllOfAiTraffic
 import ai.llmpulse.sdk.models.ProjectDetailsAllOfDataCoverage
 import ai.llmpulse.sdk.models.ProjectDetailsAllOfSearchConsole
 import ai.llmpulse.sdk.models.ProjectDetailsAllOfStats
@@ -57,6 +59,8 @@ import com.squareup.moshi.JsonClass
  * @param stats 
  * @param dataCoverage 
  * @param searchConsole 
+ * @param aiTraffic 
+ * @param agentTraffic 
  * @param requestId 
  */
 
@@ -140,6 +144,12 @@ data class ProjectDetails (
 
     @Json(name = "search_console")
     val searchConsole: ProjectDetailsAllOfSearchConsole? = null,
+
+    @Json(name = "ai_traffic")
+    val aiTraffic: ProjectDetailsAllOfAiTraffic? = null,
+
+    @Json(name = "agent_traffic")
+    val agentTraffic: ProjectDetailsAllOfAgentTraffic? = null,
 
     @Json(name = "request_id")
     val requestId: kotlin.String? = null

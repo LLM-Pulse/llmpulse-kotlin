@@ -28,10 +28,11 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * Google Search Console connection of the project. connected means the Search Console endpoints can answer; reconnect_required means Google refused the stored access and the property must be reconnected in Preferences > Project Settings > Data Connections.
+ * Google Search Console connection of the project. connected means the Search Console endpoints can answer; reconnect_required means Google refused the stored access, so the endpoints return ERR_SEARCH_CONSOLE_ACCESS_REVOKED until the property is reconnected at connect_url; not_connected means the endpoints return ERR_SEARCH_CONSOLE_NOT_CONNECTED.
  *
  * @param status 
  * @param `property` The connected property (e.g. sc-domain:example.com), null when not connected
+ * @param connectUrl The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections)
  */
 
 
@@ -42,7 +43,11 @@ data class ProjectDetailsAllOfSearchConsole (
 
     /* The connected property (e.g. sc-domain:example.com), null when not connected */
     @Json(name = "property")
-    val `property`: kotlin.String? = null
+    val `property`: kotlin.String? = null,
+
+    /* The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections) */
+    @Json(name = "connect_url")
+    val connectUrl: java.net.URI? = null
 
 ) {
 

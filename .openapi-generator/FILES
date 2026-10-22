@@ -172,6 +172,8 @@ docs/ProjectCreateResponseLimits.md
 docs/ProjectCreateResponsePrompts.md
 docs/ProjectCreateResponseSameDomainProjectsInner.md
 docs/ProjectDetails.md
+docs/ProjectDetailsAllOfAgentTraffic.md
+docs/ProjectDetailsAllOfAiTraffic.md
 docs/ProjectDetailsAllOfDataCoverage.md
 docs/ProjectDetailsAllOfSearchConsole.md
 docs/ProjectDetailsAllOfStats.md
@@ -493,6 +495,8 @@ src/main/kotlin/ai/llmpulse/sdk/models/ProjectCreateResponseLimits.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectCreateResponsePrompts.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectCreateResponseSameDomainProjectsInner.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetails.kt
+src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfAgentTraffic.kt
+src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfAiTraffic.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfDataCoverage.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfSearchConsole.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfStats.kt

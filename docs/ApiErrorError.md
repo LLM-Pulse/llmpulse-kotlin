@@ -6,7 +6,7 @@
 | ------------ | ------------- | ------------- | ------------- |
 | **code** | [**inline**](#Code) |  |  [optional] |
 | **message** | **kotlin.String** |  |  [optional] |
-| **meta** | [**kotlin.Any**](.md) |  |  [optional] |
+| **meta** | [**kotlin.Any**](.md) | Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. |  [optional] |
 
 
 <a id="Code"></a>

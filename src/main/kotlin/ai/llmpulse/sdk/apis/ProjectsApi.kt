@@ -288,7 +288,7 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * GET /dimensions/projects/{id}
      * Project details
-     * Detailed info for one project: matching_names, additional_owned_domains, industry, business model, primary products, target audience, brand voice, locale, app store IDs, prompt_limit (the project&#39;s own prompt cap, null without one), stats (incl. prompts_by_brand_kind counts and prompts_available, how many prompts can still be added: the lower of the project&#39;s free slots and the account&#39;s remaining prompts, null when neither caps it) and data_coverage (models, countries and languages with data).
+     * Detailed info for one project: matching_names, additional_owned_domains, industry, business model, primary products, target audience, brand voice, locale, app store IDs, prompt_limit (the project&#39;s own prompt cap, null without one), stats (incl. prompts_by_brand_kind counts and prompts_available, how many prompts can still be added: the lower of the project&#39;s free slots and the account&#39;s remaining prompts, null when neither caps it), data_coverage (models, countries and languages with data) and the status of each data connection (search_console, ai_traffic, agent_traffic) with the connect_url where the user connects it.
      * @param id 
      * @return ProjectDetails
      * @throws IllegalStateException If the request is not correctly configured
@@ -320,7 +320,7 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * GET /dimensions/projects/{id}
      * Project details
-     * Detailed info for one project: matching_names, additional_owned_domains, industry, business model, primary products, target audience, brand voice, locale, app store IDs, prompt_limit (the project&#39;s own prompt cap, null without one), stats (incl. prompts_by_brand_kind counts and prompts_available, how many prompts can still be added: the lower of the project&#39;s free slots and the account&#39;s remaining prompts, null when neither caps it) and data_coverage (models, countries and languages with data).
+     * Detailed info for one project: matching_names, additional_owned_domains, industry, business model, primary products, target audience, brand voice, locale, app store IDs, prompt_limit (the project&#39;s own prompt cap, null without one), stats (incl. prompts_by_brand_kind counts and prompts_available, how many prompts can still be added: the lower of the project&#39;s free slots and the account&#39;s remaining prompts, null when neither caps it), data_coverage (models, countries and languages with data) and the status of each data connection (search_console, ai_traffic, agent_traffic) with the connect_url where the user connects it.
      * @param id 
      * @return ApiResponse<ProjectDetails?>
      * @throws IllegalStateException If the request is not correctly configured
