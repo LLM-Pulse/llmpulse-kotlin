@@ -45,7 +45,7 @@ import com.squareup.moshi.JsonClass
  * @param description 
  * @param estimatedImpact 
  * @param statusChangedAt 
- * @param metadata 
+ * @param metadata Free-form details. Carries effort (low, medium or high) when the generator rated it, archive_reason (not_relevant, too_complex or competitor) on an item archived with a reason, and domain on PR & Citation Building items.
  * @param resolvedSourceRefs The evidence each source_refs code points to (prompt, citation or own page)
  * @param unresolvedSourceRefs Present only when a code points to no stored evidence
  */
@@ -99,6 +99,7 @@ data class RecommendationItem (
     @Json(name = "status_changed_at")
     val statusChangedAt: java.time.OffsetDateTime? = null,
 
+    /* Free-form details. Carries effort (low, medium or high) when the generator rated it, archive_reason (not_relevant, too_complex or competitor) on an item archived with a reason, and domain on PR & Citation Building items. */
     @Json(name = "metadata")
     val metadata: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null,
 

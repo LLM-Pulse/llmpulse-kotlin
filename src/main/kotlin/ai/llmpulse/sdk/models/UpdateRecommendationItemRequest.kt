@@ -32,6 +32,7 @@ import com.squareup.moshi.JsonClass
  *
  * @param projectId 
  * @param status completed, archived, or active to restore the item
+ * @param reason Optional, with status archived only. competitor only on a PR & Citation Building item that targets a domain.
  */
 
 
@@ -42,7 +43,11 @@ data class UpdateRecommendationItemRequest (
 
     /* completed, archived, or active to restore the item */
     @Json(name = "status")
-    val status: UpdateRecommendationItemRequest.Status
+    val status: UpdateRecommendationItemRequest.Status,
+
+    /* Optional, with status archived only. competitor only on a PR & Citation Building item that targets a domain. */
+    @Json(name = "reason")
+    val reason: UpdateRecommendationItemRequest.Reason? = null
 
 ) {
 
@@ -56,6 +61,17 @@ data class UpdateRecommendationItemRequest (
         @Json(name = "active") active("active"),
         @Json(name = "completed") completed("completed"),
         @Json(name = "archived") archived("archived");
+    }
+    /**
+     * Optional, with status archived only. competitor only on a PR & Citation Building item that targets a domain.
+     *
+     * Values: not_relevant,too_complex,competitor
+     */
+    @JsonClass(generateAdapter = false)
+    enum class Reason(val value: kotlin.String) {
+        @Json(name = "not_relevant") not_relevant("not_relevant"),
+        @Json(name = "too_complex") too_complex("too_complex"),
+        @Json(name = "competitor") competitor("competitor");
     }
 
 }
