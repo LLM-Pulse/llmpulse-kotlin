@@ -99,7 +99,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getShareOfVoice"></a>
 # **getShareOfVoice**
-> SovResponse getShareOfVoice(projectId, range, from, to, granularity, competitors, model, collectionId, prompt, promptType, brandKind, output, view)
+> SovResponse getShareOfVoice(projectId, range, from, to, granularity, competitors, model, collectionId, prompt, promptType, brandKind, output, view, countryCode, languageCode, includeProject)
 
 Share of Voice
 
@@ -125,8 +125,11 @@ val promptType : kotlin.String = promptType_example // kotlin.String | One promp
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 val view : kotlin.String = view_example // kotlin.String | Which Share of Voice projection to flatten. Only valid together with 'output'. 'over_time' (default) is one row per date and actor, 'current' the ranked snapshot, 'breakdown' the Top 4 plus Others.
+val countryCode : kotlin.String = countryCode_example // kotlin.String | One ISO country code or a comma-separated list (e.g. US,GB,DE)
+val languageCode : kotlin.String = languageCode_example // kotlin.String | One ISO language code or a comma-separated list (e.g. en,es,de)
+val includeProject : kotlin.Boolean = true // kotlin.Boolean | 
 try {
-    val result : SovResponse = apiInstance.getShareOfVoice(projectId, range, from, to, granularity, competitors, model, collectionId, prompt, promptType, brandKind, output, view)
+    val result : SovResponse = apiInstance.getShareOfVoice(projectId, range, from, to, granularity, competitors, model, collectionId, prompt, promptType, brandKind, output, view, countryCode, languageCode, includeProject)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling MetricsApi#getShareOfVoice")
@@ -150,9 +153,12 @@ try {
 | **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
 | **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **view** | **kotlin.String**| Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. | [optional] [default to View.over_time] [enum: over_time, current, breakdown] |
+| **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
+| **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **view** | **kotlin.String**| Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. | [optional] [default to View.over_time] [enum: over_time, current, breakdown] |
+| **includeProject** | **kotlin.Boolean**|  | [optional] [default to true] |
 
 ### Return type
 
@@ -177,7 +183,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getSummary"></a>
 # **getSummary**
-> SummaryResponse getSummary(projectId, metrics, granularity, range, from, to, competitors, model, collectionId, prompt, promptType, brandKind, output)
+> SummaryResponse getSummary(projectId, metrics, granularity, range, from, to, competitors, model, collectionId, prompt, promptType, brandKind, output, countryCode, languageCode, includeProject)
 
 Aggregated metrics summary
 
@@ -203,8 +209,11 @@ val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
 val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
+val countryCode : kotlin.String = countryCode_example // kotlin.String | One ISO country code or a comma-separated list (e.g. US,GB,DE)
+val languageCode : kotlin.String = languageCode_example // kotlin.String | One ISO language code or a comma-separated list (e.g. en,es,de)
+val includeProject : kotlin.Boolean = true // kotlin.Boolean | 
 try {
-    val result : SummaryResponse = apiInstance.getSummary(projectId, metrics, granularity, range, from, to, competitors, model, collectionId, prompt, promptType, brandKind, output)
+    val result : SummaryResponse = apiInstance.getSummary(projectId, metrics, granularity, range, from, to, competitors, model, collectionId, prompt, promptType, brandKind, output, countryCode, languageCode, includeProject)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling MetricsApi#getSummary")
@@ -228,9 +237,12 @@ try {
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
 | **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
 | **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
+| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
+| **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **includeProject** | **kotlin.Boolean**|  | [optional] [default to true] |
 
 ### Return type
 
@@ -339,7 +351,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getTopSources"></a>
 # **getTopSources**
-> TopSourcesResponse getTopSources(projectId, range, from, to, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, sort, query, page, perPage, output)
+> TopSourcesResponse getTopSources(projectId, range, from, to, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, sort, query, page, perPage, output, collectionIds, domains)
 
 Top cited sources
 
@@ -368,8 +380,10 @@ val query : kotlin.String = query_example // kotlin.String | Filter domains by c
 val page : kotlin.Int = 56 // kotlin.Int | 
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
+val collectionIds : kotlin.collections.List<kotlin.Int> =  // kotlin.collections.List<kotlin.Int> | Tags (collections) to include at once, as a union: one ID or a comma-separated list, e.g. collection_ids=12,15 (collection_ids[]=12&collection_ids[]=15 is also accepted). Combines with collection_id. An ID outside the project returns 422 ERR_INVALID_PARAM.
+val domains : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Restrict the result to these exact domains, case-insensitive: one domain or a comma-separated list, e.g. domains=wikipedia.org,reddit.com. The bracket form domains[]=wikipedia.org&domains[]=reddit.com is also accepted.
 try {
-    val result : TopSourcesResponse = apiInstance.getTopSources(projectId, range, from, to, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, sort, query, page, perPage, output)
+    val result : TopSourcesResponse = apiInstance.getTopSources(projectId, range, from, to, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, sort, query, page, perPage, output, collectionIds, domains)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling MetricsApi#getTopSources")
@@ -396,9 +410,11 @@ try {
 | **query** | **kotlin.String**| Filter domains by case-insensitive partial match | [optional] |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
+| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **collectionIds** | [**kotlin.collections.List&lt;kotlin.Int&gt;**](kotlin.Int.md)| Tags (collections) to include at once, as a union: one ID or a comma-separated list, e.g. collection_ids&#x3D;12,15 (collection_ids[]&#x3D;12&amp;collection_ids[]&#x3D;15 is also accepted). Combines with collection_id. An ID outside the project returns 422 ERR_INVALID_PARAM. | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **domains** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Restrict the result to these exact domains, case-insensitive: one domain or a comma-separated list, e.g. domains&#x3D;wikipedia.org,reddit.com. The bracket form domains[]&#x3D;wikipedia.org&amp;domains[]&#x3D;reddit.com is also accepted. | [optional] |
 
 ### Return type
 

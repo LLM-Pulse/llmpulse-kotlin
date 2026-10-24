@@ -134,7 +134,7 @@ List GEO Writer tasks
 val apiInstance = GEOWriterApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val taskType : kotlin.String = taskType_example // kotlin.String | 
-val status : kotlin.String = status_example // kotlin.String | 
+val status : kotlin.String = status_example // kotlin.String | Keep only the tasks in this status. Discarded tasks are never listed, so discarded returns an empty page.
 val page : kotlin.Int = 56 // kotlin.Int | 
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 try {
@@ -152,7 +152,7 @@ try {
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
 | **taskType** | **kotlin.String**|  | [optional] [enum: brief, create, update, pr_insights, custom, product_listing] |
-| **status** | **kotlin.String**|  | [optional] |
+| **status** | **kotlin.String**| Keep only the tasks in this status. Discarded tasks are never listed, so discarded returns an empty page. | [optional] [enum: pending, processing, review, completed, in_progress, blocked, discarded] |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |

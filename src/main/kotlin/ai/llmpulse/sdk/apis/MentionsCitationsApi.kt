@@ -101,6 +101,24 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      }
 
     /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListAllCitations(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /dimensions/all_citations
      * List all citations (brand + competitor)
      * Unified citations stream with an &#x60;actor_type&#x60; field on each record. Includes visible citations and background source references; background references use position 0, meaning no visible rank.
@@ -114,6 +132,11 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -122,8 +145,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAllCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllCitations? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllCitations? = null) : Unit {
-        val localVarResponse = listAllCitationsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
+    fun listAllCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllCitations? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllCitations? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAllCitations? = null, range: kotlin.Int? = null) : Unit {
+        val localVarResponse = listAllCitationsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -154,13 +177,18 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAllCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllCitations?) : ApiResponse<Unit?> {
-        val localVariableConfig = listAllCitationsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
+    fun listAllCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllCitations?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListAllCitations?, range: kotlin.Int?) : ApiResponse<Unit?> {
+        val localVariableConfig = listAllCitationsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -180,9 +208,14 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return RequestConfig
      */
-    fun listAllCitationsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllCitations?) : RequestConfig<Unit> {
+    fun listAllCitationsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllCitations?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListAllCitations?, range: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -213,6 +246,21 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
                 if (output != null) {
                     put("output", listOf(output.value))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -273,6 +321,24 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      }
 
     /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListAllMentions(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /dimensions/all_mentions
      * List all mentions (brand + competitor)
      * Unified mentions stream. Each record has an &#x60;actor_type&#x60; field (&#x60;project&#x60; or &#x60;competitor&#x60;) so the same payload covers both.
@@ -286,6 +352,11 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -294,8 +365,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAllMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllMentions? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllMentions? = null) : Unit {
-        val localVarResponse = listAllMentionsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
+    fun listAllMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllMentions? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllMentions? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAllMentions? = null, range: kotlin.Int? = null) : Unit {
+        val localVarResponse = listAllMentionsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -326,13 +397,18 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAllMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllMentions?) : ApiResponse<Unit?> {
-        val localVariableConfig = listAllMentionsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
+    fun listAllMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllMentions?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListAllMentions?, range: kotlin.Int?) : ApiResponse<Unit?> {
+        val localVariableConfig = listAllMentionsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -352,9 +428,14 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return RequestConfig
      */
-    fun listAllMentionsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllMentions?) : RequestConfig<Unit> {
+    fun listAllMentionsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllMentions?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListAllMentions?, range: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -385,6 +466,21 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
                 if (output != null) {
                     put("output", listOf(output.value))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -445,6 +541,24 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      }
 
     /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListCitations(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /dimensions/citations
      * List brand citations
      * Includes visible citations and background source references. Background references use position 0, meaning no visible rank.
@@ -459,6 +573,9 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return CitationsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -468,8 +585,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCitations(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCitations? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCitations? = null) : CitationsResponse {
-        val localVarResponse = listCitationsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
+    fun listCitations(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCitations? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCitations? = null, promptType: kotlin.String? = null, brandKind: BrandKindListCitations? = null, range: kotlin.Int? = null) : CitationsResponse {
+        val localVarResponse = listCitationsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output, promptType = promptType, brandKind = brandKind, range = range)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CitationsResponse
@@ -501,14 +618,17 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return ApiResponse<CitationsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCitationsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCitations?) : ApiResponse<CitationsResponse?> {
-        val localVariableConfig = listCitationsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
+    fun listCitationsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCitations?, promptType: kotlin.String?, brandKind: BrandKindListCitations?, range: kotlin.Int?) : ApiResponse<CitationsResponse?> {
+        val localVariableConfig = listCitationsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output, promptType = promptType, brandKind = brandKind, range = range)
 
         return request<Unit, CitationsResponse>(
             localVariableConfig
@@ -529,9 +649,12 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return RequestConfig
      */
-    fun listCitationsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCitations?) : RequestConfig<Unit> {
+    fun listCitationsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCitations?, promptType: kotlin.String?, brandKind: BrandKindListCitations?, range: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -565,6 +688,15 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
                 if (output != null) {
                     put("output", listOf(output.value))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -626,6 +758,24 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      }
 
     /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListCompetitorCitations(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /dimensions/competitor_citations
      * List competitor citations
      * Includes visible citations and background source references. Background references use position 0, meaning no visible rank.
@@ -639,6 +789,11 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -647,8 +802,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCompetitorCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorCitations? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorCitations? = null) : Unit {
-        val localVarResponse = listCompetitorCitationsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
+    fun listCompetitorCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorCitations? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorCitations? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListCompetitorCitations? = null, range: kotlin.Int? = null) : Unit {
+        val localVarResponse = listCompetitorCitationsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -679,13 +834,18 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCompetitorCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorCitations?) : ApiResponse<Unit?> {
-        val localVariableConfig = listCompetitorCitationsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
+    fun listCompetitorCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorCitations?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListCompetitorCitations?, range: kotlin.Int?) : ApiResponse<Unit?> {
+        val localVariableConfig = listCompetitorCitationsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -705,9 +865,14 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return RequestConfig
      */
-    fun listCompetitorCitationsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorCitations?) : RequestConfig<Unit> {
+    fun listCompetitorCitationsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorCitations?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListCompetitorCitations?, range: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -738,6 +903,21 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
                 if (output != null) {
                     put("output", listOf(output.value))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -798,6 +978,24 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      }
 
     /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListCompetitorMentions(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /dimensions/competitor_mentions
      * List competitor mentions
      * 
@@ -811,6 +1009,11 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return CompetitorMentionsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -820,8 +1023,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCompetitorMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorMentions? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorMentions? = null) : CompetitorMentionsResponse {
-        val localVarResponse = listCompetitorMentionsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
+    fun listCompetitorMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorMentions? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorMentions? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListCompetitorMentions? = null, range: kotlin.Int? = null) : CompetitorMentionsResponse {
+        val localVarResponse = listCompetitorMentionsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CompetitorMentionsResponse
@@ -852,14 +1055,19 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return ApiResponse<CompetitorMentionsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCompetitorMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorMentions?) : ApiResponse<CompetitorMentionsResponse?> {
-        val localVariableConfig = listCompetitorMentionsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output)
+    fun listCompetitorMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorMentions?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListCompetitorMentions?, range: kotlin.Int?) : ApiResponse<CompetitorMentionsResponse?> {
+        val localVariableConfig = listCompetitorMentionsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
         return request<Unit, CompetitorMentionsResponse>(
             localVariableConfig
@@ -879,9 +1087,14 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return RequestConfig
      */
-    fun listCompetitorMentionsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorMentions?) : RequestConfig<Unit> {
+    fun listCompetitorMentionsRequestConfig(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorMentions?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListCompetitorMentions?, range: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -912,6 +1125,21 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
                 if (output != null) {
                     put("output", listOf(output.value))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -973,6 +1201,24 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      }
 
     /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListMentions(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /dimensions/mentions
      * List brand mentions
      * 
@@ -987,6 +1233,9 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return MentionsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -996,8 +1245,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMentions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListMentions? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListMentions? = null) : MentionsResponse {
-        val localVarResponse = listMentionsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
+    fun listMentions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListMentions? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListMentions? = null, promptType: kotlin.String? = null, brandKind: BrandKindListMentions? = null, range: kotlin.Int? = null) : MentionsResponse {
+        val localVarResponse = listMentionsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output, promptType = promptType, brandKind = brandKind, range = range)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MentionsResponse
@@ -1029,14 +1278,17 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return ApiResponse<MentionsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMentionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListMentions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListMentions?) : ApiResponse<MentionsResponse?> {
-        val localVariableConfig = listMentionsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output)
+    fun listMentionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListMentions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListMentions?, promptType: kotlin.String?, brandKind: BrandKindListMentions?, range: kotlin.Int?) : ApiResponse<MentionsResponse?> {
+        val localVariableConfig = listMentionsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, output = output, promptType = promptType, brandKind = brandKind, range = range)
 
         return request<Unit, MentionsResponse>(
             localVariableConfig
@@ -1057,9 +1309,12 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param range Number of days to look back (alternative to from/to) (optional)
      * @return RequestConfig
      */
-    fun listMentionsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListMentions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListMentions?) : RequestConfig<Unit> {
+    fun listMentionsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListMentions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListMentions?, promptType: kotlin.String?, brandKind: BrandKindListMentions?, range: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -1093,6 +1348,15 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
                 if (output != null) {
                     put("output", listOf(output.value))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

@@ -14,7 +14,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 <a id="listAllCitations"></a>
 # **listAllCitations**
-> listAllCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
+> listAllCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
 
 List all citations (brand + competitor)
 
@@ -37,8 +37,13 @@ val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
+val countryCode : kotlin.String = countryCode_example // kotlin.String | One ISO country code or a comma-separated list (e.g. US,GB,DE)
+val languageCode : kotlin.String = languageCode_example // kotlin.String | One ISO language code or a comma-separated list (e.g. en,es,de)
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
+val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
 try {
-    apiInstance.listAllCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
+    apiInstance.listAllCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listAllCitations")
     e.printStackTrace()
@@ -58,9 +63,14 @@ try {
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
+| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
+| **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
+| **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
 
 ### Return type
 
@@ -85,7 +95,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listAllMentions"></a>
 # **listAllMentions**
-> listAllMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
+> listAllMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
 
 List all mentions (brand + competitor)
 
@@ -108,8 +118,13 @@ val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
+val countryCode : kotlin.String = countryCode_example // kotlin.String | One ISO country code or a comma-separated list (e.g. US,GB,DE)
+val languageCode : kotlin.String = languageCode_example // kotlin.String | One ISO language code or a comma-separated list (e.g. en,es,de)
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
+val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
 try {
-    apiInstance.listAllMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
+    apiInstance.listAllMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listAllMentions")
     e.printStackTrace()
@@ -129,9 +144,14 @@ try {
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
+| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
+| **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
+| **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
 
 ### Return type
 
@@ -156,7 +176,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listCitations"></a>
 # **listCitations**
-> CitationsResponse listCitations(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
+> CitationsResponse listCitations(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output, promptType, brandKind, range)
 
 List brand citations
 
@@ -180,8 +200,11 @@ val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
+val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
 try {
-    val result : CitationsResponse = apiInstance.listCitations(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
+    val result : CitationsResponse = apiInstance.listCitations(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output, promptType, brandKind, range)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listCitations")
@@ -203,9 +226,12 @@ try {
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
+| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
+| **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
 
 ### Return type
 
@@ -230,7 +256,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listCompetitorCitations"></a>
 # **listCompetitorCitations**
-> listCompetitorCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
+> listCompetitorCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
 
 List competitor citations
 
@@ -253,8 +279,13 @@ val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
+val countryCode : kotlin.String = countryCode_example // kotlin.String | One ISO country code or a comma-separated list (e.g. US,GB,DE)
+val languageCode : kotlin.String = languageCode_example // kotlin.String | One ISO language code or a comma-separated list (e.g. en,es,de)
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
+val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
 try {
-    apiInstance.listCompetitorCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
+    apiInstance.listCompetitorCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listCompetitorCitations")
     e.printStackTrace()
@@ -274,9 +305,14 @@ try {
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
+| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
+| **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
+| **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
 
 ### Return type
 
@@ -301,7 +337,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listCompetitorMentions"></a>
 # **listCompetitorMentions**
-> CompetitorMentionsResponse listCompetitorMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
+> CompetitorMentionsResponse listCompetitorMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
 
 List competitor mentions
 
@@ -322,8 +358,13 @@ val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
+val countryCode : kotlin.String = countryCode_example // kotlin.String | One ISO country code or a comma-separated list (e.g. US,GB,DE)
+val languageCode : kotlin.String = languageCode_example // kotlin.String | One ISO language code or a comma-separated list (e.g. en,es,de)
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
+val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
 try {
-    val result : CompetitorMentionsResponse = apiInstance.listCompetitorMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output)
+    val result : CompetitorMentionsResponse = apiInstance.listCompetitorMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listCompetitorMentions")
@@ -344,9 +385,14 @@ try {
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
+| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
+| **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
+| **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
 
 ### Return type
 
@@ -371,7 +417,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listMentions"></a>
 # **listMentions**
-> MentionsResponse listMentions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
+> MentionsResponse listMentions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output, promptType, brandKind, range)
 
 List brand mentions
 
@@ -393,8 +439,11 @@ val prompt : kotlin.Int = 56 // kotlin.Int | Filter by prompt ID
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
+val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
 try {
-    val result : MentionsResponse = apiInstance.listMentions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output)
+    val result : MentionsResponse = apiInstance.listMentions(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, output, promptType, brandKind, range)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listMentions")
@@ -416,9 +465,12 @@ try {
 | **prompt** | **kotlin.Int**| Filter by prompt ID | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
+| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
+| **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **output** | **kotlin.String**| Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] [enum: flat, csv] |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
 
 ### Return type
 

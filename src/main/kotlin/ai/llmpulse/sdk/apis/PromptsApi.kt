@@ -612,6 +612,24 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      }
 
     /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListPromptExecutions(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /dimensions/prompt_executions
      * List prompt executions
      * 
@@ -629,6 +647,8 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @return PromptExecutionsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -638,8 +658,8 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listPromptExecutions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPromptExecutions? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, mentionFilter: MentionFilterListPromptExecutions? = null, citationFilter: CitationFilterListPromptExecutions? = null, competitors: kotlin.String? = null, output: OutputListPromptExecutions? = null) : PromptExecutionsResponse {
-        val localVarResponse = listPromptExecutionsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, output = output)
+    fun listPromptExecutions(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListPromptExecutions? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, mentionFilter: MentionFilterListPromptExecutions? = null, citationFilter: CitationFilterListPromptExecutions? = null, competitors: kotlin.String? = null, output: OutputListPromptExecutions? = null, promptType: kotlin.String? = null, brandKind: BrandKindListPromptExecutions? = null) : PromptExecutionsResponse {
+        val localVarResponse = listPromptExecutionsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, output = output, promptType = promptType, brandKind = brandKind)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as PromptExecutionsResponse
@@ -674,14 +694,16 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @return ApiResponse<PromptExecutionsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listPromptExecutionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?) : ApiResponse<PromptExecutionsResponse?> {
-        val localVariableConfig = listPromptExecutionsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, output = output)
+    fun listPromptExecutionsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?, promptType: kotlin.String?, brandKind: BrandKindListPromptExecutions?) : ApiResponse<PromptExecutionsResponse?> {
+        val localVariableConfig = listPromptExecutionsRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, output = output, promptType = promptType, brandKind = brandKind)
 
         return request<Unit, PromptExecutionsResponse>(
             localVariableConfig
@@ -705,9 +727,11 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @return RequestConfig
      */
-    fun listPromptExecutionsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?) : RequestConfig<Unit> {
+    fun listPromptExecutionsRequestConfig(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListPromptExecutions?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, mentionFilter: MentionFilterListPromptExecutions?, citationFilter: CitationFilterListPromptExecutions?, competitors: kotlin.String?, output: OutputListPromptExecutions?, promptType: kotlin.String?, brandKind: BrandKindListPromptExecutions?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -750,6 +774,12 @@ open class PromptsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                 }
                 if (output != null) {
                     put("output", listOf(output.value))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

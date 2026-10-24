@@ -465,6 +465,9 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @param view Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to View.over_time)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param includeProject  (optional, default to true)
      * @return SovResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -474,8 +477,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getShareOfVoice(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetShareOfVoice? = null, competitors: kotlin.String? = null, model: ModelGetShareOfVoice? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetShareOfVoice? = null, output: OutputGetShareOfVoice? = null, view: ViewGetShareOfVoice? = ViewGetShareOfVoice.over_time) : SovResponse {
-        val localVarResponse = getShareOfVoiceWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output, view = view)
+    fun getShareOfVoice(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetShareOfVoice? = null, competitors: kotlin.String? = null, model: ModelGetShareOfVoice? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetShareOfVoice? = null, output: OutputGetShareOfVoice? = null, view: ViewGetShareOfVoice? = ViewGetShareOfVoice.over_time, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, includeProject: kotlin.Boolean? = true) : SovResponse {
+        val localVarResponse = getShareOfVoiceWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output, view = view, countryCode = countryCode, languageCode = languageCode, includeProject = includeProject)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SovResponse
@@ -509,14 +512,17 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @param view Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to View.over_time)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param includeProject  (optional, default to true)
      * @return ApiResponse<SovResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getShareOfVoiceWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetShareOfVoice?, competitors: kotlin.String?, model: ModelGetShareOfVoice?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetShareOfVoice?, output: OutputGetShareOfVoice?, view: ViewGetShareOfVoice?) : ApiResponse<SovResponse?> {
-        val localVariableConfig = getShareOfVoiceRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output, view = view)
+    fun getShareOfVoiceWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetShareOfVoice?, competitors: kotlin.String?, model: ModelGetShareOfVoice?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetShareOfVoice?, output: OutputGetShareOfVoice?, view: ViewGetShareOfVoice?, countryCode: kotlin.String?, languageCode: kotlin.String?, includeProject: kotlin.Boolean?) : ApiResponse<SovResponse?> {
+        val localVariableConfig = getShareOfVoiceRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output, view = view, countryCode = countryCode, languageCode = languageCode, includeProject = includeProject)
 
         return request<Unit, SovResponse>(
             localVariableConfig
@@ -539,9 +545,12 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      * @param view Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to View.over_time)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param includeProject  (optional, default to true)
      * @return RequestConfig
      */
-    fun getShareOfVoiceRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetShareOfVoice?, competitors: kotlin.String?, model: ModelGetShareOfVoice?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetShareOfVoice?, output: OutputGetShareOfVoice?, view: ViewGetShareOfVoice?) : RequestConfig<Unit> {
+    fun getShareOfVoiceRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetShareOfVoice?, competitors: kotlin.String?, model: ModelGetShareOfVoice?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetShareOfVoice?, output: OutputGetShareOfVoice?, view: ViewGetShareOfVoice?, countryCode: kotlin.String?, languageCode: kotlin.String?, includeProject: kotlin.Boolean?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -581,6 +590,15 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                 }
                 if (view != null) {
                     put("view", listOf(view.value))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (includeProject != null) {
+                    put("include_project", listOf(includeProject.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -694,6 +712,9 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param includeProject  (optional, default to true)
      * @return SummaryResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -703,8 +724,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getSummary(projectId: kotlin.Int, metrics: kotlin.String? = null, granularity: GranularityGetSummary? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, competitors: kotlin.String? = null, model: ModelGetSummary? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetSummary? = null, output: OutputGetSummary? = null) : SummaryResponse {
-        val localVarResponse = getSummaryWithHttpInfo(projectId = projectId, metrics = metrics, granularity = granularity, range = range, from = from, to = to, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output)
+    fun getSummary(projectId: kotlin.Int, metrics: kotlin.String? = null, granularity: GranularityGetSummary? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, competitors: kotlin.String? = null, model: ModelGetSummary? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetSummary? = null, output: OutputGetSummary? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, includeProject: kotlin.Boolean? = true) : SummaryResponse {
+        val localVarResponse = getSummaryWithHttpInfo(projectId = projectId, metrics = metrics, granularity = granularity, range = range, from = from, to = to, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output, countryCode = countryCode, languageCode = languageCode, includeProject = includeProject)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SummaryResponse
@@ -738,14 +759,17 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param includeProject  (optional, default to true)
      * @return ApiResponse<SummaryResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getSummaryWithHttpInfo(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetSummary?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetSummary?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetSummary?, output: OutputGetSummary?) : ApiResponse<SummaryResponse?> {
-        val localVariableConfig = getSummaryRequestConfig(projectId = projectId, metrics = metrics, granularity = granularity, range = range, from = from, to = to, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output)
+    fun getSummaryWithHttpInfo(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetSummary?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetSummary?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetSummary?, output: OutputGetSummary?, countryCode: kotlin.String?, languageCode: kotlin.String?, includeProject: kotlin.Boolean?) : ApiResponse<SummaryResponse?> {
+        val localVariableConfig = getSummaryRequestConfig(projectId = projectId, metrics = metrics, granularity = granularity, range = range, from = from, to = to, competitors = competitors, model = model, collectionId = collectionId, prompt = prompt, promptType = promptType, brandKind = brandKind, output = output, countryCode = countryCode, languageCode = languageCode, includeProject = includeProject)
 
         return request<Unit, SummaryResponse>(
             localVariableConfig
@@ -768,9 +792,12 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param includeProject  (optional, default to true)
      * @return RequestConfig
      */
-    fun getSummaryRequestConfig(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetSummary?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetSummary?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetSummary?, output: OutputGetSummary?) : RequestConfig<Unit> {
+    fun getSummaryRequestConfig(projectId: kotlin.Int, metrics: kotlin.String?, granularity: GranularityGetSummary?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, competitors: kotlin.String?, model: ModelGetSummary?, collectionId: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetSummary?, output: OutputGetSummary?, countryCode: kotlin.String?, languageCode: kotlin.String?, includeProject: kotlin.Boolean?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -810,6 +837,15 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                 }
                 if (output != null) {
                     put("output", listOf(output.value))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (includeProject != null) {
+                    put("include_project", listOf(includeProject.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -1173,6 +1209,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param collectionIds Tags (collections) to include at once, as a union: one ID or a comma-separated list, e.g. collection_ids&#x3D;12,15 (collection_ids[]&#x3D;12&amp;collection_ids[]&#x3D;15 is also accepted). Combines with collection_id. An ID outside the project returns 422 ERR_INVALID_PARAM. (optional)
+     * @param domains Restrict the result to these exact domains, case-insensitive: one domain or a comma-separated list, e.g. domains&#x3D;wikipedia.org,reddit.com. The bracket form domains[]&#x3D;wikipedia.org&amp;domains[]&#x3D;reddit.com is also accepted. (optional)
      * @return TopSourcesResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -1182,8 +1220,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getTopSources(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, model: ModelGetTopSources? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetTopSources? = null, sort: SortGetTopSources? = SortGetTopSources.total_responses, query: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetTopSources? = null) : TopSourcesResponse {
-        val localVarResponse = getTopSourcesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, sort = sort, query = query, page = page, perPage = perPage, output = output)
+    fun getTopSources(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, model: ModelGetTopSources? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetTopSources? = null, sort: SortGetTopSources? = SortGetTopSources.total_responses, query: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetTopSources? = null, collectionIds: kotlin.collections.List<kotlin.Int>? = null, domains: kotlin.collections.List<kotlin.String>? = null) : TopSourcesResponse {
+        val localVarResponse = getTopSourcesWithHttpInfo(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, sort = sort, query = query, page = page, perPage = perPage, output = output, collectionIds = collectionIds, domains = domains)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as TopSourcesResponse
@@ -1220,14 +1258,16 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param collectionIds Tags (collections) to include at once, as a union: one ID or a comma-separated list, e.g. collection_ids&#x3D;12,15 (collection_ids[]&#x3D;12&amp;collection_ids[]&#x3D;15 is also accepted). Combines with collection_id. An ID outside the project returns 422 ERR_INVALID_PARAM. (optional)
+     * @param domains Restrict the result to these exact domains, case-insensitive: one domain or a comma-separated list, e.g. domains&#x3D;wikipedia.org,reddit.com. The bracket form domains[]&#x3D;wikipedia.org&amp;domains[]&#x3D;reddit.com is also accepted. (optional)
      * @return ApiResponse<TopSourcesResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getTopSourcesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetTopSources?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTopSources?, sort: SortGetTopSources?, query: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetTopSources?) : ApiResponse<TopSourcesResponse?> {
-        val localVariableConfig = getTopSourcesRequestConfig(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, sort = sort, query = query, page = page, perPage = perPage, output = output)
+    fun getTopSourcesWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetTopSources?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTopSources?, sort: SortGetTopSources?, query: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetTopSources?, collectionIds: kotlin.collections.List<kotlin.Int>?, domains: kotlin.collections.List<kotlin.String>?) : ApiResponse<TopSourcesResponse?> {
+        val localVariableConfig = getTopSourcesRequestConfig(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, sort = sort, query = query, page = page, perPage = perPage, output = output, collectionIds = collectionIds, domains = domains)
 
         return request<Unit, TopSourcesResponse>(
             localVariableConfig
@@ -1253,9 +1293,11 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param collectionIds Tags (collections) to include at once, as a union: one ID or a comma-separated list, e.g. collection_ids&#x3D;12,15 (collection_ids[]&#x3D;12&amp;collection_ids[]&#x3D;15 is also accepted). Combines with collection_id. An ID outside the project returns 422 ERR_INVALID_PARAM. (optional)
+     * @param domains Restrict the result to these exact domains, case-insensitive: one domain or a comma-separated list, e.g. domains&#x3D;wikipedia.org,reddit.com. The bracket form domains[]&#x3D;wikipedia.org&amp;domains[]&#x3D;reddit.com is also accepted. (optional)
      * @return RequestConfig
      */
-    fun getTopSourcesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetTopSources?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTopSources?, sort: SortGetTopSources?, query: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetTopSources?) : RequestConfig<Unit> {
+    fun getTopSourcesRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetTopSources?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindGetTopSources?, sort: SortGetTopSources?, query: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetTopSources?, collectionIds: kotlin.collections.List<kotlin.Int>?, domains: kotlin.collections.List<kotlin.String>?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -1304,6 +1346,12 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                 }
                 if (output != null) {
                     put("output", listOf(output.value))
+                }
+                if (collectionIds != null) {
+                    put("collection_ids", toMultiValue(collectionIds.toList(), "csv"))
+                }
+                if (domains != null) {
+                    put("domains", toMultiValue(domains.toList(), "csv"))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

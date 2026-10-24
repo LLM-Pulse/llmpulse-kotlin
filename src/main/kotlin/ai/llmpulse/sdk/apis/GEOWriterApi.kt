@@ -233,12 +233,34 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
      }
 
     /**
+     * enum for parameter status
+     */
+     enum class StatusListIntelligenceTasks(val value: kotlin.String) {
+         @Json(name = "pending") pending("pending"),
+         @Json(name = "processing") processing("processing"),
+         @Json(name = "review") review("review"),
+         @Json(name = "completed") completed("completed"),
+         @Json(name = "in_progress") in_progress("in_progress"),
+         @Json(name = "blocked") blocked("blocked"),
+         @Json(name = "discarded") discarded("discarded");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /intelligence_tasks
      * List GEO Writer tasks
      * 
      * @param projectId Project ID
      * @param taskType  (optional)
-     * @param status  (optional)
+     * @param status Keep only the tasks in this status. Discarded tasks are never listed, so discarded returns an empty page. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return IntelligenceTasksResponse
@@ -250,7 +272,7 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listIntelligenceTasks(projectId: kotlin.Int, taskType: TaskTypeListIntelligenceTasks? = null, status: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : IntelligenceTasksResponse {
+    fun listIntelligenceTasks(projectId: kotlin.Int, taskType: TaskTypeListIntelligenceTasks? = null, status: StatusListIntelligenceTasks? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : IntelligenceTasksResponse {
         val localVarResponse = listIntelligenceTasksWithHttpInfo(projectId = projectId, taskType = taskType, status = status, page = page, perPage = perPage)
 
         return when (localVarResponse.responseType) {
@@ -274,7 +296,7 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
      * 
      * @param projectId Project ID
      * @param taskType  (optional)
-     * @param status  (optional)
+     * @param status Keep only the tasks in this status. Discarded tasks are never listed, so discarded returns an empty page. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return ApiResponse<IntelligenceTasksResponse?>
@@ -283,7 +305,7 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listIntelligenceTasksWithHttpInfo(projectId: kotlin.Int, taskType: TaskTypeListIntelligenceTasks?, status: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<IntelligenceTasksResponse?> {
+    fun listIntelligenceTasksWithHttpInfo(projectId: kotlin.Int, taskType: TaskTypeListIntelligenceTasks?, status: StatusListIntelligenceTasks?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<IntelligenceTasksResponse?> {
         val localVariableConfig = listIntelligenceTasksRequestConfig(projectId = projectId, taskType = taskType, status = status, page = page, perPage = perPage)
 
         return request<Unit, IntelligenceTasksResponse>(
@@ -296,12 +318,12 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
      *
      * @param projectId Project ID
      * @param taskType  (optional)
-     * @param status  (optional)
+     * @param status Keep only the tasks in this status. Discarded tasks are never listed, so discarded returns an empty page. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return RequestConfig
      */
-    fun listIntelligenceTasksRequestConfig(projectId: kotlin.Int, taskType: TaskTypeListIntelligenceTasks?, status: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
+    fun listIntelligenceTasksRequestConfig(projectId: kotlin.Int, taskType: TaskTypeListIntelligenceTasks?, status: StatusListIntelligenceTasks?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -310,7 +332,7 @@ open class GEOWriterApi(basePath: kotlin.String = defaultBasePath, client: Call.
                     put("task_type", listOf(taskType.value))
                 }
                 if (status != null) {
-                    put("status", listOf(status.toString()))
+                    put("status", listOf(status.value))
                 }
                 if (page != null) {
                     put("page", listOf(page.toString()))

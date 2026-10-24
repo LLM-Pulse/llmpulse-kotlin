@@ -262,18 +262,12 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      */
      enum class ModelGetAiModelPositionDistribution(val value: kotlin.String) {
          @Json(name = "chatgpt") chatgpt("chatgpt"),
-         @Json(name = "perplexity") perplexity("perplexity"),
          @Json(name = "ai_mode") ai_mode("ai_mode"),
          @Json(name = "ai_overview") ai_overview("ai_overview"),
+         @Json(name = "perplexity") perplexity("perplexity"),
          @Json(name = "gemini") gemini("gemini"),
-         @Json(name = "copilot") copilot("copilot"),
-         @Json(name = "amazon_rufus") amazon_rufus("amazon_rufus"),
-         @Json(name = "claude") claude("claude"),
-         @Json(name = "grok") grok("grok"),
-         @Json(name = "deepseek") deepseek("deepseek"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
-         @Json(name = "meta_ai") meta_ai("meta_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -299,7 +293,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
-     * @param model Restrict the comparison to one AI model: chatgpt, ai_mode, ai_overview, perplexity, gemini, naver_ai or baidu_ai, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
+     * @param model Restrict the comparison to one AI model of AI Model Insights, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
      * @param brand1 Competitor ID for the first comparison brand (omit to compare project brand) (optional)
      * @param brand2  (optional)
      * @return void
@@ -342,7 +336,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
-     * @param model Restrict the comparison to one AI model: chatgpt, ai_mode, ai_overview, perplexity, gemini, naver_ai or baidu_ai, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
+     * @param model Restrict the comparison to one AI model of AI Model Insights, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
      * @param brand1 Competitor ID for the first comparison brand (omit to compare project brand) (optional)
      * @param brand2  (optional)
      * @return ApiResponse<Unit?>
@@ -371,7 +365,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
-     * @param model Restrict the comparison to one AI model: chatgpt, ai_mode, ai_overview, perplexity, gemini, naver_ai or baidu_ai, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
+     * @param model Restrict the comparison to one AI model of AI Model Insights, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
      * @param brand1 Competitor ID for the first comparison brand (omit to compare project brand) (optional)
      * @param brand2  (optional)
      * @return RequestConfig
