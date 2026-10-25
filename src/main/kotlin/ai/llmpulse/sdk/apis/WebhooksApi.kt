@@ -135,7 +135,7 @@ open class WebhooksApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * DELETE /webhooks/{id}
      * Delete a webhook subscription
-     * Deletes a webhook subscription; the target URL stops receiving events immediately. Requires a &#x60;read_write&#x60; scope API key and the Scale plan or above.
+     * Deletes a webhook subscription; the target URL stops receiving events immediately. Requires a &#x60;read_write&#x60; scope API key. Works on every plan, with an API key created on Scale too, so a subscription paused below Scale can still be removed.
      * @param id 
      * @return DeleteWebhook200Response
      * @throws IllegalStateException If the request is not correctly configured
@@ -167,7 +167,7 @@ open class WebhooksApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * DELETE /webhooks/{id}
      * Delete a webhook subscription
-     * Deletes a webhook subscription; the target URL stops receiving events immediately. Requires a &#x60;read_write&#x60; scope API key and the Scale plan or above.
+     * Deletes a webhook subscription; the target URL stops receiving events immediately. Requires a &#x60;read_write&#x60; scope API key. Works on every plan, with an API key created on Scale too, so a subscription paused below Scale can still be removed.
      * @param id 
      * @return ApiResponse<DeleteWebhook200Response?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -208,7 +208,7 @@ open class WebhooksApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * GET /webhooks
      * List webhook subscriptions
-     * Lists active webhook subscriptions for the account, optionally filtered by project. A read-only API key receives each &#x60;target_url&#x60; masked to its scheme, host and any non-default port followed by &#x60;/…&#x60;, because the full URL can let anyone post to the receiver; a &#x60;read_write&#x60; scope key receives the full URL. Requires the Scale plan or above.
+     * Lists active webhook subscriptions for the account, optionally filtered by project. A read-only API key receives each &#x60;target_url&#x60; masked to its scheme, host and any non-default port followed by &#x60;/…&#x60;, because the full URL can let anyone post to the receiver; a &#x60;read_write&#x60; scope key receives the full URL. Works on every plan, with an API key created on Scale too. Below Scale the subscriptions are kept but deliver nothing, and they can still be listed and deleted.
      * @param projectId Optional project filter (optional)
      * @param page  (optional)
      * @param perPage Max 100 (optional)
@@ -242,7 +242,7 @@ open class WebhooksApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * GET /webhooks
      * List webhook subscriptions
-     * Lists active webhook subscriptions for the account, optionally filtered by project. A read-only API key receives each &#x60;target_url&#x60; masked to its scheme, host and any non-default port followed by &#x60;/…&#x60;, because the full URL can let anyone post to the receiver; a &#x60;read_write&#x60; scope key receives the full URL. Requires the Scale plan or above.
+     * Lists active webhook subscriptions for the account, optionally filtered by project. A read-only API key receives each &#x60;target_url&#x60; masked to its scheme, host and any non-default port followed by &#x60;/…&#x60;, because the full URL can let anyone post to the receiver; a &#x60;read_write&#x60; scope key receives the full URL. Works on every plan, with an API key created on Scale too. Below Scale the subscriptions are kept but deliver nothing, and they can still be listed and deleted.
      * @param projectId Optional project filter (optional)
      * @param page  (optional)
      * @param perPage Max 100 (optional)

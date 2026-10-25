@@ -40,6 +40,9 @@ import com.squareup.moshi.JsonClass
  * @param rowErrors Rows that were skipped or whose tags were not added, by their index in rows
  * @param lengthWarning Which tracked AI models will skip new prompts that are too long for them
  * @param promptsAvailable Prompt slots left on the plan; null when unlimited
+ * @param tracked Whether scheduled runs include the project the prompts were imported into. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes
+ * @param untrackedReason Why tracked is false: paused or project_limit. Null when tracked
+ * @param warning What to do when tracked is false. Null when tracked
  * @param requestId 
  */
 
@@ -78,6 +81,18 @@ data class PromptsImportResponse (
     /* Prompt slots left on the plan; null when unlimited */
     @Json(name = "prompts_available")
     val promptsAvailable: kotlin.Int?,
+
+    /* Whether scheduled runs include the project the prompts were imported into. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes */
+    @Json(name = "tracked")
+    val tracked: kotlin.Boolean,
+
+    /* Why tracked is false: paused or project_limit. Null when tracked */
+    @Json(name = "untracked_reason")
+    val untrackedReason: kotlin.String?,
+
+    /* What to do when tracked is false. Null when tracked */
+    @Json(name = "warning")
+    val warning: kotlin.String?,
 
     @Json(name = "request_id")
     val requestId: kotlin.String

@@ -10,7 +10,7 @@
 | **countryCode** | **kotlin.String** |  |  [optional] |
 | **cadence** | [**inline**](#Cadence) |  |  [optional] |
 | **status** | [**inline**](#Status) |  |  [optional] |
-| **pausedReason** | **kotlin.String** | user, or unreachable when three runs in a row could not reach the site |  [optional] |
+| **pausedReason** | **kotlin.String** | Null unless status is paused. user (paused by hand), unreachable (three runs in a row could not reach the site) or quota (the account has more active recurring audits than its plan allows; resume it once there is room) |  [optional] |
 | **schedule** | [**GeoAuditSchedule**](GeoAuditSchedule.md) |  |  [optional] |
 | **nextRunAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **emailAlerts** | **kotlin.Boolean** |  |  [optional] |

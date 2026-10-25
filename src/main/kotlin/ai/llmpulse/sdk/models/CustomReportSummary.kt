@@ -39,7 +39,7 @@ import com.squareup.moshi.JsonClass
  * @param schedule 
  * @param recipientsCount 
  * @param published Whether the shared link is published
- * @param publicLinkActive Whether the shared link opens (published and not made inside a client portal)
+ * @param publicLinkActive Whether the shared link opens (published, not made inside a client portal, and the account is active on the Scale tier or higher)
  * @param passwordProtected 
  * @param portalOnly Made inside a client portal, so it cannot be shared or emailed
  * @param widgetCount 
@@ -71,7 +71,7 @@ data class CustomReportSummary (
     @Json(name = "published")
     val published: kotlin.Boolean,
 
-    /* Whether the shared link opens (published and not made inside a client portal) */
+    /* Whether the shared link opens (published, not made inside a client portal, and the account is active on the Scale tier or higher) */
     @Json(name = "public_link_active")
     val publicLinkActive: kotlin.Boolean,
 

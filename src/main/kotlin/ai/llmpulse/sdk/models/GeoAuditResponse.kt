@@ -38,7 +38,7 @@ import com.squareup.moshi.JsonClass
  * @param countryCode 
  * @param cadence 
  * @param status 
- * @param pausedReason user, or unreachable when three runs in a row could not reach the site
+ * @param pausedReason Null unless status is paused. user (paused by hand), unreachable (three runs in a row could not reach the site) or quota (the account has more active recurring audits than its plan allows; resume it once there is room)
  * @param schedule 
  * @param nextRunAt 
  * @param emailAlerts 
@@ -76,7 +76,7 @@ data class GeoAuditResponse (
     @Json(name = "status")
     val status: GeoAuditResponse.Status? = null,
 
-    /* user, or unreachable when three runs in a row could not reach the site */
+    /* Null unless status is paused. user (paused by hand), unreachable (three runs in a row could not reach the site) or quota (the account has more active recurring audits than its plan allows; resume it once there is room) */
     @Json(name = "paused_reason")
     val pausedReason: kotlin.String? = null,
 

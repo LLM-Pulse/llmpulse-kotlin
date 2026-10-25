@@ -36,6 +36,9 @@ import com.squareup.moshi.JsonClass
  * @param skipped 
  * @param totalAfter 
  * @param promptsAvailable 
+ * @param tracked Whether scheduled runs include the project the prompts were added to. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes
+ * @param untrackedReason Why tracked is false: paused or project_limit. Null when tracked
+ * @param warning What to do when tracked is false. Null when tracked
  * @param `data` 
  * @param requestId 
  */
@@ -57,6 +60,18 @@ data class PromptsCreateResponse (
 
     @Json(name = "prompts_available")
     val promptsAvailable: kotlin.Int? = null,
+
+    /* Whether scheduled runs include the project the prompts were added to. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes */
+    @Json(name = "tracked")
+    val tracked: kotlin.Boolean? = null,
+
+    /* Why tracked is false: paused or project_limit. Null when tracked */
+    @Json(name = "untracked_reason")
+    val untrackedReason: kotlin.String? = null,
+
+    /* What to do when tracked is false. Null when tracked */
+    @Json(name = "warning")
+    val warning: kotlin.String? = null,
 
     @Json(name = "data")
     val `data`: kotlin.collections.List<PromptsCreateResponseDataInner>? = null,
