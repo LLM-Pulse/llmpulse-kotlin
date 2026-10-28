@@ -6,6 +6,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 | ------------- | ------------- | ------------- |
 | [**createProject**](ProjectsApi.md#createProject) | **POST** /projects | Create a project (fast mode) |
 | [**createProjectDraft**](ProjectsApi.md#createProjectDraft) | **POST** /project_drafts | Start a project draft (wizard step 1) |
+| [**deleteProject**](ProjectsApi.md#deleteProject) | **DELETE** /projects/{id} | Delete a project |
 | [**finalizeProjectDraft**](ProjectsApi.md#finalizeProjectDraft) | **POST** /project_drafts/{id}/finalize | Finalize a draft into a real project |
 | [**getProjectDetails**](ProjectsApi.md#getProjectDetails) | **GET** /dimensions/projects/{id} | Project details |
 | [**getProjectDraft**](ProjectsApi.md#getProjectDraft) | **GET** /project_drafts/{id} | Read a project draft |
@@ -121,6 +122,60 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a id="deleteProject"></a>
+# **deleteProject**
+> ProjectDeleteResponse deleteProject(id)
+
+Delete a project
+
+Deletes a project, like Delete Project in Project Settings, and cannot be undone. The project disappears at once from the app, GET /dimensions/projects and every other endpoint, and frees a project slot; a background job then deletes its prompts, answers, mentions, citations, sentiment, competitors and metrics history. API keys limited to it lose it, and a key left with no project is revoked. A project that is already being deleted, or that the key cannot see, answers ERR_PROJECT_NOT_FOUND. Requires an account-wide &#x60;read_write&#x60; scope API key: a key limited to some projects answers ERR_KEY_PROJECT_SCOPED. A team member needs permission to delete projects.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = ProjectsApi()
+val id : kotlin.Int = 56 // kotlin.Int | 
+try {
+    val result : ProjectDeleteResponse = apiInstance.deleteProject(id)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling ProjectsApi#deleteProject")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling ProjectsApi#deleteProject")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **id** | **kotlin.Int**|  | |
+
+### Return type
+
+[**ProjectDeleteResponse**](ProjectDeleteResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a id="finalizeProjectDraft"></a>

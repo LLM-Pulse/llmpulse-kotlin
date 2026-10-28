@@ -176,6 +176,7 @@ docs/ProjectCreateResponseEmailSubscription.md
 docs/ProjectCreateResponseLimits.md
 docs/ProjectCreateResponsePrompts.md
 docs/ProjectCreateResponseSameDomainProjectsInner.md
+docs/ProjectDeleteResponse.md
 docs/ProjectDetails.md
 docs/ProjectDetailsAllOfAgentTraffic.md
 docs/ProjectDetailsAllOfAiTraffic.md
@@ -509,6 +510,7 @@ src/main/kotlin/ai/llmpulse/sdk/models/ProjectCreateResponseEmailSubscription.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectCreateResponseLimits.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectCreateResponsePrompts.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectCreateResponseSameDomainProjectsInner.kt
+src/main/kotlin/ai/llmpulse/sdk/models/ProjectDeleteResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetails.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfAgentTraffic.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfAiTraffic.kt
