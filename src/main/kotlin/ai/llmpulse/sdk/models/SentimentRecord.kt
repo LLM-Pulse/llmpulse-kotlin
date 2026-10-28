@@ -96,7 +96,7 @@ data class SentimentRecord (
     /**
      * 
      *
-     * Values: chatgpt,perplexity,ai_mode,ai_overview,gemini,copilot,amazon_rufus,claude,grok,deepseek,naver_ai,baidu_ai,meta_ai
+     * Values: chatgpt,perplexity,ai_mode,ai_overview,gemini,copilot,amazon_rufus,claude,grok,deepseek,naver_ai,baidu_ai,meta_ai,naver_ai_tab,qwen,doubao
      */
     @JsonClass(generateAdapter = false)
     enum class Model(val value: kotlin.String) {
@@ -112,7 +112,10 @@ data class SentimentRecord (
         @Json(name = "deepseek") deepseek("deepseek"),
         @Json(name = "naver_ai") naver_ai("naver_ai"),
         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
-        @Json(name = "meta_ai") meta_ai("meta_ai");
+        @Json(name = "meta_ai") meta_ai("meta_ai"),
+        @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
+        @Json(name = "qwen") qwen("qwen"),
+        @Json(name = "doubao") doubao("doubao");
     }
     /**
      * 

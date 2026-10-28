@@ -90,7 +90,10 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
          @Json(name = "deepseek") deepseek("deepseek"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
          @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
-         @Json(name = "meta_ai") meta_ai("meta_ai");
+         @Json(name = "meta_ai") meta_ai("meta_ai"),
+         @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
+         @Json(name = "qwen") qwen("qwen"),
+         @Json(name = "doubao") doubao("doubao");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -383,7 +386,10 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
          @Json(name = "deepseek") deepseek("deepseek"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
          @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
-         @Json(name = "meta_ai") meta_ai("meta_ai");
+         @Json(name = "meta_ai") meta_ai("meta_ai"),
+         @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
+         @Json(name = "qwen") qwen("qwen"),
+         @Json(name = "doubao") doubao("doubao");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -648,7 +654,10 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
          @Json(name = "deepseek") deepseek("deepseek"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
          @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
-         @Json(name = "meta_ai") meta_ai("meta_ai");
+         @Json(name = "meta_ai") meta_ai("meta_ai"),
+         @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
+         @Json(name = "qwen") qwen("qwen"),
+         @Json(name = "doubao") doubao("doubao");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -895,7 +904,10 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
          @Json(name = "deepseek") deepseek("deepseek"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
          @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
-         @Json(name = "meta_ai") meta_ai("meta_ai");
+         @Json(name = "meta_ai") meta_ai("meta_ai"),
+         @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
+         @Json(name = "qwen") qwen("qwen"),
+         @Json(name = "doubao") doubao("doubao");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -1124,7 +1136,10 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
          @Json(name = "deepseek") deepseek("deepseek"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
          @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
-         @Json(name = "meta_ai") meta_ai("meta_ai");
+         @Json(name = "meta_ai") meta_ai("meta_ai"),
+         @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
+         @Json(name = "qwen") qwen("qwen"),
+         @Json(name = "doubao") doubao("doubao");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use

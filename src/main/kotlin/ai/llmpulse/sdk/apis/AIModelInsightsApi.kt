@@ -267,7 +267,10 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
          @Json(name = "perplexity") perplexity("perplexity"),
          @Json(name = "gemini") gemini("gemini"),
          @Json(name = "naver_ai") naver_ai("naver_ai"),
-         @Json(name = "baidu_ai") baidu_ai("baidu_ai");
+         @Json(name = "baidu_ai") baidu_ai("baidu_ai"),
+         @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
+         @Json(name = "qwen") qwen("qwen"),
+         @Json(name = "doubao") doubao("doubao");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
