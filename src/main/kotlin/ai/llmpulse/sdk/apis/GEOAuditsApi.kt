@@ -236,7 +236,7 @@ open class GEOAuditsApi(basePath: kotlin.String = defaultBasePath, client: Call.
     /**
      * DELETE /geo_audits/{id}
      * Delete (archive) a GEO audit
-     * Archives the audit. Requires a &#x60;read_write&#x60; scope API key and, for team members, delete permission on GEO Optimization.
+     * Archives the audit. Requires a &#x60;read_write&#x60; scope API key and, for team members, delete permission on GEO Audits.
      * @param id Audit id
      * @param projectId Project ID
      * @return GeoAuditArchived
@@ -269,7 +269,7 @@ open class GEOAuditsApi(basePath: kotlin.String = defaultBasePath, client: Call.
     /**
      * DELETE /geo_audits/{id}
      * Delete (archive) a GEO audit
-     * Archives the audit. Requires a &#x60;read_write&#x60; scope API key and, for team members, delete permission on GEO Optimization.
+     * Archives the audit. Requires a &#x60;read_write&#x60; scope API key and, for team members, delete permission on GEO Audits.
      * @param id Audit id
      * @param projectId Project ID
      * @return ApiResponse<GeoAuditArchived?>
@@ -1160,7 +1160,7 @@ open class GEOAuditsApi(basePath: kotlin.String = defaultBasePath, client: Call.
     /**
      * PATCH /geo_audits/{id}
      * Update a GEO audit
-     * Updates the schedule, the email alerts or the status. Making an audit recurring or resuming it counts against the plan limit of active recurring audits (ERR_LIMIT_REACHED). Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Optimization.
+     * Updates the schedule, the email alerts or the status. Making an audit recurring or resuming it counts against the plan limit of active recurring audits (ERR_LIMIT_REACHED). Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Audits.
      * @param id Audit id
      * @param geoAuditUpdateRequest 
      * @return GeoAuditResponse
@@ -1193,7 +1193,7 @@ open class GEOAuditsApi(basePath: kotlin.String = defaultBasePath, client: Call.
     /**
      * PATCH /geo_audits/{id}
      * Update a GEO audit
-     * Updates the schedule, the email alerts or the status. Making an audit recurring or resuming it counts against the plan limit of active recurring audits (ERR_LIMIT_REACHED). Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Optimization.
+     * Updates the schedule, the email alerts or the status. Making an audit recurring or resuming it counts against the plan limit of active recurring audits (ERR_LIMIT_REACHED). Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Audits.
      * @param id Audit id
      * @param geoAuditUpdateRequest 
      * @return ApiResponse<GeoAuditResponse?>
@@ -1237,7 +1237,7 @@ open class GEOAuditsApi(basePath: kotlin.String = defaultBasePath, client: Call.
     /**
      * PATCH /geo_audits/{geo_audit_id}/issues/{id}
      * Accept or reopen a GEO audit issue
-     * Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Optimization.
+     * Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Audits.
      * @param geoAuditId Audit id
      * @param id Issue id
      * @param geoAuditIssueUpdateRequest 
@@ -1271,7 +1271,7 @@ open class GEOAuditsApi(basePath: kotlin.String = defaultBasePath, client: Call.
     /**
      * PATCH /geo_audits/{geo_audit_id}/issues/{id}
      * Accept or reopen a GEO audit issue
-     * Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Optimization.
+     * Requires a &#x60;read_write&#x60; scope API key and, for team members, update permission on GEO Audits.
      * @param geoAuditId Audit id
      * @param id Issue id
      * @param geoAuditIssueUpdateRequest 
