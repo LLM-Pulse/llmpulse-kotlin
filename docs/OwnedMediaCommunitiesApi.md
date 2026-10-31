@@ -310,7 +310,7 @@ apiInstance.accessTokenProvider = { "" }
 
 List cited Reddit content
 
-Which Reddit content AI answers cite for your tracked prompts. view&#x3D;subreddits (default) returns one row per subreddit with its citation count, unique authors and positive/negative sentiment split; view&#x3D;authors returns one row per author; view&#x3D;threads returns the individual cited threads with upvotes, comments, average position and dominant sentiment. Requires the Growth plan or above.
+Which Reddit content AI answers cite for your tracked prompts. view&#x3D;subreddits (default) returns one row per subreddit with its citation count, unique authors and positive/negative sentiment split; view&#x3D;authors returns one row per author; view&#x3D;threads returns the individual cited threads with upvotes, comments, average position and dominant sentiment. view&#x3D;breakdowns returns the figures behind Reddit Intelligence &gt; Sentiment and breakdowns: citations is the number of Reddit citations after the filters, and each row is one slice, with breakdown (sentiment, model or country), key, count and pct, the share within its breakdown as the page charts it. Sentiment is that of the AI answer that cited Reddit, with all five labels (very_positive to very_negative) listed, zero included; order and direction do not apply. Requires the Growth plan or above.
 
 ### Example
 ```kotlin
@@ -328,7 +328,7 @@ val author : kotlin.String = author_example // kotlin.String | Filter to one Red
 val status : kotlin.String = status_example // kotlin.String | view=threads only
 val owned : kotlin.Boolean = true // kotlin.Boolean | Return only subreddits/authors the account has claimed as its own
 val brand : kotlin.String = brand_example // kotlin.String | Filter to citations whose scraped Reddit content mentions a brand: 'brand' for the tracked brand, or a competitor id. Reads the page content, not the AI answer.
-val order : kotlin.String = order_example // kotlin.String | Sort field; the allowed set depends on view
+val order : kotlin.String = order_example // kotlin.String | Sort field; the allowed set depends on view, and view=breakdowns accepts none
 val direction : kotlin.String = direction_example // kotlin.String | 
 val model : kotlin.String = model_example // kotlin.String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message.
 val collectionId : kotlin.String = 12,34 // kotlin.String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
@@ -354,13 +354,13 @@ try {
 | **projectId** | **kotlin.Int**| Project ID | |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
-| **view** | **kotlin.String**|  | [optional] [default to View.subreddits] [enum: subreddits, authors, threads] |
+| **view** | **kotlin.String**|  | [optional] [default to View.subreddits] [enum: subreddits, authors, threads, breakdowns] |
 | **subreddit** | **kotlin.String**| Filter to one subreddit (name without the r/ prefix) | [optional] |
 | **author** | **kotlin.String**| Filter to one Reddit author | [optional] |
 | **status** | **kotlin.String**| view&#x3D;threads only | [optional] [enum: open, archived] |
 | **owned** | **kotlin.Boolean**| Return only subreddits/authors the account has claimed as its own | [optional] |
 | **brand** | **kotlin.String**| Filter to citations whose scraped Reddit content mentions a brand: &#39;brand&#39; for the tracked brand, or a competitor id. Reads the page content, not the AI answer. | [optional] |
-| **order** | **kotlin.String**| Sort field; the allowed set depends on view | [optional] [enum: citations, subreddit, unique_authors, positive_pct, negative_pct, author, avg_position, upvotes, comments, sentiment] |
+| **order** | **kotlin.String**| Sort field; the allowed set depends on view, and view&#x3D;breakdowns accepts none | [optional] [enum: citations, subreddit, unique_authors, positive_pct, negative_pct, author, avg_position, upvotes, comments, sentiment] |
 | **direction** | **kotlin.String**|  | [optional] [default to Direction.desc] [enum: asc, desc] |
 | **model** | **kotlin.String**| Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
