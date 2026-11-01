@@ -33,8 +33,10 @@ import com.squareup.moshi.JsonClass
  * @param id 
  * @param name Internal project label (sidebar, settings, admin)
  * @param brandName LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`.
- * @param tracked Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run
- * @param untrackedReason Why tracked is false: paused or project_limit. Null when tracked
+ * @param tracked Whether scheduled runs include this project. False when it is a pitch project, which runs once, when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run
+ * @param untrackedReason Why tracked is false: pitch_project, paused or project_limit. Null when tracked
+ * @param pitch Whether this is a pitch project, a one-off snapshot that runs its prompts once, takes no project slot and is deleted at pitch_expires_at unless it is converted (PATCH /projects/{id} with pitch false)
+ * @param pitchExpiresAt When a pitch project is deleted, with its data, unless it is converted first. Null for a tracked project
  */
 
 
@@ -51,13 +53,21 @@ data class Project (
     @Json(name = "brand_name")
     val brandName: kotlin.String? = null,
 
-    /* Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run */
+    /* Whether scheduled runs include this project. False when it is a pitch project, which runs once, when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run */
     @Json(name = "tracked")
     val tracked: kotlin.Boolean? = null,
 
-    /* Why tracked is false: paused or project_limit. Null when tracked */
+    /* Why tracked is false: pitch_project, paused or project_limit. Null when tracked */
     @Json(name = "untracked_reason")
-    val untrackedReason: kotlin.String? = null
+    val untrackedReason: kotlin.String? = null,
+
+    /* Whether this is a pitch project, a one-off snapshot that runs its prompts once, takes no project slot and is deleted at pitch_expires_at unless it is converted (PATCH /projects/{id} with pitch false) */
+    @Json(name = "pitch")
+    val pitch: kotlin.Boolean? = null,
+
+    /* When a pitch project is deleted, with its data, unless it is converted first. Null for a tracked project */
+    @Json(name = "pitch_expires_at")
+    val pitchExpiresAt: java.time.OffsetDateTime? = null
 
 ) {
 

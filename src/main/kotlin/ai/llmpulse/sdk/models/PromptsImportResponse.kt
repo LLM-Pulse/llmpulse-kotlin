@@ -41,7 +41,7 @@ import com.squareup.moshi.JsonClass
  * @param lengthWarning Which tracked AI models will skip new prompts that are too long for them
  * @param promptsAvailable Prompt slots left on the plan; null when unlimited
  * @param tracked Whether scheduled runs include the project the prompts were imported into. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes
- * @param untrackedReason Why tracked is false: paused or project_limit. Null when tracked
+ * @param untrackedReason Why tracked is false: pitch_project, paused or project_limit. Null when tracked
  * @param warning What to do when tracked is false. Null when tracked
  * @param requestId 
  */
@@ -86,7 +86,7 @@ data class PromptsImportResponse (
     @Json(name = "tracked")
     val tracked: kotlin.Boolean,
 
-    /* Why tracked is false: paused or project_limit. Null when tracked */
+    /* Why tracked is false: pitch_project, paused or project_limit. Null when tracked */
     @Json(name = "untracked_reason")
     val untrackedReason: kotlin.String?,
 

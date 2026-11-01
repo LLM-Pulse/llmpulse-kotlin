@@ -32,7 +32,7 @@ import com.squareup.moshi.JsonClass
  *
  * @param code 
  * @param message 
- * @param meta Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source.
+ * @param meta Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. A prompt write refused because a launched pitch project's prompts are fixed carries reason pitch_prompts_frozen.
  */
 
 
@@ -44,7 +44,7 @@ data class ApiErrorError (
     @Json(name = "message")
     val message: kotlin.String? = null,
 
-    /* Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. */
+    /* Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. A prompt write refused because a launched pitch project's prompts are fixed carries reason pitch_prompts_frozen. */
     @Json(name = "meta")
     val meta: kotlin.Any? = null
 

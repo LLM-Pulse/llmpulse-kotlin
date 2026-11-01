@@ -57,7 +57,7 @@ open class HealthApi(basePath: kotlin.String = defaultBasePath, client: Call.Fac
     /**
      * GET /ping
      * Health check
-     * Validates the API key and optionally pings a project. Returns the authenticated user_id, project (if project_id is supplied), and a request_id.
+     * Validates the API key and optionally pings a project. Returns the authenticated user_id, project (if project_id is supplied), and a request_id. The project object carries only id, name and brand_name; GET /dimensions/projects/{id} returns the rest, pitch and tracked included.
      * @param projectId Optional project to verify access for (optional)
      * @return Ping200Response
      * @throws IllegalStateException If the request is not correctly configured
@@ -89,7 +89,7 @@ open class HealthApi(basePath: kotlin.String = defaultBasePath, client: Call.Fac
     /**
      * GET /ping
      * Health check
-     * Validates the API key and optionally pings a project. Returns the authenticated user_id, project (if project_id is supplied), and a request_id.
+     * Validates the API key and optionally pings a project. Returns the authenticated user_id, project (if project_id is supplied), and a request_id. The project object carries only id, name and brand_name; GET /dimensions/projects/{id} returns the rest, pitch and tracked included.
      * @param projectId Optional project to verify access for (optional)
      * @return ApiResponse<Ping200Response?>
      * @throws IllegalStateException If the request is not correctly configured

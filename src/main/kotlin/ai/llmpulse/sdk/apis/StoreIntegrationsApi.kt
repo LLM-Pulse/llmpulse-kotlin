@@ -66,7 +66,7 @@ open class StoreIntegrationsApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * POST /catalog_prompt_suggestions/accept
      * Accept catalog prompt suggestions
-     * Starts tracking pending suggestions: each one becomes a prompt, tagged with a collection named after its product. Suggestions that are no longer pending come back in skipped. All accepted suggestions must share one country and language. When the new prompts would exceed the plan, the call returns ERR_LIMIT_REACHED and accepts nothing. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
+     * Starts tracking pending suggestions: each one becomes a prompt, tagged with a collection named after its product. Suggestions that are no longer pending come back in skipped. All accepted suggestions must share one country and language. When the new prompts would exceed the plan, the call returns ERR_LIMIT_REACHED and accepts nothing. The prompts of a launched pitch project are fixed, so accepting a suggestion returns ERR_INVALID_PARAM with error.meta.reason pitch_prompts_frozen. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
      * @param catalogPromptSuggestionIdsRequest 
      * @return CatalogPromptSuggestionsAcceptResponse
      * @throws IllegalStateException If the request is not correctly configured
@@ -98,7 +98,7 @@ open class StoreIntegrationsApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * POST /catalog_prompt_suggestions/accept
      * Accept catalog prompt suggestions
-     * Starts tracking pending suggestions: each one becomes a prompt, tagged with a collection named after its product. Suggestions that are no longer pending come back in skipped. All accepted suggestions must share one country and language. When the new prompts would exceed the plan, the call returns ERR_LIMIT_REACHED and accepts nothing. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
+     * Starts tracking pending suggestions: each one becomes a prompt, tagged with a collection named after its product. Suggestions that are no longer pending come back in skipped. All accepted suggestions must share one country and language. When the new prompts would exceed the plan, the call returns ERR_LIMIT_REACHED and accepts nothing. The prompts of a launched pitch project are fixed, so accepting a suggestion returns ERR_INVALID_PARAM with error.meta.reason pitch_prompts_frozen. Requires a &#x60;read_write&#x60; scope API key and, for team members, create access to Prompts. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
      * @param catalogPromptSuggestionIdsRequest 
      * @return ApiResponse<CatalogPromptSuggestionsAcceptResponse?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -230,7 +230,7 @@ open class StoreIntegrationsApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * GET /store_connection
      * Match a store to a project
-     * Tells a store app whether the API key&#39;s account can use it and which project the store belongs to: the live project whose domain equals the store domain, else one whose domain is a parent or a subdomain of it, else null. candidates lists every live project of the account so the app can offer a picker. Takes no project_id. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
+     * Tells a store app whether the API key&#39;s account can use it and which project the store belongs to: the live project whose domain equals the store domain, else one whose domain is a parent or a subdomain of it, else null. candidates lists every live project of the account so the app can offer a picker. Pitch projects are never matched or listed, since a store is a data connection a pitch project does not take. Takes no project_id. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
      * @param platform Store platform
      * @param domain Store domain, with or without scheme, e.g. acme-store.com
      * @return StoreConnectionResponse
@@ -263,7 +263,7 @@ open class StoreIntegrationsApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * GET /store_connection
      * Match a store to a project
-     * Tells a store app whether the API key&#39;s account can use it and which project the store belongs to: the live project whose domain equals the store domain, else one whose domain is a parent or a subdomain of it, else null. candidates lists every live project of the account so the app can offer a picker. Takes no project_id. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
+     * Tells a store app whether the API key&#39;s account can use it and which project the store belongs to: the live project whose domain equals the store domain, else one whose domain is a parent or a subdomain of it, else null. candidates lists every live project of the account so the app can offer a picker. Pitch projects are never matched or listed, since a store is a data connection a pitch project does not take. Takes no project_id. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
      * @param platform Store platform
      * @param domain Store domain, with or without scheme, e.g. acme-store.com
      * @return ApiResponse<StoreConnectionResponse?>
@@ -612,7 +612,7 @@ open class StoreIntegrationsApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * PUT /ai_orders
      * Replace AI-referred store orders for a window
-     * Replaces the daily AI-referred orders and revenue of the from..to window. Send the raw referring host or utm_source of each order&#39;s first visit as referrer: LLM Pulse classifies it and ignores anything that is not an AI assistant. Entries for the same day and assistant are summed. Every stored row of that project and platform inside the window is replaced, so pushing the same window again converges instead of counting twice. Rows are kept per project and platform, not per store, so one store reports per project. Requires a &#x60;read_write&#x60; scope API key and, for team members, update access to AI Traffic. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
+     * Replaces the daily AI-referred orders and revenue of the from..to window. Send the raw referring host or utm_source of each order&#39;s first visit as referrer: LLM Pulse classifies it and ignores anything that is not an AI assistant. Entries for the same day and assistant are summed. Every stored row of that project and platform inside the window is replaced, so pushing the same window again converges instead of counting twice. Rows are kept per project and platform, not per store, so one store reports per project. A pitch project takes no store data: pushing orders to one returns ERR_INVALID_PARAM. Requires a &#x60;read_write&#x60; scope API key and, for team members, update access to AI Traffic. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
      * @param aiOrdersUpdateRequest 
      * @return AiOrdersUpdateResponse
      * @throws IllegalStateException If the request is not correctly configured
@@ -644,7 +644,7 @@ open class StoreIntegrationsApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * PUT /ai_orders
      * Replace AI-referred store orders for a window
-     * Replaces the daily AI-referred orders and revenue of the from..to window. Send the raw referring host or utm_source of each order&#39;s first visit as referrer: LLM Pulse classifies it and ignores anything that is not an AI assistant. Entries for the same day and assistant are summed. Every stored row of that project and platform inside the window is replaced, so pushing the same window again converges instead of counting twice. Rows are kept per project and platform, not per store, so one store reports per project. Requires a &#x60;read_write&#x60; scope API key and, for team members, update access to AI Traffic. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
+     * Replaces the daily AI-referred orders and revenue of the from..to window. Send the raw referring host or utm_source of each order&#39;s first visit as referrer: LLM Pulse classifies it and ignores anything that is not an AI assistant. Entries for the same day and assistant are summed. Every stored row of that project and platform inside the window is replaced, so pushing the same window again converges instead of counting twice. Rows are kept per project and platform, not per store, so one store reports per project. A pitch project takes no store data: pushing orders to one returns ERR_INVALID_PARAM. Requires a &#x60;read_write&#x60; scope API key and, for team members, update access to AI Traffic. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
      * @param aiOrdersUpdateRequest 
      * @return ApiResponse<AiOrdersUpdateResponse?>
      * @throws IllegalStateException If the request is not correctly configured

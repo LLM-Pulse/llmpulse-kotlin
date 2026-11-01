@@ -6,6 +6,7 @@ docs/AIModelInsightsApi.md
 docs/APIKeysApi.md
 docs/AccountApi.md
 docs/AccountCapacity.md
+docs/AccountPitchQuota.md
 docs/AccountQuota.md
 docs/Actor.md
 docs/AgentBot.md
@@ -181,6 +182,7 @@ docs/ProjectDetails.md
 docs/ProjectDetailsAllOfAgentTraffic.md
 docs/ProjectDetailsAllOfAiTraffic.md
 docs/ProjectDetailsAllOfDataCoverage.md
+docs/ProjectDetailsAllOfPitchRun.md
 docs/ProjectDetailsAllOfSearchConsole.md
 docs/ProjectDetailsAllOfStats.md
 docs/ProjectDetailsAllOfStatsPromptsByBrandKind.md
@@ -351,6 +353,7 @@ src/main/kotlin/ai/llmpulse/sdk/infrastructure/Serializer.kt
 src/main/kotlin/ai/llmpulse/sdk/infrastructure/URIAdapter.kt
 src/main/kotlin/ai/llmpulse/sdk/infrastructure/UUIDAdapter.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AccountCapacity.kt
+src/main/kotlin/ai/llmpulse/sdk/models/AccountPitchQuota.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AccountQuota.kt
 src/main/kotlin/ai/llmpulse/sdk/models/Actor.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AgentBot.kt
@@ -515,6 +518,7 @@ src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetails.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfAgentTraffic.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfAiTraffic.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfDataCoverage.kt
+src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfPitchRun.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfSearchConsole.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfStats.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfStatsPromptsByBrandKind.kt
