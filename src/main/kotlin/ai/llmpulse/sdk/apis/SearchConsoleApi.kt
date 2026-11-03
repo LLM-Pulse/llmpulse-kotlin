@@ -28,7 +28,12 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.SearchConsoleAiVisibilityGapsResponse
+import ai.llmpulse.sdk.models.SearchConsoleBrandSplitResponse
+import ai.llmpulse.sdk.models.SearchConsoleCannibalizationResponse
+import ai.llmpulse.sdk.models.SearchConsoleDecayResponse
 import ai.llmpulse.sdk.models.SearchConsoleListResponse
+import ai.llmpulse.sdk.models.SearchConsoleOpportunitiesResponse
 import ai.llmpulse.sdk.models.SearchConsolePropertiesResponse
 import ai.llmpulse.sdk.models.SearchConsoleRowsResponse
 import ai.llmpulse.sdk.models.SearchConsoleSummaryResponse
@@ -56,6 +61,1117 @@ open class SearchConsoleApi(basePath: kotlin.String = defaultBasePath, client: C
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "https://api.llmpulse.ai/api/v1")
         }
+    }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputGetSearchConsoleAiVisibilityGaps(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter searchType
+     */
+     enum class SearchTypeGetSearchConsoleAiVisibilityGaps(val value: kotlin.String) {
+         @Json(name = "web") web("web"),
+         @Json(name = "image") image("image"),
+         @Json(name = "video") video("video"),
+         @Json(name = "news") news("news"),
+         @Json(name = "discover") discover("discover"),
+         @Json(name = "googleNews") googleNews("googleNews");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter dataState
+     */
+     enum class DataStateGetSearchConsoleAiVisibilityGaps(val value: kotlin.String) {
+         @Json(name = "final") `final`("final"),
+         @Json(name = "all") all("all");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter aggregationType
+     */
+     enum class AggregationTypeGetSearchConsoleAiVisibilityGaps(val value: kotlin.String) {
+         @Json(name = "auto") auto("auto"),
+         @Json(name = "byPage") byPage("byPage"),
+         @Json(name = "byProperty") byProperty("byProperty");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /search_console/ai_visibility_gaps
+     * Search Console queries vs AI tracking (Growth+)
+     * The property&#39;s queries with at least min_impressions impressions, most impressions first, each matched against the project&#39;s prompts. The match is exact and deliberately conservative: a query matches a prompt with the same text once both are lowercased, accents and similar letters folded the way AI answers are matched for brand mentions, spacing squeezed and leading or trailing punctuation dropped (best crm for agencies matches Best CRM for agencies?, but not What is the best CRM for agencies). When two prompts share a text (other countries or languages), the oldest is the match. A matched query carries its prompt_id, responses (the prompt&#39;s AI answers in the same window, over the account&#39;s enabled models) and brand_visibility, the percent of those answers that mention the brand (null before any answer), as /metrics/prompt_summary computes it. unmatched_only&#x3D;true lists only the queries no prompt matches: search demand the AI tracking does not cover yet, the strongest candidates to add as prompts. Rows with a prompt and a low brand_visibility are queries people search for where AI answers rarely mention the brand; how low is low is the caller&#39;s choice. matched_count counts the qualifying queries a prompt matches. A team member also needs read access to the Overview, which holds prompt-level Brand Visibility, or gets ERR_INSUFFICIENT_PERMISSION. Reads Google&#39;s top 25,000 queries per property (truncated: true when reached) and excludes anonymized queries. Requires a connected Search Console property (Growth+). Live reads only: under stored reads it returns ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param minImpressions Smallest impressions a query needs. (optional, default to 100)
+     * @param unmatchedOnly List only the queries no prompt of the project matches (true or false). (optional, default to false)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return SearchConsoleAiVisibilityGapsResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getSearchConsoleAiVisibilityGaps(projectId: kotlin.Int, `property`: kotlin.String? = null, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, minImpressions: kotlin.Int? = 100, unmatchedOnly: kotlin.Boolean? = false, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetSearchConsoleAiVisibilityGaps? = null, searchType: SearchTypeGetSearchConsoleAiVisibilityGaps? = SearchTypeGetSearchConsoleAiVisibilityGaps.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleAiVisibilityGaps? = DataStateGetSearchConsoleAiVisibilityGaps.`final`, aggregationType: AggregationTypeGetSearchConsoleAiVisibilityGaps? = AggregationTypeGetSearchConsoleAiVisibilityGaps.auto) : SearchConsoleAiVisibilityGapsResponse {
+        val localVarResponse = getSearchConsoleAiVisibilityGapsWithHttpInfo(projectId = projectId, `property` = `property`, range = range, from = from, to = to, minImpressions = minImpressions, unmatchedOnly = unmatchedOnly, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SearchConsoleAiVisibilityGapsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /search_console/ai_visibility_gaps
+     * Search Console queries vs AI tracking (Growth+)
+     * The property&#39;s queries with at least min_impressions impressions, most impressions first, each matched against the project&#39;s prompts. The match is exact and deliberately conservative: a query matches a prompt with the same text once both are lowercased, accents and similar letters folded the way AI answers are matched for brand mentions, spacing squeezed and leading or trailing punctuation dropped (best crm for agencies matches Best CRM for agencies?, but not What is the best CRM for agencies). When two prompts share a text (other countries or languages), the oldest is the match. A matched query carries its prompt_id, responses (the prompt&#39;s AI answers in the same window, over the account&#39;s enabled models) and brand_visibility, the percent of those answers that mention the brand (null before any answer), as /metrics/prompt_summary computes it. unmatched_only&#x3D;true lists only the queries no prompt matches: search demand the AI tracking does not cover yet, the strongest candidates to add as prompts. Rows with a prompt and a low brand_visibility are queries people search for where AI answers rarely mention the brand; how low is low is the caller&#39;s choice. matched_count counts the qualifying queries a prompt matches. A team member also needs read access to the Overview, which holds prompt-level Brand Visibility, or gets ERR_INSUFFICIENT_PERMISSION. Reads Google&#39;s top 25,000 queries per property (truncated: true when reached) and excludes anonymized queries. Requires a connected Search Console property (Growth+). Live reads only: under stored reads it returns ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param minImpressions Smallest impressions a query needs. (optional, default to 100)
+     * @param unmatchedOnly List only the queries no prompt of the project matches (true or false). (optional, default to false)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return ApiResponse<SearchConsoleAiVisibilityGapsResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getSearchConsoleAiVisibilityGapsWithHttpInfo(projectId: kotlin.Int, `property`: kotlin.String?, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, minImpressions: kotlin.Int?, unmatchedOnly: kotlin.Boolean?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleAiVisibilityGaps?, searchType: SearchTypeGetSearchConsoleAiVisibilityGaps?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleAiVisibilityGaps?, aggregationType: AggregationTypeGetSearchConsoleAiVisibilityGaps?) : ApiResponse<SearchConsoleAiVisibilityGapsResponse?> {
+        val localVariableConfig = getSearchConsoleAiVisibilityGapsRequestConfig(projectId = projectId, `property` = `property`, range = range, from = from, to = to, minImpressions = minImpressions, unmatchedOnly = unmatchedOnly, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+
+        return request<Unit, SearchConsoleAiVisibilityGapsResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getSearchConsoleAiVisibilityGaps
+     *
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param minImpressions Smallest impressions a query needs. (optional, default to 100)
+     * @param unmatchedOnly List only the queries no prompt of the project matches (true or false). (optional, default to false)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return RequestConfig
+     */
+    fun getSearchConsoleAiVisibilityGapsRequestConfig(projectId: kotlin.Int, `property`: kotlin.String?, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, minImpressions: kotlin.Int?, unmatchedOnly: kotlin.Boolean?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleAiVisibilityGaps?, searchType: SearchTypeGetSearchConsoleAiVisibilityGaps?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleAiVisibilityGaps?, aggregationType: AggregationTypeGetSearchConsoleAiVisibilityGaps?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (`property` != null) {
+                    put("property", listOf(`property`.toString()))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.LocalDate>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.LocalDate>(to)))
+                }
+                if (minImpressions != null) {
+                    put("min_impressions", listOf(minImpressions.toString()))
+                }
+                if (unmatchedOnly != null) {
+                    put("unmatched_only", listOf(unmatchedOnly.toString()))
+                }
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+                if (searchType != null) {
+                    put("search_type", listOf(searchType.value))
+                }
+                if (filters != null) {
+                    put("filters", listOf(filters.toString()))
+                }
+                if (dataState != null) {
+                    put("data_state", listOf(dataState.value))
+                }
+                if (aggregationType != null) {
+                    put("aggregation_type", listOf(aggregationType.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/search_console/ai_visibility_gaps",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter searchType
+     */
+     enum class SearchTypeGetSearchConsoleBrandSplit(val value: kotlin.String) {
+         @Json(name = "web") web("web"),
+         @Json(name = "image") image("image"),
+         @Json(name = "video") video("video"),
+         @Json(name = "news") news("news"),
+         @Json(name = "discover") discover("discover"),
+         @Json(name = "googleNews") googleNews("googleNews");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter dataState
+     */
+     enum class DataStateGetSearchConsoleBrandSplit(val value: kotlin.String) {
+         @Json(name = "final") `final`("final"),
+         @Json(name = "all") all("all");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter aggregationType
+     */
+     enum class AggregationTypeGetSearchConsoleBrandSplit(val value: kotlin.String) {
+         @Json(name = "auto") auto("auto"),
+         @Json(name = "byPage") byPage("byPage"),
+         @Json(name = "byProperty") byProperty("byProperty");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /search_console/brand_split
+     * Search Console branded vs non-branded split (Growth+)
+     * Splits the property&#39;s impressions and clicks into branded queries, which contain one of the project&#39;s brand terms as a whole word, case-insensitively (brand_terms: its brand name, matching names, app names and domain, each also matched with its accents folded and with either apostrophe, so Nestlé also matches nestle and L’Oréal matches l&#39;oreal), and non-branded ones, next to the unfiltered totals. Google applies the split itself as a regular-expression query filter, so it covers every query Google counts, not only the 25,000 rows one read lists. Use it to see how much search traffic comes from people who already know the brand and how much from discovery searches, and how each side evolves across date ranges. Google leaves anonymized queries out of any query filter, so unclassified holds the impressions and clicks neither side counts. Returns ERR_INVALID_PARAM when the brand terms are too long for one Google filter (4,096 characters, Google&#39;s documented limit), and ERR_SEARCH_CONSOLE_UPSTREAM (503) if Google refuses the filter built from them; our team is alerted in that case. Requires a connected Search Console property (Growth+). Live reads only: under stored reads it returns ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return SearchConsoleBrandSplitResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getSearchConsoleBrandSplit(projectId: kotlin.Int, `property`: kotlin.String? = null, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, searchType: SearchTypeGetSearchConsoleBrandSplit? = SearchTypeGetSearchConsoleBrandSplit.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleBrandSplit? = DataStateGetSearchConsoleBrandSplit.`final`, aggregationType: AggregationTypeGetSearchConsoleBrandSplit? = AggregationTypeGetSearchConsoleBrandSplit.auto) : SearchConsoleBrandSplitResponse {
+        val localVarResponse = getSearchConsoleBrandSplitWithHttpInfo(projectId = projectId, `property` = `property`, range = range, from = from, to = to, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SearchConsoleBrandSplitResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /search_console/brand_split
+     * Search Console branded vs non-branded split (Growth+)
+     * Splits the property&#39;s impressions and clicks into branded queries, which contain one of the project&#39;s brand terms as a whole word, case-insensitively (brand_terms: its brand name, matching names, app names and domain, each also matched with its accents folded and with either apostrophe, so Nestlé also matches nestle and L’Oréal matches l&#39;oreal), and non-branded ones, next to the unfiltered totals. Google applies the split itself as a regular-expression query filter, so it covers every query Google counts, not only the 25,000 rows one read lists. Use it to see how much search traffic comes from people who already know the brand and how much from discovery searches, and how each side evolves across date ranges. Google leaves anonymized queries out of any query filter, so unclassified holds the impressions and clicks neither side counts. Returns ERR_INVALID_PARAM when the brand terms are too long for one Google filter (4,096 characters, Google&#39;s documented limit), and ERR_SEARCH_CONSOLE_UPSTREAM (503) if Google refuses the filter built from them; our team is alerted in that case. Requires a connected Search Console property (Growth+). Live reads only: under stored reads it returns ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return ApiResponse<SearchConsoleBrandSplitResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getSearchConsoleBrandSplitWithHttpInfo(projectId: kotlin.Int, `property`: kotlin.String?, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, searchType: SearchTypeGetSearchConsoleBrandSplit?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleBrandSplit?, aggregationType: AggregationTypeGetSearchConsoleBrandSplit?) : ApiResponse<SearchConsoleBrandSplitResponse?> {
+        val localVariableConfig = getSearchConsoleBrandSplitRequestConfig(projectId = projectId, `property` = `property`, range = range, from = from, to = to, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+
+        return request<Unit, SearchConsoleBrandSplitResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getSearchConsoleBrandSplit
+     *
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return RequestConfig
+     */
+    fun getSearchConsoleBrandSplitRequestConfig(projectId: kotlin.Int, `property`: kotlin.String?, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, searchType: SearchTypeGetSearchConsoleBrandSplit?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleBrandSplit?, aggregationType: AggregationTypeGetSearchConsoleBrandSplit?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (`property` != null) {
+                    put("property", listOf(`property`.toString()))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.LocalDate>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.LocalDate>(to)))
+                }
+                if (searchType != null) {
+                    put("search_type", listOf(searchType.value))
+                }
+                if (filters != null) {
+                    put("filters", listOf(filters.toString()))
+                }
+                if (dataState != null) {
+                    put("data_state", listOf(dataState.value))
+                }
+                if (aggregationType != null) {
+                    put("aggregation_type", listOf(aggregationType.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/search_console/brand_split",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputGetSearchConsoleCannibalization(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter searchType
+     */
+     enum class SearchTypeGetSearchConsoleCannibalization(val value: kotlin.String) {
+         @Json(name = "web") web("web"),
+         @Json(name = "image") image("image"),
+         @Json(name = "video") video("video"),
+         @Json(name = "news") news("news"),
+         @Json(name = "discover") discover("discover"),
+         @Json(name = "googleNews") googleNews("googleNews");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter dataState
+     */
+     enum class DataStateGetSearchConsoleCannibalization(val value: kotlin.String) {
+         @Json(name = "final") `final`("final"),
+         @Json(name = "all") all("all");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter aggregationType
+     */
+     enum class AggregationTypeGetSearchConsoleCannibalization(val value: kotlin.String) {
+         @Json(name = "auto") auto("auto"),
+         @Json(name = "byPage") byPage("byPage"),
+         @Json(name = "byProperty") byProperty("byProperty");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /search_console/cannibalization
+     * Search Console keyword cannibalization (Growth+)
+     * Queries with at least min_impressions impressions for which two or more pages each take at least min_share (default 0.1) of the query&#39;s impressions, most impressions first, each with its competing pages (share, impressions, clicks, ctr, position). Use it to find the keywords several of the site&#39;s pages fight over, and decide which pages to merge, redirect or differentiate. Google counts page-by-query impressions per page, so a query&#39;s impressions here can exceed its property-wide figure. Reads Google&#39;s top 25,000 page-query rows per property (truncated: true when reached). With output&#x3D;flat or csv, each competing page is its own row, with its URL in page_url. Requires a connected Search Console property (Growth+). Live reads only: under stored reads it returns ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param minImpressions Smallest impressions a query needs. (optional, default to 100)
+     * @param minShare Smallest fraction (0.01 to 0.5) of the query&#39;s impressions a page needs to count as competing. (optional, default to 0.1)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return SearchConsoleCannibalizationResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getSearchConsoleCannibalization(projectId: kotlin.Int, `property`: kotlin.String? = null, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, minImpressions: kotlin.Int? = 100, minShare: java.math.BigDecimal? = java.math.BigDecimal("0.1"), page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetSearchConsoleCannibalization? = null, searchType: SearchTypeGetSearchConsoleCannibalization? = SearchTypeGetSearchConsoleCannibalization.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleCannibalization? = DataStateGetSearchConsoleCannibalization.`final`, aggregationType: AggregationTypeGetSearchConsoleCannibalization? = AggregationTypeGetSearchConsoleCannibalization.auto) : SearchConsoleCannibalizationResponse {
+        val localVarResponse = getSearchConsoleCannibalizationWithHttpInfo(projectId = projectId, `property` = `property`, range = range, from = from, to = to, minImpressions = minImpressions, minShare = minShare, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SearchConsoleCannibalizationResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /search_console/cannibalization
+     * Search Console keyword cannibalization (Growth+)
+     * Queries with at least min_impressions impressions for which two or more pages each take at least min_share (default 0.1) of the query&#39;s impressions, most impressions first, each with its competing pages (share, impressions, clicks, ctr, position). Use it to find the keywords several of the site&#39;s pages fight over, and decide which pages to merge, redirect or differentiate. Google counts page-by-query impressions per page, so a query&#39;s impressions here can exceed its property-wide figure. Reads Google&#39;s top 25,000 page-query rows per property (truncated: true when reached). With output&#x3D;flat or csv, each competing page is its own row, with its URL in page_url. Requires a connected Search Console property (Growth+). Live reads only: under stored reads it returns ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param minImpressions Smallest impressions a query needs. (optional, default to 100)
+     * @param minShare Smallest fraction (0.01 to 0.5) of the query&#39;s impressions a page needs to count as competing. (optional, default to 0.1)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return ApiResponse<SearchConsoleCannibalizationResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getSearchConsoleCannibalizationWithHttpInfo(projectId: kotlin.Int, `property`: kotlin.String?, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, minImpressions: kotlin.Int?, minShare: java.math.BigDecimal?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleCannibalization?, searchType: SearchTypeGetSearchConsoleCannibalization?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleCannibalization?, aggregationType: AggregationTypeGetSearchConsoleCannibalization?) : ApiResponse<SearchConsoleCannibalizationResponse?> {
+        val localVariableConfig = getSearchConsoleCannibalizationRequestConfig(projectId = projectId, `property` = `property`, range = range, from = from, to = to, minImpressions = minImpressions, minShare = minShare, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+
+        return request<Unit, SearchConsoleCannibalizationResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getSearchConsoleCannibalization
+     *
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param minImpressions Smallest impressions a query needs. (optional, default to 100)
+     * @param minShare Smallest fraction (0.01 to 0.5) of the query&#39;s impressions a page needs to count as competing. (optional, default to 0.1)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return RequestConfig
+     */
+    fun getSearchConsoleCannibalizationRequestConfig(projectId: kotlin.Int, `property`: kotlin.String?, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, minImpressions: kotlin.Int?, minShare: java.math.BigDecimal?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleCannibalization?, searchType: SearchTypeGetSearchConsoleCannibalization?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleCannibalization?, aggregationType: AggregationTypeGetSearchConsoleCannibalization?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (`property` != null) {
+                    put("property", listOf(`property`.toString()))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.LocalDate>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.LocalDate>(to)))
+                }
+                if (minImpressions != null) {
+                    put("min_impressions", listOf(minImpressions.toString()))
+                }
+                if (minShare != null) {
+                    put("min_share", listOf(minShare.toString()))
+                }
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+                if (searchType != null) {
+                    put("search_type", listOf(searchType.value))
+                }
+                if (filters != null) {
+                    put("filters", listOf(filters.toString()))
+                }
+                if (dataState != null) {
+                    put("data_state", listOf(dataState.value))
+                }
+                if (aggregationType != null) {
+                    put("aggregation_type", listOf(aggregationType.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/search_console/cannibalization",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter dimension
+     */
+     enum class DimensionGetSearchConsoleDecay(val value: kotlin.String) {
+         @Json(name = "page") page("page"),
+         @Json(name = "query") query("query");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputGetSearchConsoleDecay(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter searchType
+     */
+     enum class SearchTypeGetSearchConsoleDecay(val value: kotlin.String) {
+         @Json(name = "web") web("web"),
+         @Json(name = "image") image("image"),
+         @Json(name = "video") video("video"),
+         @Json(name = "news") news("news"),
+         @Json(name = "discover") discover("discover"),
+         @Json(name = "googleNews") googleNews("googleNews");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter dataState
+     */
+     enum class DataStateGetSearchConsoleDecay(val value: kotlin.String) {
+         @Json(name = "final") `final`("final"),
+         @Json(name = "all") all("all");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter aggregationType
+     */
+     enum class AggregationTypeGetSearchConsoleDecay(val value: kotlin.String) {
+         @Json(name = "auto") auto("auto"),
+         @Json(name = "byPage") byPage("byPage"),
+         @Json(name = "byProperty") byProperty("byProperty");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /search_console/decay
+     * Search Console content decay (Growth+)
+     * Pages (or queries, with dimension&#x3D;query) that had at least min_clicks clicks in the window just before the requested one (previous_from to previous_to, the same length) and lost clicks since, biggest loss first, with clicks, impressions and average position in both windows. Use it to find the pages losing traffic and to tell lost rankings (a worse position) from lost demand (fewer impressions at a stable position). The requested window ends at compared_through, the last day Google has published when that is before to, so days Google has not filled in yet never read as a loss. Both windows must fit in Google&#39;s 487-day retention, or the request returns ERR_INVALID_PARAM. Reads Google&#39;s top 25,000 rows per window and property (truncated: true when reached); when the requested window reaches that cap, a page or query missing from it is left out rather than read as a loss. Requires a connected Search Console property (Growth+). Live reads only: under stored reads it returns ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param dimension Compare pages or queries. (optional, default to Dimension.page)
+     * @param minClicks Smallest clicks in the previous window. (optional, default to 10)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return SearchConsoleDecayResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getSearchConsoleDecay(projectId: kotlin.Int, `property`: kotlin.String? = null, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, dimension: DimensionGetSearchConsoleDecay? = DimensionGetSearchConsoleDecay.page, minClicks: kotlin.Int? = 10, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetSearchConsoleDecay? = null, searchType: SearchTypeGetSearchConsoleDecay? = SearchTypeGetSearchConsoleDecay.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleDecay? = DataStateGetSearchConsoleDecay.`final`, aggregationType: AggregationTypeGetSearchConsoleDecay? = AggregationTypeGetSearchConsoleDecay.auto) : SearchConsoleDecayResponse {
+        val localVarResponse = getSearchConsoleDecayWithHttpInfo(projectId = projectId, `property` = `property`, range = range, from = from, to = to, dimension = dimension, minClicks = minClicks, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SearchConsoleDecayResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /search_console/decay
+     * Search Console content decay (Growth+)
+     * Pages (or queries, with dimension&#x3D;query) that had at least min_clicks clicks in the window just before the requested one (previous_from to previous_to, the same length) and lost clicks since, biggest loss first, with clicks, impressions and average position in both windows. Use it to find the pages losing traffic and to tell lost rankings (a worse position) from lost demand (fewer impressions at a stable position). The requested window ends at compared_through, the last day Google has published when that is before to, so days Google has not filled in yet never read as a loss. Both windows must fit in Google&#39;s 487-day retention, or the request returns ERR_INVALID_PARAM. Reads Google&#39;s top 25,000 rows per window and property (truncated: true when reached); when the requested window reaches that cap, a page or query missing from it is left out rather than read as a loss. Requires a connected Search Console property (Growth+). Live reads only: under stored reads it returns ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param dimension Compare pages or queries. (optional, default to Dimension.page)
+     * @param minClicks Smallest clicks in the previous window. (optional, default to 10)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return ApiResponse<SearchConsoleDecayResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getSearchConsoleDecayWithHttpInfo(projectId: kotlin.Int, `property`: kotlin.String?, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, dimension: DimensionGetSearchConsoleDecay?, minClicks: kotlin.Int?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleDecay?, searchType: SearchTypeGetSearchConsoleDecay?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleDecay?, aggregationType: AggregationTypeGetSearchConsoleDecay?) : ApiResponse<SearchConsoleDecayResponse?> {
+        val localVariableConfig = getSearchConsoleDecayRequestConfig(projectId = projectId, `property` = `property`, range = range, from = from, to = to, dimension = dimension, minClicks = minClicks, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+
+        return request<Unit, SearchConsoleDecayResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getSearchConsoleDecay
+     *
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param dimension Compare pages or queries. (optional, default to Dimension.page)
+     * @param minClicks Smallest clicks in the previous window. (optional, default to 10)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return RequestConfig
+     */
+    fun getSearchConsoleDecayRequestConfig(projectId: kotlin.Int, `property`: kotlin.String?, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, dimension: DimensionGetSearchConsoleDecay?, minClicks: kotlin.Int?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleDecay?, searchType: SearchTypeGetSearchConsoleDecay?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleDecay?, aggregationType: AggregationTypeGetSearchConsoleDecay?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (`property` != null) {
+                    put("property", listOf(`property`.toString()))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.LocalDate>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.LocalDate>(to)))
+                }
+                if (dimension != null) {
+                    put("dimension", listOf(dimension.value))
+                }
+                if (minClicks != null) {
+                    put("min_clicks", listOf(minClicks.toString()))
+                }
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+                if (searchType != null) {
+                    put("search_type", listOf(searchType.value))
+                }
+                if (filters != null) {
+                    put("filters", listOf(filters.toString()))
+                }
+                if (dataState != null) {
+                    put("data_state", listOf(dataState.value))
+                }
+                if (aggregationType != null) {
+                    put("aggregation_type", listOf(aggregationType.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/search_console/decay",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter output
+     */
+     enum class OutputGetSearchConsoleOpportunities(val value: kotlin.String) {
+         @Json(name = "flat") flat("flat"),
+         @Json(name = "csv") csv("csv");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter searchType
+     */
+     enum class SearchTypeGetSearchConsoleOpportunities(val value: kotlin.String) {
+         @Json(name = "web") web("web"),
+         @Json(name = "image") image("image"),
+         @Json(name = "video") video("video"),
+         @Json(name = "news") news("news"),
+         @Json(name = "discover") discover("discover"),
+         @Json(name = "googleNews") googleNews("googleNews");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter dataState
+     */
+     enum class DataStateGetSearchConsoleOpportunities(val value: kotlin.String) {
+         @Json(name = "final") `final`("final"),
+         @Json(name = "all") all("all");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter aggregationType
+     */
+     enum class AggregationTypeGetSearchConsoleOpportunities(val value: kotlin.String) {
+         @Json(name = "auto") auto("auto"),
+         @Json(name = "byPage") byPage("byPage"),
+         @Json(name = "byProperty") byProperty("byProperty");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /search_console/opportunities
+     * Search Console ranking opportunities (Growth+)
+     * Queries whose average position is between min_position and max_position (default 4 to 20) with at least min_impressions impressions, ranked by potential_clicks: the clicks a move into the top 3 would add at top_ctr, the CTR the property&#39;s own queries averaging position 3 or better get in the same window. Use it to find the queries where a small ranking gain would add the most traffic. No outside CTR curve is used: with no top-3 query in the window, top_ctr and potential_clicks are null. Reads Google&#39;s top 25,000 queries per property (truncated: true when reached) and excludes anonymized queries. Requires a connected Search Console property (Growth+). Live reads only: under stored reads it returns ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param minImpressions Smallest impressions a query needs. (optional, default to 100)
+     * @param minPosition Best average position to include. (optional, default to 4)
+     * @param maxPosition Worst average position to include; at least min_position. (optional, default to 20)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return SearchConsoleOpportunitiesResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getSearchConsoleOpportunities(projectId: kotlin.Int, `property`: kotlin.String? = null, range: kotlin.Int? = null, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, minImpressions: kotlin.Int? = 100, minPosition: java.math.BigDecimal? = java.math.BigDecimal("4"), maxPosition: java.math.BigDecimal? = java.math.BigDecimal("20"), page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputGetSearchConsoleOpportunities? = null, searchType: SearchTypeGetSearchConsoleOpportunities? = SearchTypeGetSearchConsoleOpportunities.web, filters: kotlin.String? = null, dataState: DataStateGetSearchConsoleOpportunities? = DataStateGetSearchConsoleOpportunities.`final`, aggregationType: AggregationTypeGetSearchConsoleOpportunities? = AggregationTypeGetSearchConsoleOpportunities.auto) : SearchConsoleOpportunitiesResponse {
+        val localVarResponse = getSearchConsoleOpportunitiesWithHttpInfo(projectId = projectId, `property` = `property`, range = range, from = from, to = to, minImpressions = minImpressions, minPosition = minPosition, maxPosition = maxPosition, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SearchConsoleOpportunitiesResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /search_console/opportunities
+     * Search Console ranking opportunities (Growth+)
+     * Queries whose average position is between min_position and max_position (default 4 to 20) with at least min_impressions impressions, ranked by potential_clicks: the clicks a move into the top 3 would add at top_ctr, the CTR the property&#39;s own queries averaging position 3 or better get in the same window. Use it to find the queries where a small ranking gain would add the most traffic. No outside CTR curve is used: with no top-3 query in the window, top_ctr and potential_clicks are null. Reads Google&#39;s top 25,000 queries per property (truncated: true when reached) and excludes anonymized queries. Requires a connected Search Console property (Growth+). Live reads only: under stored reads it returns ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences &gt; Project Settings &gt; Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param minImpressions Smallest impressions a query needs. (optional, default to 100)
+     * @param minPosition Best average position to include. (optional, default to 4)
+     * @param maxPosition Worst average position to include; at least min_position. (optional, default to 20)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return ApiResponse<SearchConsoleOpportunitiesResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getSearchConsoleOpportunitiesWithHttpInfo(projectId: kotlin.Int, `property`: kotlin.String?, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, minImpressions: kotlin.Int?, minPosition: java.math.BigDecimal?, maxPosition: java.math.BigDecimal?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleOpportunities?, searchType: SearchTypeGetSearchConsoleOpportunities?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleOpportunities?, aggregationType: AggregationTypeGetSearchConsoleOpportunities?) : ApiResponse<SearchConsoleOpportunitiesResponse?> {
+        val localVariableConfig = getSearchConsoleOpportunitiesRequestConfig(projectId = projectId, `property` = `property`, range = range, from = from, to = to, minImpressions = minImpressions, minPosition = minPosition, maxPosition = maxPosition, page = page, perPage = perPage, output = output, searchType = searchType, filters = filters, dataState = dataState, aggregationType = aggregationType)
+
+        return request<Unit, SearchConsoleOpportunitiesResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getSearchConsoleOpportunities
+     *
+     * @param projectId Project ID
+     * @param `property` Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
+     * @param range Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     * @param from Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     * @param to End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     * @param minImpressions Smallest impressions a query needs. (optional, default to 100)
+     * @param minPosition Best average position to include. (optional, default to 4)
+     * @param maxPosition Worst average position to include; at least min_position. (optional, default to 20)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     * @param searchType Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to SearchType.web)
+     * @param filters Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     * @param dataState final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to DataState.`final`)
+     * @param aggregationType How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to AggregationType.auto)
+     * @return RequestConfig
+     */
+    fun getSearchConsoleOpportunitiesRequestConfig(projectId: kotlin.Int, `property`: kotlin.String?, range: kotlin.Int?, from: java.time.LocalDate?, to: java.time.LocalDate?, minImpressions: kotlin.Int?, minPosition: java.math.BigDecimal?, maxPosition: java.math.BigDecimal?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputGetSearchConsoleOpportunities?, searchType: SearchTypeGetSearchConsoleOpportunities?, filters: kotlin.String?, dataState: DataStateGetSearchConsoleOpportunities?, aggregationType: AggregationTypeGetSearchConsoleOpportunities?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (`property` != null) {
+                    put("property", listOf(`property`.toString()))
+                }
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.LocalDate>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.LocalDate>(to)))
+                }
+                if (minImpressions != null) {
+                    put("min_impressions", listOf(minImpressions.toString()))
+                }
+                if (minPosition != null) {
+                    put("min_position", listOf(minPosition.toString()))
+                }
+                if (maxPosition != null) {
+                    put("max_position", listOf(maxPosition.toString()))
+                }
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+                if (output != null) {
+                    put("output", listOf(output.value))
+                }
+                if (searchType != null) {
+                    put("search_type", listOf(searchType.value))
+                }
+                if (filters != null) {
+                    put("filters", listOf(filters.toString()))
+                }
+                if (dataState != null) {
+                    put("data_state", listOf(dataState.value))
+                }
+                if (aggregationType != null) {
+                    put("aggregation_type", listOf(aggregationType.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/search_console/opportunities",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
     }
 
     /**
