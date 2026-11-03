@@ -11,11 +11,11 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 <a id="getAiModelInsightsSummary"></a>
 # **getAiModelInsightsSummary**
-> getAiModelInsightsSummary(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, competitors)
+> AiModelInsightsSummaryResponse getAiModelInsightsSummary(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, competitors)
 
 AI Model Insights summary
 
-Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains.
+Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains. Rows cover the AI models the account has enabled or that answered in the window. A share, net sentiment or market share value with nothing behind it is null; counts, totals and weighted visibility scores stay 0.
 
 ### Example
 ```kotlin
@@ -36,7 +36,8 @@ val promptType : kotlin.String = promptType_example // kotlin.String | One promp
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val competitors : kotlin.String = competitors_example // kotlin.String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM)
 try {
-    apiInstance.getAiModelInsightsSummary(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, competitors)
+    val result : AiModelInsightsSummaryResponse = apiInstance.getAiModelInsightsSummary(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, competitors)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling AIModelInsightsApi#getAiModelInsightsSummary")
     e.printStackTrace()
@@ -63,7 +64,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AiModelInsightsSummaryResponse**](AiModelInsightsSummaryResponse.md)
 
 ### Authorization
 
@@ -80,7 +81,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="getAiModelPositionDistribution"></a>
 # **getAiModelPositionDistribution**

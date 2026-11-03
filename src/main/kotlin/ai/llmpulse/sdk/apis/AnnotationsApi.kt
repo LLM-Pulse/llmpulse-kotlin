@@ -210,7 +210,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * GET /annotations
      * List timeline annotations
-     * Lists project timeline annotations, newest first. Rows can come from manual notes, project automations, GEO tests, or platform events. The origin field distinguishes them; editable says whether the requesting user may modify the row. Available on every plan.
+     * Lists project timeline annotations, newest first. Rows can come from manual notes, project automations, or platform events. The origin field distinguishes them; editable says whether the requesting user may modify the row. Available on every plan.
      * @param projectId Project ID
      * @param from  (optional)
      * @param to  (optional)
@@ -246,7 +246,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * GET /annotations
      * List timeline annotations
-     * Lists project timeline annotations, newest first. Rows can come from manual notes, project automations, GEO tests, or platform events. The origin field distinguishes them; editable says whether the requesting user may modify the row. Available on every plan.
+     * Lists project timeline annotations, newest first. Rows can come from manual notes, project automations, or platform events. The origin field distinguishes them; editable says whether the requesting user may modify the row. Available on every plan.
      * @param projectId Project ID
      * @param from  (optional)
      * @param to  (optional)

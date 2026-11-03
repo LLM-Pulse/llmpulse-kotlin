@@ -27,6 +27,7 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import ai.llmpulse.sdk.models.AiModelInsightsSummaryResponse
 
 import com.squareup.moshi.Json
 
@@ -91,7 +92,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
     /**
      * GET /reports/ai_model_insights/summary
      * AI Model Insights summary
-     * Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains.
+     * Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains. Rows cover the AI models the account has enabled or that answered in the window. A share, net sentiment or market share value with nothing behind it is null; counts, totals and weighted visibility scores stay 0.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
@@ -103,19 +104,20 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
-     * @return void
+     * @return AiModelInsightsSummaryResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAiModelInsightsSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelInsightsSummary? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiModelInsightsSummary? = null, competitors: kotlin.String? = null) : Unit {
+    fun getAiModelInsightsSummary(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelInsightsSummary? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiModelInsightsSummary? = null, competitors: kotlin.String? = null) : AiModelInsightsSummaryResponse {
         val localVarResponse = getAiModelInsightsSummaryWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, competitors = competitors)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AiModelInsightsSummaryResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -132,7 +134,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
     /**
      * GET /reports/ai_model_insights/summary
      * AI Model Insights summary
-     * Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains.
+     * Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains. Rows cover the AI models the account has enabled or that answered in the window. A share, net sentiment or market share value with nothing behind it is null; counts, totals and weighted visibility scores stay 0.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to) (optional)
      * @param from  (optional)
@@ -144,15 +146,16 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AiModelInsightsSummaryResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAiModelInsightsSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelInsightsSummary?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelInsightsSummary?, competitors: kotlin.String?) : ApiResponse<Unit?> {
+    fun getAiModelInsightsSummaryWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelInsightsSummary?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelInsightsSummary?, competitors: kotlin.String?) : ApiResponse<AiModelInsightsSummaryResponse?> {
         val localVariableConfig = getAiModelInsightsSummaryRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, competitors = competitors)
 
-        return request<Unit, Unit>(
+        return request<Unit, AiModelInsightsSummaryResponse>(
             localVariableConfig
         )
     }
@@ -210,7 +213,8 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/reports/ai_model_insights/summary",
