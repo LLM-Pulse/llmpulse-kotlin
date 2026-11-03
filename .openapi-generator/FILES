@@ -6,6 +6,7 @@ docs/AIModelInsightsApi.md
 docs/APIKeysApi.md
 docs/AccountApi.md
 docs/AccountCapacity.md
+docs/AccountExecutionQuota.md
 docs/AccountPitchQuota.md
 docs/AccountQuota.md
 docs/Actor.md
@@ -374,6 +375,7 @@ src/main/kotlin/ai/llmpulse/sdk/infrastructure/Serializer.kt
 src/main/kotlin/ai/llmpulse/sdk/infrastructure/URIAdapter.kt
 src/main/kotlin/ai/llmpulse/sdk/infrastructure/UUIDAdapter.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AccountCapacity.kt
+src/main/kotlin/ai/llmpulse/sdk/models/AccountExecutionQuota.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AccountPitchQuota.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AccountQuota.kt
 src/main/kotlin/ai/llmpulse/sdk/models/Actor.kt
