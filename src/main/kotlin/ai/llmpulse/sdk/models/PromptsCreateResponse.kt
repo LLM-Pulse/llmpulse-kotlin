@@ -38,7 +38,8 @@ import com.squareup.moshi.JsonClass
  * @param promptsAvailable 
  * @param tracked Whether scheduled runs include the project the prompts were added to. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes
  * @param untrackedReason Why tracked is false: pitch_project, paused or project_limit. Null when tracked
- * @param warning What to do when tracked is false. Null when tracked
+ * @param warning What to do when tracked is false, or why some first runs wait when first_runs_wait_until is set. Null otherwise
+ * @param firstRunsWaitUntil Set when the account's allowance of AI answers left this cycle cannot give every new prompt one answer per enabled AI model, so the rest run when the allowance resets at this time (00:00 Europe/Madrid). It counts this request's prompts against what was left when it arrived, not first runs other requests queued moments earlier. Null otherwise, when the allowance is unlimited, when tracked is false or when the account is not active
  * @param `data` 
  * @param requestId 
  */
@@ -69,9 +70,13 @@ data class PromptsCreateResponse (
     @Json(name = "untracked_reason")
     val untrackedReason: kotlin.String? = null,
 
-    /* What to do when tracked is false. Null when tracked */
+    /* What to do when tracked is false, or why some first runs wait when first_runs_wait_until is set. Null otherwise */
     @Json(name = "warning")
     val warning: kotlin.String? = null,
+
+    /* Set when the account's allowance of AI answers left this cycle cannot give every new prompt one answer per enabled AI model, so the rest run when the allowance resets at this time (00:00 Europe/Madrid). It counts this request's prompts against what was left when it arrived, not first runs other requests queued moments earlier. Null otherwise, when the allowance is unlimited, when tracked is false or when the account is not active */
+    @Json(name = "first_runs_wait_until")
+    val firstRunsWaitUntil: java.time.OffsetDateTime? = null,
 
     @Json(name = "data")
     val `data`: kotlin.collections.List<PromptsCreateResponseDataInner>? = null,
