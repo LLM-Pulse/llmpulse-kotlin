@@ -180,6 +180,7 @@ docs/OwnedMediaKpiChanges.md
 docs/OwnedMediaKpis.md
 docs/OwnedMediaListResponse.md
 docs/OwnedMediaModelShare.md
+docs/OwnedMediaPlatformActivityPeriod.md
 docs/OwnedMediaPlatformProfiles.md
 docs/OwnedMediaPlatformRollup.md
 docs/OwnedMediaPlatformRollupWeeklyInner.md
@@ -189,6 +190,7 @@ docs/OwnedMediaProfilesResponse.md
 docs/OwnedMediaProfilesUpdateResponse.md
 docs/OwnedMediaRow.md
 docs/OwnedMediaStoreTotals.md
+docs/OwnedMediaSummaryActivityPeriod.md
 docs/OwnedMediaSummaryResponse.md
 docs/OwnedMediaSummaryResponsePrevious.md
 docs/OwnedMediaWeek.md
@@ -247,6 +249,9 @@ docs/RecommendationSummary.md
 docs/RecommendationSummarySummary.md
 docs/RecommendationsApi.md
 docs/RecommendationsResponse.md
+docs/RedditBrandShare.md
+docs/RedditPositionShare.md
+docs/RedditSubredditActivityPeriod.md
 docs/RemovePromptTagsRequest.md
 docs/RemoveTeamMember200Response.md
 docs/ReputationStudiesApi.md
@@ -556,6 +561,7 @@ src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaKpiChanges.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaKpis.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaListResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaModelShare.kt
+src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaPlatformActivityPeriod.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaPlatformProfiles.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaPlatformRollup.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaPlatformRollupWeeklyInner.kt
@@ -565,6 +571,7 @@ src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaProfilesResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaProfilesUpdateResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaRow.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaStoreTotals.kt
+src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaSummaryActivityPeriod.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaSummaryResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaSummaryResponsePrevious.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaWeek.kt
@@ -620,6 +627,9 @@ src/main/kotlin/ai/llmpulse/sdk/models/RecommendationItemUpdateResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RecommendationSummary.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RecommendationSummarySummary.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RecommendationsResponse.kt
+src/main/kotlin/ai/llmpulse/sdk/models/RedditBrandShare.kt
+src/main/kotlin/ai/llmpulse/sdk/models/RedditPositionShare.kt
+src/main/kotlin/ai/llmpulse/sdk/models/RedditSubredditActivityPeriod.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RemovePromptTagsRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RemoveTeamMember200Response.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RevokeApiKey200Response.kt

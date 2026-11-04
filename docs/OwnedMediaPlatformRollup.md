@@ -10,6 +10,7 @@
 | **yours** | **kotlin.Int** |  |  [optional] |
 | **sharePct** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
 | **weekly** | [**kotlin.collections.List&lt;OwnedMediaPlatformRollupWeeklyInner&gt;**](OwnedMediaPlatformRollupWeeklyInner.md) |  |  [optional] |
+| **activity** | [**kotlin.collections.List&lt;OwnedMediaPlatformActivityPeriod&gt;**](OwnedMediaPlatformActivityPeriod.md) | One date/citation row per actual project tracking period with runs |  [optional] |
 
 
 <a id="Provider"></a>

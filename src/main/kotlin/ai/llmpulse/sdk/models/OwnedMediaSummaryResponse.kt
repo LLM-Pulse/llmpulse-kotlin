@@ -31,8 +31,12 @@ import ai.llmpulse.sdk.models.OwnedMediaKpis
 import ai.llmpulse.sdk.models.OwnedMediaModelShare
 import ai.llmpulse.sdk.models.OwnedMediaPlatformRollup
 import ai.llmpulse.sdk.models.OwnedMediaStoreTotals
+import ai.llmpulse.sdk.models.OwnedMediaSummaryActivityPeriod
 import ai.llmpulse.sdk.models.OwnedMediaSummaryResponsePrevious
 import ai.llmpulse.sdk.models.OwnedMediaWeek
+import ai.llmpulse.sdk.models.RedditBrandShare
+import ai.llmpulse.sdk.models.RedditPositionShare
+import ai.llmpulse.sdk.models.RedditSubredditActivityPeriod
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -55,6 +59,10 @@ import com.squareup.moshi.JsonClass
  * @param ageBuckets Social and YouTube providers only. Posts or videos without a known publication date are left out
  * @param stores provider=mobile_apps only
  * @param platforms provider=overview only, one row per platform the caller can read
+ * @param activity All providers. One row per actual project reporting period with runs; provider=overview has null yours and other, and provider=reddit also returns positive, neutral and negative sentiment counts. Citation counts use the selected date window, and periods with runs but no citation have zero
+ * @param subredditActivity provider=reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit
+ * @param positions provider=reddit only. Position distribution over the selected date window
+ * @param brandShare provider=reddit only. Citation share among the tracked brand and competitors with cited mentions
  * @param requestId 
  */
 
@@ -112,6 +120,22 @@ data class OwnedMediaSummaryResponse (
     /* provider=overview only, one row per platform the caller can read */
     @Json(name = "platforms")
     val platforms: kotlin.collections.List<OwnedMediaPlatformRollup>? = null,
+
+    /* All providers. One row per actual project reporting period with runs; provider=overview has null yours and other, and provider=reddit also returns positive, neutral and negative sentiment counts. Citation counts use the selected date window, and periods with runs but no citation have zero */
+    @Json(name = "activity")
+    val activity: kotlin.collections.List<OwnedMediaSummaryActivityPeriod>? = null,
+
+    /* provider=reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit */
+    @Json(name = "subreddit_activity")
+    val subredditActivity: kotlin.collections.List<RedditSubredditActivityPeriod>? = null,
+
+    /* provider=reddit only. Position distribution over the selected date window */
+    @Json(name = "positions")
+    val positions: kotlin.collections.List<RedditPositionShare>? = null,
+
+    /* provider=reddit only. Citation share among the tracked brand and competitors with cited mentions */
+    @Json(name = "brand_share")
+    val brandShare: kotlin.collections.List<RedditBrandShare>? = null,
 
     @Json(name = "request_id")
     val requestId: kotlin.String? = null

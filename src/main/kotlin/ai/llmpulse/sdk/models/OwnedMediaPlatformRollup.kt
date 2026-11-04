@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.OwnedMediaPlatformActivityPeriod
 import ai.llmpulse.sdk.models.OwnedMediaPlatformRollupWeeklyInner
 
 import com.squareup.moshi.Json
@@ -37,6 +38,7 @@ import com.squareup.moshi.JsonClass
  * @param yours 
  * @param sharePct 
  * @param weekly 
+ * @param activity One date/citation row per actual project tracking period with runs
  */
 
 
@@ -58,7 +60,11 @@ data class OwnedMediaPlatformRollup (
     val sharePct: java.math.BigDecimal? = null,
 
     @Json(name = "weekly")
-    val weekly: kotlin.collections.List<OwnedMediaPlatformRollupWeeklyInner>? = null
+    val weekly: kotlin.collections.List<OwnedMediaPlatformRollupWeeklyInner>? = null,
+
+    /* One date/citation row per actual project tracking period with runs */
+    @Json(name = "activity")
+    val activity: kotlin.collections.List<OwnedMediaPlatformActivityPeriod>? = null
 
 ) {
 

@@ -28,13 +28,16 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * Change against the previous period. Counts in percent, share_pct in percentage points; null when the previous period has nothing to compare with
+ * Change against the previous period. Counts in percent, share_pct and positive_pct in percentage points; null when the previous period has nothing to compare with
  *
  * @param total 
  * @param yours 
  * @param yourProfile 
  * @param yourContent 
  * @param sharePct 
+ * @param uniqueSubreddits Percent change in unique subreddits; null when the previous value cannot be compared
+ * @param uniqueAuthors Percent change in unique authors; null when the previous value cannot be compared
+ * @param positivePct Percentage-point change in positive sentiment; null when the previous period has no citations
  */
 
 
@@ -53,7 +56,19 @@ data class OwnedMediaKpiChanges (
     val yourContent: java.math.BigDecimal? = null,
 
     @Json(name = "share_pct")
-    val sharePct: java.math.BigDecimal? = null
+    val sharePct: java.math.BigDecimal? = null,
+
+    /* Percent change in unique subreddits; null when the previous value cannot be compared */
+    @Json(name = "unique_subreddits")
+    val uniqueSubreddits: java.math.BigDecimal? = null,
+
+    /* Percent change in unique authors; null when the previous value cannot be compared */
+    @Json(name = "unique_authors")
+    val uniqueAuthors: java.math.BigDecimal? = null,
+
+    /* Percentage-point change in positive sentiment; null when the previous period has no citations */
+    @Json(name = "positive_pct")
+    val positivePct: java.math.BigDecimal? = null
 
 ) {
 

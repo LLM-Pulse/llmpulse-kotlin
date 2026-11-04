@@ -35,6 +35,9 @@ import com.squareup.moshi.JsonClass
  * @param yourProfile Citations of your profile or channel pages. Null for mobile_apps and overview
  * @param yourContent Citations of your posts or videos. Null for mobile_apps and overview
  * @param sharePct yours as a percentage of total (0-100)
+ * @param uniqueSubreddits Number of cited subreddits (provider=reddit; null or omitted for other providers)
+ * @param uniqueAuthors Number of cited Reddit authors (provider=reddit; null or omitted for other providers)
+ * @param positivePct Positive sentiment among rated Reddit citations, as a percentage (provider=reddit; null or omitted for other providers)
  */
 
 
@@ -58,7 +61,19 @@ data class OwnedMediaKpis (
 
     /* yours as a percentage of total (0-100) */
     @Json(name = "share_pct")
-    val sharePct: java.math.BigDecimal? = null
+    val sharePct: java.math.BigDecimal? = null,
+
+    /* Number of cited subreddits (provider=reddit; null or omitted for other providers) */
+    @Json(name = "unique_subreddits")
+    val uniqueSubreddits: kotlin.Int? = null,
+
+    /* Number of cited Reddit authors (provider=reddit; null or omitted for other providers) */
+    @Json(name = "unique_authors")
+    val uniqueAuthors: kotlin.Int? = null,
+
+    /* Positive sentiment among rated Reddit citations, as a percentage (provider=reddit; null or omitted for other providers) */
+    @Json(name = "positive_pct")
+    val positivePct: java.math.BigDecimal? = null
 
 ) {
 

@@ -28,8 +28,14 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model) and apps (domain, total_responses, rank, global_rank). Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
+ * One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank) and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
  *
+ * @param date The start date of the actual reporting period (view=activity)
+ * @param entityId Platform entity identifier (view=activity)
+ * @param entityName Current entity name when known (view=activity)
+ * @param entityUrl Current profile, channel or app listing URL when known (view=activity)
+ * @param store Store selected for provider=mobile_apps (view=activity)
+ * @param competitorId Competitor identifier when the activity row represents a competitor app
  * @param title 
  * @param url 
  * @param channelName 
@@ -44,7 +50,7 @@ import com.squareup.moshi.JsonClass
  * @param thumbnailUrl The post or video image. Our cached copy where one exists, so the link does not expire
  * @param avatarUrl The profile or channel image. Our cached copy where one exists
  * @param contentType The post format on its platform: reel, post or tv on Instagram, post or pulse on LinkedIn, post elsewhere
- * @param citations 
+ * @param citations Citations for the row; for view=activity, the count in this reporting period
  * @param uniqueVideos 
  * @param uniquePosts 
  * @param followers 
@@ -66,6 +72,30 @@ import com.squareup.moshi.JsonClass
 
 
 data class OwnedMediaRow (
+
+    /* The start date of the actual reporting period (view=activity) */
+    @Json(name = "date")
+    val date: java.time.LocalDate? = null,
+
+    /* Platform entity identifier (view=activity) */
+    @Json(name = "entity_id")
+    val entityId: kotlin.String? = null,
+
+    /* Current entity name when known (view=activity) */
+    @Json(name = "entity_name")
+    val entityName: kotlin.String? = null,
+
+    /* Current profile, channel or app listing URL when known (view=activity) */
+    @Json(name = "entity_url")
+    val entityUrl: kotlin.String? = null,
+
+    /* Store selected for provider=mobile_apps (view=activity) */
+    @Json(name = "store")
+    val store: OwnedMediaRow.Store? = null,
+
+    /* Competitor identifier when the activity row represents a competitor app */
+    @Json(name = "competitor_id")
+    val competitorId: kotlin.Int? = null,
 
     @Json(name = "title")
     val title: kotlin.String? = null,
@@ -114,6 +144,7 @@ data class OwnedMediaRow (
     @Json(name = "content_type")
     val contentType: kotlin.String? = null,
 
+    /* Citations for the row; for view=activity, the count in this reporting period */
     @Json(name = "citations")
     val citations: kotlin.Int? = null,
 
@@ -175,6 +206,16 @@ data class OwnedMediaRow (
 
 ) {
 
+    /**
+     * Store selected for provider=mobile_apps (view=activity)
+     *
+     * Values: google_play,app_store
+     */
+    @JsonClass(generateAdapter = false)
+    enum class Store(val value: kotlin.String) {
+        @Json(name = "google_play") google_play("google_play"),
+        @Json(name = "app_store") app_store("app_store");
+    }
 
 }
 

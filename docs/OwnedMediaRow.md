@@ -4,6 +4,12 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
+| **date** | [**java.time.LocalDate**](java.time.LocalDate.md) | The start date of the actual reporting period (view&#x3D;activity) |  [optional] |
+| **entityId** | **kotlin.String** | Platform entity identifier (view&#x3D;activity) |  [optional] |
+| **entityName** | **kotlin.String** | Current entity name when known (view&#x3D;activity) |  [optional] |
+| **entityUrl** | **kotlin.String** | Current profile, channel or app listing URL when known (view&#x3D;activity) |  [optional] |
+| **store** | [**inline**](#Store) | Store selected for provider&#x3D;mobile_apps (view&#x3D;activity) |  [optional] |
+| **competitorId** | **kotlin.Int** | Competitor identifier when the activity row represents a competitor app |  [optional] |
 | **title** | **kotlin.String** |  |  [optional] |
 | **url** | **kotlin.String** |  |  [optional] |
 | **channelName** | **kotlin.String** |  |  [optional] |
@@ -18,7 +24,7 @@
 | **thumbnailUrl** | **kotlin.String** | The post or video image. Our cached copy where one exists, so the link does not expire |  [optional] |
 | **avatarUrl** | **kotlin.String** | The profile or channel image. Our cached copy where one exists |  [optional] |
 | **contentType** | **kotlin.String** | The post format on its platform: reel, post or tv on Instagram, post or pulse on LinkedIn, post elsewhere |  [optional] |
-| **citations** | **kotlin.Int** |  |  [optional] |
+| **citations** | **kotlin.Int** | Citations for the row; for view&#x3D;activity, the count in this reporting period |  [optional] |
 | **uniqueVideos** | **kotlin.Int** |  |  [optional] |
 | **uniquePosts** | **kotlin.Int** |  |  [optional] |
 | **followers** | **kotlin.Int** |  |  [optional] |
@@ -36,6 +42,13 @@
 | **totalResponses** | **kotlin.Int** |  |  [optional] |
 | **rank** | **kotlin.Int** |  |  [optional] |
 | **globalRank** | **kotlin.Int** |  |  [optional] |
+
+
+<a id="Store"></a>
+## Enum: store
+| Name | Value |
+| ---- | ----- |
+| store | google_play, app_store |
 
 
 
