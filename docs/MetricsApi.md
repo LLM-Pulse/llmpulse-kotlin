@@ -27,8 +27,8 @@ Paginated per-prompt aggregated metrics. Returns responses, mentions, citations,
 
 val apiInstance = MetricsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
-val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM.
+val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given.
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val breakdown : kotlin.String = breakdown_example // kotlin.String | Add per-(prompt, model) rows to the output
 val model : kotlin.String = model_example // kotlin.String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview.
@@ -57,8 +57,8 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
-| **from** | **java.time.OffsetDateTime**|  | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] |
+| **from** | **java.time.OffsetDateTime**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **breakdown** | **kotlin.String**| Add per-(prompt, model) rows to the output | [optional] [enum: model] |
 | **model** | **kotlin.String**| Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao] |
@@ -113,8 +113,8 @@ Share of Voice breakdown comparing your project to competitors. Returns over_tim
 
 val apiInstance = MetricsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
-val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM.
+val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given.
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val granularity : kotlin.String = granularity_example // kotlin.String | 
 val competitors : kotlin.String = competitors_example // kotlin.String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM)
@@ -142,8 +142,8 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
-| **from** | **java.time.OffsetDateTime**|  | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] |
+| **from** | **java.time.OffsetDateTime**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |
 | **competitors** | **kotlin.String**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] |
@@ -199,8 +199,8 @@ val apiInstance = MetricsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val metrics : kotlin.String = metrics_example // kotlin.String | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only.
 val granularity : kotlin.String = granularity_example // kotlin.String | 
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
-val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM.
+val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given.
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val competitors : kotlin.String = competitors_example // kotlin.String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM)
 val model : kotlin.String = model_example // kotlin.String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview.
@@ -228,8 +228,8 @@ try {
 | **projectId** | **kotlin.Int**| Project ID | |
 | **metrics** | **kotlin.String**| Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. | [optional] |
 | **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
-| **from** | **java.time.OffsetDateTime**|  | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] |
+| **from** | **java.time.OffsetDateTime**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **competitors** | **kotlin.String**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] |
 | **model** | **kotlin.String**| Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao] |
@@ -283,8 +283,8 @@ val apiInstance = MetricsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val metrics : kotlin.String = metrics_example // kotlin.String | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only.
 val granularity : kotlin.String = granularity_example // kotlin.String | 
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
-val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM.
+val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given.
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val competitors : kotlin.String = competitors_example // kotlin.String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM)
 val model : kotlin.String = model_example // kotlin.String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview.
@@ -312,8 +312,8 @@ try {
 | **projectId** | **kotlin.Int**| Project ID | |
 | **metrics** | **kotlin.String**| Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. | [optional] |
 | **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
-| **from** | **java.time.OffsetDateTime**|  | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] |
+| **from** | **java.time.OffsetDateTime**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **competitors** | **kotlin.String**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] |
 | **model** | **kotlin.String**| Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao] |
@@ -365,8 +365,8 @@ Registrable domains most frequently cited in AI responses for the project, inclu
 
 val apiInstance = MetricsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
-val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM.
+val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given.
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val model : kotlin.String = model_example // kotlin.String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview.
 val collectionId : kotlin.String = 12,34 // kotlin.String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
@@ -396,8 +396,8 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
-| **from** | **java.time.OffsetDateTime**|  | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] |
+| **from** | **java.time.OffsetDateTime**| Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **model** | **kotlin.String**| Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] [enum: chatgpt, perplexity, ai_mode, ai_overview, gemini, copilot, amazon_rufus, claude, grok, deepseek, naver_ai, baidu_ai, meta_ai, naver_ai_tab, qwen, doubao] |
 | **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |

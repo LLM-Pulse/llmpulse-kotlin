@@ -185,8 +185,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * Per-prompt metrics summary
      * Paginated per-prompt aggregated metrics. Returns responses, mentions, citations, mention_rate, citation_rate, avg_mention_position and avg_position per prompt, plus the brand sentiment of its responses (sentiment_responses, the five sentiment percentages and net_sentiment, computed like the sentiment timeseries) and the prompt&#39;s classification (country_code, language_code, prompt_type, brand_kind and tags, as in /dimensions/prompts). Citations and citation rate include visible citations and background source references; avg_position uses visible citations only. Pass &#x60;breakdown&#x3D;model&#x60; to split each prompt by model.
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param breakdown Add per-(prompt, model) rows to the output (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -233,8 +233,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * Per-prompt metrics summary
      * Paginated per-prompt aggregated metrics. Returns responses, mentions, citations, mention_rate, citation_rate, avg_mention_position and avg_position per prompt, plus the brand sentiment of its responses (sentiment_responses, the five sentiment percentages and net_sentiment, computed like the sentiment timeseries) and the prompt&#39;s classification (country_code, language_code, prompt_type, brand_kind and tags, as in /dimensions/prompts). Citations and citation rate include visible citations and background source references; avg_position uses visible citations only. Pass &#x60;breakdown&#x3D;model&#x60; to split each prompt by model.
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param breakdown Add per-(prompt, model) rows to the output (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -267,8 +267,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * To obtain the request config of the operation getPromptSummary
      *
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param breakdown Add per-(prompt, model) rows to the output (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -459,8 +459,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * Share of Voice
      * Share of Voice breakdown comparing your project to competitors. Returns over_time, current snapshot, and a Top-4 + Others breakdown.
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
@@ -506,8 +506,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * Share of Voice
      * Share of Voice breakdown comparing your project to competitors. Returns over_time, current snapshot, and a Top-4 + Others breakdown.
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
@@ -539,8 +539,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * To obtain the request config of the operation getShareOfVoice
      *
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
@@ -711,8 +711,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param metrics Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
      * @param granularity  (optional)
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -758,8 +758,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param metrics Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
      * @param granularity  (optional)
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -791,8 +791,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param metrics Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
      * @param granularity  (optional)
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -961,8 +961,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param metrics Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
      * @param granularity  (optional)
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -1008,8 +1008,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param metrics Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
      * @param granularity  (optional)
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -1041,8 +1041,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param projectId Project ID
      * @param metrics Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
      * @param granularity  (optional)
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -1209,8 +1209,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * Top cited sources
      * Registrable domains most frequently cited in AI responses for the project, including visible citations and background source references. This endpoint remains a domain rollup when exact-subdomain matching is enabled. Results can be sorted by total responses, average mention rate, or average visibility.
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
@@ -1258,8 +1258,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * Top cited sources
      * Registrable domains most frequently cited in AI responses for the project, including visible citations and background source references. This endpoint remains a domain rollup when exact-subdomain matching is enabled. Results can be sorted by total responses, average mention rate, or average visibility.
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
@@ -1293,8 +1293,8 @@ open class MetricsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * To obtain the request config of the operation getTopSources
      *
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
-     * @param from  (optional)
+     * @param range Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     * @param from Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
