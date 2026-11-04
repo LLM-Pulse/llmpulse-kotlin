@@ -82,7 +82,7 @@ data class CreateWebhook201Response (
     /**
      * 
      *
-     * Values: mentionPeriodCreated,competitor_mentionPeriodCreated,citationPeriodCreated,prompt_executionPeriodCompleted,sentimentPeriodNegative_detected,recommendationPeriodCompleted,intelligence_taskPeriodCompleted,intelligence_taskPeriodUpdated,geo_audit_runPeriodCompleted,geo_audit_alertPeriodTriggered
+     * Values: mentionPeriodCreated,competitor_mentionPeriodCreated,citationPeriodCreated,prompt_executionPeriodCompleted,sentimentPeriodNegative_detected,recommendationPeriodCompleted,intelligence_taskPeriodCompleted,intelligence_taskPeriodUpdated,geo_audit_runPeriodCompleted,geo_audit_alertPeriodTriggered,tracking_runPeriodCompleted
      */
     @JsonClass(generateAdapter = false)
     enum class EventType(val value: kotlin.String) {
@@ -95,7 +95,8 @@ data class CreateWebhook201Response (
         @Json(name = "intelligence_task.completed") intelligence_taskPeriodCompleted("intelligence_task.completed"),
         @Json(name = "intelligence_task.updated") intelligence_taskPeriodUpdated("intelligence_task.updated"),
         @Json(name = "geo_audit_run.completed") geo_audit_runPeriodCompleted("geo_audit_run.completed"),
-        @Json(name = "geo_audit_alert.triggered") geo_audit_alertPeriodTriggered("geo_audit_alert.triggered");
+        @Json(name = "geo_audit_alert.triggered") geo_audit_alertPeriodTriggered("geo_audit_alert.triggered"),
+        @Json(name = "tracking_run.completed") tracking_runPeriodCompleted("tracking_run.completed");
     }
 
 }
