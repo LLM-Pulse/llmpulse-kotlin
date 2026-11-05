@@ -4,12 +4,67 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
+| [**createReputationReport**](ReputationStudiesApi.md#createReputationReport) | **POST** /reputation/reports | Start a reputation report |
 | [**getReputationReport**](ReputationStudiesApi.md#getReputationReport) | **GET** /reputation/reports/{id} | Get reputation report scores |
 | [**getStudy**](ReputationStudiesApi.md#getStudy) | **GET** /studies/{id} | Get a custom AI study |
 | [**getStudyReport**](ReputationStudiesApi.md#getStudyReport) | **GET** /studies/{id}/reports/{report_id} | Get custom study report scores |
 | [**listReputationReports**](ReputationStudiesApi.md#listReputationReports) | **GET** /reputation/reports | List reputation reports |
 | [**listStudies**](ReputationStudiesApi.md#listStudies) | **GET** /studies | List custom AI studies |
 
+
+<a id="createReputationReport"></a>
+# **createReputationReport**
+> ReputationReportCreateResponse createReputationReport(createReputationReportRequest)
+
+Start a reputation report
+
+Starts this month&#39;s Brand Reputation report, like the Generate button on the Reputation page: 201 with the new report (status pending). When the month already holds a report that did not fail, whether it is still running or finished, nothing new starts and the answer is 200 with created false and that report. With recalculate true it uses the month&#39;s one manual recalculation instead (the Recalculate This Month button): a fresh run across every analyst model, 201 when it starts, 200 with created false while a report is still running, and ERR_LIMIT_REACHED once the month holds two reports. Generation runs in the background: poll GET /reputation/reports until status is completed, then read the scores with GET /reputation/reports/{id}. ERR_RATE_LIMITED (429, with Retry-After) means another request is starting a report for the same project; retry after a few seconds. recalculate must be true or false and unknown fields are refused (ERR_INVALID_PARAM). Requires reputation monitoring on the account, a &#x60;read_write&#x60; scope API key and, for team members, create permission on Reputation.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = ReputationStudiesApi()
+val createReputationReportRequest : CreateReputationReportRequest =  // CreateReputationReportRequest | 
+try {
+    val result : ReputationReportCreateResponse = apiInstance.createReputationReport(createReputationReportRequest)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling ReputationStudiesApi#createReputationReport")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling ReputationStudiesApi#createReputationReport")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **createReputationReportRequest** | [**CreateReputationReportRequest**](CreateReputationReportRequest.md)|  | |
+
+### Return type
+
+[**ReputationReportCreateResponse**](ReputationReportCreateResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a id="getReputationReport"></a>
 # **getReputationReport**

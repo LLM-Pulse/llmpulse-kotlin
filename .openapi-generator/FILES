@@ -92,6 +92,7 @@ docs/CreateApiKeyRequest.md
 docs/CreateCollectionRequest.md
 docs/CreateCompetitorRequest.md
 docs/CreateProjectDraftRequest.md
+docs/CreateReputationReportRequest.md
 docs/CreateTeamInvitation201Response.md
 docs/CreateTeamInvitationRequest.md
 docs/CreateTechnicalGeoReportsRequest.md
@@ -254,6 +255,8 @@ docs/RedditPositionShare.md
 docs/RedditSubredditActivityPeriod.md
 docs/RemovePromptTagsRequest.md
 docs/RemoveTeamMember200Response.md
+docs/ReputationReportCreateResponse.md
+docs/ReputationReportSummary.md
 docs/ReputationStudiesApi.md
 docs/RevokeApiKey200Response.md
 docs/RevokeTeamInvitation200Response.md
@@ -480,6 +483,7 @@ src/main/kotlin/ai/llmpulse/sdk/models/CreateApiKeyRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/CreateCollectionRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/CreateCompetitorRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/CreateProjectDraftRequest.kt
+src/main/kotlin/ai/llmpulse/sdk/models/CreateReputationReportRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/CreateTeamInvitation201Response.kt
 src/main/kotlin/ai/llmpulse/sdk/models/CreateTeamInvitationRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/CreateTechnicalGeoReportsRequest.kt
@@ -632,6 +636,8 @@ src/main/kotlin/ai/llmpulse/sdk/models/RedditPositionShare.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RedditSubredditActivityPeriod.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RemovePromptTagsRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RemoveTeamMember200Response.kt
+src/main/kotlin/ai/llmpulse/sdk/models/ReputationReportCreateResponse.kt
+src/main/kotlin/ai/llmpulse/sdk/models/ReputationReportSummary.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RevokeApiKey200Response.kt
 src/main/kotlin/ai/llmpulse/sdk/models/RevokeTeamInvitation200Response.kt
 src/main/kotlin/ai/llmpulse/sdk/models/SampleWebhookPayloads200Response.kt
