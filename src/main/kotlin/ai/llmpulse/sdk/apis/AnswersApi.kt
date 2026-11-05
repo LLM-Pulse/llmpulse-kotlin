@@ -235,7 +235,7 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param query Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
-     * @param noResult Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag. (optional)
+     * @param noResult Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag, and a sentinel also carries no_result_reason (declined or no_answer). (optional)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -280,7 +280,7 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param query Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
-     * @param noResult Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag. (optional)
+     * @param noResult Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag, and a sentinel also carries no_result_reason (declined or no_answer). (optional)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -311,7 +311,7 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param query Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
-     * @param noResult Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag. (optional)
+     * @param noResult Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag, and a sentinel also carries no_result_reason (declined or no_answer). (optional)
      * @return RequestConfig
      */
     fun listAnswersRequestConfig(projectId: kotlin.Int, model: ModelListAnswers?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, mentionFilter: MentionFilterListAnswers?, citationFilter: CitationFilterListAnswers?, competitors: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?, query: kotlin.String?, noResult: kotlin.Boolean?) : RequestConfig<Unit> {

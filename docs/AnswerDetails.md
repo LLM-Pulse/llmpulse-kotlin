@@ -9,12 +9,13 @@
 | **promptId** | **kotlin.Int** |  |  [optional] |
 | **promptText** | **kotlin.String** |  |  [optional] |
 | **model** | **kotlin.String** |  |  [optional] |
-| **response** | **kotlin.String** |  |  [optional] |
+| **response** | **kotlin.String** | The AI answer. For a declined answer (no_result_reason declined) it is the reply the model gave instead; for no_answer it is a placeholder, not an AI response |  [optional] |
 | **responseTruncated** | **kotlin.Boolean** |  |  [optional] |
 | **executedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **durationMs** | [**java.math.BigDecimal**](java.math.BigDecimal.md) | Milliseconds, rounded to one decimal place |  [optional] |
 | **success** | **kotlin.Boolean** | Null while the answer is still pending |  [optional] |
 | **noResult** | **kotlin.Boolean** | True for a sentinel non-answer (no answer could be collected after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics |  [optional] |
+| **noResultReason** | [**inline**](#NoResultReason) | Present only when no_result is true. declined &#x3D; the model declined to answer (today only Gemini, shown as Declined in the app) and response holds its reply; no_answer &#x3D; no answer could be collected |  [optional] |
 | **fanOutQueries** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  [optional] |
 | **mentions** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
 | **citations** | [**kotlin.collections.List&lt;kotlin.Any&gt;**](kotlin.Any.md) |  |  [optional] |
@@ -28,6 +29,13 @@
 | **locale** | [**AnswerDetailsLocale**](AnswerDetailsLocale.md) |  |  [optional] |
 | **appUrl** | [**java.net.URI**](java.net.URI.md) | Opens this answer in the app. The link names its project, so it opens there for any user with access to that project |  [optional] |
 | **requestId** | **kotlin.String** |  |  [optional] |
+
+
+<a id="NoResultReason"></a>
+## Enum: no_result_reason
+| Name | Value |
+| ---- | ----- |
+| noResultReason | declined, no_answer |
 
 
 

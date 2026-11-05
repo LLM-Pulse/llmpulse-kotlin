@@ -36,12 +36,13 @@ import com.squareup.moshi.JsonClass
  * @param promptId 
  * @param promptText 
  * @param model 
- * @param response 
+ * @param response The AI answer. For a declined answer (no_result_reason declined) it is the reply the model gave instead; for no_answer it is a placeholder, not an AI response
  * @param responseTruncated 
  * @param executedAt 
  * @param durationMs Milliseconds, rounded to one decimal place
  * @param success Null while the answer is still pending
  * @param noResult True for a sentinel non-answer (no answer could be collected after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics
+ * @param noResultReason Present only when no_result is true. declined = the model declined to answer (today only Gemini, shown as Declined in the app) and response holds its reply; no_answer = no answer could be collected
  * @param fanOutQueries 
  * @param mentions 
  * @param citations 
@@ -76,6 +77,7 @@ data class AnswerDetails (
     @Json(name = "model")
     val model: kotlin.String? = null,
 
+    /* The AI answer. For a declined answer (no_result_reason declined) it is the reply the model gave instead; for no_answer it is a placeholder, not an AI response */
     @Json(name = "response")
     val response: kotlin.String? = null,
 
@@ -96,6 +98,10 @@ data class AnswerDetails (
     /* True for a sentinel non-answer (no answer could be collected after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics */
     @Json(name = "no_result")
     val noResult: kotlin.Boolean? = null,
+
+    /* Present only when no_result is true. declined = the model declined to answer (today only Gemini, shown as Declined in the app) and response holds its reply; no_answer = no answer could be collected */
+    @Json(name = "no_result_reason")
+    val noResultReason: AnswerDetails.NoResultReason? = null,
 
     @Json(name = "fan_out_queries")
     val fanOutQueries: kotlin.collections.List<kotlin.String>? = null,
@@ -141,6 +147,16 @@ data class AnswerDetails (
 
 ) {
 
+    /**
+     * Present only when no_result is true. declined = the model declined to answer (today only Gemini, shown as Declined in the app) and response holds its reply; no_answer = no answer could be collected
+     *
+     * Values: declined,no_answer
+     */
+    @JsonClass(generateAdapter = false)
+    enum class NoResultReason(val value: kotlin.String) {
+        @Json(name = "declined") declined("declined"),
+        @Json(name = "no_answer") no_answer("no_answer");
+    }
 
 }
 
