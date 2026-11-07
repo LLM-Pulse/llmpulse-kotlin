@@ -35,9 +35,10 @@ import com.squareup.moshi.JsonClass
  * @param clicks 
  * @param ctr 0..1 fraction
  * @param position Impression-weighted average position
- * @param promptId The project's prompt with the same text as the query; null when no prompt matches
+ * @param promptId The project's prompt the query matches (see match_type); null when no prompt matches
  * @param responses AI answers the matching prompt got in the window over the account's enabled models; null when no prompt matches
  * @param brandVisibility Brand Visibility of the matching prompt in the window, percent (0-100) of its AI answers that mention the brand, over the account's enabled models; null when no prompt matches or it has no answer
+ * @param matchType How the query matched: prompt (the same text as the prompt) or fan_out (the same text as a search the prompt's AI answers ran in the window); null when no prompt matches
  */
 
 
@@ -60,7 +61,7 @@ data class SearchConsoleAiVisibilityGapsResponseDataInner (
     @Json(name = "position")
     val position: java.math.BigDecimal? = null,
 
-    /* The project's prompt with the same text as the query; null when no prompt matches */
+    /* The project's prompt the query matches (see match_type); null when no prompt matches */
     @Json(name = "prompt_id")
     val promptId: kotlin.Int? = null,
 
@@ -70,7 +71,11 @@ data class SearchConsoleAiVisibilityGapsResponseDataInner (
 
     /* Brand Visibility of the matching prompt in the window, percent (0-100) of its AI answers that mention the brand, over the account's enabled models; null when no prompt matches or it has no answer */
     @Json(name = "brand_visibility")
-    val brandVisibility: java.math.BigDecimal? = null
+    val brandVisibility: java.math.BigDecimal? = null,
+
+    /* How the query matched: prompt (the same text as the prompt) or fan_out (the same text as a search the prompt's AI answers ran in the window); null when no prompt matches */
+    @Json(name = "match_type")
+    val matchType: kotlin.String? = null
 
 ) {
 
