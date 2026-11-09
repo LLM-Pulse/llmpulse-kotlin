@@ -41,7 +41,7 @@ import com.squareup.moshi.JsonClass
  * @param remoteStatus WordPress status of the post when the draft was created (draft)
  * @param remoteUrl 
  * @param editUrl The post's edit screen in the WordPress admin
- * @param errorCode Why the send failed, for example reconnect_required, missing_capability, unreachable or rejected
+ * @param errorCode Why the send failed, the same token as error.meta.reason, for example reconnect_required, authorization_header_lost, missing_capability, firewall_blocked, timeout, unreachable or rejected
  * @param createdAt 
  * @param sentAt 
  */
@@ -87,7 +87,7 @@ data class CmsPublication (
     @Json(name = "edit_url")
     val editUrl: kotlin.String? = null,
 
-    /* Why the send failed, for example reconnect_required, missing_capability, unreachable or rejected */
+    /* Why the send failed, the same token as error.meta.reason, for example reconnect_required, authorization_header_lost, missing_capability, firewall_blocked, timeout, unreachable or rejected */
     @Json(name = "error_code")
     val errorCode: kotlin.String? = null,
 

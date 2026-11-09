@@ -71,7 +71,7 @@ data class OwnedMediaPlatformRollup (
     /**
      * 
      *
-     * Values: youtube,mobile_apps,instagram,facebook,tiktok,linkedin,reddit
+     * Values: youtube,mobile_apps,instagram,facebook,tiktok,linkedin,trustpilot,reddit
      */
     @JsonClass(generateAdapter = false)
     enum class Provider(val value: kotlin.String) {
@@ -81,6 +81,7 @@ data class OwnedMediaPlatformRollup (
         @Json(name = "facebook") facebook("facebook"),
         @Json(name = "tiktok") tiktok("tiktok"),
         @Json(name = "linkedin") linkedin("linkedin"),
+        @Json(name = "trustpilot") trustpilot("trustpilot"),
         @Json(name = "reddit") reddit("reddit");
     }
 

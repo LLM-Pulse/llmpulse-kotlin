@@ -17,7 +17,7 @@
 ## Enum: provider
 | Name | Value |
 | ---- | ----- |
-| provider | youtube, mobile_apps, instagram, facebook, tiktok, linkedin, reddit |
+| provider | youtube, mobile_apps, instagram, facebook, tiktok, linkedin, trustpilot, reddit |
 
 
 

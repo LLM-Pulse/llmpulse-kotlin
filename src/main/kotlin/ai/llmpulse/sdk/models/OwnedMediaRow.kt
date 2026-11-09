@@ -28,21 +28,30 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank) and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
+ * One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank), the Trustpilot views profiles (key, name, rating, reviews_count, url, competitor_id), brands (name, domain, key, rating, rating_change, reviews_count, status, url, competitor_id) and reviews (id, brand, rating, title, text, author, published_at, replied, url, competitor_id), and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
  *
  * @param date The start date of the actual reporting period (view=activity)
  * @param entityId Platform entity identifier (view=activity)
  * @param entityName Current entity name when known (view=activity)
  * @param entityUrl Current profile, channel or app listing URL when known (view=activity)
  * @param store Store selected for provider=mobile_apps (view=activity)
- * @param competitorId Competitor identifier when the activity row represents a competitor app
+ * @param competitorId Competitor identifier when the row represents a competitor's app or Trustpilot profile
+ * @param id The review's identifier (provider=trustpilot, view=reviews)
+ * @param brand The brand or competitor whose Trustpilot profile carries the review (provider=trustpilot, view=reviews)
+ * @param rating Trustpilot rating out of 5: the profile's at its last monthly read (views profiles and brands) or the review's stars (view=reviews)
+ * @param ratingChange Change of the profile's rating since the previous monthly read (provider=trustpilot, view=brands); null before a second read
+ * @param reviewsCount The profile's review count on Trustpilot at its last monthly read (provider=trustpilot)
+ * @param status Whether the brand's Trustpilot profile has been read (found), Trustpilot has no business for its domain (not_found), or it has not been read yet (pending) (provider=trustpilot, view=brands)
+ * @param text The review text (provider=trustpilot, view=reviews)
+ * @param author The reviewer's display name (provider=trustpilot, view=reviews)
+ * @param replied Whether the business replied to the review (provider=trustpilot, view=reviews)
  * @param title 
  * @param url 
  * @param channelName 
  * @param channelHandle The video's channel handle, without the @
  * @param channelUrl 
  * @param videoId 
- * @param key The channel key (handle:..., channel:... or name:...), accepted as profile by /dimensions/owned_media/citing_prompts
+ * @param key The channel key (handle:..., channel:... or name:...), accepted as profile by /dimensions/owned_media/citing_prompts; on provider=trustpilot, the business domain the profile is filed under, null for a brand without a domain
  * @param name 
  * @param handle 
  * @param caption 
@@ -64,7 +73,7 @@ import com.squareup.moshi.JsonClass
  * @param citationDate 
  * @param position 
  * @param model 
- * @param domain The app's store listing URL (provider=mobile_apps)
+ * @param domain The app's store listing URL (provider=mobile_apps), or the brand's domain (provider=trustpilot, view=brands)
  * @param totalResponses 
  * @param rank 
  * @param globalRank 
@@ -93,9 +102,45 @@ data class OwnedMediaRow (
     @Json(name = "store")
     val store: OwnedMediaRow.Store? = null,
 
-    /* Competitor identifier when the activity row represents a competitor app */
+    /* Competitor identifier when the row represents a competitor's app or Trustpilot profile */
     @Json(name = "competitor_id")
     val competitorId: kotlin.Int? = null,
+
+    /* The review's identifier (provider=trustpilot, view=reviews) */
+    @Json(name = "id")
+    val id: kotlin.Int? = null,
+
+    /* The brand or competitor whose Trustpilot profile carries the review (provider=trustpilot, view=reviews) */
+    @Json(name = "brand")
+    val brand: kotlin.String? = null,
+
+    /* Trustpilot rating out of 5: the profile's at its last monthly read (views profiles and brands) or the review's stars (view=reviews) */
+    @Json(name = "rating")
+    val rating: java.math.BigDecimal? = null,
+
+    /* Change of the profile's rating since the previous monthly read (provider=trustpilot, view=brands); null before a second read */
+    @Json(name = "rating_change")
+    val ratingChange: java.math.BigDecimal? = null,
+
+    /* The profile's review count on Trustpilot at its last monthly read (provider=trustpilot) */
+    @Json(name = "reviews_count")
+    val reviewsCount: kotlin.Int? = null,
+
+    /* Whether the brand's Trustpilot profile has been read (found), Trustpilot has no business for its domain (not_found), or it has not been read yet (pending) (provider=trustpilot, view=brands) */
+    @Json(name = "status")
+    val status: OwnedMediaRow.Status? = null,
+
+    /* The review text (provider=trustpilot, view=reviews) */
+    @Json(name = "text")
+    val text: kotlin.String? = null,
+
+    /* The reviewer's display name (provider=trustpilot, view=reviews) */
+    @Json(name = "author")
+    val author: kotlin.String? = null,
+
+    /* Whether the business replied to the review (provider=trustpilot, view=reviews) */
+    @Json(name = "replied")
+    val replied: kotlin.Boolean? = null,
 
     @Json(name = "title")
     val title: kotlin.String? = null,
@@ -116,7 +161,7 @@ data class OwnedMediaRow (
     @Json(name = "video_id")
     val videoId: kotlin.String? = null,
 
-    /* The channel key (handle:..., channel:... or name:...), accepted as profile by /dimensions/owned_media/citing_prompts */
+    /* The channel key (handle:..., channel:... or name:...), accepted as profile by /dimensions/owned_media/citing_prompts; on provider=trustpilot, the business domain the profile is filed under, null for a brand without a domain */
     @Json(name = "key")
     val key: kotlin.String? = null,
 
@@ -191,7 +236,7 @@ data class OwnedMediaRow (
     @Json(name = "model")
     val model: kotlin.String? = null,
 
-    /* The app's store listing URL (provider=mobile_apps) */
+    /* The app's store listing URL (provider=mobile_apps), or the brand's domain (provider=trustpilot, view=brands) */
     @Json(name = "domain")
     val domain: kotlin.String? = null,
 
@@ -215,6 +260,17 @@ data class OwnedMediaRow (
     enum class Store(val value: kotlin.String) {
         @Json(name = "google_play") google_play("google_play"),
         @Json(name = "app_store") app_store("app_store");
+    }
+    /**
+     * Whether the brand's Trustpilot profile has been read (found), Trustpilot has no business for its domain (not_found), or it has not been read yet (pending) (provider=trustpilot, view=brands)
+     *
+     * Values: found,not_found,pending
+     */
+    @JsonClass(generateAdapter = false)
+    enum class Status(val value: kotlin.String) {
+        @Json(name = "found") found("found"),
+        @Json(name = "not_found") not_found("not_found"),
+        @Json(name = "pending") pending("pending");
     }
 
 }
