@@ -37,6 +37,7 @@ import ai.llmpulse.sdk.models.OwnedMediaWeek
 import ai.llmpulse.sdk.models.RedditBrandShare
 import ai.llmpulse.sdk.models.RedditPositionShare
 import ai.llmpulse.sdk.models.RedditSubredditActivityPeriod
+import ai.llmpulse.sdk.models.TrustpilotReplies
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -63,6 +64,7 @@ import com.squareup.moshi.JsonClass
  * @param subredditActivity provider=reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit
  * @param positions provider=reddit only. Position distribution over the selected date window
  * @param brandShare provider=reddit only. Citation share among the tracked brand and competitors with cited mentions
+ * @param replies 
  * @param requestId 
  */
 
@@ -136,6 +138,9 @@ data class OwnedMediaSummaryResponse (
     /* provider=reddit only. Citation share among the tracked brand and competitors with cited mentions */
     @Json(name = "brand_share")
     val brandShare: kotlin.collections.List<RedditBrandShare>? = null,
+
+    @Json(name = "replies")
+    val replies: TrustpilotReplies? = null,
 
     @Json(name = "request_id")
     val requestId: kotlin.String? = null

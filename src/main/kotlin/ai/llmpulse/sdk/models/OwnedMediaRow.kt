@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank), the Trustpilot views profiles (key, name, rating, reviews_count, url, competitor_id), brands (name, domain, key, rating, rating_change, reviews_count, status, url, competitor_id) and reviews (id, brand, rating, title, text, author, published_at, replied, url, competitor_id), and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
+ * One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank), the Trustpilot views profiles (key, name, rating, reviews_count, url, competitor_id), brands (name, domain, key, rating, rating_change, reviews_count, reviews_held, replied_count, not_replied_count, reply_rate_pct, median_reply_hours, status, url, competitor_id) and reviews (id, brand, rating, title, text, author, published_at, replied, url, competitor_id), and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position.
  *
  * @param date The start date of the actual reporting period (view=activity)
  * @param entityId Platform entity identifier (view=activity)
@@ -45,6 +45,11 @@ import com.squareup.moshi.JsonClass
  * @param text The review text (provider=trustpilot, view=reviews)
  * @param author The reviewer's display name (provider=trustpilot, view=reviews)
  * @param replied Whether the business replied to the review (provider=trustpilot, view=reviews)
+ * @param reviewsHeld How many of the profile's reviews LLM Pulse holds: the newest ones from each monthly read, not every review on Trustpilot (provider=trustpilot, view=brands). The reply fields count among these, whatever the date window; all of them are null until the profile has been read
+ * @param repliedCount Reviews held that the business replied to (provider=trustpilot, view=brands)
+ * @param notRepliedCount Reviews held that the business has not replied to (provider=trustpilot, view=brands)
+ * @param replyRatePct replied_count over reviews_held, on a 0-100 scale; null when no review is held (provider=trustpilot, view=brands)
+ * @param medianReplyHours Median hours from a held review's publication to the business's reply, over the replied reviews held that carry both dates (a reply dated before its review is left out); null when there is none (provider=trustpilot, view=brands)
  * @param title 
  * @param url 
  * @param channelName 
@@ -141,6 +146,26 @@ data class OwnedMediaRow (
     /* Whether the business replied to the review (provider=trustpilot, view=reviews) */
     @Json(name = "replied")
     val replied: kotlin.Boolean? = null,
+
+    /* How many of the profile's reviews LLM Pulse holds: the newest ones from each monthly read, not every review on Trustpilot (provider=trustpilot, view=brands). The reply fields count among these, whatever the date window; all of them are null until the profile has been read */
+    @Json(name = "reviews_held")
+    val reviewsHeld: kotlin.Int? = null,
+
+    /* Reviews held that the business replied to (provider=trustpilot, view=brands) */
+    @Json(name = "replied_count")
+    val repliedCount: kotlin.Int? = null,
+
+    /* Reviews held that the business has not replied to (provider=trustpilot, view=brands) */
+    @Json(name = "not_replied_count")
+    val notRepliedCount: kotlin.Int? = null,
+
+    /* replied_count over reviews_held, on a 0-100 scale; null when no review is held (provider=trustpilot, view=brands) */
+    @Json(name = "reply_rate_pct")
+    val replyRatePct: java.math.BigDecimal? = null,
+
+    /* Median hours from a held review's publication to the business's reply, over the replied reviews held that carry both dates (a reply dated before its review is left out); null when there is none (provider=trustpilot, view=brands) */
+    @Json(name = "median_reply_hours")
+    val medianReplyHours: java.math.BigDecimal? = null,
 
     @Json(name = "title")
     val title: kotlin.String? = null,

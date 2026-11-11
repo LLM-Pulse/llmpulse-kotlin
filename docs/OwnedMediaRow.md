@@ -19,6 +19,11 @@
 | **text** | **kotlin.String** | The review text (provider&#x3D;trustpilot, view&#x3D;reviews) |  [optional] |
 | **author** | **kotlin.String** | The reviewer&#39;s display name (provider&#x3D;trustpilot, view&#x3D;reviews) |  [optional] |
 | **replied** | **kotlin.Boolean** | Whether the business replied to the review (provider&#x3D;trustpilot, view&#x3D;reviews) |  [optional] |
+| **reviewsHeld** | **kotlin.Int** | How many of the profile&#39;s reviews LLM Pulse holds: the newest ones from each monthly read, not every review on Trustpilot (provider&#x3D;trustpilot, view&#x3D;brands). The reply fields count among these, whatever the date window; all of them are null until the profile has been read |  [optional] |
+| **repliedCount** | **kotlin.Int** | Reviews held that the business replied to (provider&#x3D;trustpilot, view&#x3D;brands) |  [optional] |
+| **notRepliedCount** | **kotlin.Int** | Reviews held that the business has not replied to (provider&#x3D;trustpilot, view&#x3D;brands) |  [optional] |
+| **replyRatePct** | [**java.math.BigDecimal**](java.math.BigDecimal.md) | replied_count over reviews_held, on a 0-100 scale; null when no review is held (provider&#x3D;trustpilot, view&#x3D;brands) |  [optional] |
+| **medianReplyHours** | [**java.math.BigDecimal**](java.math.BigDecimal.md) | Median hours from a held review&#39;s publication to the business&#39;s reply, over the replied reviews held that carry both dates (a reply dated before its review is left out); null when there is none (provider&#x3D;trustpilot, view&#x3D;brands) |  [optional] |
 | **title** | **kotlin.String** |  |  [optional] |
 | **url** | **kotlin.String** |  |  [optional] |
 | **channelName** | **kotlin.String** |  |  [optional] |

@@ -339,6 +339,7 @@ docs/TimeseriesResponse.md
 docs/TimeseriesSeries.md
 docs/TopSourcesResponse.md
 docs/TopSourcesResponseDataInner.md
+docs/TrustpilotReplies.md
 docs/UpdateAnnotationRequest.md
 docs/UpdateCollectionRequest.md
 docs/UpdateCompetitorRequest.md
@@ -712,6 +713,7 @@ src/main/kotlin/ai/llmpulse/sdk/models/TimeseriesResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/TimeseriesSeries.kt
 src/main/kotlin/ai/llmpulse/sdk/models/TopSourcesResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/TopSourcesResponseDataInner.kt
+src/main/kotlin/ai/llmpulse/sdk/models/TrustpilotReplies.kt
 src/main/kotlin/ai/llmpulse/sdk/models/UpdateAnnotationRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/UpdateCollectionRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/UpdateCompetitorRequest.kt
