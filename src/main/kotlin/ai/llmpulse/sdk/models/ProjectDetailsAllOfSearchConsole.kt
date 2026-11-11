@@ -32,7 +32,7 @@ import com.squareup.moshi.JsonClass
  *
  * @param status 
  * @param `property` The primary property (e.g. sc-domain:example.com), null when not connected
- * @param connectUrl The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections)
+ * @param connectUrl The in-app page where the property is connected or reconnected (Preferences > Project Settings > Connections)
  * @param propertiesCount Connected properties Google still accepts (reconnect_required ones excluded); GET /search_console/properties lists every property with its status
  */
 
@@ -46,7 +46,7 @@ data class ProjectDetailsAllOfSearchConsole (
     @Json(name = "property")
     val `property`: kotlin.String? = null,
 
-    /* The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections) */
+    /* The in-app page where the property is connected or reconnected (Preferences > Project Settings > Connections) */
     @Json(name = "connect_url")
     val connectUrl: java.net.URI? = null,
 

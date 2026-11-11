@@ -36,7 +36,7 @@ import com.squareup.moshi.JsonClass
  * @param unlimited 
  * @param period Always month
  * @param resetsOn The first day of next month, when the allowance starts again
- * @param access Whether the account may create pitch projects. The account owner or an account admin (co-owner) requests access in Account Settings > Pitch projects and our team reviews it; approved access goes dormant while the account is below the Scale tier, on a trial, has a payment problem, is set to cancel or has an allowance of 0
+ * @param access Whether the account may create pitch projects, which are for agency and platform accounts (the account type, which the account owner or an account admin changes in Account Settings > Profile). none means the account is not an agency; approved access goes dormant while the account is below the Scale tier, on a trial, has a payment problem, is set to cancel or has an allowance of 0; revoked means our team turned it off. pending and rejected are no longer returned
  */
 
 
@@ -62,14 +62,14 @@ data class AccountPitchQuota (
     @Json(name = "resets_on")
     val resetsOn: java.time.LocalDate? = null,
 
-    /* Whether the account may create pitch projects. The account owner or an account admin (co-owner) requests access in Account Settings > Pitch projects and our team reviews it; approved access goes dormant while the account is below the Scale tier, on a trial, has a payment problem, is set to cancel or has an allowance of 0 */
+    /* Whether the account may create pitch projects, which are for agency and platform accounts (the account type, which the account owner or an account admin changes in Account Settings > Profile). none means the account is not an agency; approved access goes dormant while the account is below the Scale tier, on a trial, has a payment problem, is set to cancel or has an allowance of 0; revoked means our team turned it off. pending and rejected are no longer returned */
     @Json(name = "access")
     val access: AccountPitchQuota.Access? = null
 
 ) {
 
     /**
-     * Whether the account may create pitch projects. The account owner or an account admin (co-owner) requests access in Account Settings > Pitch projects and our team reviews it; approved access goes dormant while the account is below the Scale tier, on a trial, has a payment problem, is set to cancel or has an allowance of 0
+     * Whether the account may create pitch projects, which are for agency and platform accounts (the account type, which the account owner or an account admin changes in Account Settings > Profile). none means the account is not an agency; approved access goes dormant while the account is below the Scale tier, on a trial, has a payment problem, is set to cancel or has an allowance of 0; revoked means our team turned it off. pending and rejected are no longer returned
      *
      * Values: none,pending,approved,dormant,rejected,revoked
      */
