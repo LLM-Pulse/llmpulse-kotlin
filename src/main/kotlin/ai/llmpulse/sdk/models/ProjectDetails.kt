@@ -61,6 +61,7 @@ import com.squareup.moshi.JsonClass
  * @param appStoreId 
  * @param createdAt 
  * @param promptLimit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way
+ * @param projectType The project type it is billed as under the account's pricing agreement, such as core or lean (its own, else the account's default type). Null for accounts without per-project types and for pitch projects
  * @param stats 
  * @param pitchRun 
  * @param dataCoverage 
@@ -157,6 +158,10 @@ data class ProjectDetails (
     /* The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way */
     @Json(name = "prompt_limit")
     val promptLimit: kotlin.Int? = null,
+
+    /* The project type it is billed as under the account's pricing agreement, such as core or lean (its own, else the account's default type). Null for accounts without per-project types and for pitch projects */
+    @Json(name = "project_type")
+    val projectType: kotlin.String? = null,
 
     @Json(name = "stats")
     val stats: ProjectDetailsAllOfStats? = null,

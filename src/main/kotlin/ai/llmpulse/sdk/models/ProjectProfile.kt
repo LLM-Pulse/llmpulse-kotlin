@@ -35,6 +35,7 @@ import com.squareup.moshi.JsonClass
  * @param matchingNames 
  * @param additionalOwnedDomains Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none
  * @param promptLimit The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way
+ * @param projectType The project type it is billed as under the account's pricing agreement, such as core or lean. Null for accounts without per-project types and for pitch projects
  * @param brandName 
  * @param description 
  * @param industry Industry as stored: one key as a string (e.g. SAAS), or an array of key strings. Deliberately untyped so generated clients decode either shape
@@ -65,6 +66,10 @@ data class ProjectProfile (
     /* The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way */
     @Json(name = "prompt_limit")
     val promptLimit: kotlin.Int?,
+
+    /* The project type it is billed as under the account's pricing agreement, such as core or lean. Null for accounts without per-project types and for pitch projects */
+    @Json(name = "project_type")
+    val projectType: kotlin.String?,
 
     @Json(name = "brand_name")
     val brandName: kotlin.String? = null,
