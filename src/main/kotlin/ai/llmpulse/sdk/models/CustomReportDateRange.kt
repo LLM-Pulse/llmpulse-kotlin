@@ -30,29 +30,39 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
- * @param type rolling (the last range_days days) or previous_month (the previous calendar month)
- * @param rangeDays Length of a rolling window; null for previous_month
+ * @param type rolling (the last range_days days), previous_month (the previous calendar month), previous_3_months (the 3 calendar months before the current one) or custom (fixed dates, custom_from to custom_to)
+ * @param rangeDays Length of a rolling window; null for the other types
+ * @param customFrom First day chosen for a custom range; null for the other types
+ * @param customTo Last day chosen for a custom range, which can be after today; null for the other types
  * @param from First day of the window as of now (detail only)
- * @param to Last day of the window as of now (detail only)
+ * @param to Last day of the window as of now (detail only); a custom range stops at today
  * @param label The window as the report shows it (detail only)
  */
 
 
 data class CustomReportDateRange (
 
-    /* rolling (the last range_days days) or previous_month (the previous calendar month) */
+    /* rolling (the last range_days days), previous_month (the previous calendar month), previous_3_months (the 3 calendar months before the current one) or custom (fixed dates, custom_from to custom_to) */
     @Json(name = "type")
     val type: CustomReportDateRange.Type,
 
-    /* Length of a rolling window; null for previous_month */
+    /* Length of a rolling window; null for the other types */
     @Json(name = "range_days")
     val rangeDays: kotlin.Int?,
+
+    /* First day chosen for a custom range; null for the other types */
+    @Json(name = "custom_from")
+    val customFrom: java.time.LocalDate?,
+
+    /* Last day chosen for a custom range, which can be after today; null for the other types */
+    @Json(name = "custom_to")
+    val customTo: java.time.LocalDate?,
 
     /* First day of the window as of now (detail only) */
     @Json(name = "from")
     val from: java.time.LocalDate? = null,
 
-    /* Last day of the window as of now (detail only) */
+    /* Last day of the window as of now (detail only); a custom range stops at today */
     @Json(name = "to")
     val to: java.time.LocalDate? = null,
 
@@ -63,14 +73,16 @@ data class CustomReportDateRange (
 ) {
 
     /**
-     * rolling (the last range_days days) or previous_month (the previous calendar month)
+     * rolling (the last range_days days), previous_month (the previous calendar month), previous_3_months (the 3 calendar months before the current one) or custom (fixed dates, custom_from to custom_to)
      *
-     * Values: rolling,previous_month
+     * Values: rolling,previous_month,previous_3_months,custom
      */
     @JsonClass(generateAdapter = false)
     enum class Type(val value: kotlin.String) {
         @Json(name = "rolling") rolling("rolling"),
-        @Json(name = "previous_month") previous_month("previous_month");
+        @Json(name = "previous_month") previous_month("previous_month"),
+        @Json(name = "previous_3_months") previous_3_months("previous_3_months"),
+        @Json(name = "custom") custom("custom");
     }
 
 }

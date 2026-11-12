@@ -35,7 +35,7 @@ import com.squareup.moshi.JsonClass
  * @param kind 
  * @param width 
  * @param available false when the widget's data source (web analytics, agent analytics, owned media) is not connected
- * @param `data` Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row. Null when the widget is not available.
+ * @param `data` Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row; the monthly_breakdown widget has one row per calendar month of the window with month, from, to, partial (a month the window cuts), responses, mentions, visibility, weighted_visibility, sov_share, citations and avg_mention_position. Null when the widget is not available.
  */
 
 
@@ -57,7 +57,7 @@ data class CustomReportWidget (
     @Json(name = "available")
     val available: kotlin.Boolean,
 
-    /* Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row. Null when the widget is not available. */
+    /* Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row; the monthly_breakdown widget has one row per calendar month of the window with month, from, to, partial (a month the window cuts), responses, mentions, visibility, weighted_visibility, sov_share, citations and avg_mention_position. Null when the widget is not available. */
     @Json(name = "data")
     val `data`: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
 
