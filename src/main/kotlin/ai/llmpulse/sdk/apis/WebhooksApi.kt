@@ -209,7 +209,7 @@ open class WebhooksApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * GET /webhooks
      * List webhook subscriptions
      * Lists active webhook subscriptions for the account, optionally filtered by project. A read-only API key receives each &#x60;target_url&#x60; masked to its scheme, host and any non-default port followed by &#x60;/…&#x60;, because the full URL can let anyone post to the receiver; a &#x60;read_write&#x60; scope key receives the full URL. Works on every plan, with an API key created on Scale too. Below Scale the subscriptions are kept but deliver nothing, and they can still be listed and deleted.
-     * @param projectId Optional project filter (optional)
+     * @param projectId Optional project filter. An id that is not a plain number, or that names no project of the account, returns ERR_PROJECT_NOT_FOUND. (optional)
      * @param page  (optional)
      * @param perPage Max 100 (optional)
      * @return ListWebhooks200Response
@@ -243,7 +243,7 @@ open class WebhooksApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * GET /webhooks
      * List webhook subscriptions
      * Lists active webhook subscriptions for the account, optionally filtered by project. A read-only API key receives each &#x60;target_url&#x60; masked to its scheme, host and any non-default port followed by &#x60;/…&#x60;, because the full URL can let anyone post to the receiver; a &#x60;read_write&#x60; scope key receives the full URL. Works on every plan, with an API key created on Scale too. Below Scale the subscriptions are kept but deliver nothing, and they can still be listed and deleted.
-     * @param projectId Optional project filter (optional)
+     * @param projectId Optional project filter. An id that is not a plain number, or that names no project of the account, returns ERR_PROJECT_NOT_FOUND. (optional)
      * @param page  (optional)
      * @param perPage Max 100 (optional)
      * @return ApiResponse<ListWebhooks200Response?>
@@ -263,7 +263,7 @@ open class WebhooksApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * To obtain the request config of the operation listWebhooks
      *
-     * @param projectId Optional project filter (optional)
+     * @param projectId Optional project filter. An id that is not a plain number, or that names no project of the account, returns ERR_PROJECT_NOT_FOUND. (optional)
      * @param page  (optional)
      * @param perPage Max 100 (optional)
      * @return RequestConfig

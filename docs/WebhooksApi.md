@@ -133,7 +133,7 @@ Lists active webhook subscriptions for the account, optionally filtered by proje
 //import ai.llmpulse.sdk.models.*
 
 val apiInstance = WebhooksApi()
-val projectId : kotlin.Int = 56 // kotlin.Int | Optional project filter
+val projectId : kotlin.Int = 56 // kotlin.Int | Optional project filter. An id that is not a plain number, or that names no project of the account, returns ERR_PROJECT_NOT_FOUND.
 val page : kotlin.Int = 56 // kotlin.Int | 
 val perPage : kotlin.Int = 56 // kotlin.Int | Max 100
 try {
@@ -149,7 +149,7 @@ try {
 ```
 
 ### Parameters
-| **projectId** | **kotlin.Int**| Optional project filter | [optional] |
+| **projectId** | **kotlin.Int**| Optional project filter. An id that is not a plain number, or that names no project of the account, returns ERR_PROJECT_NOT_FOUND. | [optional] |
 | **page** | **kotlin.Int**|  | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |

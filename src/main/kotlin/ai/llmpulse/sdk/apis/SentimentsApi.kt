@@ -166,7 +166,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * Sentiment by tag (Growth plan or above)
      * One row per tag of the project with at least one analyzed mention, with the positive (very positive included), neutral and negative counts, their shares on a 0-100 scale and the net sentiment score. A mention counts once for every tag its prompt carries, as on the Sentiment page. Same filters as GET /reports/sentiment/topics. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
-     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -215,7 +215,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * Sentiment by tag (Growth plan or above)
      * One row per tag of the project with at least one analyzed mention, with the positive (very positive included), neutral and negative counts, their shares on a 0-100 scale and the net sentiment score. A mention counts once for every tag its prompt carries, as on the Sentiment page. Same filters as GET /reports/sentiment/topics. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
-     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -250,7 +250,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * To obtain the request config of the operation getSentimentTags
      *
      * @param projectId Project ID
-     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -449,7 +449,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * Sentiment by topic (Growth plan or above)
      * One row per topic AI answers associate with the brand (topics are matched case-insensitively), with its analyzed mentions, the positive (very positive included), neutral and negative counts, their shares on a 0-100 scale and the net sentiment score ((positive - negative) / mentions x 100). The same rows and filters as the Topics tab of the Sentiment page: the window defaults to the last 28 days, &#x60;brand&#x60; empty counts your own brand, &#x60;all&#x60; every brand and a competitor id that competitor. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
-     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -498,7 +498,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * Sentiment by topic (Growth plan or above)
      * One row per topic AI answers associate with the brand (topics are matched case-insensitively), with its analyzed mentions, the positive (very positive included), neutral and negative counts, their shares on a 0-100 scale and the net sentiment score ((positive - negative) / mentions x 100). The same rows and filters as the Topics tab of the Sentiment page: the window defaults to the last 28 days, &#x60;brand&#x60; empty counts your own brand, &#x60;all&#x60; every brand and a competitor id that competitor. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
-     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -533,7 +533,7 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * To obtain the request config of the operation getSentimentTopics
      *
      * @param projectId Project ID
-     * @param range Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     * @param range Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -756,15 +756,15 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * List sentiment records (Growth plan or above)
      * Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
-     * @param competitorId  (optional)
-     * @param brandOnly  (optional)
+     * @param competitorId Keep the sentiments about this competitor. An id that is not a plain positive number, or that names no competitor of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param brandOnly true keeps only the sentiments about your own brand. (optional)
      * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
-     * @param model Filter by one AI model. Here an unknown value, or a model the API key&#39;s user has not enabled, is ignored rather than rejected: the request succeeds and returns the records of every enabled model, as if model were omitted. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     * @param from  (optional)
-     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return SentimentsResponse
@@ -799,15 +799,15 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * List sentiment records (Growth plan or above)
      * Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
-     * @param competitorId  (optional)
-     * @param brandOnly  (optional)
+     * @param competitorId Keep the sentiments about this competitor. An id that is not a plain positive number, or that names no competitor of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param brandOnly true keeps only the sentiments about your own brand. (optional)
      * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
-     * @param model Filter by one AI model. Here an unknown value, or a model the API key&#39;s user has not enabled, is ignored rather than rejected: the request succeeds and returns the records of every enabled model, as if model were omitted. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     * @param from  (optional)
-     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return ApiResponse<SentimentsResponse?>
@@ -828,15 +828,15 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * To obtain the request config of the operation listSentimentRecords
      *
      * @param projectId Project ID
-     * @param competitorId  (optional)
-     * @param brandOnly  (optional)
+     * @param competitorId Keep the sentiments about this competitor. An id that is not a plain positive number, or that names no competitor of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param brandOnly true keeps only the sentiments about your own brand. (optional)
      * @param analysis One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
-     * @param model Filter by one AI model. Here an unknown value, or a model the API key&#39;s user has not enabled, is ignored rather than rejected: the request succeeds and returns the records of every enabled model, as if model were omitted. (optional)
+     * @param model Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     * @param from  (optional)
-     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return RequestConfig

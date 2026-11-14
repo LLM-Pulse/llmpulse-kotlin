@@ -33,8 +33,8 @@ import com.squareup.moshi.JsonClass
  * @param model AI model key, as /dimensions/models lists it
  * @param label Display name of the model
  * @param color Hex color the app charts the model with
- * @param weightedVisibilityScore The brand's AI Visibility Score points in the model; 0 when it has none
- * @param shareOfTotal The model's percentage (0-100) of total_weighted_visibility_score; null when that total is 0
+ * @param weightedVisibilityScore The brand's AI Visibility Score in the model, its points there divided by the days the model answered; 0 when it has none
+ * @param shareOfTotal The model's percentage (0-100) of the brand's AI Visibility Score points; null when the brand has none
  */
 
 
@@ -52,11 +52,11 @@ data class AiModelWeightedVisibilityRow (
     @Json(name = "color")
     val color: kotlin.String? = null,
 
-    /* The brand's AI Visibility Score points in the model; 0 when it has none */
+    /* The brand's AI Visibility Score in the model, its points there divided by the days the model answered; 0 when it has none */
     @Json(name = "weighted_visibility_score")
     val weightedVisibilityScore: java.math.BigDecimal? = null,
 
-    /* The model's percentage (0-100) of total_weighted_visibility_score; null when that total is 0 */
+    /* The model's percentage (0-100) of the brand's AI Visibility Score points; null when the brand has none */
     @Json(name = "share_of_total")
     val shareOfTotal: java.math.BigDecimal? = null
 

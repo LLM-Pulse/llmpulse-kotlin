@@ -214,7 +214,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param projectId Project ID
      * @param from  (optional)
      * @param to  (optional)
-     * @param annotationCategoryId  (optional)
+     * @param annotationCategoryId Keep the annotations filed under this category, one of the project&#39;s or a system category. Any other id returns 422 ERR_INVALID_PARAM. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return void
@@ -250,7 +250,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param projectId Project ID
      * @param from  (optional)
      * @param to  (optional)
-     * @param annotationCategoryId  (optional)
+     * @param annotationCategoryId Keep the annotations filed under this category, one of the project&#39;s or a system category. Any other id returns 422 ERR_INVALID_PARAM. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return ApiResponse<Unit?>
@@ -272,7 +272,7 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param projectId Project ID
      * @param from  (optional)
      * @param to  (optional)
-     * @param annotationCategoryId  (optional)
+     * @param annotationCategoryId Keep the annotations filed under this category, one of the project&#39;s or a system category. Any other id returns 422 ERR_INVALID_PARAM. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @return RequestConfig

@@ -25,7 +25,7 @@ Per-model mentions, citations, brand net sentiment with raw counts, weighted vis
 
 val apiInstance = AIModelInsightsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to.
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val granularity : kotlin.String = granularity_example // kotlin.String | 
@@ -34,7 +34,7 @@ val countryCode : kotlin.String = countryCode_example // kotlin.String | One ISO
 val languageCode : kotlin.String = languageCode_example // kotlin.String | One ISO language code or a comma-separated list (e.g. en,es,de)
 val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
-val competitors : kotlin.String = competitors_example // kotlin.String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM)
+val competitors : kotlin.String = competitors_example // kotlin.String | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM)
 try {
     val result : AiModelInsightsSummaryResponse = apiInstance.getAiModelInsightsSummary(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, competitors)
     println(result)
@@ -49,7 +49,7 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |
@@ -60,7 +60,7 @@ try {
 | **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **competitors** | **kotlin.String**| Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] |
+| **competitors** | **kotlin.String**| Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) | [optional] |
 
 ### Return type
 
@@ -97,7 +97,7 @@ Position distribution comparison
 
 val apiInstance = AIModelInsightsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to.
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val granularity : kotlin.String = granularity_example // kotlin.String | 
@@ -122,7 +122,7 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |
@@ -172,7 +172,7 @@ Google AI Overview result availability
 
 val apiInstance = AIModelInsightsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to.
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val granularity : kotlin.String = granularity_example // kotlin.String | 
@@ -196,7 +196,7 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |

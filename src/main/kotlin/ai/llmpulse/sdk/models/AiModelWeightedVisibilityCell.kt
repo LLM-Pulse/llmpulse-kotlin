@@ -30,13 +30,13 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
- * @param `value` The actor's AI Visibility Score points in the model; 0 when it has none
+ * @param `value` The actor's AI Visibility Score in the model, its points there divided by the project's days with answers in that model; 0 when it has none
  */
 
 
 data class AiModelWeightedVisibilityCell (
 
-    /* The actor's AI Visibility Score points in the model; 0 when it has none */
+    /* The actor's AI Visibility Score in the model, its points there divided by the project's days with answers in that model; 0 when it has none */
     @Json(name = "value")
     val `value`: java.math.BigDecimal? = null
 

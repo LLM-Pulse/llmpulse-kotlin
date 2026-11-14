@@ -137,7 +137,7 @@ val apiInstance = AnnotationsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
-val annotationCategoryId : kotlin.Int = 56 // kotlin.Int | 
+val annotationCategoryId : kotlin.Int = 56 // kotlin.Int | Keep the annotations filed under this category, one of the project's or a system category. Any other id returns 422 ERR_INVALID_PARAM.
 val page : kotlin.Int = 56 // kotlin.Int | 
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 try {
@@ -155,7 +155,7 @@ try {
 | **projectId** | **kotlin.Int**| Project ID | |
 | **from** | **java.time.LocalDate**|  | [optional] |
 | **to** | **java.time.LocalDate**|  | [optional] |
-| **annotationCategoryId** | **kotlin.Int**|  | [optional] |
+| **annotationCategoryId** | **kotlin.Int**| Keep the annotations filed under this category, one of the project&#39;s or a system category. Any other id returns 422 ERR_INVALID_PARAM. | [optional] |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |

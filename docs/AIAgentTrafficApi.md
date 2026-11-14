@@ -27,7 +27,7 @@ Aggregated AI bot traffic hitting the project&#39;s origin server (GPTBot, Perpl
 
 val apiInstance = AIAgentTrafficApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to.
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val bot : kotlin.String = bot_example // kotlin.String | Filter by bot slug (e.g. gptbot, claudebot, perplexitybot)
@@ -48,7 +48,7 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **bot** | **kotlin.String**| Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) | [optional] |
@@ -95,7 +95,7 @@ AI referral traffic for a project: human visits arriving from AI assistants (Cha
 
 val apiInstance = AIAgentTrafficApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to)
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to.
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val source : kotlin.String = source_example // kotlin.String | Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude)
@@ -113,7 +113,7 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to) | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] |
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **source** | **kotlin.String**| Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) | [optional] |

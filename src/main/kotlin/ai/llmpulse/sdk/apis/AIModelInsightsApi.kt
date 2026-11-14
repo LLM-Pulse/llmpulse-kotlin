@@ -94,7 +94,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * AI Model Insights summary
      * Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains. Rows cover the AI models the account has enabled or that answered in the window. A share, net sentiment or market share value with nothing behind it is null; counts, totals and weighted visibility scores stay 0.
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
@@ -103,7 +103,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
-     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     * @param competitors Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
      * @return AiModelInsightsSummaryResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -136,7 +136,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * AI Model Insights summary
      * Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains. Rows cover the AI models the account has enabled or that answered in the window. A share, net sentiment or market share value with nothing behind it is null; counts, totals and weighted visibility scores stay 0.
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
@@ -145,7 +145,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
-     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     * @param competitors Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
      * @return ApiResponse<AiModelInsightsSummaryResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -164,7 +164,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * To obtain the request config of the operation getAiModelInsightsSummary
      *
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
@@ -173,7 +173,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
-     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     * @param competitors Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
      * @return RequestConfig
      */
     fun getAiModelInsightsSummaryRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelInsightsSummary?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelInsightsSummary?, competitors: kotlin.String?) : RequestConfig<Unit> {
@@ -292,7 +292,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * Position distribution comparison
      * 
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
@@ -335,7 +335,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * Position distribution comparison
      * 
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
@@ -364,7 +364,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * To obtain the request config of the operation getAiModelPositionDistribution
      *
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
@@ -473,7 +473,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * Google AI Overview result availability
      * 
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
@@ -515,7 +515,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * Google AI Overview result availability
      * 
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)
@@ -543,7 +543,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * To obtain the request config of the operation getAiOverviewResults
      *
      * @param projectId Project ID
-     * @param range Number of days to look back (alternative to from/to) (optional)
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param granularity  (optional)

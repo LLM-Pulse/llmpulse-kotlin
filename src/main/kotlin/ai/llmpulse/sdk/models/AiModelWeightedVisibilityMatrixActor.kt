@@ -36,7 +36,7 @@ import com.squareup.moshi.JsonClass
  * @param competitorId Null for the project, the competitor id otherwise
  * @param name 
  * @param domain Bare (scheme-less) domain. Null for the project actor when the project has no URL.
- * @param totalWeightedVisibilityScore The actor's AI Visibility Score points summed over the models
+ * @param totalWeightedVisibilityScore The actor's AI Visibility Score across the enabled models, its points there divided by the project's days with answers in them, so actors compare
  * @param models One cell per model, keyed by model
  */
 
@@ -61,7 +61,7 @@ data class AiModelWeightedVisibilityMatrixActor (
     @Json(name = "domain")
     val domain: kotlin.String? = null,
 
-    /* The actor's AI Visibility Score points summed over the models */
+    /* The actor's AI Visibility Score across the enabled models, its points there divided by the project's days with answers in them, so actors compare */
     @Json(name = "total_weighted_visibility_score")
     val totalWeightedVisibilityScore: java.math.BigDecimal? = null,
 

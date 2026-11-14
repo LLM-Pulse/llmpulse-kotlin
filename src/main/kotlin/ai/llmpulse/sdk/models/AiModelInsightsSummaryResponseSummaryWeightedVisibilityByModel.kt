@@ -31,14 +31,14 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
- * @param totalWeightedVisibilityScore The brand's AI Visibility Score points across the models; 0 when it has none
+ * @param totalWeightedVisibilityScore The brand's AI Visibility Score across the enabled models, its points there divided by the days with answers in any of them (the Overview's number for the same filters; a model that answered while disabled keeps its row but stays out of it); 0 when it has none
  * @param models 
  */
 
 
 data class AiModelInsightsSummaryResponseSummaryWeightedVisibilityByModel (
 
-    /* The brand's AI Visibility Score points across the models; 0 when it has none */
+    /* The brand's AI Visibility Score across the enabled models, its points there divided by the days with answers in any of them (the Overview's number for the same filters; a model that answered while disabled keeps its row but stays out of it); 0 when it has none */
     @Json(name = "total_weighted_visibility_score")
     val totalWeightedVisibilityScore: java.math.BigDecimal? = null,
 

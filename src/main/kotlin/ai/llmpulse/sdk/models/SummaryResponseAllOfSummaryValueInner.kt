@@ -33,8 +33,8 @@ import com.squareup.moshi.JsonClass
  *
  * @param actor 
  * @param metric 
- * @param total 
- * @param aggregation How total combines the buckets
+ * @param total Count metrics sum the buckets; rate, position and sentiment metrics average them. ai_visibility_score (weighted_visibility) is the window's points divided by its data days (the days with responses under the filters), the number the app shows, whatever the granularity.
+ * @param aggregation How total combines the buckets (average for ai_visibility_score, a per-data-day score)
  * @param min 
  * @param max 
  * @param last 
@@ -49,10 +49,11 @@ data class SummaryResponseAllOfSummaryValueInner (
     @Json(name = "metric")
     val metric: kotlin.String? = null,
 
+    /* Count metrics sum the buckets; rate, position and sentiment metrics average them. ai_visibility_score (weighted_visibility) is the window's points divided by its data days (the days with responses under the filters), the number the app shows, whatever the granularity. */
     @Json(name = "total")
     val total: java.math.BigDecimal? = null,
 
-    /* How total combines the buckets */
+    /* How total combines the buckets (average for ai_visibility_score, a per-data-day score) */
     @Json(name = "aggregation")
     val aggregation: SummaryResponseAllOfSummaryValueInner.Aggregation? = null,
 
@@ -68,7 +69,7 @@ data class SummaryResponseAllOfSummaryValueInner (
 ) {
 
     /**
-     * How total combines the buckets
+     * How total combines the buckets (average for ai_visibility_score, a per-data-day score)
      *
      * Values: sum,average
      */

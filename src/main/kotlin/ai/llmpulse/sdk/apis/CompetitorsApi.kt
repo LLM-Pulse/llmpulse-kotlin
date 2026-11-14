@@ -62,7 +62,7 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * POST /competitors
      * Add a competitor
-     * Adds a competitor with its own citation URL matching rule. Honours the per-plan max competitors cap. Requires a &#x60;read_write&#x60; scope API key.
+     * Adds a competitor with its own citation URL matching rule. Honours the per-plan max competitors cap. A &#x60;domain&#x60; rule on the project&#39;s own domain, or one of its subdomains, or a &#x60;host&#x60; rule on the project&#39;s own host, returns ERR_INVALID_PARAM; a &#x60;path_prefix&#x60; rule on it is accepted. Requires a &#x60;read_write&#x60; scope API key.
      * @param createCompetitorRequest 
      * @return CompetitorCreateResponse
      * @throws IllegalStateException If the request is not correctly configured
@@ -94,7 +94,7 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * POST /competitors
      * Add a competitor
-     * Adds a competitor with its own citation URL matching rule. Honours the per-plan max competitors cap. Requires a &#x60;read_write&#x60; scope API key.
+     * Adds a competitor with its own citation URL matching rule. Honours the per-plan max competitors cap. A &#x60;domain&#x60; rule on the project&#39;s own domain, or one of its subdomains, or a &#x60;host&#x60; rule on the project&#39;s own host, returns ERR_INVALID_PARAM; a &#x60;path_prefix&#x60; rule on it is accepted. Requires a &#x60;read_write&#x60; scope API key.
      * @param createCompetitorRequest 
      * @return ApiResponse<CompetitorCreateResponse?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -537,7 +537,7 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * PATCH /competitors/{id}
      * Update a competitor
-     * Updates brand_name, the competitor website domain or host, matching_names (full replacement list; the brand name is always included automatically), color and/or the citation URL matching rule. Website domain/host and citation-rule changes share one seven-day cooldown per competitor; other fields remain editable during the cooldown. Name, website or citation-rule changes re-run historical matching in the background: the competitor shows processing&#x3D;true for a few minutes and further edits are rejected meanwhile. Requires a &#x60;read_write&#x60; scope API key.
+     * Updates brand_name, the competitor website domain or host, matching_names (full replacement list; the brand name is always included automatically), color and/or the citation URL matching rule. Website domain/host and citation-rule changes share one seven-day cooldown per competitor; other fields remain editable during the cooldown. Moving to a &#x60;domain&#x60; rule on the project&#39;s own domain, or a &#x60;host&#x60; rule on its own host, returns ERR_INVALID_PARAM. Name, website or citation-rule changes re-run historical matching in the background: the competitor shows processing&#x3D;true for a few minutes and further edits are rejected meanwhile. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateCompetitorRequest 
      * @return void
@@ -569,7 +569,7 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
     /**
      * PATCH /competitors/{id}
      * Update a competitor
-     * Updates brand_name, the competitor website domain or host, matching_names (full replacement list; the brand name is always included automatically), color and/or the citation URL matching rule. Website domain/host and citation-rule changes share one seven-day cooldown per competitor; other fields remain editable during the cooldown. Name, website or citation-rule changes re-run historical matching in the background: the competitor shows processing&#x3D;true for a few minutes and further edits are rejected meanwhile. Requires a &#x60;read_write&#x60; scope API key.
+     * Updates brand_name, the competitor website domain or host, matching_names (full replacement list; the brand name is always included automatically), color and/or the citation URL matching rule. Website domain/host and citation-rule changes share one seven-day cooldown per competitor; other fields remain editable during the cooldown. Moving to a &#x60;domain&#x60; rule on the project&#39;s own domain, or a &#x60;host&#x60; rule on its own host, returns ERR_INVALID_PARAM. Name, website or citation-rule changes re-run historical matching in the background: the competitor shows processing&#x3D;true for a few minutes and further edits are rejected meanwhile. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateCompetitorRequest 
      * @return ApiResponse<Unit?>

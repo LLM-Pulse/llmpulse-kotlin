@@ -172,6 +172,24 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      }
 
     /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindListAnswers(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * enum for parameter mentionFilter
      */
      enum class MentionFilterListAnswers(val value: kotlin.String) {
@@ -227,12 +245,14 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     * @param prompt Filter by prompt ID (optional)
+     * @param prompt Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space; on answers, finished answers only). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
      * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it (cites_no_brands still allows other domains), plus no_citations, finished answers that cite no source at all. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
-     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
-     * @param from  (optional)
-     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param competitors Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
+     * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param query Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
@@ -245,8 +265,8 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAnswers(projectId: kotlin.Int, model: ModelListAnswers? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, mentionFilter: MentionFilterListAnswers? = null, citationFilter: CitationFilterListAnswers? = null, competitors: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, query: kotlin.String? = null, noResult: kotlin.Boolean? = null) : Unit {
-        val localVarResponse = listAnswersWithHttpInfo(projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, from = from, to = to, page = page, perPage = perPage, query = query, noResult = noResult)
+    fun listAnswers(projectId: kotlin.Int, model: ModelListAnswers? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAnswers? = null, mentionFilter: MentionFilterListAnswers? = null, citationFilter: CitationFilterListAnswers? = null, competitors: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, query: kotlin.String? = null, noResult: kotlin.Boolean? = null) : Unit {
+        val localVarResponse = listAnswersWithHttpInfo(projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, from = from, to = to, page = page, perPage = perPage, query = query, noResult = noResult)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -272,12 +292,14 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     * @param prompt Filter by prompt ID (optional)
+     * @param prompt Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space; on answers, finished answers only). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
      * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it (cites_no_brands still allows other domains), plus no_citations, finished answers that cite no source at all. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
-     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
-     * @param from  (optional)
-     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param competitors Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
+     * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param query Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
@@ -287,8 +309,8 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAnswersWithHttpInfo(projectId: kotlin.Int, model: ModelListAnswers?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, mentionFilter: MentionFilterListAnswers?, citationFilter: CitationFilterListAnswers?, competitors: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?, query: kotlin.String?, noResult: kotlin.Boolean?) : ApiResponse<Unit?> {
-        val localVariableConfig = listAnswersRequestConfig(projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, from = from, to = to, page = page, perPage = perPage, query = query, noResult = noResult)
+    fun listAnswersWithHttpInfo(projectId: kotlin.Int, model: ModelListAnswers?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListAnswers?, mentionFilter: MentionFilterListAnswers?, citationFilter: CitationFilterListAnswers?, competitors: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?, query: kotlin.String?, noResult: kotlin.Boolean?) : ApiResponse<Unit?> {
+        val localVariableConfig = listAnswersRequestConfig(projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, from = from, to = to, page = page, perPage = perPage, query = query, noResult = noResult)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -303,19 +325,21 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     * @param prompt Filter by prompt ID (optional)
+     * @param prompt Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param mentionFilter Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space; on answers, finished answers only). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
      * @param citationFilter Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it (cites_no_brands still allows other domains), plus no_citations, finished answers that cite no source at all. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
-     * @param competitors Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
-     * @param from  (optional)
-     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param competitors Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
+     * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param query Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
      * @param noResult Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag, and a sentinel also carries no_result_reason (declined or no_answer). (optional)
      * @return RequestConfig
      */
-    fun listAnswersRequestConfig(projectId: kotlin.Int, model: ModelListAnswers?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, mentionFilter: MentionFilterListAnswers?, citationFilter: CitationFilterListAnswers?, competitors: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?, query: kotlin.String?, noResult: kotlin.Boolean?) : RequestConfig<Unit> {
+    fun listAnswersRequestConfig(projectId: kotlin.Int, model: ModelListAnswers?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListAnswers?, mentionFilter: MentionFilterListAnswers?, citationFilter: CitationFilterListAnswers?, competitors: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?, query: kotlin.String?, noResult: kotlin.Boolean?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -334,6 +358,12 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
                 }
                 if (prompt != null) {
                     put("prompt", listOf(prompt.toString()))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
                 }
                 if (mentionFilter != null) {
                     put("mention_filter", listOf(mentionFilter.value))

@@ -34,7 +34,7 @@ The property&#39;s queries with at least min_impressions impressions, most impre
 val apiInstance = SearchConsoleApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val `property` : kotlin.String = all // kotlin.String | Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would.
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to.
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | Start date (YYYY-MM-DD). Defaults to 30 days ago.
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches.
 val minImpressions : kotlin.Int = 56 // kotlin.Int | Smallest impressions a query needs.
@@ -61,7 +61,7 @@ try {
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
 | **&#x60;property&#x60;** | **kotlin.String**| Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. | [optional] |
-| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] |
 | **from** | **java.time.LocalDate**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] |
 | **to** | **java.time.LocalDate**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] |
 | **minImpressions** | **kotlin.Int**| Smallest impressions a query needs. | [optional] [default to 100] |
@@ -114,7 +114,7 @@ Splits the property&#39;s impressions and clicks into branded queries, which con
 val apiInstance = SearchConsoleApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val `property` : kotlin.String = all // kotlin.String | Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would.
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to.
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | Start date (YYYY-MM-DD). Defaults to 30 days ago.
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches.
 val searchType : kotlin.String = searchType_example // kotlin.String | Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them.
@@ -136,7 +136,7 @@ try {
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
 | **&#x60;property&#x60;** | **kotlin.String**| Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. | [optional] |
-| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] |
 | **from** | **java.time.LocalDate**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] |
 | **to** | **java.time.LocalDate**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] |
 | **searchType** | **kotlin.String**| Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. | [optional] [default to SearchType.web] [enum: web, image, video, news, discover, googleNews] |
@@ -184,7 +184,7 @@ Queries with at least min_impressions impressions for which two or more pages ea
 val apiInstance = SearchConsoleApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val `property` : kotlin.String = all // kotlin.String | Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would.
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to.
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | Start date (YYYY-MM-DD). Defaults to 30 days ago.
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches.
 val minImpressions : kotlin.Int = 56 // kotlin.Int | Smallest impressions a query needs.
@@ -211,7 +211,7 @@ try {
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
 | **&#x60;property&#x60;** | **kotlin.String**| Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. | [optional] |
-| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] |
 | **from** | **java.time.LocalDate**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] |
 | **to** | **java.time.LocalDate**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] |
 | **minImpressions** | **kotlin.Int**| Smallest impressions a query needs. | [optional] [default to 100] |
@@ -264,7 +264,7 @@ Pages (or queries, with dimension&#x3D;query) that had at least min_clicks click
 val apiInstance = SearchConsoleApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val `property` : kotlin.String = all // kotlin.String | Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would.
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to.
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | Start date (YYYY-MM-DD). Defaults to 30 days ago.
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches.
 val dimension : kotlin.String = dimension_example // kotlin.String | Compare pages or queries.
@@ -291,7 +291,7 @@ try {
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
 | **&#x60;property&#x60;** | **kotlin.String**| Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. | [optional] |
-| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] |
 | **from** | **java.time.LocalDate**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] |
 | **to** | **java.time.LocalDate**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] |
 | **dimension** | **kotlin.String**| Compare pages or queries. | [optional] [default to Dimension.page] [enum: page, query] |
@@ -344,7 +344,7 @@ Queries whose average position is between min_position and max_position (default
 val apiInstance = SearchConsoleApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val `property` : kotlin.String = all // kotlin.String | Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would.
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to.
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | Start date (YYYY-MM-DD). Defaults to 30 days ago.
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches.
 val minImpressions : kotlin.Int = 56 // kotlin.Int | Smallest impressions a query needs.
@@ -372,7 +372,7 @@ try {
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
 | **&#x60;property&#x60;** | **kotlin.String**| Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. | [optional] |
-| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] |
 | **from** | **java.time.LocalDate**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] |
 | **to** | **java.time.LocalDate**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] |
 | **minImpressions** | **kotlin.Int**| Smallest impressions a query needs. | [optional] [default to 100] |
@@ -425,7 +425,7 @@ Top Google Search Console landing pages over a date range, ranked by impressions
 
 val apiInstance = SearchConsoleApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to.
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | Start date (YYYY-MM-DD). Defaults to 30 days ago.
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches.
 val sort : kotlin.String = sort_example // kotlin.String | 
@@ -452,7 +452,7 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] |
 | **from** | **java.time.LocalDate**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] |
 | **to** | **java.time.LocalDate**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] |
 | **sort** | **kotlin.String**|  | [optional] [default to Sort.impressions] [enum: impressions, clicks, ctr, position] |
@@ -505,7 +505,7 @@ Top Google Search Console search queries over a date range, ranked by impression
 
 val apiInstance = SearchConsoleApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to.
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | Start date (YYYY-MM-DD). Defaults to 30 days ago.
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches.
 val sort : kotlin.String = sort_example // kotlin.String | 
@@ -532,7 +532,7 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] |
 | **from** | **java.time.LocalDate**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] |
 | **to** | **java.time.LocalDate**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] |
 | **sort** | **kotlin.String**|  | [optional] [default to Sort.impressions] [enum: impressions, clicks, ctr, position] |
@@ -586,7 +586,7 @@ Google Search Console rows grouped by 1 to 3 dimensions (date, country, device, 
 val apiInstance = SearchConsoleApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val dimensions : kotlin.String = page,query // kotlin.String | Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance, property. Each becomes a field of every row; country and device values are lowercase. property is the Search Console property the row comes from (see the property parameter).
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to.
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | Start date (YYYY-MM-DD). Defaults to 30 days ago.
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches.
 val sort : kotlin.String = sort_example // kotlin.String | 
@@ -614,7 +614,7 @@ try {
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
 | **dimensions** | **kotlin.String**| Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance, property. Each becomes a field of every row; country and device values are lowercase. property is the Search Console property the row comes from (see the property parameter). | |
-| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] |
 | **from** | **java.time.LocalDate**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] |
 | **to** | **java.time.LocalDate**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] |
 | **sort** | **kotlin.String**|  | [optional] [default to Sort.impressions] [enum: impressions, clicks, ctr, position] |
@@ -667,7 +667,7 @@ Google Search Console headline totals (impressions, clicks, ctr as a 0..1 fracti
 
 val apiInstance = SearchConsoleApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to.
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | Start date (YYYY-MM-DD). Defaults to 30 days ago.
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches.
 val dimension : kotlin.String = dimension_example // kotlin.String | Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. property gives one row per property read (see the property parameter).
@@ -691,7 +691,7 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] |
 | **from** | **java.time.LocalDate**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] |
 | **to** | **java.time.LocalDate**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] |
 | **dimension** | **kotlin.String**| Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. property gives one row per property read (see the property parameter). | [optional] [enum: country, device, page, query, searchAppearance, property] |
@@ -741,7 +741,7 @@ Google Search Console series (impressions, clicks, ctr, position) bucketed by da
 
 val apiInstance = SearchConsoleApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
-val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to). At most 487, Google's retention.
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google's retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to.
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | Start date (YYYY-MM-DD). Defaults to 30 days ago.
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches.
 val granularity : kotlin.String = granularity_example // kotlin.String | 
@@ -765,7 +765,7 @@ try {
 
 ### Parameters
 | **projectId** | **kotlin.Int**| Project ID | |
-| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. | [optional] |
+| **range** | **kotlin.Int**| Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. | [optional] |
 | **from** | **java.time.LocalDate**| Start date (YYYY-MM-DD). Defaults to 30 days ago. | [optional] |
 | **to** | **java.time.LocalDate**| End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. | [optional] |
 | **granularity** | **kotlin.String**|  | [optional] [enum: day, week, month] |
