@@ -32,7 +32,7 @@ import com.squareup.moshi.JsonClass
  *
  * @param step 
  * @param name 
- * @param brandName 
+ * @param brandName Defaults to name. Up to 100 characters, the name included when it stands in; finalize refuses a longer one with ERR_INVALID_PARAM
  * @param description 
  * @param industry 
  * @param matchingNames Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422)
@@ -57,6 +57,7 @@ data class UpdateProjectDraftRequest (
     @Json(name = "name")
     val name: kotlin.String? = null,
 
+    /* Defaults to name. Up to 100 characters, the name included when it stands in; finalize refuses a longer one with ERR_INVALID_PARAM */
     @Json(name = "brand_name")
     val brandName: kotlin.String? = null,
 

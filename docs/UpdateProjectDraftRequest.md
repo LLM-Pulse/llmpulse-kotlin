@@ -6,7 +6,7 @@
 | ------------ | ------------- | ------------- | ------------- |
 | **step** | [**inline**](#Step) |  |  |
 | **name** | **kotlin.String** |  |  [optional] |
-| **brandName** | **kotlin.String** |  |  [optional] |
+| **brandName** | **kotlin.String** | Defaults to name. Up to 100 characters, the name included when it stands in; finalize refuses a longer one with ERR_INVALID_PARAM |  [optional] |
 | **description** | **kotlin.String** |  |  [optional] |
 | **industry** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  [optional] |
 | **matchingNames** | **kotlin.collections.List&lt;kotlin.String&gt;** | Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422) |  [optional] |

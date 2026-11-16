@@ -8,7 +8,7 @@
 | **name** | **kotlin.String** | Project name, as plain text. It can be changed later with PATCH /projects/{id} |  |
 | **mainCountry** | **kotlin.String** |  |  |
 | **mainLanguage** | **kotlin.String** |  |  |
-| **brandName** | **kotlin.String** |  |  [optional] |
+| **brandName** | **kotlin.String** | Defaults to name. Up to 100 characters, the name included when it stands in; a longer one is refused with ERR_INVALID_PARAM |  [optional] |
 | **description** | **kotlin.String** |  |  [optional] |
 | **industry** | **kotlin.collections.List&lt;kotlin.String&gt;** | Industry keys, case-insensitive; a single key string is also accepted. An unknown key returns ERR_INVALID_PARAM listing the valid keys (the same list as the in-app industry picker, e.g. TECHNOLOGY, SAAS, ECOMMERCE) |  [optional] |
 | **businessModel** | **kotlin.String** | Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected |  [optional] |

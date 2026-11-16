@@ -31,7 +31,7 @@ import com.squareup.moshi.JsonClass
  * 
  *
  * @param name Project name shown in the app. A label: it does not change mention detection unless brand_name is empty. Cannot be blank
- * @param brandName Brand name used to detect mentions. Applies to future runs; it does not rewrite history
+ * @param brandName Brand name used to detect mentions, up to 100 characters (a longer one is refused with ERR_INVALID_PARAM). Applies to future runs; it does not rewrite history
  * @param description What the brand does. Context for Recommendations and GEO Writer (Brand Book)
  * @param industry Single industry key (e.g. SAAS), stored as sent; an array of keys is also accepted and stored as an array, like the in-app multi-select. Unknown keys are rejected with the valid keys listed
  * @param businessModel Business model key (e.g. B2B_SAAS); unknown keys are rejected
@@ -54,7 +54,7 @@ data class UpdateProjectRequest (
     @Json(name = "name")
     val name: kotlin.String? = null,
 
-    /* Brand name used to detect mentions. Applies to future runs; it does not rewrite history */
+    /* Brand name used to detect mentions, up to 100 characters (a longer one is refused with ERR_INVALID_PARAM). Applies to future runs; it does not rewrite history */
     @Json(name = "brand_name")
     val brandName: kotlin.String? = null,
 

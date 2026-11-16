@@ -37,7 +37,7 @@ import com.squareup.moshi.JsonClass
  * @param name Project name, as plain text. It can be changed later with PATCH /projects/{id}
  * @param mainCountry 
  * @param mainLanguage 
- * @param brandName 
+ * @param brandName Defaults to name. Up to 100 characters, the name included when it stands in; a longer one is refused with ERR_INVALID_PARAM
  * @param description 
  * @param industry Industry keys, case-insensitive; a single key string is also accepted. An unknown key returns ERR_INVALID_PARAM listing the valid keys (the same list as the in-app industry picker, e.g. TECHNOLOGY, SAAS, ECOMMERCE)
  * @param businessModel Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected
@@ -76,6 +76,7 @@ data class ProjectCreateRequest (
     @Json(name = "main_language")
     val mainLanguage: kotlin.String,
 
+    /* Defaults to name. Up to 100 characters, the name included when it stands in; a longer one is refused with ERR_INVALID_PARAM */
     @Json(name = "brand_name")
     val brandName: kotlin.String? = null,
 
