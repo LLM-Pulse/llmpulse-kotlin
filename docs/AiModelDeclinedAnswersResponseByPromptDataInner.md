@@ -1,0 +1,19 @@
+
+# AiModelDeclinedAnswersResponseByPromptDataInner
+
+## Properties
+| Name | Type | Description | Notes |
+| ------------ | ------------- | ------------- | ------------- |
+| **answers** | **kotlin.Int** | Finished runs of the model, declined ones included |  [optional] |
+| **declined** | **kotlin.Int** | Answers the model declined |  [optional] |
+| **declineRate** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
+| **safetyFilter** | **kotlin.Int** | Answers declined by the model&#39;s own safety filters |  [optional] |
+| **safetyFilterRate** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
+| **topicRefusal** | **kotlin.Int** | Answers that declined the topic itself, such as tobacco, gambling or alcohol |  [optional] |
+| **topicRefusalRate** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
+| **promptId** | **kotlin.Int** |  |  [optional] |
+| **promptText** | **kotlin.String** |  |  [optional] |
+| **lastDeclinedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) | When the prompt&#39;s latest declined answer of the window was created; null when none was declined |  [optional] |
+
+
+

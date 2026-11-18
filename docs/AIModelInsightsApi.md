@@ -7,6 +7,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 | [**getAiModelInsightsSummary**](AIModelInsightsApi.md#getAiModelInsightsSummary) | **GET** /reports/ai_model_insights/summary | AI Model Insights summary |
 | [**getAiModelPositionDistribution**](AIModelInsightsApi.md#getAiModelPositionDistribution) | **GET** /reports/ai_model_insights/position_distribution | Position distribution comparison |
 | [**getAiOverviewResults**](AIModelInsightsApi.md#getAiOverviewResults) | **GET** /reports/ai_model_insights/ai_overview_results | Google AI Overview result availability |
+| [**getDeclinedAnswers**](AIModelInsightsApi.md#getDeclinedAnswers) | **GET** /reports/ai_model_insights/declined_answers | Declined answers (decline rate) |
 
 
 <a id="getAiModelInsightsSummary"></a>
@@ -230,4 +231,80 @@ apiInstance.accessTokenProvider = { "" }
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+<a id="getDeclinedAnswers"></a>
+# **getDeclinedAnswers**
+> AiModelDeclinedAnswersResponse getDeclinedAnswers(projectId, range, from, to, model, collectionId, countryCode, languageCode, promptType, brandKind, page, perPage)
+
+Declined answers (decline rate)
+
+The Declined answers tab of AI Model Insights. A model declines a prompt for its own safety filters (safety_filter) or because it refuses the topic itself, such as tobacco, gambling or alcohol (topic_refusal); today only Gemini declines. A declined answer counts as no answer and never lowers visibility. The chart has one point per tracking period at the account&#39;s cadence that holds an answer of the model, and the window starts at the tracking period holding its first day.
+
+### Example
+```kotlin
+// Import classes:
+//import ai.llmpulse.sdk.infrastructure.*
+//import ai.llmpulse.sdk.models.*
+
+val apiInstance = AIModelInsightsApi()
+val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
+val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to.
+val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
+val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
+val model : kotlin.String = model_example // kotlin.String | The model whose declines to read, whether or not it is enabled for the API key's user. Default: gemini. Any other model returns 422 ERR_INVALID_PARAM (invalid model).
+val collectionId : kotlin.String = 12,34 // kotlin.String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize.
+val countryCode : kotlin.String = countryCode_example // kotlin.String | One ISO country code or a comma-separated list (e.g. US,GB,DE)
+val languageCode : kotlin.String = languageCode_example // kotlin.String | One ISO language code or a comma-separated list (e.g. en,es,de)
+val promptType : kotlin.String = promptType_example // kotlin.String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional
+val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
+val page : kotlin.Int = 56 // kotlin.Int | 
+val perPage : kotlin.Int = 56 // kotlin.Int | 
+try {
+    val result : AiModelDeclinedAnswersResponse = apiInstance.getDeclinedAnswers(projectId, range, from, to, model, collectionId, countryCode, languageCode, promptType, brandKind, page, perPage)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling AIModelInsightsApi#getDeclinedAnswers")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling AIModelInsightsApi#getDeclinedAnswers")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **projectId** | **kotlin.Int**| Project ID | |
+| **range** | **kotlin.Int**| Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] |
+| **from** | **java.time.OffsetDateTime**|  | [optional] |
+| **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
+| **model** | **kotlin.String**| The model whose declines to read, whether or not it is enabled for the API key&#39;s user. Default: gemini. Any other model returns 422 ERR_INVALID_PARAM (invalid model). | [optional] [enum: gemini] |
+| **collectionId** | **kotlin.String**| One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] |
+| **countryCode** | **kotlin.String**| One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] |
+| **languageCode** | **kotlin.String**| One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] |
+| **promptType** | **kotlin.String**| One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] |
+| **brandKind** | **kotlin.String**| Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] [enum: brand, brand_other, non_brand] |
+| **page** | **kotlin.Int**|  | [optional] [default to 1] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
+
+### Return type
+
+[**AiModelDeclinedAnswersResponse**](AiModelDeclinedAnswersResponse.md)
+
+### Authorization
+
+
+Configure BearerAuth statically:
+```kotlin
+ApiClient.accessToken = ""
+```
+Configure BearerAuth dynamically:
+```kotlin
+apiInstance.accessTokenProvider = { "" }
+```
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 

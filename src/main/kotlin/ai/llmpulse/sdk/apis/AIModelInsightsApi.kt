@@ -27,7 +27,9 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import ai.llmpulse.sdk.models.AiModelDeclinedAnswersResponse
 import ai.llmpulse.sdk.models.AiModelInsightsSummaryResponse
+import ai.llmpulse.sdk.models.ApiError
 
 import com.squareup.moshi.Json
 
@@ -600,6 +602,182 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/reports/ai_model_insights/ai_overview_results",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter model
+     */
+     enum class ModelGetDeclinedAnswers(val value: kotlin.String) {
+         @Json(name = "gemini") gemini("gemini");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * enum for parameter brandKind
+     */
+     enum class BrandKindGetDeclinedAnswers(val value: kotlin.String) {
+         @Json(name = "brand") brand("brand"),
+         @Json(name = "brand_other") brand_other("brand_other"),
+         @Json(name = "non_brand") non_brand("non_brand");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /reports/ai_model_insights/declined_answers
+     * Declined answers (decline rate)
+     * The Declined answers tab of AI Model Insights. A model declines a prompt for its own safety filters (safety_filter) or because it refuses the topic itself, such as tobacco, gambling or alcohol (topic_refusal); today only Gemini declines. A declined answer counts as no answer and never lowers visibility. The chart has one point per tracking period at the account&#39;s cadence that holds an answer of the model, and the window starts at the tracking period holding its first day.
+     * @param projectId Project ID
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param model The model whose declines to read, whether or not it is enabled for the API key&#39;s user. Default: gemini. Any other model returns 422 ERR_INVALID_PARAM (invalid model). (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @return AiModelDeclinedAnswersResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getDeclinedAnswers(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, model: ModelGetDeclinedAnswers? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetDeclinedAnswers? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : AiModelDeclinedAnswersResponse {
+        val localVarResponse = getDeclinedAnswersWithHttpInfo(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, page = page, perPage = perPage)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AiModelDeclinedAnswersResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /reports/ai_model_insights/declined_answers
+     * Declined answers (decline rate)
+     * The Declined answers tab of AI Model Insights. A model declines a prompt for its own safety filters (safety_filter) or because it refuses the topic itself, such as tobacco, gambling or alcohol (topic_refusal); today only Gemini declines. A declined answer counts as no answer and never lowers visibility. The chart has one point per tracking period at the account&#39;s cadence that holds an answer of the model, and the window starts at the tracking period holding its first day.
+     * @param projectId Project ID
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param model The model whose declines to read, whether or not it is enabled for the API key&#39;s user. Default: gemini. Any other model returns 422 ERR_INVALID_PARAM (invalid model). (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @return ApiResponse<AiModelDeclinedAnswersResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getDeclinedAnswersWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetDeclinedAnswers?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetDeclinedAnswers?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<AiModelDeclinedAnswersResponse?> {
+        val localVariableConfig = getDeclinedAnswersRequestConfig(projectId = projectId, range = range, from = from, to = to, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, page = page, perPage = perPage)
+
+        return request<Unit, AiModelDeclinedAnswersResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getDeclinedAnswers
+     *
+     * @param projectId Project ID
+     * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
+     * @param from  (optional)
+     * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     * @param model The model whose declines to read, whether or not it is enabled for the API key&#39;s user. Default: gemini. Any other model returns 422 ERR_INVALID_PARAM (invalid model). (optional)
+     * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     * @param page  (optional, default to 1)
+     * @param perPage  (optional, default to 20)
+     * @return RequestConfig
+     */
+    fun getDeclinedAnswersRequestConfig(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, model: ModelGetDeclinedAnswers?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetDeclinedAnswers?, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("project_id", listOf(projectId.toString()))
+                if (range != null) {
+                    put("range", listOf(range.toString()))
+                }
+                if (from != null) {
+                    put("from", listOf(parseDateToQueryString<java.time.OffsetDateTime>(from)))
+                }
+                if (to != null) {
+                    put("to", listOf(parseDateToQueryString<java.time.OffsetDateTime>(to)))
+                }
+                if (model != null) {
+                    put("model", listOf(model.value))
+                }
+                if (collectionId != null) {
+                    put("collection_id", listOf(collectionId.toString()))
+                }
+                if (countryCode != null) {
+                    put("country_code", listOf(countryCode.toString()))
+                }
+                if (languageCode != null) {
+                    put("language_code", listOf(languageCode.toString()))
+                }
+                if (promptType != null) {
+                    put("prompt_type", listOf(promptType.toString()))
+                }
+                if (brandKind != null) {
+                    put("brand_kind", listOf(brandKind.value))
+                }
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (perPage != null) {
+                    put("per_page", listOf(perPage.toString()))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/reports/ai_model_insights/declined_answers",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

@@ -14,6 +14,13 @@ docs/AgentBot.md
 docs/AgentBotsResponse.md
 docs/AgentTrafficResponse.md
 docs/AiModelCitationsRow.md
+docs/AiModelDeclineCounts.md
+docs/AiModelDeclinedAnswersResponse.md
+docs/AiModelDeclinedAnswersResponseByPrompt.md
+docs/AiModelDeclinedAnswersResponseByPromptDataInner.md
+docs/AiModelDeclinedAnswersResponseChartInner.md
+docs/AiModelDeclinedAnswersResponseFilters.md
+docs/AiModelDeclinedAnswersResponseSummary.md
 docs/AiModelInsightsFiltersEcho.md
 docs/AiModelInsightsModel.md
 docs/AiModelInsightsSummaryResponse.md
@@ -430,6 +437,13 @@ src/main/kotlin/ai/llmpulse/sdk/models/AgentBot.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AgentBotsResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AgentTrafficResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AiModelCitationsRow.kt
+src/main/kotlin/ai/llmpulse/sdk/models/AiModelDeclineCounts.kt
+src/main/kotlin/ai/llmpulse/sdk/models/AiModelDeclinedAnswersResponse.kt
+src/main/kotlin/ai/llmpulse/sdk/models/AiModelDeclinedAnswersResponseByPrompt.kt
+src/main/kotlin/ai/llmpulse/sdk/models/AiModelDeclinedAnswersResponseByPromptDataInner.kt
+src/main/kotlin/ai/llmpulse/sdk/models/AiModelDeclinedAnswersResponseChartInner.kt
+src/main/kotlin/ai/llmpulse/sdk/models/AiModelDeclinedAnswersResponseFilters.kt
+src/main/kotlin/ai/llmpulse/sdk/models/AiModelDeclinedAnswersResponseSummary.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AiModelInsightsFiltersEcho.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AiModelInsightsModel.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AiModelInsightsSummaryResponse.kt
