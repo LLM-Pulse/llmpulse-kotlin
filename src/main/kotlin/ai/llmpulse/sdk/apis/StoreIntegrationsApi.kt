@@ -326,7 +326,7 @@ open class StoreIntegrationsApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * GET /ai_orders
      * Read AI-referred store orders
-     * Reads back the AI-referred orders a store app pushed for a project: totals, one row per AI assistant and a daily series of the days with orders. Revenue values are decimal strings in currency. Team members need read access to AI Traffic. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
+     * Reads back the AI-referred orders a store app pushed for a project: totals, one row per AI assistant and a daily series of the days with orders. Revenue values are decimal strings in currency. Needs the Growth plan or above, like AI Traffic, while the store app keeps pushing orders on every plan. Team members need read access to AI Traffic. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
      * @param projectId Project ID
      * @param platform Store platform (optional, default to Platform.shopify)
      * @param from First day (YYYY-MM-DD). Defaults to 89 days before to (optional)
@@ -361,7 +361,7 @@ open class StoreIntegrationsApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * GET /ai_orders
      * Read AI-referred store orders
-     * Reads back the AI-referred orders a store app pushed for a project: totals, one row per AI assistant and a daily series of the days with orders. Revenue values are decimal strings in currency. Team members need read access to AI Traffic. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
+     * Reads back the AI-referred orders a store app pushed for a project: totals, one row per AI assistant and a daily series of the days with orders. Revenue values are decimal strings in currency. Needs the Growth plan or above, like AI Traffic, while the store app keeps pushing orders on every plan. Team members need read access to AI Traffic. Not available to accounts with a white-label portal or an embed (ERR_INTEGRATION_UNAVAILABLE).
      * @param projectId Project ID
      * @param platform Store platform (optional, default to Platform.shopify)
      * @param from First day (YYYY-MM-DD). Defaults to 89 days before to (optional)

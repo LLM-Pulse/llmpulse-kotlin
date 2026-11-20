@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * 
+ * Needs the Growth plan or above; left out below it and named in plan_required_fields
  *
  * @param totalSentiments Brand sentiment verdicts across the models
  * @param models 

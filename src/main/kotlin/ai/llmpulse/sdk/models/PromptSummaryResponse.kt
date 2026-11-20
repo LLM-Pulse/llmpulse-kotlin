@@ -32,6 +32,7 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
+ * @param planRequiredFields The row fields left out because they need a higher plan (the sentiment fields below Growth); empty when none is
  * @param projectId 
  * @param from 
  * @param to 
@@ -48,6 +49,10 @@ import com.squareup.moshi.JsonClass
 
 
 data class PromptSummaryResponse (
+
+    /* The row fields left out because they need a higher plan (the sentiment fields below Growth); empty when none is */
+    @Json(name = "plan_required_fields")
+    val planRequiredFields: kotlin.collections.List<kotlin.String>,
 
     @Json(name = "project_id")
     val projectId: kotlin.Int? = null,

@@ -266,7 +266,7 @@ val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by b
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 val sourceType : kotlin.String = sourceType_example // kotlin.String | 
-val sentiment : kotlin.String = sentiment_example // kotlin.String | 
+val sentiment : kotlin.String = sentiment_example // kotlin.String | Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED.
 val contentGap : kotlin.String = contentGap_example // kotlin.String | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match.
 val includeSeries : kotlin.Boolean = true // kotlin.Boolean | Adds citation_series. Without it the response is unchanged.
 try {
@@ -292,7 +292,7 @@ try {
 | **from** | **java.time.OffsetDateTime**|  | [optional] |
 | **to** | **java.time.OffsetDateTime**| End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] |
 | **sourceType** | **kotlin.String**|  | [optional] [enum: owned, competitor, third_party, social_media, own_domain, ugc, background] |
-| **sentiment** | **kotlin.String**|  | [optional] [enum: negative] |
+| **sentiment** | **kotlin.String**| Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. | [optional] [enum: negative] |
 | **contentGap** | **kotlin.String**| mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. | [optional] [enum: mentioned, gap] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
@@ -507,7 +507,7 @@ val key : kotlin.String = key_example // kotlin.String | Return only this group 
 val includeSeries : kotlin.Boolean = true // kotlin.Boolean | Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group's row.
 val query : kotlin.String = query_example // kotlin.String | 
 val sourceType : kotlin.String = sourceType_example // kotlin.String | 
-val sentiment : kotlin.String = sentiment_example // kotlin.String | 
+val sentiment : kotlin.String = sentiment_example // kotlin.String | Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED.
 val contentGap : kotlin.String = contentGap_example // kotlin.String | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match.
 try {
     apiInstance.listCitationGroups(projectId, view, page, perPage, order, direction, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to, key, includeSeries, query, sourceType, sentiment, contentGap)
@@ -539,7 +539,7 @@ try {
 | **includeSeries** | **kotlin.Boolean**| Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. | [optional] [default to false] |
 | **query** | **kotlin.String**|  | [optional] |
 | **sourceType** | **kotlin.String**|  | [optional] [enum: owned, competitor, third_party, social_media, own_domain, ugc, background] |
-| **sentiment** | **kotlin.String**|  | [optional] [enum: negative] |
+| **sentiment** | **kotlin.String**| Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. | [optional] [enum: negative] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **contentGap** | **kotlin.String**| mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. | [optional] [enum: mentioned, gap] |
@@ -567,7 +567,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listCitedUrlOccurrences"></a>
 # **listCitedUrlOccurrences**
-> listCitedUrlOccurrences(urlSha256, projectId, page, perPage)
+> listCitedUrlOccurrences(urlSha256, projectId, page, perPage, sentiment)
 
 Cited URL occurrences
 
@@ -582,8 +582,9 @@ val urlSha256 : kotlin.String = urlSha256_example // kotlin.String | 64-characte
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val page : kotlin.Int = 56 // kotlin.Int | 
 val perPage : kotlin.Int = 56 // kotlin.Int | 
+val sentiment : kotlin.String = sentiment_example // kotlin.String | Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED.
 try {
-    apiInstance.listCitedUrlOccurrences(urlSha256, projectId, page, perPage)
+    apiInstance.listCitedUrlOccurrences(urlSha256, projectId, page, perPage, sentiment)
 } catch (e: ClientException) {
     println("4xx response calling SourcesCitationIntelligenceApi#listCitedUrlOccurrences")
     e.printStackTrace()
@@ -597,9 +598,10 @@ try {
 | **urlSha256** | **kotlin.String**| 64-character hex SHA-256 of the cited URL | |
 | **projectId** | **kotlin.Int**| Project ID | |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
+| **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **perPage** | **kotlin.Int**|  | [optional] [default to 20] |
+| **sentiment** | **kotlin.String**| Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. | [optional] [enum: negative] |
 
 ### Return type
 

@@ -491,7 +491,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param sourceType  (optional)
-     * @param sentiment  (optional)
+     * @param sentiment Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      * @param includeSeries Adds citation_series. Without it the response is unchanged. (optional, default to false)
      * @return void
@@ -535,7 +535,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param sourceType  (optional)
-     * @param sentiment  (optional)
+     * @param sentiment Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      * @param includeSeries Adds citation_series. Without it the response is unchanged. (optional, default to false)
      * @return ApiResponse<Unit?>
@@ -565,7 +565,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param sourceType  (optional)
-     * @param sentiment  (optional)
+     * @param sentiment Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      * @param includeSeries Adds citation_series. Without it the response is unchanged. (optional, default to false)
      * @return RequestConfig
@@ -1257,7 +1257,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param includeSeries Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. (optional, default to false)
      * @param query  (optional)
      * @param sourceType  (optional)
-     * @param sentiment  (optional)
+     * @param sentiment Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
@@ -1307,7 +1307,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param includeSeries Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. (optional, default to false)
      * @param query  (optional)
      * @param sourceType  (optional)
-     * @param sentiment  (optional)
+     * @param sentiment Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -1343,7 +1343,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param includeSeries Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. (optional, default to false)
      * @param query  (optional)
      * @param sourceType  (optional)
-     * @param sentiment  (optional)
+     * @param sentiment Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      * @return RequestConfig
      */
@@ -1424,6 +1424,22 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
     }
 
     /**
+     * enum for parameter sentiment
+     */
+     enum class SentimentListCitedUrlOccurrences(val value: kotlin.String) {
+         @Json(name = "negative") negative("negative");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /citation_intelligence/urls/{url_sha256}/occurrences
      * Cited URL occurrences
      * 
@@ -1431,6 +1447,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param projectId Project ID
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
+     * @param sentiment Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -1439,8 +1456,8 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCitedUrlOccurrences(urlSha256: kotlin.String, projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
-        val localVarResponse = listCitedUrlOccurrencesWithHttpInfo(urlSha256 = urlSha256, projectId = projectId, page = page, perPage = perPage)
+    fun listCitedUrlOccurrences(urlSha256: kotlin.String, projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, sentiment: SentimentListCitedUrlOccurrences? = null) : Unit {
+        val localVarResponse = listCitedUrlOccurrencesWithHttpInfo(urlSha256 = urlSha256, projectId = projectId, page = page, perPage = perPage, sentiment = sentiment)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -1465,13 +1482,14 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param projectId Project ID
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
+     * @param sentiment Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCitedUrlOccurrencesWithHttpInfo(urlSha256: kotlin.String, projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
-        val localVariableConfig = listCitedUrlOccurrencesRequestConfig(urlSha256 = urlSha256, projectId = projectId, page = page, perPage = perPage)
+    fun listCitedUrlOccurrencesWithHttpInfo(urlSha256: kotlin.String, projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, sentiment: SentimentListCitedUrlOccurrences?) : ApiResponse<Unit?> {
+        val localVariableConfig = listCitedUrlOccurrencesRequestConfig(urlSha256 = urlSha256, projectId = projectId, page = page, perPage = perPage, sentiment = sentiment)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -1485,9 +1503,10 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param projectId Project ID
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
+     * @param sentiment Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @return RequestConfig
      */
-    fun listCitedUrlOccurrencesRequestConfig(urlSha256: kotlin.String, projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?) : RequestConfig<Unit> {
+    fun listCitedUrlOccurrencesRequestConfig(urlSha256: kotlin.String, projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, sentiment: SentimentListCitedUrlOccurrences?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -1497,6 +1516,9 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
                 }
                 if (perPage != null) {
                     put("per_page", listOf(perPage.toString()))
+                }
+                if (sentiment != null) {
+                    put("sentiment", listOf(sentiment.value))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

@@ -4,6 +4,7 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
+| **planRequiredFields** | **kotlin.collections.List&lt;kotlin.String&gt;** | The row fields left out because they need a higher plan (the sentiment fields below Growth); empty when none is |  |
 | **projectId** | **kotlin.Int** |  |  [optional] |
 | **from** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **to** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |

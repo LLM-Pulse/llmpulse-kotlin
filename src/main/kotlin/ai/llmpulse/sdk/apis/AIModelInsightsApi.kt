@@ -94,7 +94,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
     /**
      * GET /reports/ai_model_insights/summary
      * AI Model Insights summary
-     * Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains. Rows cover the AI models the account has enabled or that answered in the window. A share, net sentiment or market share value with nothing behind it is null; counts, totals and weighted visibility scores stay 0.
+     * Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains. Rows cover the AI models the account has enabled or that answered in the window. A share, net sentiment or market share value with nothing behind it is null; counts, totals and weighted visibility scores stay 0. The sentiment sections (brand_net_sentiment_by_model and sentiment_market_share) need the Growth plan or above: below it they are left out and listed in &#x60;plan_required_fields&#x60;, which is always present and empty when nothing is left out.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      * @param from  (optional)
@@ -136,7 +136,7 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
     /**
      * GET /reports/ai_model_insights/summary
      * AI Model Insights summary
-     * Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains. Rows cover the AI models the account has enabled or that answered in the window. A share, net sentiment or market share value with nothing behind it is null; counts, totals and weighted visibility scores stay 0.
+     * Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape &#x60;{ type, id, competitor_id, name, domain }&#x60; with bare (scheme-less) domains. Rows cover the AI models the account has enabled or that answered in the window. A share, net sentiment or market share value with nothing behind it is null; counts, totals and weighted visibility scores stay 0. The sentiment sections (brand_net_sentiment_by_model and sentiment_market_share) need the Growth plan or above: below it they are left out and listed in &#x60;plan_required_fields&#x60;, which is always present and empty when nothing is left out.
      * @param projectId Project ID
      * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      * @param from  (optional)

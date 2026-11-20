@@ -33,6 +33,7 @@ import com.squareup.moshi.JsonClass
 /**
  * One entry per AI model the account has enabled or that answered in the window, in the in-app column order: the models list, which every per-model list and map in summary follows. A share, net sentiment or market share value with nothing behind it is null, because 0 is a real value; counts, totals and weighted visibility scores stay 0.
  *
+ * @param planRequiredFields The summary sections left out because they need a higher plan (brand_net_sentiment_by_model and sentiment_market_share below Growth); empty when none is
  * @param projectId 
  * @param from 
  * @param to 
@@ -44,6 +45,10 @@ import com.squareup.moshi.JsonClass
 
 
 data class AiModelInsightsSummaryResponse (
+
+    /* The summary sections left out because they need a higher plan (brand_net_sentiment_by_model and sentiment_market_share below Growth); empty when none is */
+    @Json(name = "plan_required_fields")
+    val planRequiredFields: kotlin.collections.List<kotlin.String>,
 
     @Json(name = "project_id")
     val projectId: kotlin.Int? = null,

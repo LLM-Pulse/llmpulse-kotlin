@@ -48,7 +48,7 @@ import com.squareup.moshi.JsonClass
  * @param promptType Search intent: informational, navigational, commercial or transactional. Null until the prompt is classified
  * @param brandKind Brand focus: brand, brand_other or non_brand. Null until the prompt is classified
  * @param tags Every tag the prompt belongs to
- * @param sentimentResponses Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries)
+ * @param sentimentResponses Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries). Needs the Growth plan or above, like every sentiment field of the row; below it they are left out and named in plan_required_fields
  * @param sentimentVeryPositive Percentage (0-100) of sentiment_responses whose brand verdict is very positive; null when sentiment_responses is 0
  * @param sentimentPositive Percentage (0-100) of sentiment_responses whose brand verdict is positive; null when sentiment_responses is 0
  * @param sentimentNeutral Percentage (0-100) of sentiment_responses whose brand verdict is neutral; null when sentiment_responses is 0
@@ -118,7 +118,7 @@ data class PromptSummaryRow (
     @Json(name = "tags")
     val tags: kotlin.collections.List<TagRef>? = null,
 
-    /* Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries) */
+    /* Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries). Needs the Growth plan or above, like every sentiment field of the row; below it they are left out and named in plan_required_fields */
     @Json(name = "sentiment_responses")
     val sentimentResponses: kotlin.Int? = null,
 
