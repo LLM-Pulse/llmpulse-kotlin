@@ -25,6 +25,7 @@ package ai.llmpulse.sdk.models
 
 import ai.llmpulse.sdk.models.ProjectDetailsAllOfAgentTraffic
 import ai.llmpulse.sdk.models.ProjectDetailsAllOfAiTraffic
+import ai.llmpulse.sdk.models.ProjectDetailsAllOfBingWebmaster
 import ai.llmpulse.sdk.models.ProjectDetailsAllOfDataCoverage
 import ai.llmpulse.sdk.models.ProjectDetailsAllOfPitchRun
 import ai.llmpulse.sdk.models.ProjectDetailsAllOfSearchConsole
@@ -66,6 +67,7 @@ import com.squareup.moshi.JsonClass
  * @param pitchRun 
  * @param dataCoverage 
  * @param searchConsole 
+ * @param bingWebmaster 
  * @param aiTraffic 
  * @param agentTraffic 
  * @param requestId 
@@ -174,6 +176,9 @@ data class ProjectDetails (
 
     @Json(name = "search_console")
     val searchConsole: ProjectDetailsAllOfSearchConsole? = null,
+
+    @Json(name = "bing_webmaster")
+    val bingWebmaster: ProjectDetailsAllOfBingWebmaster? = null,
 
     @Json(name = "ai_traffic")
     val aiTraffic: ProjectDetailsAllOfAiTraffic? = null,

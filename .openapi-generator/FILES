@@ -58,6 +58,13 @@ docs/ApiError.md
 docs/ApiErrorError.md
 docs/ApiKeyInfo.md
 docs/AssignPromptTagsRequest.md
+docs/BingWebmasterListResponse.md
+docs/BingWebmasterListResponseDataInner.md
+docs/BingWebmasterMetrics.md
+docs/BingWebmasterSummaryResponse.md
+docs/BingWebmasterTimeseriesResponse.md
+docs/BingWebmasterTimeseriesResponseDataInner.md
+docs/BingWebmasterToolsApi.md
 docs/CatalogProduct.md
 docs/CatalogPromptSuggestion.md
 docs/CatalogPromptSuggestionIdsRequest.md
@@ -220,6 +227,7 @@ docs/ProjectDeleteResponse.md
 docs/ProjectDetails.md
 docs/ProjectDetailsAllOfAgentTraffic.md
 docs/ProjectDetailsAllOfAiTraffic.md
+docs/ProjectDetailsAllOfBingWebmaster.md
 docs/ProjectDetailsAllOfDataCoverage.md
 docs/ProjectDetailsAllOfPitchRun.md
 docs/ProjectDetailsAllOfSearchConsole.md
@@ -390,6 +398,7 @@ src/main/kotlin/ai/llmpulse/sdk/apis/APIKeysApi.kt
 src/main/kotlin/ai/llmpulse/sdk/apis/AccountApi.kt
 src/main/kotlin/ai/llmpulse/sdk/apis/AnnotationsApi.kt
 src/main/kotlin/ai/llmpulse/sdk/apis/AnswersApi.kt
+src/main/kotlin/ai/llmpulse/sdk/apis/BingWebmasterToolsApi.kt
 src/main/kotlin/ai/llmpulse/sdk/apis/CollectionsTagsApi.kt
 src/main/kotlin/ai/llmpulse/sdk/apis/CompetitorsApi.kt
 src/main/kotlin/ai/llmpulse/sdk/apis/CustomReportsApi.kt
@@ -479,6 +488,12 @@ src/main/kotlin/ai/llmpulse/sdk/models/ApiError.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ApiErrorError.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ApiKeyInfo.kt
 src/main/kotlin/ai/llmpulse/sdk/models/AssignPromptTagsRequest.kt
+src/main/kotlin/ai/llmpulse/sdk/models/BingWebmasterListResponse.kt
+src/main/kotlin/ai/llmpulse/sdk/models/BingWebmasterListResponseDataInner.kt
+src/main/kotlin/ai/llmpulse/sdk/models/BingWebmasterMetrics.kt
+src/main/kotlin/ai/llmpulse/sdk/models/BingWebmasterSummaryResponse.kt
+src/main/kotlin/ai/llmpulse/sdk/models/BingWebmasterTimeseriesResponse.kt
+src/main/kotlin/ai/llmpulse/sdk/models/BingWebmasterTimeseriesResponseDataInner.kt
 src/main/kotlin/ai/llmpulse/sdk/models/CatalogProduct.kt
 src/main/kotlin/ai/llmpulse/sdk/models/CatalogPromptSuggestion.kt
 src/main/kotlin/ai/llmpulse/sdk/models/CatalogPromptSuggestionIdsRequest.kt
@@ -632,6 +647,7 @@ src/main/kotlin/ai/llmpulse/sdk/models/ProjectDeleteResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetails.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfAgentTraffic.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfAiTraffic.kt
+src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfBingWebmaster.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfDataCoverage.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfPitchRun.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectDetailsAllOfSearchConsole.kt

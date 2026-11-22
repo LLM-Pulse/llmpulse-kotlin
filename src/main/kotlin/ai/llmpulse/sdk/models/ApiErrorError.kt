@@ -32,7 +32,7 @@ import com.squareup.moshi.JsonClass
  *
  * @param code 
  * @param message 
- * @param meta Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. A prompt write refused because a launched pitch project's prompts are fixed carries reason pitch_prompts_frozen.
+ * @param meta Extra detail for some codes. A not-connected or access-revoked error from the Search Console, Bing Webmaster Tools, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. A prompt write refused because a launched pitch project's prompts are fixed carries reason pitch_prompts_frozen.
  */
 
 
@@ -44,7 +44,7 @@ data class ApiErrorError (
     @Json(name = "message")
     val message: kotlin.String? = null,
 
-    /* Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. A prompt write refused because a launched pitch project's prompts are fixed carries reason pitch_prompts_frozen. */
+    /* Extra detail for some codes. A not-connected or access-revoked error from the Search Console, Bing Webmaster Tools, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. A prompt write refused because a launched pitch project's prompts are fixed carries reason pitch_prompts_frozen. */
     @Json(name = "meta")
     val meta: kotlin.Any? = null
 
@@ -53,7 +53,7 @@ data class ApiErrorError (
     /**
      * 
      *
-     * Values: ERR_MISSING_AUTH,ERR_INVALID_API_KEY,ERR_REVOKED_API_KEY,ERR_INSUFFICIENT_SCOPE,ERR_INSUFFICIENT_PERMISSION,ERR_KEY_PROJECT_SCOPED,ERR_PLAN_REQUIRED,ERR_INTEGRATION_UNAVAILABLE,ERR_GENERATION_FAILED,ERR_ACCOUNT_INACTIVE,ERR_DRAFT_NOT_FOUND,ERR_DRAFT_STATE,ERR_PROJECT_NOT_FOUND,ERR_NOT_FOUND,ERR_SEARCH_CONSOLE_NOT_CONNECTED,ERR_SEARCH_CONSOLE_ACCESS_REVOKED,ERR_SEARCH_CONSOLE_UPSTREAM,ERR_CMS_NOT_CONNECTED,ERR_CMS_ACCESS_REVOKED,ERR_CMS_REJECTED,ERR_CMS_UPSTREAM,ERR_AI_TRAFFIC_NOT_CONNECTED,ERR_WEB_ANALYTICS_NOT_CONNECTED,ERR_WEB_ANALYTICS_INVALID_QUERY,ERR_WEB_ANALYTICS_ACCESS_REVOKED,ERR_WEB_ANALYTICS_UPSTREAM,ERR_AGENT_TRAFFIC_NOT_CONNECTED,ERR_INVALID_PARAM,ERR_INVALID_RANGE,ERR_LIMIT_REACHED,ERR_QUOTA_EXCEEDED,ERR_STALE_CONTENT,ERR_RATE_LIMITED
+     * Values: ERR_MISSING_AUTH,ERR_INVALID_API_KEY,ERR_REVOKED_API_KEY,ERR_INSUFFICIENT_SCOPE,ERR_INSUFFICIENT_PERMISSION,ERR_KEY_PROJECT_SCOPED,ERR_PLAN_REQUIRED,ERR_INTEGRATION_UNAVAILABLE,ERR_GENERATION_FAILED,ERR_ACCOUNT_INACTIVE,ERR_DRAFT_NOT_FOUND,ERR_DRAFT_STATE,ERR_PROJECT_NOT_FOUND,ERR_NOT_FOUND,ERR_SEARCH_CONSOLE_NOT_CONNECTED,ERR_SEARCH_CONSOLE_ACCESS_REVOKED,ERR_SEARCH_CONSOLE_UPSTREAM,ERR_CMS_NOT_CONNECTED,ERR_CMS_ACCESS_REVOKED,ERR_CMS_REJECTED,ERR_CMS_UPSTREAM,ERR_AI_TRAFFIC_NOT_CONNECTED,ERR_WEB_ANALYTICS_NOT_CONNECTED,ERR_WEB_ANALYTICS_INVALID_QUERY,ERR_WEB_ANALYTICS_ACCESS_REVOKED,ERR_WEB_ANALYTICS_UPSTREAM,ERR_AGENT_TRAFFIC_NOT_CONNECTED,ERR_BING_WEBMASTER_NOT_CONNECTED,ERR_INVALID_PARAM,ERR_INVALID_RANGE,ERR_LIMIT_REACHED,ERR_QUOTA_EXCEEDED,ERR_STALE_CONTENT,ERR_RATE_LIMITED
      */
     @JsonClass(generateAdapter = false)
     enum class Code(val value: kotlin.String) {
@@ -84,6 +84,7 @@ data class ApiErrorError (
         @Json(name = "ERR_WEB_ANALYTICS_ACCESS_REVOKED") ERR_WEB_ANALYTICS_ACCESS_REVOKED("ERR_WEB_ANALYTICS_ACCESS_REVOKED"),
         @Json(name = "ERR_WEB_ANALYTICS_UPSTREAM") ERR_WEB_ANALYTICS_UPSTREAM("ERR_WEB_ANALYTICS_UPSTREAM"),
         @Json(name = "ERR_AGENT_TRAFFIC_NOT_CONNECTED") ERR_AGENT_TRAFFIC_NOT_CONNECTED("ERR_AGENT_TRAFFIC_NOT_CONNECTED"),
+        @Json(name = "ERR_BING_WEBMASTER_NOT_CONNECTED") ERR_BING_WEBMASTER_NOT_CONNECTED("ERR_BING_WEBMASTER_NOT_CONNECTED"),
         @Json(name = "ERR_INVALID_PARAM") ERR_INVALID_PARAM("ERR_INVALID_PARAM"),
         @Json(name = "ERR_INVALID_RANGE") ERR_INVALID_RANGE("ERR_INVALID_RANGE"),
         @Json(name = "ERR_LIMIT_REACHED") ERR_LIMIT_REACHED("ERR_LIMIT_REACHED"),
