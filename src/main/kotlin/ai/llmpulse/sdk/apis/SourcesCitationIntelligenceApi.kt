@@ -391,7 +391,8 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
          @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
          @Json(name = "qwen") qwen("qwen"),
          @Json(name = "doubao") doubao("doubao"),
-         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode");
+         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode"),
+         @Json(name = "bing_ai_overview") bing_ai_overview("bing_ai_overview");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -482,7 +483,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is. The filters narrow stats and citation_series alike. citation_series (with include_series&#x3D;true) holds the answers citing the URL under the same filters: granularity (day, week or month, from the account tracking cadence, with weeks when a daily account spans more than 60 days, starting on Monday), total (equal to total_responses), by_model (answers per AI model, largest first, which can include enabled models outside the seven the model filter accepts) and data, one { date, value } point per period that holds a filtered answer, so a zero means answers ran and none cited it. Periods date each answer by the day it was created in Europe/Madrid time, the date from and to filter.
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -526,7 +527,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is. The filters narrow stats and citation_series alike. citation_series (with include_series&#x3D;true) holds the answers citing the URL under the same filters: granularity (day, week or month, from the account tracking cadence, with weeks when a daily account spans more than 60 days, starting on Monday), total (equal to total_responses), by_model (answers per AI model, largest first, which can include enabled models outside the seven the model filter accepts) and data, one { date, value } point per period that holds a filtered answer, so a zero means answers ran and none cited it. Periods date each answer by the day it was created in Europe/Madrid time, the date from and to filter.
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -556,7 +557,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      *
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -645,7 +646,8 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
          @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
          @Json(name = "qwen") qwen("qwen"),
          @Json(name = "doubao") doubao("doubao"),
-         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode");
+         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode"),
+         @Json(name = "bing_ai_overview") bing_ai_overview("bing_ai_overview");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -681,7 +683,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * For the responses where each given source domain is cited, returns the share of those responses that mention the brand vs each competitor (brand + competitors sum to 100% per domain). Pass multiple domains to get the whole matrix in one call.
      * @param projectId Project ID
      * @param domains Source domains to analyze: one domain or a comma-separated list, e.g. domains&#x3D;gmac.com,educaweb.com. The bracket form domains[]&#x3D;gmac.com&amp;domains[]&#x3D;educaweb.com is also accepted.
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -721,7 +723,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * For the responses where each given source domain is cited, returns the share of those responses that mention the brand vs each competitor (brand + competitors sum to 100% per domain). Pass multiple domains to get the whole matrix in one call.
      * @param projectId Project ID
      * @param domains Source domains to analyze: one domain or a comma-separated list, e.g. domains&#x3D;gmac.com,educaweb.com. The bracket form domains[]&#x3D;gmac.com&amp;domains[]&#x3D;educaweb.com is also accepted.
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -747,7 +749,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      *
      * @param projectId Project ID
      * @param domains Source domains to analyze: one domain or a comma-separated list, e.g. domains&#x3D;gmac.com,educaweb.com. The bracket form domains[]&#x3D;gmac.com&amp;domains[]&#x3D;educaweb.com is also accepted.
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -880,7 +882,8 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
          @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
          @Json(name = "qwen") qwen("qwen"),
          @Json(name = "doubao") doubao("doubao"),
-         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode");
+         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode"),
+         @Json(name = "bing_ai_overview") bing_ai_overview("bing_ai_overview");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -921,7 +924,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param direction  (optional, default to Direction.desc)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -968,7 +971,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param direction  (optional, default to Direction.desc)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -1001,7 +1004,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param direction  (optional, default to Direction.desc)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -1150,7 +1153,8 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
          @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
          @Json(name = "qwen") qwen("qwen"),
          @Json(name = "doubao") doubao("doubao"),
-         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode");
+         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode"),
+         @Json(name = "bing_ai_overview") bing_ai_overview("bing_ai_overview");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -1245,7 +1249,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param perPage  (optional, default to 20)
      * @param order  (optional)
      * @param direction  (optional)
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -1295,7 +1299,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param perPage  (optional, default to 20)
      * @param order  (optional)
      * @param direction  (optional)
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -1331,7 +1335,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param perPage  (optional, default to 20)
      * @param order  (optional)
      * @param direction  (optional)
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -1554,7 +1558,8 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
          @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
          @Json(name = "qwen") qwen("qwen"),
          @Json(name = "doubao") doubao("doubao"),
-         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode");
+         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode"),
+         @Json(name = "bing_ai_overview") bing_ai_overview("bing_ai_overview");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -1832,7 +1837,8 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
          @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
          @Json(name = "qwen") qwen("qwen"),
          @Json(name = "doubao") doubao("doubao"),
-         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode");
+         @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode"),
+         @Json(name = "bing_ai_overview") bing_ai_overview("bing_ai_overview");
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -1867,7 +1873,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * List URL lists
      * A URL list is a named set of rules, each an exact URL (matched over http and https, with or without www), a URL prefix (every page under host/path) or a domain (the site and its subdomains). Its numbers count the AI answers to the prompts tracked in the project: cited_entries is the entries an answer cited in the window and citations the answers citing any entry, each once. Without from/to or range the window is all time. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -1908,7 +1914,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * List URL lists
      * A URL list is a named set of rules, each an exact URL (matched over http and https, with or without www), a URL prefix (every page under host/path) or a domain (the site and its subdomains). Its numbers count the AI answers to the prompts tracked in the project: cited_entries is the entries an answer cited in the window and citations the answers citing any entry, each once. Without from/to or range the window is all time. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -1935,7 +1941,7 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * To obtain the request config of the operation listUrlLists
      *
      * @param projectId Project ID
-     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     * @param model Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao, bing_ai_mode and bing_ai_overview are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those twelve that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
      * @param collectionId One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      * @param countryCode One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      * @param languageCode One ISO language code or a comma-separated list (e.g. en,es,de) (optional)

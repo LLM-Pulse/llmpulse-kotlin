@@ -77,7 +77,7 @@ data class ProjectDetailsAllOfPitchRun (
     /**
      * The AI models the run asks, fixed when it starts
      *
-     * Values: chatgpt,perplexity,ai_mode,ai_overview,gemini,copilot,amazon_rufus,claude,grok,deepseek,naver_ai,baidu_ai,meta_ai,naver_ai_tab,qwen,doubao,bing_ai_mode
+     * Values: chatgpt,perplexity,ai_mode,ai_overview,gemini,copilot,amazon_rufus,claude,grok,deepseek,naver_ai,baidu_ai,meta_ai,naver_ai_tab,qwen,doubao,bing_ai_mode,bing_ai_overview
      */
     @JsonClass(generateAdapter = false)
     enum class Models(val value: kotlin.String) {
@@ -97,7 +97,8 @@ data class ProjectDetailsAllOfPitchRun (
         @Json(name = "naver_ai_tab") naver_ai_tab("naver_ai_tab"),
         @Json(name = "qwen") qwen("qwen"),
         @Json(name = "doubao") doubao("doubao"),
-        @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode");
+        @Json(name = "bing_ai_mode") bing_ai_mode("bing_ai_mode"),
+        @Json(name = "bing_ai_overview") bing_ai_overview("bing_ai_overview");
     }
 
 }
