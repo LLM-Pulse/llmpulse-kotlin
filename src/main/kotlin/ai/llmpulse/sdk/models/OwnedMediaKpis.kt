@@ -38,6 +38,7 @@ import com.squareup.moshi.JsonClass
  * @param uniqueSubreddits Number of cited subreddits (provider=reddit; null or omitted for other providers)
  * @param uniqueAuthors Number of cited Reddit authors (provider=reddit; null or omitted for other providers)
  * @param positivePct Positive sentiment among rated Reddit citations, as a percentage (provider=reddit; null or omitted for other providers)
+ * @param connectedCount provider=overview only. The platforms with a connected profile, channel or app, out of the rows in platforms (the Connected sources card). It describes the current setup, so previous.kpis and changes leave it out
  */
 
 
@@ -73,7 +74,11 @@ data class OwnedMediaKpis (
 
     /* Positive sentiment among rated Reddit citations, as a percentage (provider=reddit; null or omitted for other providers) */
     @Json(name = "positive_pct")
-    val positivePct: java.math.BigDecimal? = null
+    val positivePct: java.math.BigDecimal? = null,
+
+    /* provider=overview only. The platforms with a connected profile, channel or app, out of the rows in platforms (the Connected sources card). It describes the current setup, so previous.kpis and changes leave it out */
+    @Json(name = "connected_count")
+    val connectedCount: kotlin.Int? = null
 
 ) {
 

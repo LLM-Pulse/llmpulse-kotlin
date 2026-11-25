@@ -38,7 +38,7 @@ import com.squareup.moshi.JsonClass
  * @param yours 
  * @param sharePct 
  * @param weekly 
- * @param activity One date/citation row per actual project tracking period with runs
+ * @param activity One date/citation row per project tracking period that holds a run inside the window; a period whose runs all fell before from is left out
  */
 
 
@@ -62,7 +62,7 @@ data class OwnedMediaPlatformRollup (
     @Json(name = "weekly")
     val weekly: kotlin.collections.List<OwnedMediaPlatformRollupWeeklyInner>? = null,
 
-    /* One date/citation row per actual project tracking period with runs */
+    /* One date/citation row per project tracking period that holds a run inside the window; a period whose runs all fell before from is left out */
     @Json(name = "activity")
     val activity: kotlin.collections.List<OwnedMediaPlatformActivityPeriod>? = null
 
