@@ -47,7 +47,7 @@ import com.squareup.moshi.JsonClass
  * @param goals What the brand wants to achieve. Context for GEO Writer and prompt suggestions
  * @param primaryProducts Main products or services
  * @param matchingNames Brand-name variants used to detect mentions. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing is created
- * @param prompts 
+ * @param prompts Prompt texts (max 100), each up to 2,000 bytes of UTF-8 text (about 2,000 characters in English, fewer with accented letters or non-Latin scripts). A longer one returns ERR_INVALID_PARAM with error.meta.reason prompt_too_long before anything is created
  * @param collections Collections (prompt tags) created with the project, each tagging prompts of this request by their exact text, so no separate tagging calls are needed. A text that is not in prompts returns ERR_INVALID_PARAM. A team member also needs Tags: Create permission.
  * @param competitors 
  * @param ownedMedia 
@@ -115,6 +115,7 @@ data class ProjectCreateRequest (
     @Json(name = "matching_names")
     val matchingNames: kotlin.collections.List<kotlin.String>? = null,
 
+    /* Prompt texts (max 100), each up to 2,000 bytes of UTF-8 text (about 2,000 characters in English, fewer with accented letters or non-Latin scripts). A longer one returns ERR_INVALID_PARAM with error.meta.reason prompt_too_long before anything is created */
     @Json(name = "prompts")
     val prompts: kotlin.collections.List<kotlin.String>? = null,
 

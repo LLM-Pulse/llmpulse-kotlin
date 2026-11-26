@@ -37,7 +37,7 @@ import com.squareup.moshi.JsonClass
  * @param industry 
  * @param matchingNames Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422)
  * @param externalIdentifier 
- * @param prompts 
+ * @param prompts Prompts step, each prompt up to 2,000 bytes of UTF-8 text (about 2,000 characters in English, fewer with accented letters or non-Latin scripts). A longer one returns ERR_INVALID_PARAM with error.meta.reason prompt_too_long and the step stays open
  * @param competitors Competitors step: objects {domain, brand_name, matching_names}, capped by plan. Each competitor's matching_names takes at most 50 names of up to 100 characters, checked at finalize like POST /projects
  * @param youtubeChannelUrl 
  * @param instagramProfileUrl 
@@ -74,6 +74,7 @@ data class UpdateProjectDraftRequest (
     @Json(name = "external_identifier")
     val externalIdentifier: kotlin.String? = null,
 
+    /* Prompts step, each prompt up to 2,000 bytes of UTF-8 text (about 2,000 characters in English, fewer with accented letters or non-Latin scripts). A longer one returns ERR_INVALID_PARAM with error.meta.reason prompt_too_long and the step stays open */
     @Json(name = "prompts")
     val prompts: kotlin.collections.List<kotlin.String>? = null,
 

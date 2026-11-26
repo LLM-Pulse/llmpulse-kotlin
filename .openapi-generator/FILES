@@ -267,6 +267,7 @@ docs/OwnedMediaSummaryResponse.md
 docs/OwnedMediaSummaryResponsePrevious.md
 docs/OwnedMediaWeek.md
 docs/PaginatedEnvelope.md
+docs/PeecExportImportResponse.md
 docs/Ping200Response.md
 docs/Project.md
 docs/ProjectCreateRequest.md
@@ -319,6 +320,7 @@ docs/PromptsApi.md
 docs/PromptsCreateRequest.md
 docs/PromptsCreateResponse.md
 docs/PromptsCreateResponseDataInner.md
+docs/PromptsImportFileResponse.md
 docs/PromptsImportRequest.md
 docs/PromptsImportRequestRowsInner.md
 docs/PromptsImportResponse.md
@@ -780,6 +782,7 @@ src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaSummaryResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaSummaryResponsePrevious.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaWeek.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PaginatedEnvelope.kt
+src/main/kotlin/ai/llmpulse/sdk/models/PeecExportImportResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/Ping200Response.kt
 src/main/kotlin/ai/llmpulse/sdk/models/Project.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectCreateRequest.kt
@@ -830,6 +833,7 @@ src/main/kotlin/ai/llmpulse/sdk/models/PromptTagsRemoveResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptsCreateRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptsCreateResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptsCreateResponseDataInner.kt
+src/main/kotlin/ai/llmpulse/sdk/models/PromptsImportFileResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptsImportRequest.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptsImportRequestRowsInner.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PromptsImportResponse.kt
