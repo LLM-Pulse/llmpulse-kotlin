@@ -13,6 +13,7 @@
 | **geoAuditManualRuns** | [**AccountQuota**](AccountQuota.md) |  |  [optional] |
 | **promptExecutions** | [**AccountExecutionQuota**](AccountExecutionQuota.md) |  |  [optional] |
 | **pitchProjects** | [**AccountPitchQuota**](AccountPitchQuota.md) |  |  [optional] |
+| **agentUsage** | [**AccountAgentUsage**](AccountAgentUsage.md) |  |  [optional] |
 
 
 

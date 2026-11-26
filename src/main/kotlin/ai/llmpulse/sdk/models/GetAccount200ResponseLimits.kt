@@ -23,6 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
+import ai.llmpulse.sdk.models.AccountAgentUsage
 import ai.llmpulse.sdk.models.AccountCapacity
 import ai.llmpulse.sdk.models.AccountExecutionQuota
 import ai.llmpulse.sdk.models.AccountPitchQuota
@@ -43,6 +44,7 @@ import com.squareup.moshi.JsonClass
  * @param geoAuditManualRuns 
  * @param promptExecutions 
  * @param pitchProjects 
+ * @param agentUsage 
  */
 
 
@@ -73,7 +75,10 @@ data class GetAccount200ResponseLimits (
     val promptExecutions: AccountExecutionQuota? = null,
 
     @Json(name = "pitch_projects")
-    val pitchProjects: AccountPitchQuota? = null
+    val pitchProjects: AccountPitchQuota? = null,
+
+    @Json(name = "agent_usage")
+    val agentUsage: AccountAgentUsage? = null
 
 ) {
 
