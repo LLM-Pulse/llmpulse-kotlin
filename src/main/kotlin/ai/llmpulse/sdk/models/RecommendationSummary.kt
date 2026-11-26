@@ -23,7 +23,7 @@
 
 package ai.llmpulse.sdk.models
 
-import ai.llmpulse.sdk.models.RecommendationSummarySummary
+import ai.llmpulse.sdk.models.RecommendationDetailResponseSummary
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -81,7 +81,7 @@ data class RecommendationSummary (
     val highPriorityCount: kotlin.Int,
 
     @Json(name = "summary")
-    val summary: RecommendationSummarySummary,
+    val summary: RecommendationDetailResponseSummary,
 
     /* Generation context and run diagnostics as stored; empty until the generation completes. Its keys are not a stable contract */
     @Json(name = "context")

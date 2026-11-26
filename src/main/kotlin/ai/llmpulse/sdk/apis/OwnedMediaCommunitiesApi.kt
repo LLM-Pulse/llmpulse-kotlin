@@ -33,6 +33,7 @@ import ai.llmpulse.sdk.models.OwnedMediaListResponse
 import ai.llmpulse.sdk.models.OwnedMediaProfilesResponse
 import ai.llmpulse.sdk.models.OwnedMediaProfilesUpdateResponse
 import ai.llmpulse.sdk.models.OwnedMediaSummaryResponse
+import ai.llmpulse.sdk.models.RedditResponse
 import ai.llmpulse.sdk.models.UpdateOwnedMediaProfilesRequest
 
 import com.squareup.moshi.Json
@@ -1046,19 +1047,20 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return RedditResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listRedditCitations(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListRedditCitations? = ViewListRedditCitations.subreddits, subreddit: kotlin.String? = null, author: kotlin.String? = null, status: StatusListRedditCitations? = null, owned: kotlin.Boolean? = null, brand: kotlin.String? = null, order: OrderListRedditCitations? = null, direction: DirectionListRedditCitations? = DirectionListRedditCitations.desc, model: ModelListRedditCitations? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindListRedditCitations? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListRedditCitations? = null) : Unit {
+    fun listRedditCitations(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListRedditCitations? = ViewListRedditCitations.subreddits, subreddit: kotlin.String? = null, author: kotlin.String? = null, status: StatusListRedditCitations? = null, owned: kotlin.Boolean? = null, brand: kotlin.String? = null, order: OrderListRedditCitations? = null, direction: DirectionListRedditCitations? = DirectionListRedditCitations.desc, model: ModelListRedditCitations? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, brandKind: BrandKindListRedditCitations? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListRedditCitations? = null) : RedditResponse {
         val localVarResponse = listRedditCitationsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, view = view, subreddit = subreddit, author = author, status = status, owned = owned, brand = brand, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as RedditResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -1096,15 +1098,16 @@ open class OwnedMediaCommunitiesApi(basePath: kotlin.String = defaultBasePath, c
      * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<RedditResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listRedditCitationsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListRedditCitations?, subreddit: kotlin.String?, author: kotlin.String?, status: StatusListRedditCitations?, owned: kotlin.Boolean?, brand: kotlin.String?, order: OrderListRedditCitations?, direction: DirectionListRedditCitations?, model: ModelListRedditCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListRedditCitations?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListRedditCitations?) : ApiResponse<Unit?> {
+    fun listRedditCitationsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListRedditCitations?, subreddit: kotlin.String?, author: kotlin.String?, status: StatusListRedditCitations?, owned: kotlin.Boolean?, brand: kotlin.String?, order: OrderListRedditCitations?, direction: DirectionListRedditCitations?, model: ModelListRedditCitations?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, brandKind: BrandKindListRedditCitations?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListRedditCitations?) : ApiResponse<RedditResponse?> {
         val localVariableConfig = listRedditCitationsRequestConfig(projectId = projectId, page = page, perPage = perPage, view = view, subreddit = subreddit, author = author, status = status, owned = owned, brand = brand, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, RedditResponse>(
             localVariableConfig
         )
     }

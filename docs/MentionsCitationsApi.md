@@ -14,7 +14,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 <a id="listAllCitations"></a>
 # **listAllCitations**
-> listAllCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
+> AllCitationsResponse listAllCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
 
 List all citations (brand + competitor)
 
@@ -43,7 +43,8 @@ val promptType : kotlin.String = promptType_example // kotlin.String | One promp
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to.
 try {
-    apiInstance.listAllCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
+    val result : AllCitationsResponse = apiInstance.listAllCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listAllCitations")
     e.printStackTrace()
@@ -74,7 +75,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AllCitationsResponse**](AllCitationsResponse.md)
 
 ### Authorization
 
@@ -91,11 +92,11 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listAllMentions"></a>
 # **listAllMentions**
-> listAllMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
+> AllMentionsResponse listAllMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
 
 List all mentions (brand + competitor)
 
@@ -124,7 +125,8 @@ val promptType : kotlin.String = promptType_example // kotlin.String | One promp
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to.
 try {
-    apiInstance.listAllMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
+    val result : AllMentionsResponse = apiInstance.listAllMentions(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listAllMentions")
     e.printStackTrace()
@@ -155,7 +157,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AllMentionsResponse**](AllMentionsResponse.md)
 
 ### Authorization
 
@@ -172,7 +174,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listCitations"></a>
 # **listCitations**
@@ -256,7 +258,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listCompetitorCitations"></a>
 # **listCompetitorCitations**
-> listCompetitorCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
+> CompetitorCitationsResponse listCompetitorCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
 
 List competitor citations
 
@@ -285,7 +287,8 @@ val promptType : kotlin.String = promptType_example // kotlin.String | One promp
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to.
 try {
-    apiInstance.listCompetitorCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
+    val result : CompetitorCitationsResponse = apiInstance.listCompetitorCitations(projectId, competitors, page, perPage, model, collectionId, prompt, from, to, output, countryCode, languageCode, promptType, brandKind, range)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling MentionsCitationsApi#listCompetitorCitations")
     e.printStackTrace()
@@ -316,7 +319,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CompetitorCitationsResponse**](CompetitorCitationsResponse.md)
 
 ### Authorization
 
@@ -333,7 +336,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listCompetitorMentions"></a>
 # **listCompetitorMentions**

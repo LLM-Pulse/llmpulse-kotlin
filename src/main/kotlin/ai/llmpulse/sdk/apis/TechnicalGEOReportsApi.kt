@@ -33,6 +33,9 @@ import ai.llmpulse.sdk.models.LlmsTxtTechnicalGeoReport
 import ai.llmpulse.sdk.models.TechnicalGeoReportContentRevertRequest
 import ai.llmpulse.sdk.models.TechnicalGeoReportContentUpdateRequest
 import ai.llmpulse.sdk.models.TechnicalGeoReportContentUpdateResponse
+import ai.llmpulse.sdk.models.TechnicalGeoReportResponse
+import ai.llmpulse.sdk.models.TechnicalGeoReportsCreateResponse
+import ai.llmpulse.sdk.models.TechnicalGeoReportsResponse
 
 import com.squareup.moshi.Json
 
@@ -63,19 +66,20 @@ open class TechnicalGEOReportsApi(basePath: kotlin.String = defaultBasePath, cli
      * Run technical GEO analysis
      * Launches the full nine-report technical GEO analysis bundle for a URL + country. The bundle starts only when at least nine daily units remain. Each successfully created report uses one unit; a report that is not created uses none. Daily allocations vary by account. Each report runs in a background job. Requires a &#x60;read_write&#x60; scope API key.
      * @param createTechnicalGeoReportsRequest 
-     * @return void
+     * @return TechnicalGeoReportsCreateResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createTechnicalGeoReports(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest) : Unit {
+    fun createTechnicalGeoReports(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest) : TechnicalGeoReportsCreateResponse {
         val localVarResponse = createTechnicalGeoReportsWithHttpInfo(createTechnicalGeoReportsRequest = createTechnicalGeoReportsRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as TechnicalGeoReportsCreateResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -94,15 +98,16 @@ open class TechnicalGEOReportsApi(basePath: kotlin.String = defaultBasePath, cli
      * Run technical GEO analysis
      * Launches the full nine-report technical GEO analysis bundle for a URL + country. The bundle starts only when at least nine daily units remain. Each successfully created report uses one unit; a report that is not created uses none. Daily allocations vary by account. Each report runs in a background job. Requires a &#x60;read_write&#x60; scope API key.
      * @param createTechnicalGeoReportsRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<TechnicalGeoReportsCreateResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createTechnicalGeoReportsWithHttpInfo(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest) : ApiResponse<Unit?> {
+    fun createTechnicalGeoReportsWithHttpInfo(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest) : ApiResponse<TechnicalGeoReportsCreateResponse?> {
         val localVariableConfig = createTechnicalGeoReportsRequestConfig(createTechnicalGeoReportsRequest = createTechnicalGeoReportsRequest)
 
-        return request<CreateTechnicalGeoReportsRequest, Unit>(
+        return request<CreateTechnicalGeoReportsRequest, TechnicalGeoReportsCreateResponse>(
             localVariableConfig
         )
     }
@@ -161,19 +166,20 @@ open class TechnicalGEOReportsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param id Report id returned by POST /technical_geo_reports or GET /technical_geo_reports
      * @param projectId Project ID
      * @param reportType 
-     * @return void
+     * @return TechnicalGeoReportResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getTechnicalGeoReport(id: kotlin.Int, projectId: kotlin.Int, reportType: ReportTypeGetTechnicalGeoReport) : Unit {
+    fun getTechnicalGeoReport(id: kotlin.Int, projectId: kotlin.Int, reportType: ReportTypeGetTechnicalGeoReport) : TechnicalGeoReportResponse {
         val localVarResponse = getTechnicalGeoReportWithHttpInfo(id = id, projectId = projectId, reportType = reportType)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as TechnicalGeoReportResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -194,15 +200,16 @@ open class TechnicalGEOReportsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param id Report id returned by POST /technical_geo_reports or GET /technical_geo_reports
      * @param projectId Project ID
      * @param reportType 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<TechnicalGeoReportResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getTechnicalGeoReportWithHttpInfo(id: kotlin.Int, projectId: kotlin.Int, reportType: ReportTypeGetTechnicalGeoReport) : ApiResponse<Unit?> {
+    fun getTechnicalGeoReportWithHttpInfo(id: kotlin.Int, projectId: kotlin.Int, reportType: ReportTypeGetTechnicalGeoReport) : ApiResponse<TechnicalGeoReportResponse?> {
         val localVariableConfig = getTechnicalGeoReportRequestConfig(id = id, projectId = projectId, reportType = reportType)
 
-        return request<Unit, Unit>(
+        return request<Unit, TechnicalGeoReportResponse>(
             localVariableConfig
         )
     }
@@ -269,19 +276,20 @@ open class TechnicalGEOReportsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param batchId Optional batch id returned when the report bundle was created (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return void
+     * @return TechnicalGeoReportsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listTechnicalGeoReports(projectId: kotlin.Int, reportType: ReportTypeListTechnicalGeoReports, status: kotlin.String? = null, batchId: kotlin.Int? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
+    fun listTechnicalGeoReports(projectId: kotlin.Int, reportType: ReportTypeListTechnicalGeoReports, status: kotlin.String? = null, batchId: kotlin.Int? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : TechnicalGeoReportsResponse {
         val localVarResponse = listTechnicalGeoReportsWithHttpInfo(projectId = projectId, reportType = reportType, status = status, batchId = batchId, page = page, perPage = perPage)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as TechnicalGeoReportsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -305,15 +313,16 @@ open class TechnicalGEOReportsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param batchId Optional batch id returned when the report bundle was created (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<TechnicalGeoReportsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listTechnicalGeoReportsWithHttpInfo(projectId: kotlin.Int, reportType: ReportTypeListTechnicalGeoReports, status: kotlin.String?, batchId: kotlin.Int?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
+    fun listTechnicalGeoReportsWithHttpInfo(projectId: kotlin.Int, reportType: ReportTypeListTechnicalGeoReports, status: kotlin.String?, batchId: kotlin.Int?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<TechnicalGeoReportsResponse?> {
         val localVariableConfig = listTechnicalGeoReportsRequestConfig(projectId = projectId, reportType = reportType, status = status, batchId = batchId, page = page, perPage = perPage)
 
-        return request<Unit, Unit>(
+        return request<Unit, TechnicalGeoReportsResponse>(
             localVariableConfig
         )
     }

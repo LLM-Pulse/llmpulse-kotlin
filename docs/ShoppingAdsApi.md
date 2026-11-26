@@ -11,7 +11,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 <a id="listAds"></a>
 # **listAds**
-> listAds(projectId, page, perPage, view, owned, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
+> AdsResponse listAds(projectId, page, perPage, view, owned, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
 
 List AI ad placements
 
@@ -44,7 +44,8 @@ val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.Off
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listAds(projectId, page, perPage, view, owned, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
+    val result : AdsResponse = apiInstance.listAds(projectId, page, perPage, view, owned, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ShoppingAdsApi#listAds")
     e.printStackTrace()
@@ -79,7 +80,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AdsResponse**](AdsResponse.md)
 
 ### Authorization
 
@@ -188,7 +189,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listShopping"></a>
 # **listShopping**
-> listShopping(projectId, page, perPage, view, owned, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
+> ShoppingResponse listShopping(projectId, page, perPage, view, owned, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
 
 List shopping results
 
@@ -221,7 +222,8 @@ val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.Off
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listShopping(projectId, page, perPage, view, owned, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
+    val result : ShoppingResponse = apiInstance.listShopping(projectId, page, perPage, view, owned, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ShoppingAdsApi#listShopping")
     e.printStackTrace()
@@ -256,7 +258,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**ShoppingResponse**](ShoppingResponse.md)
 
 ### Authorization
 

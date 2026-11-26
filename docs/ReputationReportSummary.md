@@ -4,7 +4,7 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **id** | **kotlin.String** | Report id for GET /reputation/reports/{id} |  |
+| **id** | **kotlin.String** | Report id for GET /reputation/reports/{id}, or GET /studies/{id}/reports/{report_id} for a study report |  |
 | **status** | [**inline**](#Status) |  |  |
 | **createdAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  |
 | **availableModels** | [**inline**](#kotlin.collections.List&lt;AvailableModels&gt;) | Analyst models that produced data |  |

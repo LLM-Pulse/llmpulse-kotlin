@@ -30,6 +30,11 @@ import okhttp3.HttpUrl
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.CreateReputationReportRequest
 import ai.llmpulse.sdk.models.ReputationReportCreateResponse
+import ai.llmpulse.sdk.models.ReputationReportScoresResponse
+import ai.llmpulse.sdk.models.ReputationReportsResponse
+import ai.llmpulse.sdk.models.StudiesResponse
+import ai.llmpulse.sdk.models.StudyReportScoresResponse
+import ai.llmpulse.sdk.models.StudyResponse
 
 import com.squareup.moshi.Json
 
@@ -179,19 +184,20 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
      * @param brand Restrict to one brand name, or a comma-separated list (optional)
      * @param dimension Restrict to one reputation dimension key (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return ReputationReportScoresResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getReputationReport(id: kotlin.String, projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelGetReputationReport? = null, brand: kotlin.String? = null, dimension: kotlin.String? = null, output: OutputGetReputationReport? = null) : Unit {
+    fun getReputationReport(id: kotlin.String, projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelGetReputationReport? = null, brand: kotlin.String? = null, dimension: kotlin.String? = null, output: OutputGetReputationReport? = null) : ReputationReportScoresResponse {
         val localVarResponse = getReputationReportWithHttpInfo(id = id, projectId = projectId, page = page, perPage = perPage, model = model, brand = brand, dimension = dimension, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ReputationReportScoresResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -217,15 +223,16 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
      * @param brand Restrict to one brand name, or a comma-separated list (optional)
      * @param dimension Restrict to one reputation dimension key (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<ReputationReportScoresResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getReputationReportWithHttpInfo(id: kotlin.String, projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelGetReputationReport?, brand: kotlin.String?, dimension: kotlin.String?, output: OutputGetReputationReport?) : ApiResponse<Unit?> {
+    fun getReputationReportWithHttpInfo(id: kotlin.String, projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelGetReputationReport?, brand: kotlin.String?, dimension: kotlin.String?, output: OutputGetReputationReport?) : ApiResponse<ReputationReportScoresResponse?> {
         val localVariableConfig = getReputationReportRequestConfig(id = id, projectId = projectId, page = page, perPage = perPage, model = model, brand = brand, dimension = dimension, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, ReputationReportScoresResponse>(
             localVariableConfig
         )
     }
@@ -285,19 +292,20 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
      * Get a custom AI study
      * One study with its brief, the subjects it compares, the dimensions it scores them on, and its report history. Use the ids in &#x60;reports&#x60; with GET /studies/{id}/reports/{report_id}.
      * @param id 
-     * @return void
+     * @return StudyResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getStudy(id: kotlin.Int) : Unit {
+    fun getStudy(id: kotlin.Int) : StudyResponse {
         val localVarResponse = getStudyWithHttpInfo(id = id)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as StudyResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -316,15 +324,16 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
      * Get a custom AI study
      * One study with its brief, the subjects it compares, the dimensions it scores them on, and its report history. Use the ids in &#x60;reports&#x60; with GET /studies/{id}/reports/{report_id}.
      * @param id 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<StudyResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getStudyWithHttpInfo(id: kotlin.Int) : ApiResponse<Unit?> {
+    fun getStudyWithHttpInfo(id: kotlin.Int) : ApiResponse<StudyResponse?> {
         val localVariableConfig = getStudyRequestConfig(id = id)
 
-        return request<Unit, Unit>(
+        return request<Unit, StudyResponse>(
             localVariableConfig
         )
     }
@@ -401,19 +410,20 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
      * @param subject Restrict to one subject name, or a comma-separated list (optional)
      * @param dimension Restrict to one dimension key (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return StudyReportScoresResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getStudyReport(id: kotlin.Int, reportId: kotlin.String, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelGetStudyReport? = null, subject: kotlin.String? = null, dimension: kotlin.String? = null, output: OutputGetStudyReport? = null) : Unit {
+    fun getStudyReport(id: kotlin.Int, reportId: kotlin.String, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelGetStudyReport? = null, subject: kotlin.String? = null, dimension: kotlin.String? = null, output: OutputGetStudyReport? = null) : StudyReportScoresResponse {
         val localVarResponse = getStudyReportWithHttpInfo(id = id, reportId = reportId, page = page, perPage = perPage, model = model, subject = subject, dimension = dimension, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as StudyReportScoresResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -439,15 +449,16 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
      * @param subject Restrict to one subject name, or a comma-separated list (optional)
      * @param dimension Restrict to one dimension key (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<StudyReportScoresResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getStudyReportWithHttpInfo(id: kotlin.Int, reportId: kotlin.String, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelGetStudyReport?, subject: kotlin.String?, dimension: kotlin.String?, output: OutputGetStudyReport?) : ApiResponse<Unit?> {
+    fun getStudyReportWithHttpInfo(id: kotlin.Int, reportId: kotlin.String, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelGetStudyReport?, subject: kotlin.String?, dimension: kotlin.String?, output: OutputGetStudyReport?) : ApiResponse<StudyReportScoresResponse?> {
         val localVariableConfig = getStudyReportRequestConfig(id = id, reportId = reportId, page = page, perPage = perPage, model = model, subject = subject, dimension = dimension, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, StudyReportScoresResponse>(
             localVariableConfig
         )
     }
@@ -526,19 +537,20 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return ReputationReportsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listReputationReports(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputListReputationReports? = null) : Unit {
+    fun listReputationReports(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputListReputationReports? = null) : ReputationReportsResponse {
         val localVarResponse = listReputationReportsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ReputationReportsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -560,15 +572,16 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<ReputationReportsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listReputationReportsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputListReputationReports?) : ApiResponse<Unit?> {
+    fun listReputationReportsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputListReputationReports?) : ApiResponse<ReputationReportsResponse?> {
         val localVariableConfig = listReputationReportsRequestConfig(projectId = projectId, page = page, perPage = perPage, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, ReputationReportsResponse>(
             localVariableConfig
         )
     }
@@ -598,7 +611,8 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/reputation/reports",
@@ -652,19 +666,20 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return StudiesResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listStudies(projectId: kotlin.Int? = null, status: StatusListStudies? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputListStudies? = null) : Unit {
+    fun listStudies(projectId: kotlin.Int? = null, status: StatusListStudies? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, output: OutputListStudies? = null) : StudiesResponse {
         val localVarResponse = listStudiesWithHttpInfo(projectId = projectId, status = status, page = page, perPage = perPage, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as StudiesResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -687,15 +702,16 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<StudiesResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listStudiesWithHttpInfo(projectId: kotlin.Int?, status: StatusListStudies?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputListStudies?) : ApiResponse<Unit?> {
+    fun listStudiesWithHttpInfo(projectId: kotlin.Int?, status: StatusListStudies?, page: kotlin.Int?, perPage: kotlin.Int?, output: OutputListStudies?) : ApiResponse<StudiesResponse?> {
         val localVariableConfig = listStudiesRequestConfig(projectId = projectId, status = status, page = page, perPage = perPage, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, StudiesResponse>(
             localVariableConfig
         )
     }
@@ -731,7 +747,8 @@ open class ReputationStudiesApi(basePath: kotlin.String = defaultBasePath, clien
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/studies",

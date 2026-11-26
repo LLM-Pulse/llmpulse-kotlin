@@ -37,6 +37,7 @@ import ai.llmpulse.sdk.models.ProjectCreateRequest
 import ai.llmpulse.sdk.models.ProjectCreateResponse
 import ai.llmpulse.sdk.models.ProjectDeleteResponse
 import ai.llmpulse.sdk.models.ProjectDetails
+import ai.llmpulse.sdk.models.ProjectDraftResponse
 import ai.llmpulse.sdk.models.ProjectUpdateResponse
 import ai.llmpulse.sdk.models.UpdateProjectDraftRequest
 import ai.llmpulse.sdk.models.UpdateProjectRequest
@@ -144,19 +145,20 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * Start a project draft (wizard step 1)
      * Start the multi-step project-creation wizard. Returns a draft_id plus AI suggestions (name, description, industry, brand aliases) for the URL. Cold URLs can take up to ~2 minutes to analyze; pass suggest&#x3D;false to skip AI and respond instantly. Drafts expire after 24h. Requires a &#x60;read_write&#x60; scope API key.
      * @param createProjectDraftRequest 
-     * @return void
+     * @return ProjectDraftResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createProjectDraft(createProjectDraftRequest: CreateProjectDraftRequest) : Unit {
+    fun createProjectDraft(createProjectDraftRequest: CreateProjectDraftRequest) : ProjectDraftResponse {
         val localVarResponse = createProjectDraftWithHttpInfo(createProjectDraftRequest = createProjectDraftRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ProjectDraftResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -175,15 +177,16 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * Start a project draft (wizard step 1)
      * Start the multi-step project-creation wizard. Returns a draft_id plus AI suggestions (name, description, industry, brand aliases) for the URL. Cold URLs can take up to ~2 minutes to analyze; pass suggest&#x3D;false to skip AI and respond instantly. Drafts expire after 24h. Requires a &#x60;read_write&#x60; scope API key.
      * @param createProjectDraftRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<ProjectDraftResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createProjectDraftWithHttpInfo(createProjectDraftRequest: CreateProjectDraftRequest) : ApiResponse<Unit?> {
+    fun createProjectDraftWithHttpInfo(createProjectDraftRequest: CreateProjectDraftRequest) : ApiResponse<ProjectDraftResponse?> {
         val localVariableConfig = createProjectDraftRequestConfig(createProjectDraftRequest = createProjectDraftRequest)
 
-        return request<CreateProjectDraftRequest, Unit>(
+        return request<CreateProjectDraftRequest, ProjectDraftResponse>(
             localVariableConfig
         )
     }
@@ -438,19 +441,20 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * 
      * @param id Draft id (draft_...)
      * @param includeSuggestions Cache-only: returns suggestions for the current step if already generated, never triggers AI (optional, default to false)
-     * @return void
+     * @return ProjectDraftResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getProjectDraft(id: kotlin.String, includeSuggestions: kotlin.Boolean? = false) : Unit {
+    fun getProjectDraft(id: kotlin.String, includeSuggestions: kotlin.Boolean? = false) : ProjectDraftResponse {
         val localVarResponse = getProjectDraftWithHttpInfo(id = id, includeSuggestions = includeSuggestions)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ProjectDraftResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -470,15 +474,16 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * 
      * @param id Draft id (draft_...)
      * @param includeSuggestions Cache-only: returns suggestions for the current step if already generated, never triggers AI (optional, default to false)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<ProjectDraftResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getProjectDraftWithHttpInfo(id: kotlin.String, includeSuggestions: kotlin.Boolean?) : ApiResponse<Unit?> {
+    fun getProjectDraftWithHttpInfo(id: kotlin.String, includeSuggestions: kotlin.Boolean?) : ApiResponse<ProjectDraftResponse?> {
         val localVariableConfig = getProjectDraftRequestConfig(id = id, includeSuggestions = includeSuggestions)
 
-        return request<Unit, Unit>(
+        return request<Unit, ProjectDraftResponse>(
             localVariableConfig
         )
     }
@@ -865,19 +870,20 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * Submit one step (details, prompts, competitors, owned_media). Strict forward gating: a step is only accepted when every previous step is complete (&#x60;ERR_DRAFT_STATE&#x60; otherwise); completed steps can be resubmitted. Responds with the updated draft plus AI suggestions for the next step.
      * @param id 
      * @param updateProjectDraftRequest 
-     * @return void
+     * @return ProjectDraftResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateProjectDraft(id: kotlin.String, updateProjectDraftRequest: UpdateProjectDraftRequest) : Unit {
+    fun updateProjectDraft(id: kotlin.String, updateProjectDraftRequest: UpdateProjectDraftRequest) : ProjectDraftResponse {
         val localVarResponse = updateProjectDraftWithHttpInfo(id = id, updateProjectDraftRequest = updateProjectDraftRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ProjectDraftResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -897,15 +903,16 @@ open class ProjectsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
      * Submit one step (details, prompts, competitors, owned_media). Strict forward gating: a step is only accepted when every previous step is complete (&#x60;ERR_DRAFT_STATE&#x60; otherwise); completed steps can be resubmitted. Responds with the updated draft plus AI suggestions for the next step.
      * @param id 
      * @param updateProjectDraftRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<ProjectDraftResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateProjectDraftWithHttpInfo(id: kotlin.String, updateProjectDraftRequest: UpdateProjectDraftRequest) : ApiResponse<Unit?> {
+    fun updateProjectDraftWithHttpInfo(id: kotlin.String, updateProjectDraftRequest: UpdateProjectDraftRequest) : ApiResponse<ProjectDraftResponse?> {
         val localVariableConfig = updateProjectDraftRequestConfig(id = id, updateProjectDraftRequest = updateProjectDraftRequest)
 
-        return request<UpdateProjectDraftRequest, Unit>(
+        return request<UpdateProjectDraftRequest, ProjectDraftResponse>(
             localVariableConfig
         )
     }

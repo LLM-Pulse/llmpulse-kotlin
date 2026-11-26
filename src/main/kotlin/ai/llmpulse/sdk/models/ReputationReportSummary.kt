@@ -28,9 +28,9 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * One reputation report's status and analyst model coverage
+ * One reputation or custom-study report's status and analyst model coverage
  *
- * @param id Report id for GET /reputation/reports/{id}
+ * @param id Report id for GET /reputation/reports/{id}, or GET /studies/{id}/reports/{report_id} for a study report
  * @param status 
  * @param createdAt 
  * @param availableModels Analyst models that produced data
@@ -42,7 +42,7 @@ import com.squareup.moshi.JsonClass
 
 data class ReputationReportSummary (
 
-    /* Report id for GET /reputation/reports/{id} */
+    /* Report id for GET /reputation/reports/{id}, or GET /studies/{id}/reports/{report_id} for a study report */
     @Json(name = "id")
     val id: kotlin.String,
 

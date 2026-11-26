@@ -35,7 +35,7 @@ import com.squareup.moshi.JsonClass
  * @param kind 
  * @param width 
  * @param available false when the widget's data source (web analytics, agent analytics, owned media) is not connected
- * @param `data` Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row; the monthly_breakdown widget has one row per calendar month of the window with month, from, to, partial (a month the window cuts), responses, mentions, visibility, weighted_visibility, sov_share, citations and avg_mention_position. Null when the widget is not available.
+ * @param `data` Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period); performance_kpis values hold responses, weighted_visibility, citation_rate, avg_mention_position, top_1_mention_rate and top_3_mention_rate. table: rows, one object per row; the monthly_breakdown widget has one row per calendar month of the window with month, from, to, partial (a month the window cuts), responses, mentions, visibility, weighted_visibility, sov_share, citations, citation_rate, avg_mention_position, top_1_mention_rate and top_3_mention_rate. top_1_mention_rate and top_3_mention_rate are the percentage of answers to non-brand prompts that name the brand first, or among the first three brands, and null when the window holds no such answer. Null when the widget is not available.
  */
 
 
@@ -57,7 +57,7 @@ data class CustomReportWidget (
     @Json(name = "available")
     val available: kotlin.Boolean,
 
-    /* Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row; the monthly_breakdown widget has one row per calendar month of the window with month, from, to, partial (a month the window cuts), responses, mentions, visibility, weighted_visibility, sov_share, citations and avg_mention_position. Null when the widget is not available. */
+    /* Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period); performance_kpis values hold responses, weighted_visibility, citation_rate, avg_mention_position, top_1_mention_rate and top_3_mention_rate. table: rows, one object per row; the monthly_breakdown widget has one row per calendar month of the window with month, from, to, partial (a month the window cuts), responses, mentions, visibility, weighted_visibility, sov_share, citations, citation_rate, avg_mention_position, top_1_mention_rate and top_3_mention_rate. top_1_mention_rate and top_3_mention_rate are the percentage of answers to non-brand prompts that name the brand first, or among the first three brands, and null when the window holds no such answer. Null when the widget is not available. */
     @Json(name = "data")
     val `data`: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
 

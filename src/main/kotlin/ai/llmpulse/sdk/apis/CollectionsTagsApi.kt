@@ -30,6 +30,8 @@ import okhttp3.HttpUrl
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.AssignPromptTagsRequest
 import ai.llmpulse.sdk.models.CollectionCreateResponse
+import ai.llmpulse.sdk.models.CollectionDeleteResponse
+import ai.llmpulse.sdk.models.CollectionUpdateResponse
 import ai.llmpulse.sdk.models.CollectionsResponse
 import ai.llmpulse.sdk.models.CreateCollectionRequest
 import ai.llmpulse.sdk.models.PromptTagsAssignResponse
@@ -215,19 +217,20 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * Deletes a tag/collection. The prompts inside it are NOT deleted; only the grouping disappears. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param projectId Project ID
-     * @return void
+     * @return CollectionDeleteResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteCollection(id: kotlin.Int, projectId: kotlin.Int) : Unit {
+    fun deleteCollection(id: kotlin.Int, projectId: kotlin.Int) : CollectionDeleteResponse {
         val localVarResponse = deleteCollectionWithHttpInfo(id = id, projectId = projectId)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CollectionDeleteResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -247,15 +250,16 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * Deletes a tag/collection. The prompts inside it are NOT deleted; only the grouping disappears. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param projectId Project ID
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CollectionDeleteResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteCollectionWithHttpInfo(id: kotlin.Int, projectId: kotlin.Int) : ApiResponse<Unit?> {
+    fun deleteCollectionWithHttpInfo(id: kotlin.Int, projectId: kotlin.Int) : ApiResponse<CollectionDeleteResponse?> {
         val localVariableConfig = deleteCollectionRequestConfig(id = id, projectId = projectId)
 
-        return request<Unit, Unit>(
+        return request<Unit, CollectionDeleteResponse>(
             localVariableConfig
         )
     }
@@ -564,19 +568,20 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * Renames a tag/collection or changes its description. Prompt membership is managed via POST /prompts/assign_tags, not here. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateCollectionRequest 
-     * @return void
+     * @return CollectionUpdateResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateCollection(id: kotlin.Int, updateCollectionRequest: UpdateCollectionRequest) : Unit {
+    fun updateCollection(id: kotlin.Int, updateCollectionRequest: UpdateCollectionRequest) : CollectionUpdateResponse {
         val localVarResponse = updateCollectionWithHttpInfo(id = id, updateCollectionRequest = updateCollectionRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CollectionUpdateResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -596,15 +601,16 @@ open class CollectionsTagsApi(basePath: kotlin.String = defaultBasePath, client:
      * Renames a tag/collection or changes its description. Prompt membership is managed via POST /prompts/assign_tags, not here. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateCollectionRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CollectionUpdateResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateCollectionWithHttpInfo(id: kotlin.Int, updateCollectionRequest: UpdateCollectionRequest) : ApiResponse<Unit?> {
+    fun updateCollectionWithHttpInfo(id: kotlin.Int, updateCollectionRequest: UpdateCollectionRequest) : ApiResponse<CollectionUpdateResponse?> {
         val localVariableConfig = updateCollectionRequestConfig(id = id, updateCollectionRequest = updateCollectionRequest)
 
-        return request<UpdateCollectionRequest, Unit>(
+        return request<UpdateCollectionRequest, CollectionUpdateResponse>(
             localVariableConfig
         )
     }

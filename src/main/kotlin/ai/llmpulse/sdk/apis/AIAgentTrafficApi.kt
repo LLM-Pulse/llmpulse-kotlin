@@ -29,6 +29,7 @@ import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.AgentBotsResponse
 import ai.llmpulse.sdk.models.AgentTrafficResponse
+import ai.llmpulse.sdk.models.AiTrafficResponse
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.QueryWebAnalyticsRequest
 import ai.llmpulse.sdk.models.WebAnalyticsQueryResponse
@@ -239,19 +240,20 @@ open class AIAgentTrafficApi(basePath: kotlin.String = defaultBasePath, client: 
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param source Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) (optional)
      * @param granularity  (optional)
-     * @return void
+     * @return AiTrafficResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAiTraffic(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, source: kotlin.String? = null, granularity: GranularityGetAiTraffic? = null) : Unit {
+    fun getAiTraffic(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, source: kotlin.String? = null, granularity: GranularityGetAiTraffic? = null) : AiTrafficResponse {
         val localVarResponse = getAiTrafficWithHttpInfo(projectId = projectId, range = range, from = from, to = to, source = source, granularity = granularity)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AiTrafficResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -275,15 +277,16 @@ open class AIAgentTrafficApi(basePath: kotlin.String = defaultBasePath, client: 
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      * @param source Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) (optional)
      * @param granularity  (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AiTrafficResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAiTrafficWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, source: kotlin.String?, granularity: GranularityGetAiTraffic?) : ApiResponse<Unit?> {
+    fun getAiTrafficWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, source: kotlin.String?, granularity: GranularityGetAiTraffic?) : ApiResponse<AiTrafficResponse?> {
         val localVariableConfig = getAiTrafficRequestConfig(projectId = projectId, range = range, from = from, to = to, source = source, granularity = granularity)
 
-        return request<Unit, Unit>(
+        return request<Unit, AiTrafficResponse>(
             localVariableConfig
         )
     }

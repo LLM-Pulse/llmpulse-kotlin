@@ -12,7 +12,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 <a id="getRecommendation"></a>
 # **getRecommendation**
-> getRecommendation(id, projectId, itemStatus, resolveSourceRefs)
+> RecommendationDetailResponse getRecommendation(id, projectId, itemStatus, resolveSourceRefs)
 
 Get recommendation run with items
 
@@ -28,7 +28,8 @@ val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val itemStatus : kotlin.String = itemStatus_example // kotlin.String | 
 val resolveSourceRefs : kotlin.Boolean = true // kotlin.Boolean | 
 try {
-    apiInstance.getRecommendation(id, projectId, itemStatus, resolveSourceRefs)
+    val result : RecommendationDetailResponse = apiInstance.getRecommendation(id, projectId, itemStatus, resolveSourceRefs)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling RecommendationsApi#getRecommendation")
     e.printStackTrace()
@@ -48,7 +49,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**RecommendationDetailResponse**](RecommendationDetailResponse.md)
 
 ### Authorization
 
@@ -69,7 +70,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="launchRecommendations"></a>
 # **launchRecommendations**
-> launchRecommendations(launchRecommendationsRequest)
+> RecommendationLaunchResponse launchRecommendations(launchRecommendationsRequest)
 
 Launch a recommendations generation
 
@@ -84,7 +85,8 @@ Launches a full-scope recommendations generation (async job, 1-3 minutes; poll G
 val apiInstance = RecommendationsApi()
 val launchRecommendationsRequest : LaunchRecommendationsRequest =  // LaunchRecommendationsRequest | 
 try {
-    apiInstance.launchRecommendations(launchRecommendationsRequest)
+    val result : RecommendationLaunchResponse = apiInstance.launchRecommendations(launchRecommendationsRequest)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling RecommendationsApi#launchRecommendations")
     e.printStackTrace()
@@ -101,7 +103,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**RecommendationLaunchResponse**](RecommendationLaunchResponse.md)
 
 ### Authorization
 

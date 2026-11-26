@@ -29,7 +29,9 @@ import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.LaunchRecommendationsRequest
+import ai.llmpulse.sdk.models.RecommendationDetailResponse
 import ai.llmpulse.sdk.models.RecommendationItemUpdateResponse
+import ai.llmpulse.sdk.models.RecommendationLaunchResponse
 import ai.llmpulse.sdk.models.RecommendationsResponse
 import ai.llmpulse.sdk.models.UpdateRecommendationItemRequest
 
@@ -83,19 +85,20 @@ open class RecommendationsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param projectId Project ID
      * @param itemStatus  (optional)
      * @param resolveSourceRefs  (optional, default to true)
-     * @return void
+     * @return RecommendationDetailResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getRecommendation(id: kotlin.Int, projectId: kotlin.Int, itemStatus: ItemStatusGetRecommendation? = null, resolveSourceRefs: kotlin.Boolean? = true) : Unit {
+    fun getRecommendation(id: kotlin.Int, projectId: kotlin.Int, itemStatus: ItemStatusGetRecommendation? = null, resolveSourceRefs: kotlin.Boolean? = true) : RecommendationDetailResponse {
         val localVarResponse = getRecommendationWithHttpInfo(id = id, projectId = projectId, itemStatus = itemStatus, resolveSourceRefs = resolveSourceRefs)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as RecommendationDetailResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -117,15 +120,16 @@ open class RecommendationsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param projectId Project ID
      * @param itemStatus  (optional)
      * @param resolveSourceRefs  (optional, default to true)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<RecommendationDetailResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getRecommendationWithHttpInfo(id: kotlin.Int, projectId: kotlin.Int, itemStatus: ItemStatusGetRecommendation?, resolveSourceRefs: kotlin.Boolean?) : ApiResponse<Unit?> {
+    fun getRecommendationWithHttpInfo(id: kotlin.Int, projectId: kotlin.Int, itemStatus: ItemStatusGetRecommendation?, resolveSourceRefs: kotlin.Boolean?) : ApiResponse<RecommendationDetailResponse?> {
         val localVariableConfig = getRecommendationRequestConfig(id = id, projectId = projectId, itemStatus = itemStatus, resolveSourceRefs = resolveSourceRefs)
 
-        return request<Unit, Unit>(
+        return request<Unit, RecommendationDetailResponse>(
             localVariableConfig
         )
     }
@@ -169,19 +173,20 @@ open class RecommendationsApi(basePath: kotlin.String = defaultBasePath, client:
      * Launch a recommendations generation
      * Launches a full-scope recommendations generation (async job, 1-3 minutes; poll GET /recommendations/{id} until status is completed). Consumes the project weekly recommendation-item budget: returns ERR_LIMIT_REACHED when it is exhausted or when a generation of the same type is already pending/processing. sentiment_reputation requires the Scale plan or above. Requires a &#x60;read_write&#x60; scope API key.
      * @param launchRecommendationsRequest 
-     * @return void
+     * @return RecommendationLaunchResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun launchRecommendations(launchRecommendationsRequest: LaunchRecommendationsRequest) : Unit {
+    fun launchRecommendations(launchRecommendationsRequest: LaunchRecommendationsRequest) : RecommendationLaunchResponse {
         val localVarResponse = launchRecommendationsWithHttpInfo(launchRecommendationsRequest = launchRecommendationsRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as RecommendationLaunchResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -200,15 +205,16 @@ open class RecommendationsApi(basePath: kotlin.String = defaultBasePath, client:
      * Launch a recommendations generation
      * Launches a full-scope recommendations generation (async job, 1-3 minutes; poll GET /recommendations/{id} until status is completed). Consumes the project weekly recommendation-item budget: returns ERR_LIMIT_REACHED when it is exhausted or when a generation of the same type is already pending/processing. sentiment_reputation requires the Scale plan or above. Requires a &#x60;read_write&#x60; scope API key.
      * @param launchRecommendationsRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<RecommendationLaunchResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun launchRecommendationsWithHttpInfo(launchRecommendationsRequest: LaunchRecommendationsRequest) : ApiResponse<Unit?> {
+    fun launchRecommendationsWithHttpInfo(launchRecommendationsRequest: LaunchRecommendationsRequest) : ApiResponse<RecommendationLaunchResponse?> {
         val localVariableConfig = launchRecommendationsRequestConfig(launchRecommendationsRequest = launchRecommendationsRequest)
 
-        return request<LaunchRecommendationsRequest, Unit>(
+        return request<LaunchRecommendationsRequest, RecommendationLaunchResponse>(
             localVariableConfig
         )
     }

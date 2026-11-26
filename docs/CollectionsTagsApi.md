@@ -123,7 +123,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="deleteCollection"></a>
 # **deleteCollection**
-> deleteCollection(id, projectId)
+> CollectionDeleteResponse deleteCollection(id, projectId)
 
 Delete a tag
 
@@ -139,7 +139,8 @@ val apiInstance = CollectionsTagsApi()
 val id : kotlin.Int = 56 // kotlin.Int | 
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 try {
-    apiInstance.deleteCollection(id, projectId)
+    val result : CollectionDeleteResponse = apiInstance.deleteCollection(id, projectId)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling CollectionsTagsApi#deleteCollection")
     e.printStackTrace()
@@ -157,7 +158,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CollectionDeleteResponse**](CollectionDeleteResponse.md)
 
 ### Authorization
 
@@ -340,7 +341,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="updateCollection"></a>
 # **updateCollection**
-> updateCollection(id, updateCollectionRequest)
+> CollectionUpdateResponse updateCollection(id, updateCollectionRequest)
 
 Update a tag
 
@@ -356,7 +357,8 @@ val apiInstance = CollectionsTagsApi()
 val id : kotlin.Int = 56 // kotlin.Int | 
 val updateCollectionRequest : UpdateCollectionRequest =  // UpdateCollectionRequest | 
 try {
-    apiInstance.updateCollection(id, updateCollectionRequest)
+    val result : CollectionUpdateResponse = apiInstance.updateCollection(id, updateCollectionRequest)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling CollectionsTagsApi#updateCollection")
     e.printStackTrace()
@@ -374,7 +376,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CollectionUpdateResponse**](CollectionUpdateResponse.md)
 
 ### Authorization
 

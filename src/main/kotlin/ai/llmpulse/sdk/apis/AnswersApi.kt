@@ -28,6 +28,7 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.AnswerDetails
+import ai.llmpulse.sdk.models.AnswersResponse
 import ai.llmpulse.sdk.models.ApiError
 
 import com.squareup.moshi.Json
@@ -258,19 +259,20 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param perPage  (optional, default to 20)
      * @param query Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
      * @param noResult Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag, and a sentinel also carries no_result_reason (declined or no_answer). (optional)
-     * @return void
+     * @return AnswersResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAnswers(projectId: kotlin.Int, model: ModelListAnswers? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAnswers? = null, mentionFilter: MentionFilterListAnswers? = null, citationFilter: CitationFilterListAnswers? = null, competitors: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, query: kotlin.String? = null, noResult: kotlin.Boolean? = null) : Unit {
+    fun listAnswers(projectId: kotlin.Int, model: ModelListAnswers? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAnswers? = null, mentionFilter: MentionFilterListAnswers? = null, citationFilter: CitationFilterListAnswers? = null, competitors: kotlin.String? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, query: kotlin.String? = null, noResult: kotlin.Boolean? = null) : AnswersResponse {
         val localVarResponse = listAnswersWithHttpInfo(projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, from = from, to = to, page = page, perPage = perPage, query = query, noResult = noResult)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AnswersResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -305,15 +307,16 @@ open class AnswersApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param perPage  (optional, default to 20)
      * @param query Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
      * @param noResult Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag, and a sentinel also carries no_result_reason (declined or no_answer). (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AnswersResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAnswersWithHttpInfo(projectId: kotlin.Int, model: ModelListAnswers?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListAnswers?, mentionFilter: MentionFilterListAnswers?, citationFilter: CitationFilterListAnswers?, competitors: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?, query: kotlin.String?, noResult: kotlin.Boolean?) : ApiResponse<Unit?> {
+    fun listAnswersWithHttpInfo(projectId: kotlin.Int, model: ModelListAnswers?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListAnswers?, mentionFilter: MentionFilterListAnswers?, citationFilter: CitationFilterListAnswers?, competitors: kotlin.String?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, page: kotlin.Int?, perPage: kotlin.Int?, query: kotlin.String?, noResult: kotlin.Boolean?) : ApiResponse<AnswersResponse?> {
         val localVariableConfig = listAnswersRequestConfig(projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, mentionFilter = mentionFilter, citationFilter = citationFilter, competitors = competitors, from = from, to = to, page = page, perPage = perPage, query = query, noResult = noResult)
 
-        return request<Unit, Unit>(
+        return request<Unit, AnswersResponse>(
             localVariableConfig
         )
     }

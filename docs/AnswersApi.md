@@ -68,7 +68,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listAnswers"></a>
 # **listAnswers**
-> listAnswers(projectId, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, mentionFilter, citationFilter, competitors, from, to, page, perPage, query, noResult)
+> AnswersResponse listAnswers(projectId, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, mentionFilter, citationFilter, competitors, from, to, page, perPage, query, noResult)
 
 List AI responses
 
@@ -99,7 +99,8 @@ val perPage : kotlin.Int = 56 // kotlin.Int |
 val query : kotlin.String = query_example // kotlin.String | Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode.
 val noResult : kotlin.Boolean = true // kotlin.Boolean | Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false = only real answers, true = only sentinels, omit = both. Every item carries its own no_result flag, and a sentinel also carries no_result_reason (declined or no_answer).
 try {
-    apiInstance.listAnswers(projectId, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, mentionFilter, citationFilter, competitors, from, to, page, perPage, query, noResult)
+    val result : AnswersResponse = apiInstance.listAnswers(projectId, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, mentionFilter, citationFilter, competitors, from, to, page, perPage, query, noResult)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling AnswersApi#listAnswers")
     e.printStackTrace()
@@ -132,7 +133,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AnswersResponse**](AnswersResponse.md)
 
 ### Authorization
 

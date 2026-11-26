@@ -28,24 +28,21 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * Empty until the generation completes
+ * 
  *
- * @param totalRecommendations 
- * @param highPriorityCount 
- * @param categories 
+ * @param date First day of the period
+ * @param `value` 
  */
 
 
-data class RecommendationSummarySummary (
+data class AiModelPositionDistributionBrandBucketsInnerDataInner (
 
-    @Json(name = "total_recommendations")
-    val totalRecommendations: kotlin.Int? = null,
+    /* First day of the period */
+    @Json(name = "date")
+    val date: java.time.LocalDate,
 
-    @Json(name = "high_priority_count")
-    val highPriorityCount: kotlin.Int? = null,
-
-    @Json(name = "categories")
-    val categories: kotlin.collections.List<kotlin.String>? = null
+    @Json(name = "value")
+    val `value`: kotlin.Int
 
 ) {
 

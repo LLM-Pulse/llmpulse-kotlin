@@ -28,6 +28,9 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.AnnotationCreateResponse
+import ai.llmpulse.sdk.models.AnnotationDeleteResponse
+import ai.llmpulse.sdk.models.AnnotationUpdateResponse
+import ai.llmpulse.sdk.models.AnnotationsResponse
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.CreateAnnotationRequest
 import ai.llmpulse.sdk.models.UpdateAnnotationRequest
@@ -136,19 +139,20 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Deletes an annotation. Same ownership rule as PATCH. Available on every plan and requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param projectId Project ID
-     * @return void
+     * @return AnnotationDeleteResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteAnnotation(id: kotlin.Int, projectId: kotlin.Int) : Unit {
+    fun deleteAnnotation(id: kotlin.Int, projectId: kotlin.Int) : AnnotationDeleteResponse {
         val localVarResponse = deleteAnnotationWithHttpInfo(id = id, projectId = projectId)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AnnotationDeleteResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -168,15 +172,16 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Deletes an annotation. Same ownership rule as PATCH. Available on every plan and requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param projectId Project ID
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AnnotationDeleteResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteAnnotationWithHttpInfo(id: kotlin.Int, projectId: kotlin.Int) : ApiResponse<Unit?> {
+    fun deleteAnnotationWithHttpInfo(id: kotlin.Int, projectId: kotlin.Int) : ApiResponse<AnnotationDeleteResponse?> {
         val localVariableConfig = deleteAnnotationRequestConfig(id = id, projectId = projectId)
 
-        return request<Unit, Unit>(
+        return request<Unit, AnnotationDeleteResponse>(
             localVariableConfig
         )
     }
@@ -217,19 +222,20 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param annotationCategoryId Keep the annotations filed under this category, one of the project&#39;s or a system category. Any other id returns 422 ERR_INVALID_PARAM. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return void
+     * @return AnnotationsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAnnotations(projectId: kotlin.Int, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, annotationCategoryId: kotlin.Int? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
+    fun listAnnotations(projectId: kotlin.Int, from: java.time.LocalDate? = null, to: java.time.LocalDate? = null, annotationCategoryId: kotlin.Int? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : AnnotationsResponse {
         val localVarResponse = listAnnotationsWithHttpInfo(projectId = projectId, from = from, to = to, annotationCategoryId = annotationCategoryId, page = page, perPage = perPage)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AnnotationsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -253,15 +259,16 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param annotationCategoryId Keep the annotations filed under this category, one of the project&#39;s or a system category. Any other id returns 422 ERR_INVALID_PARAM. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AnnotationsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAnnotationsWithHttpInfo(projectId: kotlin.Int, from: java.time.LocalDate?, to: java.time.LocalDate?, annotationCategoryId: kotlin.Int?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
+    fun listAnnotationsWithHttpInfo(projectId: kotlin.Int, from: java.time.LocalDate?, to: java.time.LocalDate?, annotationCategoryId: kotlin.Int?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<AnnotationsResponse?> {
         val localVariableConfig = listAnnotationsRequestConfig(projectId = projectId, from = from, to = to, annotationCategoryId = annotationCategoryId, page = page, perPage = perPage)
 
-        return request<Unit, Unit>(
+        return request<Unit, AnnotationsResponse>(
             localVariableConfig
         )
     }
@@ -317,19 +324,20 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Updates title, description, annotation_date, color and/or annotation_category_id. Only user-created annotations belonging to the requesting user can be updated (system annotations never). Available on every plan and requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateAnnotationRequest 
-     * @return void
+     * @return AnnotationUpdateResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateAnnotation(id: kotlin.Int, updateAnnotationRequest: UpdateAnnotationRequest) : Unit {
+    fun updateAnnotation(id: kotlin.Int, updateAnnotationRequest: UpdateAnnotationRequest) : AnnotationUpdateResponse {
         val localVarResponse = updateAnnotationWithHttpInfo(id = id, updateAnnotationRequest = updateAnnotationRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AnnotationUpdateResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -349,15 +357,16 @@ open class AnnotationsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Updates title, description, annotation_date, color and/or annotation_category_id. Only user-created annotations belonging to the requesting user can be updated (system annotations never). Available on every plan and requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateAnnotationRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AnnotationUpdateResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateAnnotationWithHttpInfo(id: kotlin.Int, updateAnnotationRequest: UpdateAnnotationRequest) : ApiResponse<Unit?> {
+    fun updateAnnotationWithHttpInfo(id: kotlin.Int, updateAnnotationRequest: UpdateAnnotationRequest) : ApiResponse<AnnotationUpdateResponse?> {
         val localVariableConfig = updateAnnotationRequestConfig(id = id, updateAnnotationRequest = updateAnnotationRequest)
 
-        return request<UpdateAnnotationRequest, Unit>(
+        return request<UpdateAnnotationRequest, AnnotationUpdateResponse>(
             localVariableConfig
         )
     }

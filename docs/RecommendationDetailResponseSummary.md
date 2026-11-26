@@ -1,5 +1,5 @@
 
-# RecommendationSummarySummary
+# RecommendationDetailResponseSummary
 
 ## Properties
 | Name | Type | Description | Notes |

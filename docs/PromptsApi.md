@@ -182,7 +182,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="deletePrompt"></a>
 # **deletePrompt**
-> deletePrompt(id, projectId)
+> PromptDeleteResponse deletePrompt(id, projectId)
 
 Delete a prompt
 
@@ -198,7 +198,8 @@ val apiInstance = PromptsApi()
 val id : kotlin.Int = 56 // kotlin.Int | 
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 try {
-    apiInstance.deletePrompt(id, projectId)
+    val result : PromptDeleteResponse = apiInstance.deletePrompt(id, projectId)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling PromptsApi#deletePrompt")
     e.printStackTrace()
@@ -216,7 +217,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**PromptDeleteResponse**](PromptDeleteResponse.md)
 
 ### Authorization
 
@@ -505,7 +506,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listQueryFanOuts"></a>
 # **listQueryFanOuts**
-> listQueryFanOuts(projectId, page, perPage, view, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
+> QueryFanOutsResponse listQueryFanOuts(projectId, page, perPage, view, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
 
 List query fan-out
 
@@ -537,7 +538,8 @@ val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.Off
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listQueryFanOuts(projectId, page, perPage, view, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
+    val result : QueryFanOutsResponse = apiInstance.listQueryFanOuts(projectId, page, perPage, view, order, direction, query, model, collectionId, countryCode, languageCode, prompt, promptType, brandKind, range, from, to, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling PromptsApi#listQueryFanOuts")
     e.printStackTrace()
@@ -571,7 +573,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**QueryFanOutsResponse**](QueryFanOutsResponse.md)
 
 ### Authorization
 

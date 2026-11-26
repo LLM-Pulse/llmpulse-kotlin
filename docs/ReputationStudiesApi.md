@@ -68,7 +68,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getReputationReport"></a>
 # **getReputationReport**
-> getReputationReport(id, projectId, page, perPage, model, brand, dimension, output)
+> ReputationReportScoresResponse getReputationReport(id, projectId, page, perPage, model, brand, dimension, output)
 
 Get reputation report scores
 
@@ -90,7 +90,8 @@ val brand : kotlin.String = brand_example // kotlin.String | Restrict to one bra
 val dimension : kotlin.String = dimension_example // kotlin.String | Restrict to one reputation dimension key
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.getReputationReport(id, projectId, page, perPage, model, brand, dimension, output)
+    val result : ReputationReportScoresResponse = apiInstance.getReputationReport(id, projectId, page, perPage, model, brand, dimension, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ReputationStudiesApi#getReputationReport")
     e.printStackTrace()
@@ -114,7 +115,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**ReputationReportScoresResponse**](ReputationReportScoresResponse.md)
 
 ### Authorization
 
@@ -135,7 +136,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getStudy"></a>
 # **getStudy**
-> getStudy(id)
+> StudyResponse getStudy(id)
 
 Get a custom AI study
 
@@ -150,7 +151,8 @@ One study with its brief, the subjects it compares, the dimensions it scores the
 val apiInstance = ReputationStudiesApi()
 val id : kotlin.Int = 56 // kotlin.Int | 
 try {
-    apiInstance.getStudy(id)
+    val result : StudyResponse = apiInstance.getStudy(id)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ReputationStudiesApi#getStudy")
     e.printStackTrace()
@@ -167,7 +169,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**StudyResponse**](StudyResponse.md)
 
 ### Authorization
 
@@ -188,7 +190,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getStudyReport"></a>
 # **getStudyReport**
-> getStudyReport(id, reportId, page, perPage, model, subject, dimension, output)
+> StudyReportScoresResponse getStudyReport(id, reportId, page, perPage, model, subject, dimension, output)
 
 Get custom study report scores
 
@@ -210,7 +212,8 @@ val subject : kotlin.String = subject_example // kotlin.String | Restrict to one
 val dimension : kotlin.String = dimension_example // kotlin.String | Restrict to one dimension key
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.getStudyReport(id, reportId, page, perPage, model, subject, dimension, output)
+    val result : StudyReportScoresResponse = apiInstance.getStudyReport(id, reportId, page, perPage, model, subject, dimension, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ReputationStudiesApi#getStudyReport")
     e.printStackTrace()
@@ -234,7 +237,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**StudyReportScoresResponse**](StudyReportScoresResponse.md)
 
 ### Authorization
 
@@ -255,7 +258,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listReputationReports"></a>
 # **listReputationReports**
-> listReputationReports(projectId, page, perPage, output)
+> ReputationReportsResponse listReputationReports(projectId, page, perPage, output)
 
 List reputation reports
 
@@ -273,7 +276,8 @@ val page : kotlin.Int = 56 // kotlin.Int |
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listReputationReports(projectId, page, perPage, output)
+    val result : ReputationReportsResponse = apiInstance.listReputationReports(projectId, page, perPage, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ReputationStudiesApi#listReputationReports")
     e.printStackTrace()
@@ -293,7 +297,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**ReputationReportsResponse**](ReputationReportsResponse.md)
 
 ### Authorization
 
@@ -310,11 +314,11 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listStudies"></a>
 # **listStudies**
-> listStudies(projectId, status, page, perPage, output)
+> StudiesResponse listStudies(projectId, status, page, perPage, output)
 
 List custom AI studies
 
@@ -333,7 +337,8 @@ val page : kotlin.Int = 56 // kotlin.Int |
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listStudies(projectId, status, page, perPage, output)
+    val result : StudiesResponse = apiInstance.listStudies(projectId, status, page, perPage, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ReputationStudiesApi#listStudies")
     e.printStackTrace()
@@ -354,7 +359,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**StudiesResponse**](StudiesResponse.md)
 
 ### Authorization
 
@@ -371,5 +376,5 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 

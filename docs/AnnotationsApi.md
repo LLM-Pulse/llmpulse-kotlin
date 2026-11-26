@@ -66,7 +66,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="deleteAnnotation"></a>
 # **deleteAnnotation**
-> deleteAnnotation(id, projectId)
+> AnnotationDeleteResponse deleteAnnotation(id, projectId)
 
 Delete a timeline annotation
 
@@ -82,7 +82,8 @@ val apiInstance = AnnotationsApi()
 val id : kotlin.Int = 56 // kotlin.Int | 
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 try {
-    apiInstance.deleteAnnotation(id, projectId)
+    val result : AnnotationDeleteResponse = apiInstance.deleteAnnotation(id, projectId)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling AnnotationsApi#deleteAnnotation")
     e.printStackTrace()
@@ -100,7 +101,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AnnotationDeleteResponse**](AnnotationDeleteResponse.md)
 
 ### Authorization
 
@@ -121,7 +122,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listAnnotations"></a>
 # **listAnnotations**
-> listAnnotations(projectId, from, to, annotationCategoryId, page, perPage)
+> AnnotationsResponse listAnnotations(projectId, from, to, annotationCategoryId, page, perPage)
 
 List timeline annotations
 
@@ -141,7 +142,8 @@ val annotationCategoryId : kotlin.Int = 56 // kotlin.Int | Keep the annotations 
 val page : kotlin.Int = 56 // kotlin.Int | 
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 try {
-    apiInstance.listAnnotations(projectId, from, to, annotationCategoryId, page, perPage)
+    val result : AnnotationsResponse = apiInstance.listAnnotations(projectId, from, to, annotationCategoryId, page, perPage)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling AnnotationsApi#listAnnotations")
     e.printStackTrace()
@@ -163,7 +165,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AnnotationsResponse**](AnnotationsResponse.md)
 
 ### Authorization
 
@@ -184,7 +186,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="updateAnnotation"></a>
 # **updateAnnotation**
-> updateAnnotation(id, updateAnnotationRequest)
+> AnnotationUpdateResponse updateAnnotation(id, updateAnnotationRequest)
 
 Update a timeline annotation
 
@@ -200,7 +202,8 @@ val apiInstance = AnnotationsApi()
 val id : kotlin.Int = 56 // kotlin.Int | 
 val updateAnnotationRequest : UpdateAnnotationRequest =  // UpdateAnnotationRequest | 
 try {
-    apiInstance.updateAnnotation(id, updateAnnotationRequest)
+    val result : AnnotationUpdateResponse = apiInstance.updateAnnotation(id, updateAnnotationRequest)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling AnnotationsApi#updateAnnotation")
     e.printStackTrace()
@@ -218,7 +221,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AnnotationUpdateResponse**](AnnotationUpdateResponse.md)
 
 ### Authorization
 

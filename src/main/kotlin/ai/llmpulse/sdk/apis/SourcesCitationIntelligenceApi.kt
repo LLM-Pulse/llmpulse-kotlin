@@ -28,6 +28,12 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.CitationGroupsResponse
+import ai.llmpulse.sdk.models.CitedUrlContentResponse
+import ai.llmpulse.sdk.models.CitedUrlDetailsResponse
+import ai.llmpulse.sdk.models.CitedUrlOccurrencesResponse
+import ai.llmpulse.sdk.models.CitingDomainMentionShareResponse
+import ai.llmpulse.sdk.models.SourcesResponse
 import ai.llmpulse.sdk.models.UrlListCreateRequest
 import ai.llmpulse.sdk.models.UrlListCreateResponse
 import ai.llmpulse.sdk.models.UrlListDeleteResponse
@@ -300,19 +306,20 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is.
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
-     * @return void
+     * @return CitedUrlContentResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getCitedUrlContent(urlSha256: kotlin.String, projectId: kotlin.Int) : Unit {
+    fun getCitedUrlContent(urlSha256: kotlin.String, projectId: kotlin.Int) : CitedUrlContentResponse {
         val localVarResponse = getCitedUrlContentWithHttpInfo(urlSha256 = urlSha256, projectId = projectId)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CitedUrlContentResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -332,15 +339,16 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is.
      * @param urlSha256 64-character hex SHA-256 of the cited URL
      * @param projectId Project ID
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CitedUrlContentResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getCitedUrlContentWithHttpInfo(urlSha256: kotlin.String, projectId: kotlin.Int) : ApiResponse<Unit?> {
+    fun getCitedUrlContentWithHttpInfo(urlSha256: kotlin.String, projectId: kotlin.Int) : ApiResponse<CitedUrlContentResponse?> {
         val localVariableConfig = getCitedUrlContentRequestConfig(urlSha256 = urlSha256, projectId = projectId)
 
-        return request<Unit, Unit>(
+        return request<Unit, CitedUrlContentResponse>(
             localVariableConfig
         )
     }
@@ -495,19 +503,20 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param sentiment Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      * @param includeSeries Adds citation_series. Without it the response is unchanged. (optional, default to false)
-     * @return void
+     * @return CitedUrlDetailsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getCitedUrlDetail(urlSha256: kotlin.String, projectId: kotlin.Int, model: ModelGetCitedUrlDetail? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, brandKind: BrandKindGetCitedUrlDetail? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, sourceType: SourceTypeGetCitedUrlDetail? = null, sentiment: SentimentGetCitedUrlDetail? = null, contentGap: ContentGapGetCitedUrlDetail? = null, includeSeries: kotlin.Boolean? = false) : Unit {
+    fun getCitedUrlDetail(urlSha256: kotlin.String, projectId: kotlin.Int, model: ModelGetCitedUrlDetail? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, brandKind: BrandKindGetCitedUrlDetail? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, sourceType: SourceTypeGetCitedUrlDetail? = null, sentiment: SentimentGetCitedUrlDetail? = null, contentGap: ContentGapGetCitedUrlDetail? = null, includeSeries: kotlin.Boolean? = false) : CitedUrlDetailsResponse {
         val localVarResponse = getCitedUrlDetailWithHttpInfo(urlSha256 = urlSha256, projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap, includeSeries = includeSeries)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CitedUrlDetailsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -539,15 +548,16 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param sentiment Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      * @param includeSeries Adds citation_series. Without it the response is unchanged. (optional, default to false)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CitedUrlDetailsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getCitedUrlDetailWithHttpInfo(urlSha256: kotlin.String, projectId: kotlin.Int, model: ModelGetCitedUrlDetail?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindGetCitedUrlDetail?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sourceType: SourceTypeGetCitedUrlDetail?, sentiment: SentimentGetCitedUrlDetail?, contentGap: ContentGapGetCitedUrlDetail?, includeSeries: kotlin.Boolean?) : ApiResponse<Unit?> {
+    fun getCitedUrlDetailWithHttpInfo(urlSha256: kotlin.String, projectId: kotlin.Int, model: ModelGetCitedUrlDetail?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindGetCitedUrlDetail?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sourceType: SourceTypeGetCitedUrlDetail?, sentiment: SentimentGetCitedUrlDetail?, contentGap: ContentGapGetCitedUrlDetail?, includeSeries: kotlin.Boolean?) : ApiResponse<CitedUrlDetailsResponse?> {
         val localVariableConfig = getCitedUrlDetailRequestConfig(urlSha256 = urlSha256, projectId = projectId, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap, includeSeries = includeSeries)
 
-        return request<Unit, Unit>(
+        return request<Unit, CitedUrlDetailsResponse>(
             localVariableConfig
         )
     }
@@ -691,19 +701,20 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
-     * @return void
+     * @return CitingDomainMentionShareResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMentionsByCitingDomain(projectId: kotlin.Int, domains: kotlin.collections.List<kotlin.String>, model: ModelGetMentionsByCitingDomain? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, brandKind: BrandKindGetMentionsByCitingDomain? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null) : Unit {
+    fun getMentionsByCitingDomain(projectId: kotlin.Int, domains: kotlin.collections.List<kotlin.String>, model: ModelGetMentionsByCitingDomain? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, brandKind: BrandKindGetMentionsByCitingDomain? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null) : CitingDomainMentionShareResponse {
         val localVarResponse = getMentionsByCitingDomainWithHttpInfo(projectId = projectId, domains = domains, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CitingDomainMentionShareResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -731,15 +742,16 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param from  (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CitingDomainMentionShareResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMentionsByCitingDomainWithHttpInfo(projectId: kotlin.Int, domains: kotlin.collections.List<kotlin.String>, model: ModelGetMentionsByCitingDomain?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindGetMentionsByCitingDomain?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?) : ApiResponse<Unit?> {
+    fun getMentionsByCitingDomainWithHttpInfo(projectId: kotlin.Int, domains: kotlin.collections.List<kotlin.String>, model: ModelGetMentionsByCitingDomain?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindGetMentionsByCitingDomain?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?) : ApiResponse<CitingDomainMentionShareResponse?> {
         val localVariableConfig = getMentionsByCitingDomainRequestConfig(projectId = projectId, domains = domains, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to)
 
-        return request<Unit, Unit>(
+        return request<Unit, CitingDomainMentionShareResponse>(
             localVariableConfig
         )
     }
@@ -1263,19 +1275,20 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param sourceType  (optional)
      * @param sentiment Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
-     * @return void
+     * @return CitationGroupsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCitationGroups(projectId: kotlin.Int, view: ViewListCitationGroups? = ViewListCitationGroups.url, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, order: OrderListCitationGroups? = null, direction: DirectionListCitationGroups? = null, model: ModelListCitationGroups? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, brandKind: BrandKindListCitationGroups? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, key: kotlin.String? = null, includeSeries: kotlin.Boolean? = false, query: kotlin.String? = null, sourceType: SourceTypeListCitationGroups? = null, sentiment: SentimentListCitationGroups? = null, contentGap: ContentGapListCitationGroups? = null) : Unit {
+    fun listCitationGroups(projectId: kotlin.Int, view: ViewListCitationGroups? = ViewListCitationGroups.url, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, order: OrderListCitationGroups? = null, direction: DirectionListCitationGroups? = null, model: ModelListCitationGroups? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, brandKind: BrandKindListCitationGroups? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, key: kotlin.String? = null, includeSeries: kotlin.Boolean? = false, query: kotlin.String? = null, sourceType: SourceTypeListCitationGroups? = null, sentiment: SentimentListCitationGroups? = null, contentGap: ContentGapListCitationGroups? = null) : CitationGroupsResponse {
         val localVarResponse = listCitationGroupsWithHttpInfo(projectId = projectId, view = view, page = page, perPage = perPage, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to, key = key, includeSeries = includeSeries, query = query, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CitationGroupsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -1313,15 +1326,16 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param sourceType  (optional)
      * @param sentiment Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      * @param contentGap mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CitationGroupsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCitationGroupsWithHttpInfo(projectId: kotlin.Int, view: ViewListCitationGroups?, page: kotlin.Int?, perPage: kotlin.Int?, order: OrderListCitationGroups?, direction: DirectionListCitationGroups?, model: ModelListCitationGroups?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindListCitationGroups?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, key: kotlin.String?, includeSeries: kotlin.Boolean?, query: kotlin.String?, sourceType: SourceTypeListCitationGroups?, sentiment: SentimentListCitationGroups?, contentGap: ContentGapListCitationGroups?) : ApiResponse<Unit?> {
+    fun listCitationGroupsWithHttpInfo(projectId: kotlin.Int, view: ViewListCitationGroups?, page: kotlin.Int?, perPage: kotlin.Int?, order: OrderListCitationGroups?, direction: DirectionListCitationGroups?, model: ModelListCitationGroups?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, brandKind: BrandKindListCitationGroups?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, key: kotlin.String?, includeSeries: kotlin.Boolean?, query: kotlin.String?, sourceType: SourceTypeListCitationGroups?, sentiment: SentimentListCitationGroups?, contentGap: ContentGapListCitationGroups?) : ApiResponse<CitationGroupsResponse?> {
         val localVariableConfig = listCitationGroupsRequestConfig(projectId = projectId, view = view, page = page, perPage = perPage, order = order, direction = direction, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, brandKind = brandKind, from = from, to = to, key = key, includeSeries = includeSeries, query = query, sourceType = sourceType, sentiment = sentiment, contentGap = contentGap)
 
-        return request<Unit, Unit>(
+        return request<Unit, CitationGroupsResponse>(
             localVariableConfig
         )
     }
@@ -1452,19 +1466,20 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param sentiment Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
-     * @return void
+     * @return CitedUrlOccurrencesResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCitedUrlOccurrences(urlSha256: kotlin.String, projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, sentiment: SentimentListCitedUrlOccurrences? = null) : Unit {
+    fun listCitedUrlOccurrences(urlSha256: kotlin.String, projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, sentiment: SentimentListCitedUrlOccurrences? = null) : CitedUrlOccurrencesResponse {
         val localVarResponse = listCitedUrlOccurrencesWithHttpInfo(urlSha256 = urlSha256, projectId = projectId, page = page, perPage = perPage, sentiment = sentiment)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CitedUrlOccurrencesResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -1487,15 +1502,16 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
      * @param sentiment Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CitedUrlOccurrencesResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCitedUrlOccurrencesWithHttpInfo(urlSha256: kotlin.String, projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, sentiment: SentimentListCitedUrlOccurrences?) : ApiResponse<Unit?> {
+    fun listCitedUrlOccurrencesWithHttpInfo(urlSha256: kotlin.String, projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, sentiment: SentimentListCitedUrlOccurrences?) : ApiResponse<CitedUrlOccurrencesResponse?> {
         val localVariableConfig = listCitedUrlOccurrencesRequestConfig(urlSha256 = urlSha256, projectId = projectId, page = page, perPage = perPage, sentiment = sentiment)
 
-        return request<Unit, Unit>(
+        return request<Unit, CitedUrlOccurrencesResponse>(
             localVariableConfig
         )
     }
@@ -1668,19 +1684,20 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
-     * @return void
+     * @return SourcesResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listSources(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListSources? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, sourceType: SourceTypeListSources? = null, mentionFilter: MentionFilterListSources? = null, competitors: kotlin.String? = null, output: OutputListSources? = null, promptType: kotlin.String? = null, brandKind: BrandKindListSources? = null, range: kotlin.Int? = null) : Unit {
+    fun listSources(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListSources? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, sourceType: SourceTypeListSources? = null, mentionFilter: MentionFilterListSources? = null, competitors: kotlin.String? = null, output: OutputListSources? = null, promptType: kotlin.String? = null, brandKind: BrandKindListSources? = null, range: kotlin.Int? = null) : SourcesResponse {
         val localVarResponse = listSourcesWithHttpInfo(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, sourceType = sourceType, mentionFilter = mentionFilter, competitors = competitors, output = output, promptType = promptType, brandKind = brandKind, range = range)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SourcesResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -1715,15 +1732,16 @@ open class SourcesCitationIntelligenceApi(basePath: kotlin.String = defaultBaseP
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<SourcesResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listSourcesWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListSources?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sourceType: SourceTypeListSources?, mentionFilter: MentionFilterListSources?, competitors: kotlin.String?, output: OutputListSources?, promptType: kotlin.String?, brandKind: BrandKindListSources?, range: kotlin.Int?) : ApiResponse<Unit?> {
+    fun listSourcesWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListSources?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, sourceType: SourceTypeListSources?, mentionFilter: MentionFilterListSources?, competitors: kotlin.String?, output: OutputListSources?, promptType: kotlin.String?, brandKind: BrandKindListSources?, range: kotlin.Int?) : ApiResponse<SourcesResponse?> {
         val localVariableConfig = listSourcesRequestConfig(projectId = projectId, page = page, perPage = perPage, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, from = from, to = to, sourceType = sourceType, mentionFilter = mentionFilter, competitors = competitors, output = output, promptType = promptType, brandKind = brandKind, range = range)
 
-        return request<Unit, Unit>(
+        return request<Unit, SourcesResponse>(
             localVariableConfig
         )
     }

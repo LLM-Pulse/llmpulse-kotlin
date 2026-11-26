@@ -13,7 +13,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 <a id="createTechnicalGeoReports"></a>
 # **createTechnicalGeoReports**
-> createTechnicalGeoReports(createTechnicalGeoReportsRequest)
+> TechnicalGeoReportsCreateResponse createTechnicalGeoReports(createTechnicalGeoReportsRequest)
 
 Run technical GEO analysis
 
@@ -28,7 +28,8 @@ Launches the full nine-report technical GEO analysis bundle for a URL + country.
 val apiInstance = TechnicalGEOReportsApi()
 val createTechnicalGeoReportsRequest : CreateTechnicalGeoReportsRequest =  // CreateTechnicalGeoReportsRequest | 
 try {
-    apiInstance.createTechnicalGeoReports(createTechnicalGeoReportsRequest)
+    val result : TechnicalGeoReportsCreateResponse = apiInstance.createTechnicalGeoReports(createTechnicalGeoReportsRequest)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling TechnicalGEOReportsApi#createTechnicalGeoReports")
     e.printStackTrace()
@@ -45,7 +46,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**TechnicalGeoReportsCreateResponse**](TechnicalGeoReportsCreateResponse.md)
 
 ### Authorization
 
@@ -66,7 +67,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getTechnicalGeoReport"></a>
 # **getTechnicalGeoReport**
-> getTechnicalGeoReport(id, projectId, reportType)
+> TechnicalGeoReportResponse getTechnicalGeoReport(id, projectId, reportType)
 
 Get a technical GEO report
 
@@ -83,7 +84,8 @@ val id : kotlin.Int = 56 // kotlin.Int | Report id returned by POST /technical_g
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val reportType : kotlin.String = reportType_example // kotlin.String | 
 try {
-    apiInstance.getTechnicalGeoReport(id, projectId, reportType)
+    val result : TechnicalGeoReportResponse = apiInstance.getTechnicalGeoReport(id, projectId, reportType)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling TechnicalGEOReportsApi#getTechnicalGeoReport")
     e.printStackTrace()
@@ -102,7 +104,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**TechnicalGeoReportResponse**](TechnicalGeoReportResponse.md)
 
 ### Authorization
 
@@ -123,7 +125,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listTechnicalGeoReports"></a>
 # **listTechnicalGeoReports**
-> listTechnicalGeoReports(projectId, reportType, status, batchId, page, perPage)
+> TechnicalGeoReportsResponse listTechnicalGeoReports(projectId, reportType, status, batchId, page, perPage)
 
 List technical GEO reports
 
@@ -143,7 +145,8 @@ val batchId : kotlin.Int = 56 // kotlin.Int | Optional batch id returned when th
 val page : kotlin.Int = 56 // kotlin.Int | 
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 try {
-    apiInstance.listTechnicalGeoReports(projectId, reportType, status, batchId, page, perPage)
+    val result : TechnicalGeoReportsResponse = apiInstance.listTechnicalGeoReports(projectId, reportType, status, batchId, page, perPage)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling TechnicalGEOReportsApi#listTechnicalGeoReports")
     e.printStackTrace()
@@ -165,7 +168,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**TechnicalGeoReportsResponse**](TechnicalGeoReportsResponse.md)
 
 ### Authorization
 

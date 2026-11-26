@@ -27,7 +27,10 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import ai.llmpulse.sdk.models.AllCitationsResponse
+import ai.llmpulse.sdk.models.AllMentionsResponse
 import ai.llmpulse.sdk.models.CitationsResponse
+import ai.llmpulse.sdk.models.CompetitorCitationsResponse
 import ai.llmpulse.sdk.models.CompetitorMentionsResponse
 import ai.llmpulse.sdk.models.MentionsResponse
 
@@ -142,19 +145,20 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
-     * @return void
+     * @return AllCitationsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAllCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllCitations? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllCitations? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAllCitations? = null, range: kotlin.Int? = null) : Unit {
+    fun listAllCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllCitations? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllCitations? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAllCitations? = null, range: kotlin.Int? = null) : AllCitationsResponse {
         val localVarResponse = listAllCitationsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AllCitationsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -187,15 +191,16 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AllCitationsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAllCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllCitations?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListAllCitations?, range: kotlin.Int?) : ApiResponse<Unit?> {
+    fun listAllCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllCitations?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListAllCitations?, range: kotlin.Int?) : ApiResponse<AllCitationsResponse?> {
         val localVariableConfig = listAllCitationsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
-        return request<Unit, Unit>(
+        return request<Unit, AllCitationsResponse>(
             localVariableConfig
         )
     }
@@ -269,7 +274,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/all_citations",
@@ -367,19 +373,20 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
-     * @return void
+     * @return AllMentionsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAllMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllMentions? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllMentions? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAllMentions? = null, range: kotlin.Int? = null) : Unit {
+    fun listAllMentions(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListAllMentions? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAllMentions? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAllMentions? = null, range: kotlin.Int? = null) : AllMentionsResponse {
         val localVarResponse = listAllMentionsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AllMentionsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -412,15 +419,16 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AllMentionsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAllMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllMentions?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListAllMentions?, range: kotlin.Int?) : ApiResponse<Unit?> {
+    fun listAllMentionsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListAllMentions?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAllMentions?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListAllMentions?, range: kotlin.Int?) : ApiResponse<AllMentionsResponse?> {
         val localVariableConfig = listAllMentionsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
-        return request<Unit, Unit>(
+        return request<Unit, AllMentionsResponse>(
             localVariableConfig
         )
     }
@@ -494,7 +502,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/all_mentions",
@@ -814,19 +823,20 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
-     * @return void
+     * @return CompetitorCitationsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCompetitorCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorCitations? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorCitations? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListCompetitorCitations? = null, range: kotlin.Int? = null) : Unit {
+    fun listCompetitorCitations(projectId: kotlin.Int, competitors: kotlin.String? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, model: ModelListCompetitorCitations? = null, collectionId: kotlin.String? = null, prompt: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListCompetitorCitations? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindListCompetitorCitations? = null, range: kotlin.Int? = null) : CompetitorCitationsResponse {
         val localVarResponse = listCompetitorCitationsWithHttpInfo(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CompetitorCitationsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -859,15 +869,16 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
      * @param promptType One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param range Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CompetitorCitationsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCompetitorCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorCitations?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListCompetitorCitations?, range: kotlin.Int?) : ApiResponse<Unit?> {
+    fun listCompetitorCitationsWithHttpInfo(projectId: kotlin.Int, competitors: kotlin.String?, page: kotlin.Int?, perPage: kotlin.Int?, model: ModelListCompetitorCitations?, collectionId: kotlin.String?, prompt: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListCompetitorCitations?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindListCompetitorCitations?, range: kotlin.Int?) : ApiResponse<CompetitorCitationsResponse?> {
         val localVariableConfig = listCompetitorCitationsRequestConfig(projectId = projectId, competitors = competitors, page = page, perPage = perPage, model = model, collectionId = collectionId, prompt = prompt, from = from, to = to, output = output, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, range = range)
 
-        return request<Unit, Unit>(
+        return request<Unit, CompetitorCitationsResponse>(
             localVariableConfig
         )
     }
@@ -941,7 +952,8 @@ open class MentionsCitationsApi(basePath: kotlin.String = defaultBasePath, clien
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/dimensions/competitor_citations",

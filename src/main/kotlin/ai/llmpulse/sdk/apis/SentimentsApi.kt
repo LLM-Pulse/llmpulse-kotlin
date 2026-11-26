@@ -28,6 +28,7 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
+import ai.llmpulse.sdk.models.SentimentCategoriesResponse
 import ai.llmpulse.sdk.models.SentimentTagsResponse
 import ai.llmpulse.sdk.models.SentimentTopicsResponse
 import ai.llmpulse.sdk.models.SentimentsResponse
@@ -647,19 +648,20 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * Sentiment metric keys + labels + colors. For records, use /sentiments. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return SentimentCategoriesResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listSentimentCategories(projectId: kotlin.Int, output: OutputListSentimentCategories? = null) : Unit {
+    fun listSentimentCategories(projectId: kotlin.Int, output: OutputListSentimentCategories? = null) : SentimentCategoriesResponse {
         val localVarResponse = listSentimentCategoriesWithHttpInfo(projectId = projectId, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SentimentCategoriesResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -679,15 +681,16 @@ open class SentimentsApi(basePath: kotlin.String = defaultBasePath, client: Call
      * Sentiment metric keys + labels + colors. For records, use /sentiments. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      * @param projectId Project ID
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<SentimentCategoriesResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listSentimentCategoriesWithHttpInfo(projectId: kotlin.Int, output: OutputListSentimentCategories?) : ApiResponse<Unit?> {
+    fun listSentimentCategoriesWithHttpInfo(projectId: kotlin.Int, output: OutputListSentimentCategories?) : ApiResponse<SentimentCategoriesResponse?> {
         val localVariableConfig = listSentimentCategoriesRequestConfig(projectId = projectId, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, SentimentCategoriesResponse>(
             localVariableConfig
         )
     }

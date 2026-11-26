@@ -73,7 +73,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="createProjectDraft"></a>
 # **createProjectDraft**
-> createProjectDraft(createProjectDraftRequest)
+> ProjectDraftResponse createProjectDraft(createProjectDraftRequest)
 
 Start a project draft (wizard step 1)
 
@@ -88,7 +88,8 @@ Start the multi-step project-creation wizard. Returns a draft_id plus AI suggest
 val apiInstance = ProjectsApi()
 val createProjectDraftRequest : CreateProjectDraftRequest =  // CreateProjectDraftRequest | 
 try {
-    apiInstance.createProjectDraft(createProjectDraftRequest)
+    val result : ProjectDraftResponse = apiInstance.createProjectDraft(createProjectDraftRequest)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectsApi#createProjectDraft")
     e.printStackTrace()
@@ -105,7 +106,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**ProjectDraftResponse**](ProjectDraftResponse.md)
 
 ### Authorization
 
@@ -289,7 +290,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getProjectDraft"></a>
 # **getProjectDraft**
-> getProjectDraft(id, includeSuggestions)
+> ProjectDraftResponse getProjectDraft(id, includeSuggestions)
 
 Read a project draft
 
@@ -303,7 +304,8 @@ val apiInstance = ProjectsApi()
 val id : kotlin.String = id_example // kotlin.String | Draft id (draft_...)
 val includeSuggestions : kotlin.Boolean = true // kotlin.Boolean | Cache-only: returns suggestions for the current step if already generated, never triggers AI
 try {
-    apiInstance.getProjectDraft(id, includeSuggestions)
+    val result : ProjectDraftResponse = apiInstance.getProjectDraft(id, includeSuggestions)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectsApi#getProjectDraft")
     e.printStackTrace()
@@ -321,7 +323,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**ProjectDraftResponse**](ProjectDraftResponse.md)
 
 ### Authorization
 
@@ -558,7 +560,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="updateProjectDraft"></a>
 # **updateProjectDraft**
-> updateProjectDraft(id, updateProjectDraftRequest)
+> ProjectDraftResponse updateProjectDraft(id, updateProjectDraftRequest)
 
 Submit a wizard step
 
@@ -574,7 +576,8 @@ val apiInstance = ProjectsApi()
 val id : kotlin.String = id_example // kotlin.String | 
 val updateProjectDraftRequest : UpdateProjectDraftRequest =  // UpdateProjectDraftRequest | 
 try {
-    apiInstance.updateProjectDraft(id, updateProjectDraftRequest)
+    val result : ProjectDraftResponse = apiInstance.updateProjectDraft(id, updateProjectDraftRequest)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectsApi#updateProjectDraft")
     e.printStackTrace()
@@ -592,7 +595,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**ProjectDraftResponse**](ProjectDraftResponse.md)
 
 ### Authorization
 

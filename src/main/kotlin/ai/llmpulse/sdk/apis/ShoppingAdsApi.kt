@@ -27,8 +27,10 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import ai.llmpulse.sdk.models.AdsResponse
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.LocalBusinessesResponse
+import ai.llmpulse.sdk.models.ShoppingResponse
 
 import com.squareup.moshi.Json
 
@@ -201,19 +203,20 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return AdsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAds(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListAds? = ViewListAds.advertisers, owned: kotlin.Boolean? = null, order: OrderListAds? = null, direction: DirectionListAds? = null, query: kotlin.String? = null, model: ModelListAds? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAds? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAds? = null) : Unit {
+    fun listAds(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListAds? = ViewListAds.advertisers, owned: kotlin.Boolean? = null, order: OrderListAds? = null, direction: DirectionListAds? = null, query: kotlin.String? = null, model: ModelListAds? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListAds? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListAds? = null) : AdsResponse {
         val localVarResponse = listAdsWithHttpInfo(projectId = projectId, page = page, perPage = perPage, view = view, owned = owned, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AdsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -250,15 +253,16 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AdsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAdsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListAds?, owned: kotlin.Boolean?, order: OrderListAds?, direction: DirectionListAds?, query: kotlin.String?, model: ModelListAds?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListAds?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAds?) : ApiResponse<Unit?> {
+    fun listAdsWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListAds?, owned: kotlin.Boolean?, order: OrderListAds?, direction: DirectionListAds?, query: kotlin.String?, model: ModelListAds?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListAds?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListAds?) : ApiResponse<AdsResponse?> {
         val localVariableConfig = listAdsRequestConfig(projectId = projectId, page = page, perPage = perPage, view = view, owned = owned, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, AdsResponse>(
             localVariableConfig
         )
     }
@@ -792,19 +796,20 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return void
+     * @return ShoppingResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listShopping(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListShopping? = ViewListShopping.products, owned: kotlin.Boolean? = null, order: OrderListShopping? = null, direction: DirectionListShopping? = DirectionListShopping.desc, query: kotlin.String? = null, model: ModelListShopping? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListShopping? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListShopping? = null) : Unit {
+    fun listShopping(projectId: kotlin.Int, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20, view: ViewListShopping? = ViewListShopping.products, owned: kotlin.Boolean? = null, order: OrderListShopping? = null, direction: DirectionListShopping? = DirectionListShopping.desc, query: kotlin.String? = null, model: ModelListShopping? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, prompt: kotlin.Int? = null, promptType: kotlin.String? = null, brandKind: BrandKindListShopping? = null, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, output: OutputListShopping? = null) : ShoppingResponse {
         val localVarResponse = listShoppingWithHttpInfo(projectId = projectId, page = page, perPage = perPage, view = view, owned = owned, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ShoppingResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -841,15 +846,16 @@ open class ShoppingAdsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * @param from Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
      * @param to End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      * @param output Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<ShoppingResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listShoppingWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListShopping?, owned: kotlin.Boolean?, order: OrderListShopping?, direction: DirectionListShopping?, query: kotlin.String?, model: ModelListShopping?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListShopping?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListShopping?) : ApiResponse<Unit?> {
+    fun listShoppingWithHttpInfo(projectId: kotlin.Int, page: kotlin.Int?, perPage: kotlin.Int?, view: ViewListShopping?, owned: kotlin.Boolean?, order: OrderListShopping?, direction: DirectionListShopping?, query: kotlin.String?, model: ModelListShopping?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, prompt: kotlin.Int?, promptType: kotlin.String?, brandKind: BrandKindListShopping?, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, output: OutputListShopping?) : ApiResponse<ShoppingResponse?> {
         val localVariableConfig = listShoppingRequestConfig(projectId = projectId, page = page, perPage = perPage, view = view, owned = owned, order = order, direction = direction, query = query, model = model, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, prompt = prompt, promptType = promptType, brandKind = brandKind, range = range, from = from, to = to, output = output)
 
-        return request<Unit, Unit>(
+        return request<Unit, ShoppingResponse>(
             localVariableConfig
         )
     }

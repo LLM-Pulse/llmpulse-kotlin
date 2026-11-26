@@ -81,7 +81,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getAiTraffic"></a>
 # **getAiTraffic**
-> getAiTraffic(projectId, range, from, to, source, granularity)
+> AiTrafficResponse getAiTraffic(projectId, range, from, to, source, granularity)
 
 AI referral traffic (Scale plan or above)
 
@@ -101,7 +101,8 @@ val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.Offse
 val source : kotlin.String = source_example // kotlin.String | Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude)
 val granularity : kotlin.String = granularity_example // kotlin.String | 
 try {
-    apiInstance.getAiTraffic(projectId, range, from, to, source, granularity)
+    val result : AiTrafficResponse = apiInstance.getAiTraffic(projectId, range, from, to, source, granularity)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling AIAgentTrafficApi#getAiTraffic")
     e.printStackTrace()
@@ -123,7 +124,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AiTrafficResponse**](AiTrafficResponse.md)
 
 ### Authorization
 

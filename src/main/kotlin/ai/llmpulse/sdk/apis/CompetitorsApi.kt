@@ -29,8 +29,10 @@ import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.ApiError
 import ai.llmpulse.sdk.models.CompetitorCreateResponse
+import ai.llmpulse.sdk.models.CompetitorDeleteResponse
 import ai.llmpulse.sdk.models.CompetitorDetails
 import ai.llmpulse.sdk.models.CompetitorSuggestionsResponse
+import ai.llmpulse.sdk.models.CompetitorUpdateResponse
 import ai.llmpulse.sdk.models.CreateCompetitorRequest
 import ai.llmpulse.sdk.models.ListCompetitors200Response
 import ai.llmpulse.sdk.models.UpdateCompetitorRequest
@@ -139,19 +141,20 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Deletes a competitor (irreversible). It disappears immediately and frees a competitor slot; a background job then deletes its mentions, citations, sentiment and share of voice history. Its ads, shopping products, local businesses and brand entities are kept and move to the project or another competitor they match, or stay unattributed. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param projectId Project ID
-     * @return void
+     * @return CompetitorDeleteResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteCompetitor(id: kotlin.Int, projectId: kotlin.Int) : Unit {
+    fun deleteCompetitor(id: kotlin.Int, projectId: kotlin.Int) : CompetitorDeleteResponse {
         val localVarResponse = deleteCompetitorWithHttpInfo(id = id, projectId = projectId)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CompetitorDeleteResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -171,15 +174,16 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Deletes a competitor (irreversible). It disappears immediately and frees a competitor slot; a background job then deletes its mentions, citations, sentiment and share of voice history. Its ads, shopping products, local businesses and brand entities are kept and move to the project or another competitor they match, or stay unattributed. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param projectId Project ID
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CompetitorDeleteResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteCompetitorWithHttpInfo(id: kotlin.Int, projectId: kotlin.Int) : ApiResponse<Unit?> {
+    fun deleteCompetitorWithHttpInfo(id: kotlin.Int, projectId: kotlin.Int) : ApiResponse<CompetitorDeleteResponse?> {
         val localVariableConfig = deleteCompetitorRequestConfig(id = id, projectId = projectId)
 
-        return request<Unit, Unit>(
+        return request<Unit, CompetitorDeleteResponse>(
             localVariableConfig
         )
     }
@@ -540,19 +544,20 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Updates brand_name, the competitor website domain or host, matching_names (full replacement list; the brand name is always included automatically), color and/or the citation URL matching rule. Website domain/host and citation-rule changes share one seven-day cooldown per competitor; other fields remain editable during the cooldown. Moving to a &#x60;domain&#x60; rule on the project&#39;s own domain, or a &#x60;host&#x60; rule on its own host, returns ERR_INVALID_PARAM. Name, website or citation-rule changes re-run historical matching in the background: the competitor shows processing&#x3D;true for a few minutes and further edits are rejected meanwhile. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateCompetitorRequest 
-     * @return void
+     * @return CompetitorUpdateResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateCompetitor(id: kotlin.Int, updateCompetitorRequest: UpdateCompetitorRequest) : Unit {
+    fun updateCompetitor(id: kotlin.Int, updateCompetitorRequest: UpdateCompetitorRequest) : CompetitorUpdateResponse {
         val localVarResponse = updateCompetitorWithHttpInfo(id = id, updateCompetitorRequest = updateCompetitorRequest)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CompetitorUpdateResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -572,15 +577,16 @@ open class CompetitorsApi(basePath: kotlin.String = defaultBasePath, client: Cal
      * Updates brand_name, the competitor website domain or host, matching_names (full replacement list; the brand name is always included automatically), color and/or the citation URL matching rule. Website domain/host and citation-rule changes share one seven-day cooldown per competitor; other fields remain editable during the cooldown. Moving to a &#x60;domain&#x60; rule on the project&#39;s own domain, or a &#x60;host&#x60; rule on its own host, returns ERR_INVALID_PARAM. Name, website or citation-rule changes re-run historical matching in the background: the competitor shows processing&#x3D;true for a few minutes and further edits are rejected meanwhile. Requires a &#x60;read_write&#x60; scope API key.
      * @param id 
      * @param updateCompetitorRequest 
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<CompetitorUpdateResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateCompetitorWithHttpInfo(id: kotlin.Int, updateCompetitorRequest: UpdateCompetitorRequest) : ApiResponse<Unit?> {
+    fun updateCompetitorWithHttpInfo(id: kotlin.Int, updateCompetitorRequest: UpdateCompetitorRequest) : ApiResponse<CompetitorUpdateResponse?> {
         val localVariableConfig = updateCompetitorRequestConfig(id = id, updateCompetitorRequest = updateCompetitorRequest)
 
-        return request<UpdateCompetitorRequest, Unit>(
+        return request<UpdateCompetitorRequest, CompetitorUpdateResponse>(
             localVariableConfig
         )
     }

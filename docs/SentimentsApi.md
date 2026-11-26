@@ -188,7 +188,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listSentimentCategories"></a>
 # **listSentimentCategories**
-> listSentimentCategories(projectId, output)
+> SentimentCategoriesResponse listSentimentCategories(projectId, output)
 
 List sentiment categories (Growth plan or above)
 
@@ -204,7 +204,8 @@ val apiInstance = SentimentsApi()
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listSentimentCategories(projectId, output)
+    val result : SentimentCategoriesResponse = apiInstance.listSentimentCategories(projectId, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling SentimentsApi#listSentimentCategories")
     e.printStackTrace()
@@ -222,7 +223,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**SentimentCategoriesResponse**](SentimentCategoriesResponse.md)
 
 ### Authorization
 

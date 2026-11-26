@@ -29,6 +29,8 @@ import okhttp3.HttpUrl
 
 import ai.llmpulse.sdk.models.AiModelDeclinedAnswersResponse
 import ai.llmpulse.sdk.models.AiModelInsightsSummaryResponse
+import ai.llmpulse.sdk.models.AiModelPositionDistributionResponse
+import ai.llmpulse.sdk.models.AiOverviewResultsResponse
 import ai.llmpulse.sdk.models.ApiError
 
 import com.squareup.moshi.Json
@@ -307,19 +309,20 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param model Restrict the comparison to one AI model of AI Model Insights, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
      * @param brand1 Competitor ID for the first comparison brand (omit to compare project brand) (optional)
      * @param brand2  (optional)
-     * @return void
+     * @return AiModelPositionDistributionResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAiModelPositionDistribution(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelPositionDistribution? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiModelPositionDistribution? = null, model: ModelGetAiModelPositionDistribution? = null, brand1: kotlin.Int? = null, brand2: kotlin.Int? = null) : Unit {
+    fun getAiModelPositionDistribution(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiModelPositionDistribution? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiModelPositionDistribution? = null, model: ModelGetAiModelPositionDistribution? = null, brand1: kotlin.Int? = null, brand2: kotlin.Int? = null) : AiModelPositionDistributionResponse {
         val localVarResponse = getAiModelPositionDistributionWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, model = model, brand1 = brand1, brand2 = brand2)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AiModelPositionDistributionResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -350,15 +353,16 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param model Restrict the comparison to one AI model of AI Model Insights, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
      * @param brand1 Competitor ID for the first comparison brand (omit to compare project brand) (optional)
      * @param brand2  (optional)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AiModelPositionDistributionResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAiModelPositionDistributionWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelPositionDistribution?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelPositionDistribution?, model: ModelGetAiModelPositionDistribution?, brand1: kotlin.Int?, brand2: kotlin.Int?) : ApiResponse<Unit?> {
+    fun getAiModelPositionDistributionWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiModelPositionDistribution?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiModelPositionDistribution?, model: ModelGetAiModelPositionDistribution?, brand1: kotlin.Int?, brand2: kotlin.Int?) : ApiResponse<AiModelPositionDistributionResponse?> {
         val localVariableConfig = getAiModelPositionDistributionRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, model = model, brand1 = brand1, brand2 = brand2)
 
-        return request<Unit, Unit>(
+        return request<Unit, AiModelPositionDistributionResponse>(
             localVariableConfig
         )
     }
@@ -424,7 +428,8 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/reports/ai_model_insights/position_distribution",
@@ -487,19 +492,20 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return void
+     * @return AiOverviewResultsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAiOverviewResults(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiOverviewResults? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiOverviewResults? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : Unit {
+    fun getAiOverviewResults(projectId: kotlin.Int, range: kotlin.Int? = null, from: java.time.OffsetDateTime? = null, to: java.time.OffsetDateTime? = null, granularity: GranularityGetAiOverviewResults? = null, collectionId: kotlin.String? = null, countryCode: kotlin.String? = null, languageCode: kotlin.String? = null, promptType: kotlin.String? = null, brandKind: BrandKindGetAiOverviewResults? = null, page: kotlin.Int? = 1, perPage: kotlin.Int? = 20) : AiOverviewResultsResponse {
         val localVarResponse = getAiOverviewResultsWithHttpInfo(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, page = page, perPage = perPage)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AiOverviewResultsResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -529,15 +535,16 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
      * @param brandKind Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      * @param page  (optional, default to 1)
      * @param perPage  (optional, default to 20)
-     * @return ApiResponse<Unit?>
+     * @return ApiResponse<AiOverviewResultsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAiOverviewResultsWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiOverviewResults?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiOverviewResults?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<Unit?> {
+    fun getAiOverviewResultsWithHttpInfo(projectId: kotlin.Int, range: kotlin.Int?, from: java.time.OffsetDateTime?, to: java.time.OffsetDateTime?, granularity: GranularityGetAiOverviewResults?, collectionId: kotlin.String?, countryCode: kotlin.String?, languageCode: kotlin.String?, promptType: kotlin.String?, brandKind: BrandKindGetAiOverviewResults?, page: kotlin.Int?, perPage: kotlin.Int?) : ApiResponse<AiOverviewResultsResponse?> {
         val localVariableConfig = getAiOverviewResultsRequestConfig(projectId = projectId, range = range, from = from, to = to, granularity = granularity, collectionId = collectionId, countryCode = countryCode, languageCode = languageCode, promptType = promptType, brandKind = brandKind, page = page, perPage = perPage)
 
-        return request<Unit, Unit>(
+        return request<Unit, AiOverviewResultsResponse>(
             localVariableConfig
         )
     }
@@ -599,7 +606,8 @@ open class AIModelInsightsApi(basePath: kotlin.String = defaultBasePath, client:
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/reports/ai_model_insights/ai_overview_results",

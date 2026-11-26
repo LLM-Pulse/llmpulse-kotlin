@@ -187,7 +187,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getCitedUrlContent"></a>
 # **getCitedUrlContent**
-> getCitedUrlContent(urlSha256, projectId)
+> CitedUrlContentResponse getCitedUrlContent(urlSha256, projectId)
 
 Cited URL cached content
 
@@ -203,7 +203,8 @@ val apiInstance = SourcesCitationIntelligenceApi()
 val urlSha256 : kotlin.String = urlSha256_example // kotlin.String | 64-character hex SHA-256 of the cited URL
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 try {
-    apiInstance.getCitedUrlContent(urlSha256, projectId)
+    val result : CitedUrlContentResponse = apiInstance.getCitedUrlContent(urlSha256, projectId)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling SourcesCitationIntelligenceApi#getCitedUrlContent")
     e.printStackTrace()
@@ -221,7 +222,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CitedUrlContentResponse**](CitedUrlContentResponse.md)
 
 ### Authorization
 
@@ -242,7 +243,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getCitedUrlDetail"></a>
 # **getCitedUrlDetail**
-> getCitedUrlDetail(urlSha256, projectId, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to, sourceType, sentiment, contentGap, includeSeries)
+> CitedUrlDetailsResponse getCitedUrlDetail(urlSha256, projectId, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to, sourceType, sentiment, contentGap, includeSeries)
 
 Cited URL detail
 
@@ -270,7 +271,8 @@ val sentiment : kotlin.String = sentiment_example // kotlin.String | Keeps the c
 val contentGap : kotlin.String = contentGap_example // kotlin.String | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match.
 val includeSeries : kotlin.Boolean = true // kotlin.Boolean | Adds citation_series. Without it the response is unchanged.
 try {
-    apiInstance.getCitedUrlDetail(urlSha256, projectId, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to, sourceType, sentiment, contentGap, includeSeries)
+    val result : CitedUrlDetailsResponse = apiInstance.getCitedUrlDetail(urlSha256, projectId, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to, sourceType, sentiment, contentGap, includeSeries)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling SourcesCitationIntelligenceApi#getCitedUrlDetail")
     e.printStackTrace()
@@ -300,7 +302,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CitedUrlDetailsResponse**](CitedUrlDetailsResponse.md)
 
 ### Authorization
 
@@ -321,7 +323,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getMentionsByCitingDomain"></a>
 # **getMentionsByCitingDomain**
-> getMentionsByCitingDomain(projectId, domains, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to)
+> CitingDomainMentionShareResponse getMentionsByCitingDomain(projectId, domains, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to)
 
 Mention share by citing domain
 
@@ -345,7 +347,8 @@ val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by b
 val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | 
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier.
 try {
-    apiInstance.getMentionsByCitingDomain(projectId, domains, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to)
+    val result : CitingDomainMentionShareResponse = apiInstance.getMentionsByCitingDomain(projectId, domains, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling SourcesCitationIntelligenceApi#getMentionsByCitingDomain")
     e.printStackTrace()
@@ -371,7 +374,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CitingDomainMentionShareResponse**](CitingDomainMentionShareResponse.md)
 
 ### Authorization
 
@@ -476,7 +479,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listCitationGroups"></a>
 # **listCitationGroups**
-> listCitationGroups(projectId, view, page, perPage, order, direction, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to, key, includeSeries, query, sourceType, sentiment, contentGap)
+> CitationGroupsResponse listCitationGroups(projectId, view, page, perPage, order, direction, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to, key, includeSeries, query, sourceType, sentiment, contentGap)
 
 Grouped citation intelligence
 
@@ -510,7 +513,8 @@ val sourceType : kotlin.String = sourceType_example // kotlin.String |
 val sentiment : kotlin.String = sentiment_example // kotlin.String | Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED.
 val contentGap : kotlin.String = contentGap_example // kotlin.String | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match.
 try {
-    apiInstance.listCitationGroups(projectId, view, page, perPage, order, direction, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to, key, includeSeries, query, sourceType, sentiment, contentGap)
+    val result : CitationGroupsResponse = apiInstance.listCitationGroups(projectId, view, page, perPage, order, direction, model, collectionId, countryCode, languageCode, prompt, brandKind, from, to, key, includeSeries, query, sourceType, sentiment, contentGap)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling SourcesCitationIntelligenceApi#listCitationGroups")
     e.printStackTrace()
@@ -546,7 +550,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CitationGroupsResponse**](CitationGroupsResponse.md)
 
 ### Authorization
 
@@ -567,7 +571,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listCitedUrlOccurrences"></a>
 # **listCitedUrlOccurrences**
-> listCitedUrlOccurrences(urlSha256, projectId, page, perPage, sentiment)
+> CitedUrlOccurrencesResponse listCitedUrlOccurrences(urlSha256, projectId, page, perPage, sentiment)
 
 Cited URL occurrences
 
@@ -584,7 +588,8 @@ val page : kotlin.Int = 56 // kotlin.Int |
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 val sentiment : kotlin.String = sentiment_example // kotlin.String | Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED.
 try {
-    apiInstance.listCitedUrlOccurrences(urlSha256, projectId, page, perPage, sentiment)
+    val result : CitedUrlOccurrencesResponse = apiInstance.listCitedUrlOccurrences(urlSha256, projectId, page, perPage, sentiment)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling SourcesCitationIntelligenceApi#listCitedUrlOccurrences")
     e.printStackTrace()
@@ -605,7 +610,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CitedUrlOccurrencesResponse**](CitedUrlOccurrencesResponse.md)
 
 ### Authorization
 
@@ -626,7 +631,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listSources"></a>
 # **listSources**
-> listSources(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, sourceType, mentionFilter, competitors, output, promptType, brandKind, range)
+> SourcesResponse listSources(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, sourceType, mentionFilter, competitors, output, promptType, brandKind, range)
 
 List source URLs
 
@@ -655,7 +660,8 @@ val promptType : kotlin.String = promptType_example // kotlin.String | One promp
 val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default.
 val range : kotlin.Int = 56 // kotlin.Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to.
 try {
-    apiInstance.listSources(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, sourceType, mentionFilter, competitors, output, promptType, brandKind, range)
+    val result : SourcesResponse = apiInstance.listSources(projectId, page, perPage, model, collectionId, countryCode, languageCode, prompt, from, to, sourceType, mentionFilter, competitors, output, promptType, brandKind, range)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling SourcesCitationIntelligenceApi#listSources")
     e.printStackTrace()
@@ -688,7 +694,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**SourcesResponse**](SourcesResponse.md)
 
 ### Authorization
 

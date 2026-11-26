@@ -306,7 +306,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="listRedditCitations"></a>
 # **listRedditCitations**
-> listRedditCitations(projectId, page, perPage, view, subreddit, author, status, owned, brand, order, direction, model, collectionId, countryCode, languageCode, brandKind, range, from, to, output)
+> RedditResponse listRedditCitations(projectId, page, perPage, view, subreddit, author, status, owned, brand, order, direction, model, collectionId, countryCode, languageCode, brandKind, range, from, to, output)
 
 List cited Reddit content
 
@@ -340,7 +340,8 @@ val from : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.Off
 val to : java.time.OffsetDateTime = 2013-10-20T19:20:30+01:00 // java.time.OffsetDateTime | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it.
 val output : kotlin.String = output_example // kotlin.String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON.
 try {
-    apiInstance.listRedditCitations(projectId, page, perPage, view, subreddit, author, status, owned, brand, order, direction, model, collectionId, countryCode, languageCode, brandKind, range, from, to, output)
+    val result : RedditResponse = apiInstance.listRedditCitations(projectId, page, perPage, view, subreddit, author, status, owned, brand, order, direction, model, collectionId, countryCode, languageCode, brandKind, range, from, to, output)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling OwnedMediaCommunitiesApi#listRedditCitations")
     e.printStackTrace()
@@ -376,7 +377,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**RedditResponse**](RedditResponse.md)
 
 ### Authorization
 

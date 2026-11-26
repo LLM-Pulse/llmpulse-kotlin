@@ -86,7 +86,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="getAiModelPositionDistribution"></a>
 # **getAiModelPositionDistribution**
-> getAiModelPositionDistribution(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, model, brand1, brand2)
+> AiModelPositionDistributionResponse getAiModelPositionDistribution(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, model, brand1, brand2)
 
 Position distribution comparison
 
@@ -111,7 +111,8 @@ val model : kotlin.String = model_example // kotlin.String | Restrict the compar
 val brand1 : kotlin.Int = 56 // kotlin.Int | Competitor ID for the first comparison brand (omit to compare project brand)
 val brand2 : kotlin.Int = 56 // kotlin.Int | 
 try {
-    apiInstance.getAiModelPositionDistribution(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, model, brand1, brand2)
+    val result : AiModelPositionDistributionResponse = apiInstance.getAiModelPositionDistribution(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, model, brand1, brand2)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling AIModelInsightsApi#getAiModelPositionDistribution")
     e.printStackTrace()
@@ -140,7 +141,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AiModelPositionDistributionResponse**](AiModelPositionDistributionResponse.md)
 
 ### Authorization
 
@@ -157,11 +158,11 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="getAiOverviewResults"></a>
 # **getAiOverviewResults**
-> getAiOverviewResults(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, page, perPage)
+> AiOverviewResultsResponse getAiOverviewResults(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, page, perPage)
 
 Google AI Overview result availability
 
@@ -185,7 +186,8 @@ val brandKind : kotlin.String = brandKind_example // kotlin.String | Filter by b
 val page : kotlin.Int = 56 // kotlin.Int | 
 val perPage : kotlin.Int = 56 // kotlin.Int | 
 try {
-    apiInstance.getAiOverviewResults(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, page, perPage)
+    val result : AiOverviewResultsResponse = apiInstance.getAiOverviewResults(projectId, range, from, to, granularity, collectionId, countryCode, languageCode, promptType, brandKind, page, perPage)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling AIModelInsightsApi#getAiOverviewResults")
     e.printStackTrace()
@@ -213,7 +215,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**AiOverviewResultsResponse**](AiOverviewResultsResponse.md)
 
 ### Authorization
 
@@ -230,7 +232,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="getDeclinedAnswers"></a>
 # **getDeclinedAnswers**

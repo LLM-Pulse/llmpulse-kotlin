@@ -68,7 +68,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="deleteCompetitor"></a>
 # **deleteCompetitor**
-> deleteCompetitor(id, projectId)
+> CompetitorDeleteResponse deleteCompetitor(id, projectId)
 
 Delete a competitor
 
@@ -84,7 +84,8 @@ val apiInstance = CompetitorsApi()
 val id : kotlin.Int = 56 // kotlin.Int | 
 val projectId : kotlin.Int = 56 // kotlin.Int | Project ID
 try {
-    apiInstance.deleteCompetitor(id, projectId)
+    val result : CompetitorDeleteResponse = apiInstance.deleteCompetitor(id, projectId)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling CompetitorsApi#deleteCompetitor")
     e.printStackTrace()
@@ -102,7 +103,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CompetitorDeleteResponse**](CompetitorDeleteResponse.md)
 
 ### Authorization
 
@@ -297,7 +298,7 @@ apiInstance.accessTokenProvider = { "" }
 
 <a id="updateCompetitor"></a>
 # **updateCompetitor**
-> updateCompetitor(id, updateCompetitorRequest)
+> CompetitorUpdateResponse updateCompetitor(id, updateCompetitorRequest)
 
 Update a competitor
 
@@ -313,7 +314,8 @@ val apiInstance = CompetitorsApi()
 val id : kotlin.Int = 56 // kotlin.Int | 
 val updateCompetitorRequest : UpdateCompetitorRequest =  // UpdateCompetitorRequest | 
 try {
-    apiInstance.updateCompetitor(id, updateCompetitorRequest)
+    val result : CompetitorUpdateResponse = apiInstance.updateCompetitor(id, updateCompetitorRequest)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling CompetitorsApi#updateCompetitor")
     e.printStackTrace()
@@ -331,7 +333,7 @@ try {
 
 ### Return type
 
-null (empty response body)
+[**CompetitorUpdateResponse**](CompetitorUpdateResponse.md)
 
 ### Authorization
 
