@@ -267,7 +267,6 @@ docs/OwnedMediaSummaryResponse.md
 docs/OwnedMediaSummaryResponsePrevious.md
 docs/OwnedMediaWeek.md
 docs/PaginatedEnvelope.md
-docs/PeecExportImportResponse.md
 docs/Ping200Response.md
 docs/Project.md
 docs/ProjectCreateRequest.md
@@ -782,7 +781,6 @@ src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaSummaryResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaSummaryResponsePrevious.kt
 src/main/kotlin/ai/llmpulse/sdk/models/OwnedMediaWeek.kt
 src/main/kotlin/ai/llmpulse/sdk/models/PaginatedEnvelope.kt
-src/main/kotlin/ai/llmpulse/sdk/models/PeecExportImportResponse.kt
 src/main/kotlin/ai/llmpulse/sdk/models/Ping200Response.kt
 src/main/kotlin/ai/llmpulse/sdk/models/Project.kt
 src/main/kotlin/ai/llmpulse/sdk/models/ProjectCreateRequest.kt
